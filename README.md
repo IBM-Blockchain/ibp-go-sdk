@@ -19,6 +19,7 @@ GoLang client library to use the IBM Cloud Blockchain **Service**.
   * [Default headers](#default-headers)
   * [Sending request headers](#sending-request-headers)
 * [Explore the SDK](#explore-the-sdk)
+* [Generation](#generation)
 * [License](#license)
 
 </details>
@@ -312,6 +313,19 @@ result, detailedResponse, err := service.GetComponent(options)
 This module is generated from the OpenAPI (swagger) file that populated the [IBP APIs documentation](https://cloud.ibm.com/apidocs/blockchain).
 It is recommended to explore the IBP APIs documentation to find the desired functionality.
 Then find the corresponding go method and its input struct details in [blockchain_v2.go](./blockchainv2/blockchain_v2.go).
+
+## Generation
+This is a note for developers of this repository on how to rebuild the SDK.
+- this module was generated/built via the [IBM Cloud OpenAPI SDK generator](https://github.ibm.com/CloudEngineering/openapi-sdkgen)
+    - [SDK generator overview](https://github.ibm.com/CloudEngineering/openapi-sdkgen/wiki/SDK-Gen-Overview)
+    - [Configuration option code](https://github.ibm.com/CloudEngineering/openapi-sdkgen/blob/ab7d50a1dcdc707faad8cbe4f86de2d2ca510d24/src/main/java/com/ibm/sdk/codegen/IBMDefaultCodegen.java)
+    - [IBP's OpenAPI source](https://github.ibm.com/cloud-api-docs/ibp/blob/master/ibp.yaml)
+1. download the  latest sdk generator **release** (should see the java file `lib/openapi-sdkgen.jar`)
+1. clone/download the IBP OpenAPI file
+1. build command w/o shell: 
+```
+java -jar ./lib/openapi-sdkgen.jar generate -g ibm-go -i C:\code\cloud-api-docs\ibp.yaml -o C:\code\openapi-sdkgen\build
+```
 
 ## License
 
