@@ -1,0 +1,10 @@
+.DS_Store
+.env
+
+# ignore vendor/
+vendor/
+
+# SDK generator
+.openapi-generator-ignore
+.openapi-generator/VERSION
+/.project
