@@ -45,8 +45,63 @@ func main() {
 
    
    
-    // REMOVE COMPONENTS BY Tag
-    // Create an authenticator
+    // // REMOVE COMPONENTS BY Tag
+    // // Create an authenticator
+    // authenticator = &core.IamAuthenticator{
+    //     ApiKey: ApiKey,
+    //     URL: IdentityUrl,
+    // }
+
+    // // Create an instance of the "BlockchainV2Options" struct
+    // options = &blockchainv2.BlockchainV2Options{
+    //     Authenticator: authenticator,
+    //     URL: myserviceURL,
+    // }
+
+    // // Create an instance of the "BlockchainV2" service client.
+    // service, err = blockchainv2.NewBlockchainV2(options)
+    // if err != nil {
+    //     return
+    // }
+
+    // // Get all component data
+    // opts2 := service.NewRemoveComponentsByTagOptions("msp")
+    // result2, detailedResponse, err := service.RemoveComponentsByTag(opts2)
+    // fmt.Println("api key - lcsharp", ApiKey)
+    // fmt.Println("result:", result2)
+    // fmt.Println("response:", detailedResponse)
+
+
+
+    // // DELETE COMPONENTS BY Tag
+    // // Create an authenticator
+    // authenticator = &core.IamAuthenticator{
+    //     ApiKey: ApiKey,
+    //     URL: IdentityUrl,
+    // }
+
+    // // Create an instance of the "BlockchainV2Options" struct
+    // options = &blockchainv2.BlockchainV2Options{
+    //     Authenticator: authenticator,
+    //     URL: myserviceURL,
+    // }
+
+    // // Create an instance of the "BlockchainV2" service client.
+    // service, err = blockchainv2.NewBlockchainV2(options)
+    // if err != nil {
+    //     return
+    // }
+
+    // // Get all component data
+    // opts3 := service.NewDeleteComponentsByTagOptions("fabric-ca")
+    // result3, detailedResponse, err := service.DeleteComponentsByTag(opts3)
+    // fmt.Println("result:", result3)
+    // fmt.Println("response:", detailedResponse)
+
+
+
+    // DELETE ALL COMPONENTS
+    // Create an authenticatorr
     authenticator = &core.IamAuthenticator{
         ApiKey: ApiKey,
         URL: IdentityUrl,
@@ -65,15 +120,14 @@ func main() {
     }
 
     // Get all component data
-    opts2 := service.NewRemoveComponentsByTagOptions("msp")
-    result2, detailedResponse, err := service.RemoveComponentsByTag(opts2)
-    fmt.Println("api key - lcsharp", ApiKey)
-    fmt.Println("result:", result2)
+    opts4 := service.NewDeleteAllComponentsOptions()
+    result4, detailedResponse, err := service.DeleteAllComponents(opts4)
+    fmt.Println("result:", result4)
     fmt.Println("response:", detailedResponse)
+
+
     fmt.Println("err:", err)
-
     fmt.Println("done")
-
     return
 }
 
