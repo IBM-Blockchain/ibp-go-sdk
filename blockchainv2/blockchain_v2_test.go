@@ -205,7 +205,7 @@ var _ = Describe(`BlockchainV2`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "location": "ibmcloud", "ca_name": "ca", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "couchdb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "couchdb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "Version", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "location": "ibmcloud", "ca_name": "ca", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "node_ou": {"enabled": true}, "ecert": {"cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "cacert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}, "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "Version", "zone": "Zone"}`)
 				}))
 			})
 			It(`Invoke GetComponent successfully`, func() {
@@ -556,6 +556,7 @@ var _ = Describe(`BlockchainV2`, func() {
 				// Construct an instance of the ConfigCACfgIdentities model
 				configCaCfgIdentitiesModel := new(blockchainv2.ConfigCACfgIdentities)
 				configCaCfgIdentitiesModel.Passwordattempts = core.Float64Ptr(float64(10))
+				configCaCfgIdentitiesModel.Allowremove = core.BoolPtr(false)
 
 				// Construct an instance of the ConfigCACsrCa model
 				configCaCsrCaModel := new(blockchainv2.ConfigCACsrCa)
@@ -835,6 +836,7 @@ var _ = Describe(`BlockchainV2`, func() {
 				// Construct an instance of the ConfigCACfgIdentities model
 				configCaCfgIdentitiesModel := new(blockchainv2.ConfigCACfgIdentities)
 				configCaCfgIdentitiesModel.Passwordattempts = core.Float64Ptr(float64(10))
+				configCaCfgIdentitiesModel.Allowremove = core.BoolPtr(false)
 
 				// Construct an instance of the ConfigCACsrCa model
 				configCaCsrCaModel := new(blockchainv2.ConfigCACsrCa)
@@ -1088,6 +1090,7 @@ var _ = Describe(`BlockchainV2`, func() {
 				// Construct an instance of the ConfigCACfgIdentities model
 				configCaCfgIdentitiesModel := new(blockchainv2.ConfigCACfgIdentities)
 				configCaCfgIdentitiesModel.Passwordattempts = core.Float64Ptr(float64(10))
+				configCaCfgIdentitiesModel.Allowremove = core.BoolPtr(false)
 
 				// Construct an instance of the ConfigCACsrCa model
 				configCaCsrCaModel := new(blockchainv2.ConfigCACsrCa)
@@ -1503,6 +1506,7 @@ var _ = Describe(`BlockchainV2`, func() {
 				// Construct an instance of the ConfigCACfgIdentities model
 				configCaCfgIdentitiesModel := new(blockchainv2.ConfigCACfgIdentities)
 				configCaCfgIdentitiesModel.Passwordattempts = core.Float64Ptr(float64(10))
+				configCaCfgIdentitiesModel.Allowremove = core.BoolPtr(false)
 
 				// Construct an instance of the ConfigCACsrCa model
 				configCaCsrCaModel := new(blockchainv2.ConfigCACsrCa)
@@ -1764,6 +1768,7 @@ var _ = Describe(`BlockchainV2`, func() {
 				// Construct an instance of the ConfigCACfgIdentities model
 				configCaCfgIdentitiesModel := new(blockchainv2.ConfigCACfgIdentities)
 				configCaCfgIdentitiesModel.Passwordattempts = core.Float64Ptr(float64(10))
+				configCaCfgIdentitiesModel.Allowremove = core.BoolPtr(false)
 
 				// Construct an instance of the ConfigCACsrCa model
 				configCaCsrCaModel := new(blockchainv2.ConfigCACsrCa)
@@ -1999,6 +2004,7 @@ var _ = Describe(`BlockchainV2`, func() {
 				// Construct an instance of the ConfigCACfgIdentities model
 				configCaCfgIdentitiesModel := new(blockchainv2.ConfigCACfgIdentities)
 				configCaCfgIdentitiesModel.Passwordattempts = core.Float64Ptr(float64(10))
+				configCaCfgIdentitiesModel.Allowremove = core.BoolPtr(false)
 
 				// Construct an instance of the ConfigCACsrCa model
 				configCaCsrCaModel := new(blockchainv2.ConfigCACsrCa)
@@ -2625,6 +2631,11 @@ var _ = Describe(`BlockchainV2`, func() {
 				resourceObjectModel.Requests = resourceRequestsModel
 				resourceObjectModel.Limits = resourceLimitsModel
 
+				// Construct an instance of the ResourceObjectCouchDb model
+				resourceObjectCouchDbModel := new(blockchainv2.ResourceObjectCouchDb)
+				resourceObjectCouchDbModel.Requests = resourceRequestsModel
+				resourceObjectCouchDbModel.Limits = resourceLimitsModel
+
 				// Construct an instance of the ResourceObjectFabV1 model
 				resourceObjectFabV1Model := new(blockchainv2.ResourceObjectFabV1)
 				resourceObjectFabV1Model.Requests = resourceRequestsModel
@@ -2663,7 +2674,8 @@ var _ = Describe(`BlockchainV2`, func() {
 				// Construct an instance of the PeerResources model
 				peerResourcesModel := new(blockchainv2.PeerResources)
 				peerResourcesModel.Chaincodelauncher = resourceObjectFabV2Model
-				peerResourcesModel.Couchdb = resourceObjectModel
+				peerResourcesModel.Couchdb = resourceObjectCouchDbModel
+				peerResourcesModel.Statedb = resourceObjectModel
 				peerResourcesModel.Dind = resourceObjectFabV1Model
 				peerResourcesModel.Fluentd = resourceObjectFabV1Model
 				peerResourcesModel.Peer = resourceObjectModel
@@ -2708,7 +2720,7 @@ var _ = Describe(`BlockchainV2`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "type": "fabric-peer", "display_name": "My Peer", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "config_override": {"anyKey": "anyValue"}, "location": "ibmcloud", "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "couchdb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"peer": {"size": "4GiB", "class": "default"}, "couchdb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "type": "fabric-peer", "display_name": "My Peer", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "config_override": {"anyKey": "anyValue"}, "node_ou": {"enabled": true}, "ecert": {"cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "cacert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}, "location": "ibmcloud", "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"peer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "1.4.6-1", "zone": "Zone"}`)
 				}))
 			})
 			It(`Invoke CreatePeer successfully`, func() {
@@ -2992,6 +3004,11 @@ var _ = Describe(`BlockchainV2`, func() {
 				resourceObjectModel.Requests = resourceRequestsModel
 				resourceObjectModel.Limits = resourceLimitsModel
 
+				// Construct an instance of the ResourceObjectCouchDb model
+				resourceObjectCouchDbModel := new(blockchainv2.ResourceObjectCouchDb)
+				resourceObjectCouchDbModel.Requests = resourceRequestsModel
+				resourceObjectCouchDbModel.Limits = resourceLimitsModel
+
 				// Construct an instance of the ResourceObjectFabV1 model
 				resourceObjectFabV1Model := new(blockchainv2.ResourceObjectFabV1)
 				resourceObjectFabV1Model.Requests = resourceRequestsModel
@@ -3030,7 +3047,8 @@ var _ = Describe(`BlockchainV2`, func() {
 				// Construct an instance of the PeerResources model
 				peerResourcesModel := new(blockchainv2.PeerResources)
 				peerResourcesModel.Chaincodelauncher = resourceObjectFabV2Model
-				peerResourcesModel.Couchdb = resourceObjectModel
+				peerResourcesModel.Couchdb = resourceObjectCouchDbModel
+				peerResourcesModel.Statedb = resourceObjectModel
 				peerResourcesModel.Dind = resourceObjectFabV1Model
 				peerResourcesModel.Fluentd = resourceObjectFabV1Model
 				peerResourcesModel.Peer = resourceObjectModel
@@ -3333,6 +3351,11 @@ var _ = Describe(`BlockchainV2`, func() {
 				resourceObjectModel.Requests = resourceRequestsModel
 				resourceObjectModel.Limits = resourceLimitsModel
 
+				// Construct an instance of the ResourceObjectCouchDb model
+				resourceObjectCouchDbModel := new(blockchainv2.ResourceObjectCouchDb)
+				resourceObjectCouchDbModel.Requests = resourceRequestsModel
+				resourceObjectCouchDbModel.Limits = resourceLimitsModel
+
 				// Construct an instance of the ResourceObjectFabV1 model
 				resourceObjectFabV1Model := new(blockchainv2.ResourceObjectFabV1)
 				resourceObjectFabV1Model.Requests = resourceRequestsModel
@@ -3371,7 +3394,8 @@ var _ = Describe(`BlockchainV2`, func() {
 				// Construct an instance of the PeerResources model
 				peerResourcesModel := new(blockchainv2.PeerResources)
 				peerResourcesModel.Chaincodelauncher = resourceObjectFabV2Model
-				peerResourcesModel.Couchdb = resourceObjectModel
+				peerResourcesModel.Couchdb = resourceObjectCouchDbModel
+				peerResourcesModel.Statedb = resourceObjectModel
 				peerResourcesModel.Dind = resourceObjectFabV1Model
 				peerResourcesModel.Fluentd = resourceObjectFabV1Model
 				peerResourcesModel.Peer = resourceObjectModel
@@ -3472,7 +3496,7 @@ var _ = Describe(`BlockchainV2`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "type": "fabric-peer", "display_name": "My Peer", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "config_override": {"anyKey": "anyValue"}, "location": "ibmcloud", "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "couchdb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"peer": {"size": "4GiB", "class": "default"}, "couchdb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "type": "fabric-peer", "display_name": "My Peer", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "config_override": {"anyKey": "anyValue"}, "node_ou": {"enabled": true}, "ecert": {"cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "cacert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}, "location": "ibmcloud", "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"peer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "1.4.6-1", "zone": "Zone"}`)
 				}))
 			})
 			It(`Invoke ImportPeer successfully`, func() {
@@ -3607,7 +3631,7 @@ var _ = Describe(`BlockchainV2`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "type": "fabric-peer", "display_name": "My Peer", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "config_override": {"anyKey": "anyValue"}, "location": "ibmcloud", "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "couchdb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"peer": {"size": "4GiB", "class": "default"}, "couchdb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "type": "fabric-peer", "display_name": "My Peer", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "config_override": {"anyKey": "anyValue"}, "node_ou": {"enabled": true}, "ecert": {"cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "cacert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}, "location": "ibmcloud", "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"peer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "1.4.6-1", "zone": "Zone"}`)
 				}))
 			})
 			It(`Invoke EditPeer successfully`, func() {
@@ -3901,6 +3925,11 @@ var _ = Describe(`BlockchainV2`, func() {
 				resourceObjectModel.Requests = resourceRequestsModel
 				resourceObjectModel.Limits = resourceLimitsModel
 
+				// Construct an instance of the ResourceObjectCouchDb model
+				resourceObjectCouchDbModel := new(blockchainv2.ResourceObjectCouchDb)
+				resourceObjectCouchDbModel.Requests = resourceRequestsModel
+				resourceObjectCouchDbModel.Limits = resourceLimitsModel
+
 				// Construct an instance of the ResourceObjectFabV1 model
 				resourceObjectFabV1Model := new(blockchainv2.ResourceObjectFabV1)
 				resourceObjectFabV1Model.Requests = resourceRequestsModel
@@ -3920,7 +3949,8 @@ var _ = Describe(`BlockchainV2`, func() {
 				// Construct an instance of the PeerResources model
 				peerResourcesModel := new(blockchainv2.PeerResources)
 				peerResourcesModel.Chaincodelauncher = resourceObjectFabV2Model
-				peerResourcesModel.Couchdb = resourceObjectModel
+				peerResourcesModel.Couchdb = resourceObjectCouchDbModel
+				peerResourcesModel.Statedb = resourceObjectModel
 				peerResourcesModel.Dind = resourceObjectFabV1Model
 				peerResourcesModel.Fluentd = resourceObjectFabV1Model
 				peerResourcesModel.Peer = resourceObjectModel
@@ -3958,7 +3988,7 @@ var _ = Describe(`BlockchainV2`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "type": "fabric-peer", "display_name": "My Peer", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "config_override": {"anyKey": "anyValue"}, "location": "ibmcloud", "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "couchdb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"peer": {"size": "4GiB", "class": "default"}, "couchdb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "type": "fabric-peer", "display_name": "My Peer", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "config_override": {"anyKey": "anyValue"}, "node_ou": {"enabled": true}, "ecert": {"cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "cacert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}, "location": "ibmcloud", "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"peer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "1.4.6-1", "zone": "Zone"}`)
 				}))
 			})
 			It(`Invoke UpdatePeer successfully`, func() {
@@ -4171,6 +4201,11 @@ var _ = Describe(`BlockchainV2`, func() {
 				resourceObjectModel.Requests = resourceRequestsModel
 				resourceObjectModel.Limits = resourceLimitsModel
 
+				// Construct an instance of the ResourceObjectCouchDb model
+				resourceObjectCouchDbModel := new(blockchainv2.ResourceObjectCouchDb)
+				resourceObjectCouchDbModel.Requests = resourceRequestsModel
+				resourceObjectCouchDbModel.Limits = resourceLimitsModel
+
 				// Construct an instance of the ResourceObjectFabV1 model
 				resourceObjectFabV1Model := new(blockchainv2.ResourceObjectFabV1)
 				resourceObjectFabV1Model.Requests = resourceRequestsModel
@@ -4190,7 +4225,8 @@ var _ = Describe(`BlockchainV2`, func() {
 				// Construct an instance of the PeerResources model
 				peerResourcesModel := new(blockchainv2.PeerResources)
 				peerResourcesModel.Chaincodelauncher = resourceObjectFabV2Model
-				peerResourcesModel.Couchdb = resourceObjectModel
+				peerResourcesModel.Couchdb = resourceObjectCouchDbModel
+				peerResourcesModel.Statedb = resourceObjectModel
 				peerResourcesModel.Dind = resourceObjectFabV1Model
 				peerResourcesModel.Fluentd = resourceObjectFabV1Model
 				peerResourcesModel.Peer = resourceObjectModel
@@ -4415,6 +4451,11 @@ var _ = Describe(`BlockchainV2`, func() {
 				resourceObjectModel.Requests = resourceRequestsModel
 				resourceObjectModel.Limits = resourceLimitsModel
 
+				// Construct an instance of the ResourceObjectCouchDb model
+				resourceObjectCouchDbModel := new(blockchainv2.ResourceObjectCouchDb)
+				resourceObjectCouchDbModel.Requests = resourceRequestsModel
+				resourceObjectCouchDbModel.Limits = resourceLimitsModel
+
 				// Construct an instance of the ResourceObjectFabV1 model
 				resourceObjectFabV1Model := new(blockchainv2.ResourceObjectFabV1)
 				resourceObjectFabV1Model.Requests = resourceRequestsModel
@@ -4434,7 +4475,8 @@ var _ = Describe(`BlockchainV2`, func() {
 				// Construct an instance of the PeerResources model
 				peerResourcesModel := new(blockchainv2.PeerResources)
 				peerResourcesModel.Chaincodelauncher = resourceObjectFabV2Model
-				peerResourcesModel.Couchdb = resourceObjectModel
+				peerResourcesModel.Couchdb = resourceObjectCouchDbModel
+				peerResourcesModel.Statedb = resourceObjectModel
 				peerResourcesModel.Dind = resourceObjectFabV1Model
 				peerResourcesModel.Fluentd = resourceObjectFabV1Model
 				peerResourcesModel.Peer = resourceObjectModel
@@ -4683,7 +4725,7 @@ var _ = Describe(`BlockchainV2`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "type": "fabric-peer", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "msp_id": "Org1", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "location": "ibmcloud", "timestamp": 1537262855753, "resources": {"orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "server_tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "client_tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "orderer_type": "raft", "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "type": "fabric-peer", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "msp_id": "Org1", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "node_ou": {"enabled": true}, "ecert": {"cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "cacert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}, "location": "ibmcloud", "timestamp": 1537262855753, "resources": {"orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "server_tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "client_tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "orderer_type": "raft", "version": "1.4.6-1", "zone": "Zone"}`)
 				}))
 			})
 			It(`Invoke CreateOrderer successfully`, func() {
@@ -5134,7 +5176,7 @@ var _ = Describe(`BlockchainV2`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "type": "fabric-peer", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "msp_id": "Org1", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "location": "ibmcloud", "timestamp": 1537262855753, "resources": {"orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "server_tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "client_tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "orderer_type": "raft", "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "type": "fabric-peer", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "msp_id": "Org1", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "node_ou": {"enabled": true}, "ecert": {"cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "cacert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}, "location": "ibmcloud", "timestamp": 1537262855753, "resources": {"orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "server_tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "client_tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "orderer_type": "raft", "version": "1.4.6-1", "zone": "Zone"}`)
 				}))
 			})
 			It(`Invoke ImportOrderer successfully`, func() {
@@ -5282,7 +5324,7 @@ var _ = Describe(`BlockchainV2`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "type": "fabric-peer", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "msp_id": "Org1", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "location": "ibmcloud", "timestamp": 1537262855753, "resources": {"orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "server_tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "client_tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "orderer_type": "raft", "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "type": "fabric-peer", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "msp_id": "Org1", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "node_ou": {"enabled": true}, "ecert": {"cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "cacert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}, "location": "ibmcloud", "timestamp": 1537262855753, "resources": {"orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "server_tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "client_tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "orderer_type": "raft", "version": "1.4.6-1", "zone": "Zone"}`)
 				}))
 			})
 			It(`Invoke EditOrderer successfully`, func() {
@@ -5477,7 +5519,7 @@ var _ = Describe(`BlockchainV2`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "type": "fabric-peer", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "msp_id": "Org1", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "location": "ibmcloud", "timestamp": 1537262855753, "resources": {"orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "server_tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "client_tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "orderer_type": "raft", "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "type": "fabric-peer", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "msp_id": "Org1", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "node_ou": {"enabled": true}, "ecert": {"cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "cacert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}, "location": "ibmcloud", "timestamp": 1537262855753, "resources": {"orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "server_tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "client_tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "orderer_type": "raft", "version": "1.4.6-1", "zone": "Zone"}`)
 				}))
 			})
 			It(`Invoke UpdateOrderer successfully`, func() {
@@ -5716,7 +5758,7 @@ var _ = Describe(`BlockchainV2`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "text/plain")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "location": "ibmcloud", "ca_name": "ca", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "couchdb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "couchdb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "Version", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "location": "ibmcloud", "ca_name": "ca", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "node_ou": {"enabled": true}, "ecert": {"cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "cacert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}, "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "Version", "zone": "Zone"}`)
 				}))
 			})
 			It(`Invoke SubmitBlock successfully`, func() {
@@ -6443,7 +6485,7 @@ var _ = Describe(`BlockchainV2`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"components": [{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "location": "ibmcloud", "ca_name": "ca", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "couchdb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "couchdb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "Version", "zone": "Zone"}]}`)
+					fmt.Fprintf(res, `{"components": [{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "location": "ibmcloud", "ca_name": "ca", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "node_ou": {"enabled": true}, "ecert": {"cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "cacert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}, "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "Version", "zone": "Zone"}]}`)
 				}))
 			})
 			It(`Invoke ListComponents successfully`, func() {
@@ -6569,7 +6611,7 @@ var _ = Describe(`BlockchainV2`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"components": [{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "location": "ibmcloud", "ca_name": "ca", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "couchdb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "couchdb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "Version", "zone": "Zone"}]}`)
+					fmt.Fprintf(res, `{"components": [{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "location": "ibmcloud", "ca_name": "ca", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "node_ou": {"enabled": true}, "ecert": {"cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "cacert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}, "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "Version", "zone": "Zone"}]}`)
 				}))
 			})
 			It(`Invoke GetComponentsByType successfully`, func() {
@@ -6702,7 +6744,7 @@ var _ = Describe(`BlockchainV2`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"components": [{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "location": "ibmcloud", "ca_name": "ca", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "couchdb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "couchdb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "Version", "zone": "Zone"}]}`)
+					fmt.Fprintf(res, `{"components": [{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp_id": "Org1", "location": "ibmcloud", "ca_name": "ca", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "node_ou": {"enabled": true}, "ecert": {"cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "cacert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}, "state_db": "couchdb", "timestamp": 1537262855753, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "version": "Version", "zone": "Zone"}]}`)
 				}))
 			})
 			It(`Invoke GetComponentByTag successfully`, func() {
@@ -9031,7 +9073,9 @@ var _ = Describe(`BlockchainV2`, func() {
 				configCaCfgIdentitiesModel := new(blockchainv2.ConfigCACfgIdentities)
 				Expect(configCaCfgIdentitiesModel).ToNot(BeNil())
 				configCaCfgIdentitiesModel.Passwordattempts = core.Float64Ptr(float64(10))
+				configCaCfgIdentitiesModel.Allowremove = core.BoolPtr(false)
 				Expect(configCaCfgIdentitiesModel.Passwordattempts).To(Equal(core.Float64Ptr(float64(10))))
+				Expect(configCaCfgIdentitiesModel.Allowremove).To(Equal(core.BoolPtr(false)))
 
 				// Construct an instance of the ConfigCACsrCa model
 				configCaCsrCaModel := new(blockchainv2.ConfigCACsrCa)
@@ -10137,6 +10181,14 @@ var _ = Describe(`BlockchainV2`, func() {
 				Expect(resourceObjectModel.Requests).To(Equal(resourceRequestsModel))
 				Expect(resourceObjectModel.Limits).To(Equal(resourceLimitsModel))
 
+				// Construct an instance of the ResourceObjectCouchDb model
+				resourceObjectCouchDbModel := new(blockchainv2.ResourceObjectCouchDb)
+				Expect(resourceObjectCouchDbModel).ToNot(BeNil())
+				resourceObjectCouchDbModel.Requests = resourceRequestsModel
+				resourceObjectCouchDbModel.Limits = resourceLimitsModel
+				Expect(resourceObjectCouchDbModel.Requests).To(Equal(resourceRequestsModel))
+				Expect(resourceObjectCouchDbModel.Limits).To(Equal(resourceLimitsModel))
+
 				// Construct an instance of the ResourceObjectFabV1 model
 				resourceObjectFabV1Model := new(blockchainv2.ResourceObjectFabV1)
 				Expect(resourceObjectFabV1Model).ToNot(BeNil())
@@ -10197,13 +10249,15 @@ var _ = Describe(`BlockchainV2`, func() {
 				peerResourcesModel := new(blockchainv2.PeerResources)
 				Expect(peerResourcesModel).ToNot(BeNil())
 				peerResourcesModel.Chaincodelauncher = resourceObjectFabV2Model
-				peerResourcesModel.Couchdb = resourceObjectModel
+				peerResourcesModel.Couchdb = resourceObjectCouchDbModel
+				peerResourcesModel.Statedb = resourceObjectModel
 				peerResourcesModel.Dind = resourceObjectFabV1Model
 				peerResourcesModel.Fluentd = resourceObjectFabV1Model
 				peerResourcesModel.Peer = resourceObjectModel
 				peerResourcesModel.Proxy = resourceObjectModel
 				Expect(peerResourcesModel.Chaincodelauncher).To(Equal(resourceObjectFabV2Model))
-				Expect(peerResourcesModel.Couchdb).To(Equal(resourceObjectModel))
+				Expect(peerResourcesModel.Couchdb).To(Equal(resourceObjectCouchDbModel))
+				Expect(peerResourcesModel.Statedb).To(Equal(resourceObjectModel))
 				Expect(peerResourcesModel.Dind).To(Equal(resourceObjectFabV1Model))
 				Expect(peerResourcesModel.Fluentd).To(Equal(resourceObjectFabV1Model))
 				Expect(peerResourcesModel.Peer).To(Equal(resourceObjectModel))
@@ -10775,6 +10829,11 @@ var _ = Describe(`BlockchainV2`, func() {
 				_, err := testService.NewResourceObject(requests)
 				Expect(err).ToNot(BeNil())
 			})
+			It(`Invoke NewResourceObjectCouchDb successfully`, func() {
+				var requests *blockchainv2.ResourceRequests = nil
+				_, err := testService.NewResourceObjectCouchDb(requests)
+				Expect(err).ToNot(BeNil())
+			})
 			It(`Invoke NewResourceObjectFabV1 successfully`, func() {
 				var requests *blockchainv2.ResourceRequests = nil
 				_, err := testService.NewResourceObjectFabV1(requests)
@@ -10873,7 +10932,9 @@ var _ = Describe(`BlockchainV2`, func() {
 				configCaCfgIdentitiesModel := new(blockchainv2.ConfigCACfgIdentities)
 				Expect(configCaCfgIdentitiesModel).ToNot(BeNil())
 				configCaCfgIdentitiesModel.Passwordattempts = core.Float64Ptr(float64(10))
+				configCaCfgIdentitiesModel.Allowremove = core.BoolPtr(false)
 				Expect(configCaCfgIdentitiesModel.Passwordattempts).To(Equal(core.Float64Ptr(float64(10))))
+				Expect(configCaCfgIdentitiesModel.Allowremove).To(Equal(core.BoolPtr(false)))
 
 				// Construct an instance of the ConfigCACsrCa model
 				configCaCsrCaModel := new(blockchainv2.ConfigCACsrCa)
@@ -11640,6 +11701,14 @@ var _ = Describe(`BlockchainV2`, func() {
 				Expect(resourceObjectModel.Requests).To(Equal(resourceRequestsModel))
 				Expect(resourceObjectModel.Limits).To(Equal(resourceLimitsModel))
 
+				// Construct an instance of the ResourceObjectCouchDb model
+				resourceObjectCouchDbModel := new(blockchainv2.ResourceObjectCouchDb)
+				Expect(resourceObjectCouchDbModel).ToNot(BeNil())
+				resourceObjectCouchDbModel.Requests = resourceRequestsModel
+				resourceObjectCouchDbModel.Limits = resourceLimitsModel
+				Expect(resourceObjectCouchDbModel.Requests).To(Equal(resourceRequestsModel))
+				Expect(resourceObjectCouchDbModel.Limits).To(Equal(resourceLimitsModel))
+
 				// Construct an instance of the ResourceObjectFabV1 model
 				resourceObjectFabV1Model := new(blockchainv2.ResourceObjectFabV1)
 				Expect(resourceObjectFabV1Model).ToNot(BeNil())
@@ -11670,13 +11739,15 @@ var _ = Describe(`BlockchainV2`, func() {
 				peerResourcesModel := new(blockchainv2.PeerResources)
 				Expect(peerResourcesModel).ToNot(BeNil())
 				peerResourcesModel.Chaincodelauncher = resourceObjectFabV2Model
-				peerResourcesModel.Couchdb = resourceObjectModel
+				peerResourcesModel.Couchdb = resourceObjectCouchDbModel
+				peerResourcesModel.Statedb = resourceObjectModel
 				peerResourcesModel.Dind = resourceObjectFabV1Model
 				peerResourcesModel.Fluentd = resourceObjectFabV1Model
 				peerResourcesModel.Peer = resourceObjectModel
 				peerResourcesModel.Proxy = resourceObjectModel
 				Expect(peerResourcesModel.Chaincodelauncher).To(Equal(resourceObjectFabV2Model))
-				Expect(peerResourcesModel.Couchdb).To(Equal(resourceObjectModel))
+				Expect(peerResourcesModel.Couchdb).To(Equal(resourceObjectCouchDbModel))
+				Expect(peerResourcesModel.Statedb).To(Equal(resourceObjectModel))
 				Expect(peerResourcesModel.Dind).To(Equal(resourceObjectFabV1Model))
 				Expect(peerResourcesModel.Fluentd).To(Equal(resourceObjectFabV1Model))
 				Expect(peerResourcesModel.Peer).To(Equal(resourceObjectModel))

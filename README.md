@@ -312,7 +312,9 @@ result, detailedResponse, err := service.GetComponent(options)
 ## Explore the SDK
 This module is generated from the OpenAPI (swagger) file that populated the [IBP APIs documentation](https://cloud.ibm.com/apidocs/blockchain).
 It is recommended to explore the IBP APIs documentation to find the desired functionality.
-Then find the corresponding go method and its input struct details in [blockchain_v2.go](./blockchainv2/blockchain_v2.go).
+Then find the corresponding go example to the right of the api documentation.
+
+Alternatively you could manually browse the SDK's main file [blockchain_v2.go](./blockchainv2/blockchain_v2.go).
 
 ## Generation
 This is a note for developers of this repository on how to rebuild the SDK.
@@ -324,7 +326,10 @@ This is a note for developers of this repository on how to rebuild the SDK.
 1. clone/download the IBP OpenAPI file
 1. build command w/o shell: 
 ```
-java -jar ./lib/openapi-sdkgen.jar generate -g ibm-go -i C:\code\cloud-api-docs\ibp.yaml -o C:\code\openapi-sdkgen\build
+cd code/openapi-sdkgen
+java -jar ./lib/openapi-sdkgen.jar generate -g ibm-go -i C:/code/cloud-api-docs/ibp.yaml -o C:/code/openapi-sdkgen/build --apiref C:/code/openapi-sdkgen/go-apiref.json
+// inspect the files in C:/code/openapi-sdkgen/build and copy to this repo if they look okay
+// copy file C:/code/openapi-sdkgen/go-apiref.json to the `cloud-api-docs` repo (this is IBP's IBM Cloud ApiDocs source)
 ```
 
 ## License
