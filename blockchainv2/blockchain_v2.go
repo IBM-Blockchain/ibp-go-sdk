@@ -2652,9 +2652,9 @@ func (blockchain *BlockchainV2) GetPostman(getPostmanOptions *GetPostmanOptions)
 }
 
 // GetSwagger : Download OpenAPI file
-// Download the [OpenAPI](https://swagger.io/specification/) specification file (aka swagger file) for the IBP console.
-// This is the same file that was used to generate the APIs on this page. This file documents APIs offered by the IBP
-// console.
+// Download the [OpenAPI](https://swagger.io/specification/) specification YAML file (aka swagger file) for the IBP
+// console. This is the same file that was used to generate the APIs on this page. This file documents APIs offered by
+// the IBP console.
 func (blockchain *BlockchainV2) GetSwagger(getSwaggerOptions *GetSwaggerOptions) (result *string, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getSwaggerOptions, "getSwaggerOptions")
 	if err != nil {
@@ -2727,6 +2727,7 @@ type ArchiveResponse struct {
 	Details *string `json:"details,omitempty"`
 }
 
+
 // UnmarshalArchiveResponse unmarshals an instance of ArchiveResponse from the specified map of raw messages.
 func UnmarshalArchiveResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ArchiveResponse)
@@ -2760,8 +2761,9 @@ type Bccsp struct {
 // `SW`.
 const (
 	Bccsp_Default_Pkcs11 = "PKCS11"
-	Bccsp_Default_Sw     = "SW"
+	Bccsp_Default_Sw = "SW"
 )
+
 
 // UnmarshalBccsp unmarshals an instance of Bccsp from the specified map of raw messages.
 func UnmarshalBccsp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -2797,11 +2799,12 @@ type BccspPKCS11 struct {
 	Security *float64 `json:"Security,omitempty"`
 }
 
+
 // NewBccspPKCS11 : Instantiate BccspPKCS11 (Generic Model Constructor)
 func (*BlockchainV2) NewBccspPKCS11(label string, pin string) (model *BccspPKCS11, err error) {
 	model = &BccspPKCS11{
 		Label: core.StringPtr(label),
-		Pin:   core.StringPtr(pin),
+		Pin: core.StringPtr(pin),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -2839,10 +2842,11 @@ type BccspSW struct {
 	Security *float64 `json:"Security" validate:"required"`
 }
 
+
 // NewBccspSW : Instantiate BccspSW (Generic Model Constructor)
 func (*BlockchainV2) NewBccspSW(hash string, security float64) (model *BccspSW, err error) {
 	model = &BccspSW{
-		Hash:     core.StringPtr(hash),
+		Hash: core.StringPtr(hash),
 		Security: core.Float64Ptr(security),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -2917,6 +2921,7 @@ type CaResponse struct {
 	// information](https://kubernetes.io/docs/setup/best-practices/multiple-zones).
 	Zone *string `json:"zone,omitempty"`
 }
+
 
 // UnmarshalCaResponse unmarshals an instance of CaResponse from the specified map of raw messages.
 func UnmarshalCaResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -2994,6 +2999,7 @@ type CaResponseResources struct {
 	Ca *GenericResources `json:"ca,omitempty"`
 }
 
+
 // UnmarshalCaResponseResources unmarshals an instance of CaResponseResources from the specified map of raw messages.
 func UnmarshalCaResponseResources(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(CaResponseResources)
@@ -3009,6 +3015,7 @@ func UnmarshalCaResponseResources(m map[string]json.RawMessage, result interface
 type CaResponseStorage struct {
 	Ca *StorageObject `json:"ca,omitempty"`
 }
+
 
 // UnmarshalCaResponseStorage unmarshals an instance of CaResponseStorage from the specified map of raw messages.
 func UnmarshalCaResponseStorage(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -3035,6 +3042,7 @@ type CacheData struct {
 	// Approximate size of the in memory cache.
 	CacheSize *string `json:"cache_size,omitempty"`
 }
+
 
 // UnmarshalCacheData unmarshals an instance of CacheData from the specified map of raw messages.
 func UnmarshalCacheData(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -3070,11 +3078,12 @@ type CacheFlushResponse struct {
 
 // Constants associated with the CacheFlushResponse.Flushed property.
 const (
-	CacheFlushResponse_Flushed_CouchCache   = "couch_cache"
-	CacheFlushResponse_Flushed_IamCache     = "iam_cache"
-	CacheFlushResponse_Flushed_ProxyCache   = "proxy_cache"
+	CacheFlushResponse_Flushed_CouchCache = "couch_cache"
+	CacheFlushResponse_Flushed_IamCache = "iam_cache"
+	CacheFlushResponse_Flushed_ProxyCache = "proxy_cache"
 	CacheFlushResponse_Flushed_SessionCache = "session_cache"
 )
+
 
 // UnmarshalCacheFlushResponse unmarshals an instance of CacheFlushResponse from the specified map of raw messages.
 func UnmarshalCacheFlushResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -3113,7 +3122,11 @@ func (options *ClearCachesOptions) SetHeaders(param map[string]string) *ClearCac
 type ConfigCACfgIdentities struct {
 	// The maximum number of incorrect password attempts allowed per identity.
 	Passwordattempts *float64 `json:"passwordattempts" validate:"required"`
+
+	// Set to `true` to allow deletion of identities. Defaults `false`.
+	Allowremove *bool `json:"allowremove,omitempty"`
 }
+
 
 // NewConfigCACfgIdentities : Instantiate ConfigCACfgIdentities (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCACfgIdentities(passwordattempts float64) (model *ConfigCACfgIdentities, err error) {
@@ -3128,6 +3141,10 @@ func (*BlockchainV2) NewConfigCACfgIdentities(passwordattempts float64) (model *
 func UnmarshalConfigCACfgIdentities(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigCACfgIdentities)
 	err = core.UnmarshalPrimitive(m, "passwordattempts", &obj.Passwordattempts)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "allowremove", &obj.Allowremove)
 	if err != nil {
 		return
 	}
@@ -3171,6 +3188,7 @@ type ConfigCACreate struct {
 
 	Metrics *Metrics `json:"metrics,omitempty"`
 }
+
 
 // NewConfigCACreate : Instantiate ConfigCACreate (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCACreate(registry *ConfigCARegistry) (model *ConfigCACreate, err error) {
@@ -3258,6 +3276,7 @@ type ConfigCACsrCa struct {
 	Pathlength *float64 `json:"pathlength,omitempty"`
 }
 
+
 // UnmarshalConfigCACsrCa unmarshals an instance of ConfigCACsrCa from the specified map of raw messages.
 func UnmarshalConfigCACsrCa(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigCACsrCa)
@@ -3281,6 +3300,7 @@ type ConfigCACsrKeyrequest struct {
 	// The size of the key for CSRs.
 	Size *float64 `json:"size" validate:"required"`
 }
+
 
 // NewConfigCACsrKeyrequest : Instantiate ConfigCACsrKeyrequest (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCACsrKeyrequest(algo string, size float64) (model *ConfigCACsrKeyrequest, err error) {
@@ -3320,12 +3340,13 @@ type ConfigCACsrNamesItem struct {
 	OU *string `json:"OU,omitempty"`
 }
 
+
 // NewConfigCACsrNamesItem : Instantiate ConfigCACsrNamesItem (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCACsrNamesItem(c string, sT string, o string) (model *ConfigCACsrNamesItem, err error) {
 	model = &ConfigCACsrNamesItem{
-		C:  core.StringPtr(c),
+		C: core.StringPtr(c),
 		ST: core.StringPtr(sT),
-		O:  core.StringPtr(o),
+		O: core.StringPtr(o),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -3368,6 +3389,7 @@ type ConfigCADbTls struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
+
 // UnmarshalConfigCADbTls unmarshals an instance of ConfigCADbTls from the specified map of raw messages.
 func UnmarshalConfigCADbTls(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigCADbTls)
@@ -3396,11 +3418,12 @@ type ConfigCADbTlsClient struct {
 	Keyfile *string `json:"keyfile" validate:"required"`
 }
 
+
 // NewConfigCADbTlsClient : Instantiate ConfigCADbTlsClient (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCADbTlsClient(certfile string, keyfile string) (model *ConfigCADbTlsClient, err error) {
 	model = &ConfigCADbTlsClient{
 		Certfile: core.StringPtr(certfile),
-		Keyfile:  core.StringPtr(keyfile),
+		Keyfile: core.StringPtr(keyfile),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -3433,12 +3456,13 @@ type ConfigCAIntermediateEnrollment struct {
 	Label *string `json:"label" validate:"required"`
 }
 
+
 // NewConfigCAIntermediateEnrollment : Instantiate ConfigCAIntermediateEnrollment (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCAIntermediateEnrollment(hosts string, profile string, label string) (model *ConfigCAIntermediateEnrollment, err error) {
 	model = &ConfigCAIntermediateEnrollment{
-		Hosts:   core.StringPtr(hosts),
+		Hosts: core.StringPtr(hosts),
 		Profile: core.StringPtr(profile),
-		Label:   core.StringPtr(label),
+		Label: core.StringPtr(label),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -3472,10 +3496,11 @@ type ConfigCAIntermediateParentserver struct {
 	Caname *string `json:"caname" validate:"required"`
 }
 
+
 // NewConfigCAIntermediateParentserver : Instantiate ConfigCAIntermediateParentserver (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCAIntermediateParentserver(url string, caname string) (model *ConfigCAIntermediateParentserver, err error) {
 	model = &ConfigCAIntermediateParentserver{
-		URL:    core.StringPtr(url),
+		URL: core.StringPtr(url),
 		Caname: core.StringPtr(caname),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -3503,6 +3528,7 @@ type ConfigCAIntermediateTls struct {
 
 	Client *ConfigCAIntermediateTlsClient `json:"client,omitempty"`
 }
+
 
 // NewConfigCAIntermediateTls : Instantiate ConfigCAIntermediateTls (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCAIntermediateTls(certfiles []string) (model *ConfigCAIntermediateTls, err error) {
@@ -3537,11 +3563,12 @@ type ConfigCAIntermediateTlsClient struct {
 	Keyfile *string `json:"keyfile" validate:"required"`
 }
 
+
 // NewConfigCAIntermediateTlsClient : Instantiate ConfigCAIntermediateTlsClient (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCAIntermediateTlsClient(certfile string, keyfile string) (model *ConfigCAIntermediateTlsClient, err error) {
 	model = &ConfigCAIntermediateTlsClient{
 		Certfile: core.StringPtr(certfile),
-		Keyfile:  core.StringPtr(keyfile),
+		Keyfile: core.StringPtr(keyfile),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -3585,12 +3612,13 @@ type ConfigCARegistryIdentitiesItem struct {
 // Constants associated with the ConfigCARegistryIdentitiesItem.Type property.
 // The type of identity.
 const (
-	ConfigCARegistryIdentitiesItem_Type_Admin   = "admin"
-	ConfigCARegistryIdentitiesItem_Type_Client  = "client"
+	ConfigCARegistryIdentitiesItem_Type_Admin = "admin"
+	ConfigCARegistryIdentitiesItem_Type_Client = "client"
 	ConfigCARegistryIdentitiesItem_Type_Orderer = "orderer"
-	ConfigCARegistryIdentitiesItem_Type_Peer    = "peer"
-	ConfigCARegistryIdentitiesItem_Type_User    = "user"
+	ConfigCARegistryIdentitiesItem_Type_Peer = "peer"
+	ConfigCARegistryIdentitiesItem_Type_User = "user"
 )
+
 
 // NewConfigCARegistryIdentitiesItem : Instantiate ConfigCARegistryIdentitiesItem (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCARegistryIdentitiesItem(name string, pass string, typeVar string) (model *ConfigCARegistryIdentitiesItem, err error) {
@@ -3641,10 +3669,11 @@ type ConfigCATlsClientauth struct {
 	Certfiles []string `json:"certfiles" validate:"required"`
 }
 
+
 // NewConfigCATlsClientauth : Instantiate ConfigCATlsClientauth (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCATlsClientauth(typeVar string, certfiles []string) (model *ConfigCATlsClientauth, err error) {
 	model = &ConfigCATlsClientauth{
-		Type:      core.StringPtr(typeVar),
+		Type: core.StringPtr(typeVar),
 		Certfiles: certfiles,
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -3702,6 +3731,7 @@ type ConfigCAUpdate struct {
 
 	Metrics *Metrics `json:"metrics,omitempty"`
 }
+
 
 // UnmarshalConfigCAUpdate unmarshals an instance of ConfigCAUpdate from the specified map of raw messages.
 func UnmarshalConfigCAUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -3780,6 +3810,7 @@ type ConfigCAAffiliations struct {
 	additionalProperties map[string]interface{}
 }
 
+
 // SetProperty allows the user to set an arbitrary property on an instance of ConfigCAAffiliations
 func (o *ConfigCAAffiliations) SetProperty(key string, value interface{}) {
 	if o.additionalProperties == nil {
@@ -3854,6 +3885,7 @@ type ConfigCACa struct {
 	Chainfile *string `json:"chainfile,omitempty"`
 }
 
+
 // UnmarshalConfigCACa unmarshals an instance of ConfigCACa from the specified map of raw messages.
 func UnmarshalConfigCACa(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigCACa)
@@ -3877,6 +3909,7 @@ func UnmarshalConfigCACa(m map[string]json.RawMessage, result interface{}) (err 
 type ConfigCACfg struct {
 	Identities *ConfigCACfgIdentities `json:"identities" validate:"required"`
 }
+
 
 // NewConfigCACfg : Instantiate ConfigCACfg (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCACfg(identities *ConfigCACfgIdentities) (model *ConfigCACfg, err error) {
@@ -3904,6 +3937,7 @@ type ConfigCACors struct {
 
 	Origins []string `json:"origins" validate:"required"`
 }
+
 
 // NewConfigCACors : Instantiate ConfigCACors (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCACors(enabled bool, origins []string) (model *ConfigCACors, err error) {
@@ -3935,6 +3969,7 @@ type ConfigCACrl struct {
 	// Expiration of the CRL (Certificate Revocation List) generated by the 'gencrl' requests.
 	Expiry *string `json:"expiry" validate:"required"`
 }
+
 
 // NewConfigCACrl : Instantiate ConfigCACrl (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCACrl(expiry string) (model *ConfigCACrl, err error) {
@@ -3970,12 +4005,13 @@ type ConfigCACsr struct {
 	Ca *ConfigCACsrCa `json:"ca" validate:"required"`
 }
 
+
 // NewConfigCACsr : Instantiate ConfigCACsr (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCACsr(cn string, names []ConfigCACsrNamesItem, ca *ConfigCACsrCa) (model *ConfigCACsr, err error) {
 	model = &ConfigCACsr{
-		Cn:    core.StringPtr(cn),
+		Cn: core.StringPtr(cn),
 		Names: names,
-		Ca:    ca,
+		Ca: ca,
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -4023,15 +4059,16 @@ type ConfigCADb struct {
 // Constants associated with the ConfigCADb.Type property.
 // The type of database. Either 'sqlite3', 'postgres', 'mysql'. Defaults 'sqlite3'.
 const (
-	ConfigCADb_Type_Mysql    = "mysql"
+	ConfigCADb_Type_Mysql = "mysql"
 	ConfigCADb_Type_Postgres = "postgres"
-	ConfigCADb_Type_Sqlite3  = "sqlite3"
+	ConfigCADb_Type_Sqlite3 = "sqlite3"
 )
+
 
 // NewConfigCADb : Instantiate ConfigCADb (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCADb(typeVar string, datasource string) (model *ConfigCADb, err error) {
 	model = &ConfigCADb{
-		Type:       core.StringPtr(typeVar),
+		Type: core.StringPtr(typeVar),
 		Datasource: core.StringPtr(datasource),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -4069,11 +4106,12 @@ type ConfigCAIdemix struct {
 	Noncesweepinterval *string `json:"noncesweepinterval" validate:"required"`
 }
 
+
 // NewConfigCAIdemix : Instantiate ConfigCAIdemix (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCAIdemix(rhpoolsize float64, nonceexpiration string, noncesweepinterval string) (model *ConfigCAIdemix, err error) {
 	model = &ConfigCAIdemix{
-		Rhpoolsize:         core.Float64Ptr(rhpoolsize),
-		Nonceexpiration:    core.StringPtr(nonceexpiration),
+		Rhpoolsize: core.Float64Ptr(rhpoolsize),
+		Nonceexpiration: core.StringPtr(nonceexpiration),
 		Noncesweepinterval: core.StringPtr(noncesweepinterval),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -4107,6 +4145,7 @@ type ConfigCAIntermediate struct {
 
 	Tls *ConfigCAIntermediateTls `json:"tls,omitempty"`
 }
+
 
 // NewConfigCAIntermediate : Instantiate ConfigCAIntermediate (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCAIntermediate(parentserver *ConfigCAIntermediateParentserver) (model *ConfigCAIntermediate, err error) {
@@ -4144,11 +4183,12 @@ type ConfigCARegistry struct {
 	Identities []ConfigCARegistryIdentitiesItem `json:"identities" validate:"required"`
 }
 
+
 // NewConfigCARegistry : Instantiate ConfigCARegistry (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCARegistry(maxenrollments float64, identities []ConfigCARegistryIdentitiesItem) (model *ConfigCARegistry, err error) {
 	model = &ConfigCARegistry{
 		Maxenrollments: core.Float64Ptr(maxenrollments),
-		Identities:     identities,
+		Identities: identities,
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -4180,10 +4220,11 @@ type ConfigCATls struct {
 	Clientauth *ConfigCATlsClientauth `json:"clientauth,omitempty"`
 }
 
+
 // NewConfigCATls : Instantiate ConfigCATls (Generic Model Constructor)
 func (*BlockchainV2) NewConfigCATls(keyfile string, certfile string) (model *ConfigCATls, err error) {
 	model = &ConfigCATls{
-		Keyfile:  core.StringPtr(keyfile),
+		Keyfile: core.StringPtr(keyfile),
 		Certfile: core.StringPtr(certfile),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -4220,6 +4261,7 @@ type ConfigObject struct {
 	Msp *ConfigObjectMsp `json:"msp,omitempty"`
 }
 
+
 // UnmarshalConfigObject unmarshals an instance of ConfigObject from the specified map of raw messages.
 func UnmarshalConfigObject(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigObject)
@@ -4243,11 +4285,12 @@ type ConfigObjectEnrollment struct {
 	Tls *ConfigObjectEnrollmentTls `json:"tls" validate:"required"`
 }
 
+
 // NewConfigObjectEnrollment : Instantiate ConfigObjectEnrollment (Generic Model Constructor)
 func (*BlockchainV2) NewConfigObjectEnrollment(component *ConfigObjectEnrollmentComponent, tls *ConfigObjectEnrollmentTls) (model *ConfigObjectEnrollment, err error) {
 	model = &ConfigObjectEnrollment{
 		Component: component,
-		Tls:       tls,
+		Tls: tls,
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -4290,14 +4333,15 @@ type ConfigObjectEnrollmentComponent struct {
 	Admincerts []string `json:"admincerts,omitempty"`
 }
 
+
 // NewConfigObjectEnrollmentComponent : Instantiate ConfigObjectEnrollmentComponent (Generic Model Constructor)
 func (*BlockchainV2) NewConfigObjectEnrollmentComponent(cahost string, caport float64, caname string, catls *ConfigObjectEnrollmentComponentCatls, enrollid string, enrollsecret string) (model *ConfigObjectEnrollmentComponent, err error) {
 	model = &ConfigObjectEnrollmentComponent{
-		Cahost:       core.StringPtr(cahost),
-		Caport:       core.Float64Ptr(caport),
-		Caname:       core.StringPtr(caname),
-		Catls:        catls,
-		Enrollid:     core.StringPtr(enrollid),
+		Cahost: core.StringPtr(cahost),
+		Caport: core.Float64Ptr(caport),
+		Caname: core.StringPtr(caname),
+		Catls: catls,
+		Enrollid: core.StringPtr(enrollid),
 		Enrollsecret: core.StringPtr(enrollsecret),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -4345,6 +4389,7 @@ type ConfigObjectEnrollmentComponentCatls struct {
 	Cacert *string `json:"cacert" validate:"required"`
 }
 
+
 // NewConfigObjectEnrollmentComponentCatls : Instantiate ConfigObjectEnrollmentComponentCatls (Generic Model Constructor)
 func (*BlockchainV2) NewConfigObjectEnrollmentComponentCatls(cacert string) (model *ConfigObjectEnrollmentComponentCatls, err error) {
 	model = &ConfigObjectEnrollmentComponentCatls{
@@ -4389,13 +4434,14 @@ type ConfigObjectEnrollmentTls struct {
 	Csr *ConfigObjectEnrollmentTlsCsr `json:"csr,omitempty"`
 }
 
+
 // NewConfigObjectEnrollmentTls : Instantiate ConfigObjectEnrollmentTls (Generic Model Constructor)
 func (*BlockchainV2) NewConfigObjectEnrollmentTls(cahost string, caport float64, caname string, catls *ConfigObjectEnrollmentTlsCatls) (model *ConfigObjectEnrollmentTls, err error) {
 	model = &ConfigObjectEnrollmentTls{
 		Cahost: core.StringPtr(cahost),
 		Caport: core.Float64Ptr(caport),
 		Caname: core.StringPtr(caname),
-		Catls:  catls,
+		Catls: catls,
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -4446,6 +4492,7 @@ type ConfigObjectEnrollmentTlsCatls struct {
 	Cacert *string `json:"cacert" validate:"required"`
 }
 
+
 // NewConfigObjectEnrollmentTlsCatls : Instantiate ConfigObjectEnrollmentTlsCatls (Generic Model Constructor)
 func (*BlockchainV2) NewConfigObjectEnrollmentTlsCatls(cacert string) (model *ConfigObjectEnrollmentTlsCatls, err error) {
 	model = &ConfigObjectEnrollmentTlsCatls{
@@ -4470,6 +4517,7 @@ func UnmarshalConfigObjectEnrollmentTlsCatls(m map[string]json.RawMessage, resul
 type ConfigObjectEnrollmentTlsCsr struct {
 	Hosts []string `json:"hosts" validate:"required"`
 }
+
 
 // NewConfigObjectEnrollmentTlsCsr : Instantiate ConfigObjectEnrollmentTlsCsr (Generic Model Constructor)
 func (*BlockchainV2) NewConfigObjectEnrollmentTlsCsr(hosts []string) (model *ConfigObjectEnrollmentTlsCsr, err error) {
@@ -4501,11 +4549,12 @@ type ConfigObjectMsp struct {
 	Clientauth *MspConfigData `json:"clientauth,omitempty"`
 }
 
+
 // NewConfigObjectMsp : Instantiate ConfigObjectMsp (Generic Model Constructor)
 func (*BlockchainV2) NewConfigObjectMsp(component *MspConfigData, tls *MspConfigData) (model *ConfigObjectMsp, err error) {
 	model = &ConfigObjectMsp{
 		Component: component,
-		Tls:       tls,
+		Tls: tls,
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -4543,6 +4592,7 @@ type ConfigOrdererCreate struct {
 
 	Metrics *ConfigOrdererMetrics `json:"Metrics,omitempty"`
 }
+
 
 // UnmarshalConfigOrdererCreate unmarshals an instance of ConfigOrdererCreate from the specified map of raw messages.
 func UnmarshalConfigOrdererCreate(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4585,6 +4635,7 @@ const (
 	ConfigOrdererMetricsStatsd_Network_Udp = "udp"
 )
 
+
 // UnmarshalConfigOrdererMetricsStatsd unmarshals an instance of ConfigOrdererMetricsStatsd from the specified map of raw messages.
 func UnmarshalConfigOrdererMetricsStatsd(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigOrdererMetricsStatsd)
@@ -4622,6 +4673,7 @@ type ConfigOrdererUpdate struct {
 	Metrics *ConfigOrdererMetrics `json:"Metrics,omitempty"`
 }
 
+
 // UnmarshalConfigOrdererUpdate unmarshals an instance of ConfigOrdererUpdate from the specified map of raw messages.
 func UnmarshalConfigOrdererUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigOrdererUpdate)
@@ -4651,6 +4703,7 @@ type ConfigOrdererAuthentication struct {
 	NoExpirationChecks *bool `json:"NoExpirationChecks,omitempty"`
 }
 
+
 // UnmarshalConfigOrdererAuthentication unmarshals an instance of ConfigOrdererAuthentication from the specified map of raw messages.
 func UnmarshalConfigOrdererAuthentication(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigOrdererAuthentication)
@@ -4675,6 +4728,7 @@ type ConfigOrdererDebug struct {
 	// Path to directory. If set will cause each request to the Deliver service to be written to a file in this directory.
 	DeliverTraceDir *string `json:"DeliverTraceDir,omitempty"`
 }
+
 
 // UnmarshalConfigOrdererDebug unmarshals an instance of ConfigOrdererDebug from the specified map of raw messages.
 func UnmarshalConfigOrdererDebug(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4702,6 +4756,7 @@ type ConfigOrdererGeneral struct {
 	// Contains configuration parameters that are related to authenticating client messages.
 	Authentication *ConfigOrdererAuthentication `json:"Authentication,omitempty"`
 }
+
 
 // UnmarshalConfigOrdererGeneral unmarshals an instance of ConfigOrdererGeneral from the specified map of raw messages.
 func UnmarshalConfigOrdererGeneral(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4731,6 +4786,7 @@ type ConfigOrdererGeneralUpdate struct {
 	Authentication *ConfigOrdererAuthentication `json:"Authentication,omitempty"`
 }
 
+
 // UnmarshalConfigOrdererGeneralUpdate unmarshals an instance of ConfigOrdererGeneralUpdate from the specified map of raw messages.
 func UnmarshalConfigOrdererGeneralUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigOrdererGeneralUpdate)
@@ -4758,6 +4814,7 @@ type ConfigOrdererKeepalive struct {
 	// The duration the server will wait for a response from a client before closing the connection.
 	ServerTimeout *string `json:"ServerTimeout,omitempty"`
 }
+
 
 // UnmarshalConfigOrdererKeepalive unmarshals an instance of ConfigOrdererKeepalive from the specified map of raw messages.
 func UnmarshalConfigOrdererKeepalive(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4790,10 +4847,11 @@ type ConfigOrdererMetrics struct {
 // Constants associated with the ConfigOrdererMetrics.Provider property.
 // The metrics provider to use.
 const (
-	ConfigOrdererMetrics_Provider_Disabled   = "disabled"
+	ConfigOrdererMetrics_Provider_Disabled = "disabled"
 	ConfigOrdererMetrics_Provider_Prometheus = "prometheus"
-	ConfigOrdererMetrics_Provider_Statsd     = "statsd"
+	ConfigOrdererMetrics_Provider_Statsd = "statsd"
 )
+
 
 // UnmarshalConfigOrdererMetrics unmarshals an instance of ConfigOrdererMetrics from the specified map of raw messages.
 func UnmarshalConfigOrdererMetrics(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4821,6 +4879,7 @@ type ConfigPeerChaincodeExternalBuildersItem struct {
 	EnvironmentWhitelist []string `json:"environmentWhitelist,omitempty"`
 }
 
+
 // UnmarshalConfigPeerChaincodeExternalBuildersItem unmarshals an instance of ConfigPeerChaincodeExternalBuildersItem from the specified map of raw messages.
 func UnmarshalConfigPeerChaincodeExternalBuildersItem(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerChaincodeExternalBuildersItem)
@@ -4845,6 +4904,7 @@ type ConfigPeerChaincodeGolang struct {
 	// Controls if golang chaincode should be built with dynamic linking or static linking. Defaults `false` (static).
 	DynamicLink *bool `json:"dynamicLink,omitempty"`
 }
+
 
 // UnmarshalConfigPeerChaincodeGolang unmarshals an instance of ConfigPeerChaincodeGolang from the specified map of raw messages.
 func UnmarshalConfigPeerChaincodeGolang(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4872,24 +4932,25 @@ type ConfigPeerChaincodeLogging struct {
 // Constants associated with the ConfigPeerChaincodeLogging.Level property.
 // Default logging level for loggers within chaincode containers.
 const (
-	ConfigPeerChaincodeLogging_Level_Debug   = "debug"
-	ConfigPeerChaincodeLogging_Level_Error   = "error"
-	ConfigPeerChaincodeLogging_Level_Fatal   = "fatal"
-	ConfigPeerChaincodeLogging_Level_Info    = "info"
-	ConfigPeerChaincodeLogging_Level_Panic   = "panic"
+	ConfigPeerChaincodeLogging_Level_Debug = "debug"
+	ConfigPeerChaincodeLogging_Level_Error = "error"
+	ConfigPeerChaincodeLogging_Level_Fatal = "fatal"
+	ConfigPeerChaincodeLogging_Level_Info = "info"
+	ConfigPeerChaincodeLogging_Level_Panic = "panic"
 	ConfigPeerChaincodeLogging_Level_Warning = "warning"
 )
 
 // Constants associated with the ConfigPeerChaincodeLogging.Shim property.
 // Override default level for the 'shim' logger.
 const (
-	ConfigPeerChaincodeLogging_Shim_Debug   = "debug"
-	ConfigPeerChaincodeLogging_Shim_Error   = "error"
-	ConfigPeerChaincodeLogging_Shim_Fatal   = "fatal"
-	ConfigPeerChaincodeLogging_Shim_Info    = "info"
-	ConfigPeerChaincodeLogging_Shim_Panic   = "panic"
+	ConfigPeerChaincodeLogging_Shim_Debug = "debug"
+	ConfigPeerChaincodeLogging_Shim_Error = "error"
+	ConfigPeerChaincodeLogging_Shim_Fatal = "fatal"
+	ConfigPeerChaincodeLogging_Shim_Info = "info"
+	ConfigPeerChaincodeLogging_Shim_Panic = "panic"
 	ConfigPeerChaincodeLogging_Shim_Warning = "warning"
 )
+
 
 // UnmarshalConfigPeerChaincodeLogging unmarshals an instance of ConfigPeerChaincodeLogging from the specified map of raw messages.
 func UnmarshalConfigPeerChaincodeLogging(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4927,6 +4988,7 @@ type ConfigPeerChaincodeSystem struct {
 	// Adds the system chaincode `qscc` to the whitelist.
 	Qscc *bool `json:"qscc,omitempty"`
 }
+
 
 // UnmarshalConfigPeerChaincodeSystem unmarshals an instance of ConfigPeerChaincodeSystem from the specified map of raw messages.
 func UnmarshalConfigPeerChaincodeSystem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4967,6 +5029,7 @@ type ConfigPeerCreate struct {
 
 	Metrics *Metrics `json:"metrics,omitempty"`
 }
+
 
 // UnmarshalConfigPeerCreate unmarshals an instance of ConfigPeerCreate from the specified map of raw messages.
 func UnmarshalConfigPeerCreate(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5023,6 +5086,7 @@ type ConfigPeerCreatePeer struct {
 
 	Limits *ConfigPeerLimits `json:"limits,omitempty"`
 }
+
 
 // UnmarshalConfigPeerCreatePeer unmarshals an instance of ConfigPeerCreatePeer from the specified map of raw messages.
 func UnmarshalConfigPeerCreatePeer(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5091,6 +5155,7 @@ type ConfigPeerDeliveryclientAddressOverridesItem struct {
 	CaCertsFile *string `json:"caCertsFile,omitempty"`
 }
 
+
 // UnmarshalConfigPeerDeliveryclientAddressOverridesItem unmarshals an instance of ConfigPeerDeliveryclientAddressOverridesItem from the specified map of raw messages.
 func UnmarshalConfigPeerDeliveryclientAddressOverridesItem(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerDeliveryclientAddressOverridesItem)
@@ -5124,6 +5189,7 @@ type ConfigPeerGossipElection struct {
 	// Amount of time between the peer sending a propose message and it declaring itself as a leader.
 	LeaderElectionDuration *string `json:"leaderElectionDuration,omitempty"`
 }
+
 
 // UnmarshalConfigPeerGossipElection unmarshals an instance of ConfigPeerGossipElection from the specified map of raw messages.
 func UnmarshalConfigPeerGossipElection(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5185,6 +5251,7 @@ type ConfigPeerGossipPvtData struct {
 	ImplicitCollectionDisseminationPolicy *ConfigPeerGossipPvtDataImplicitCollectionDisseminationPolicy `json:"implicitCollectionDisseminationPolicy,omitempty"`
 }
 
+
 // UnmarshalConfigPeerGossipPvtData unmarshals an instance of ConfigPeerGossipPvtData from the specified map of raw messages.
 func UnmarshalConfigPeerGossipPvtData(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerGossipPvtData)
@@ -5237,6 +5304,7 @@ type ConfigPeerGossipPvtDataImplicitCollectionDisseminationPolicy struct {
 	MaxPeerCount *float64 `json:"maxPeerCount,omitempty"`
 }
 
+
 // UnmarshalConfigPeerGossipPvtDataImplicitCollectionDisseminationPolicy unmarshals an instance of ConfigPeerGossipPvtDataImplicitCollectionDisseminationPolicy from the specified map of raw messages.
 func UnmarshalConfigPeerGossipPvtDataImplicitCollectionDisseminationPolicy(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerGossipPvtDataImplicitCollectionDisseminationPolicy)
@@ -5275,6 +5343,7 @@ type ConfigPeerGossipState struct {
 	// Maximum number of retries of a single state transfer request.
 	MaxRetries *float64 `json:"maxRetries,omitempty"`
 }
+
 
 // UnmarshalConfigPeerGossipState unmarshals an instance of ConfigPeerGossipState from the specified map of raw messages.
 func UnmarshalConfigPeerGossipState(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5316,6 +5385,7 @@ type ConfigPeerKeepaliveClient struct {
 	Timeout *string `json:"timeout,omitempty"`
 }
 
+
 // UnmarshalConfigPeerKeepaliveClient unmarshals an instance of ConfigPeerKeepaliveClient from the specified map of raw messages.
 func UnmarshalConfigPeerKeepaliveClient(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerKeepaliveClient)
@@ -5339,6 +5409,7 @@ type ConfigPeerKeepaliveDeliveryClient struct {
 	// The duration a client waits for an orderer's response before it closes the connection.
 	Timeout *string `json:"timeout,omitempty"`
 }
+
 
 // UnmarshalConfigPeerKeepaliveDeliveryClient unmarshals an instance of ConfigPeerKeepaliveDeliveryClient from the specified map of raw messages.
 func UnmarshalConfigPeerKeepaliveDeliveryClient(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5365,6 +5436,7 @@ type ConfigPeerLimitsConcurrency struct {
 	// events.
 	DeliverService interface{} `json:"deliverService,omitempty"`
 }
+
 
 // UnmarshalConfigPeerLimitsConcurrency unmarshals an instance of ConfigPeerLimitsConcurrency from the specified map of raw messages.
 func UnmarshalConfigPeerLimitsConcurrency(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5393,6 +5465,7 @@ type ConfigPeerUpdate struct {
 
 	Metrics *Metrics `json:"metrics,omitempty"`
 }
+
 
 // UnmarshalConfigPeerUpdate unmarshals an instance of ConfigPeerUpdate from the specified map of raw messages.
 func UnmarshalConfigPeerUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5446,6 +5519,7 @@ type ConfigPeerUpdatePeer struct {
 
 	Limits *ConfigPeerLimits `json:"limits,omitempty"`
 }
+
 
 // UnmarshalConfigPeerUpdatePeer unmarshals an instance of ConfigPeerUpdatePeer from the specified map of raw messages.
 func UnmarshalConfigPeerUpdatePeer(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5505,6 +5579,7 @@ type ConfigPeerAdminService struct {
 	ListenAddress *string `json:"listenAddress" validate:"required"`
 }
 
+
 // NewConfigPeerAdminService : Instantiate ConfigPeerAdminService (Generic Model Constructor)
 func (*BlockchainV2) NewConfigPeerAdminService(listenAddress string) (model *ConfigPeerAdminService, err error) {
 	model = &ConfigPeerAdminService{
@@ -5530,6 +5605,7 @@ type ConfigPeerAuthentication struct {
 	// The maximum acceptable difference between the current server time and the client's time.
 	Timewindow *string `json:"timewindow" validate:"required"`
 }
+
 
 // NewConfigPeerAuthentication : Instantiate ConfigPeerAuthentication (Generic Model Constructor)
 func (*BlockchainV2) NewConfigPeerAuthentication(timewindow string) (model *ConfigPeerAuthentication, err error) {
@@ -5575,6 +5651,7 @@ type ConfigPeerChaincode struct {
 	Logging *ConfigPeerChaincodeLogging `json:"logging,omitempty"`
 }
 
+
 // UnmarshalConfigPeerChaincode unmarshals an instance of ConfigPeerChaincode from the specified map of raw messages.
 func UnmarshalConfigPeerChaincode(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerChaincode)
@@ -5616,6 +5693,7 @@ type ConfigPeerClient struct {
 	ConnTimeout *string `json:"connTimeout" validate:"required"`
 }
 
+
 // NewConfigPeerClient : Instantiate ConfigPeerClient (Generic Model Constructor)
 func (*BlockchainV2) NewConfigPeerClient(connTimeout string) (model *ConfigPeerClient, err error) {
 	model = &ConfigPeerClient{
@@ -5651,6 +5729,7 @@ type ConfigPeerDeliveryclient struct {
 	// original orderer addresses no longer exist.
 	AddressOverrides []ConfigPeerDeliveryclientAddressOverridesItem `json:"addressOverrides,omitempty"`
 }
+
 
 // UnmarshalConfigPeerDeliveryclient unmarshals an instance of ConfigPeerDeliveryclient from the specified map of raw messages.
 func UnmarshalConfigPeerDeliveryclient(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5695,6 +5774,7 @@ type ConfigPeerDiscovery struct {
 	// perform non-channel scoped queries.
 	OrgMembersAllowedAccess *bool `json:"orgMembersAllowedAccess,omitempty"`
 }
+
 
 // UnmarshalConfigPeerDiscovery unmarshals an instance of ConfigPeerDiscovery from the specified map of raw messages.
 func UnmarshalConfigPeerDiscovery(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5808,6 +5888,7 @@ type ConfigPeerGossip struct {
 	// Gossip state transfer related configuration.
 	State *ConfigPeerGossipState `json:"state,omitempty"`
 }
+
 
 // UnmarshalConfigPeerGossip unmarshals an instance of ConfigPeerGossip from the specified map of raw messages.
 func UnmarshalConfigPeerGossip(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5935,6 +6016,7 @@ type ConfigPeerKeepalive struct {
 	DeliveryClient *ConfigPeerKeepaliveDeliveryClient `json:"deliveryClient,omitempty"`
 }
 
+
 // UnmarshalConfigPeerKeepalive unmarshals an instance of ConfigPeerKeepalive from the specified map of raw messages.
 func UnmarshalConfigPeerKeepalive(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerKeepalive)
@@ -5959,6 +6041,7 @@ type ConfigPeerLimits struct {
 	Concurrency *ConfigPeerLimitsConcurrency `json:"concurrency,omitempty"`
 }
 
+
 // UnmarshalConfigPeerLimits unmarshals an instance of ConfigPeerLimits from the specified map of raw messages.
 func UnmarshalConfigPeerLimits(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerLimits)
@@ -5980,6 +6063,7 @@ type CpuHealthStats struct {
 
 	Times *CpuHealthStatsTimes `json:"times,omitempty"`
 }
+
 
 // UnmarshalCpuHealthStats unmarshals an instance of CpuHealthStats from the specified map of raw messages.
 func UnmarshalCpuHealthStats(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -6017,6 +6101,7 @@ type CpuHealthStatsTimes struct {
 	// ms CPU is in user.
 	User *float64 `json:"user,omitempty"`
 }
+
 
 // UnmarshalCpuHealthStatsTimes unmarshals an instance of CpuHealthStatsTimes from the specified map of raw messages.
 func UnmarshalCpuHealthStatsTimes(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -6059,6 +6144,7 @@ type CreateCaBodyConfigOverride struct {
 	Tlsca *ConfigCACreate `json:"tlsca,omitempty"`
 }
 
+
 // NewCreateCaBodyConfigOverride : Instantiate CreateCaBodyConfigOverride (Generic Model Constructor)
 func (*BlockchainV2) NewCreateCaBodyConfigOverride(ca *ConfigCACreate) (model *CreateCaBodyConfigOverride, err error) {
 	model = &CreateCaBodyConfigOverride{
@@ -6089,6 +6175,7 @@ type CreateCaBodyResources struct {
 	Ca *ResourceObject `json:"ca" validate:"required"`
 }
 
+
 // NewCreateCaBodyResources : Instantiate CreateCaBodyResources (Generic Model Constructor)
 func (*BlockchainV2) NewCreateCaBodyResources(ca *ResourceObject) (model *CreateCaBodyResources, err error) {
 	model = &CreateCaBodyResources{
@@ -6113,6 +6200,7 @@ func UnmarshalCreateCaBodyResources(m map[string]json.RawMessage, result interfa
 type CreateCaBodyStorage struct {
 	Ca *StorageObject `json:"ca" validate:"required"`
 }
+
 
 // NewCreateCaBodyStorage : Instantiate CreateCaBodyStorage (Generic Model Constructor)
 func (*BlockchainV2) NewCreateCaBodyStorage(ca *StorageObject) (model *CreateCaBodyStorage, err error) {
@@ -6183,7 +6271,7 @@ type CreateCaOptions struct {
 // NewCreateCaOptions : Instantiate CreateCaOptions
 func (*BlockchainV2) NewCreateCaOptions(displayName string, configOverride *CreateCaBodyConfigOverride) *CreateCaOptions {
 	return &CreateCaOptions{
-		DisplayName:    core.StringPtr(displayName),
+		DisplayName: core.StringPtr(displayName),
 		ConfigOverride: configOverride,
 	}
 }
@@ -6266,7 +6354,10 @@ type CreateOrdererOptions struct {
 	// A descriptive base name for each ordering node. One or more child IBP console tiles display this name.
 	DisplayName *string `json:"display_name" validate:"required"`
 
-	// An array of config objects. Add one per desired raft node. 1 or 5 nodes are recommended.
+	// An array of config objects. When creating a new OS (Ordering Service) the array must have one object per desired
+	// raft node. 1 or 5 nodes are recommended.
+	//
+	// **When appending to an existing OS only an array of size 1 is supported.**
 	//
 	// See this [topic](/docs/blockchain?topic=blockchain-ibp-v2-apis#ibp-v2-apis-config) for instructions on how to build
 	// a config object.
@@ -6338,9 +6429,9 @@ const (
 func (*BlockchainV2) NewCreateOrdererOptions(ordererType string, mspID string, displayName string, config []ConfigObject) *CreateOrdererOptions {
 	return &CreateOrdererOptions{
 		OrdererType: core.StringPtr(ordererType),
-		MspID:       core.StringPtr(mspID),
+		MspID: core.StringPtr(mspID),
 		DisplayName: core.StringPtr(displayName),
-		Config:      config,
+		Config: config,
 	}
 }
 
@@ -6455,6 +6546,7 @@ type CreateOrdererRaftBodyResources struct {
 	Proxy *ResourceObject `json:"proxy,omitempty"`
 }
 
+
 // NewCreateOrdererRaftBodyResources : Instantiate CreateOrdererRaftBodyResources (Generic Model Constructor)
 func (*BlockchainV2) NewCreateOrdererRaftBodyResources(orderer *ResourceObject) (model *CreateOrdererRaftBodyResources, err error) {
 	model = &CreateOrdererRaftBodyResources{
@@ -6484,6 +6576,7 @@ type CreateOrdererRaftBodyStorage struct {
 	Orderer *StorageObject `json:"orderer" validate:"required"`
 }
 
+
 // NewCreateOrdererRaftBodyStorage : Instantiate CreateOrdererRaftBodyStorage (Generic Model Constructor)
 func (*BlockchainV2) NewCreateOrdererRaftBodyStorage(orderer *StorageObject) (model *CreateOrdererRaftBodyStorage, err error) {
 	model = &CreateOrdererRaftBodyStorage{
@@ -6510,6 +6603,7 @@ type CreatePeerBodyStorage struct {
 
 	Statedb *StorageObject `json:"statedb,omitempty"`
 }
+
 
 // NewCreatePeerBodyStorage : Instantiate CreatePeerBodyStorage (Generic Model Constructor)
 func (*BlockchainV2) NewCreatePeerBodyStorage(peer *StorageObject) (model *CreatePeerBodyStorage, err error) {
@@ -6593,9 +6687,9 @@ const (
 // NewCreatePeerOptions : Instantiate CreatePeerOptions
 func (*BlockchainV2) NewCreatePeerOptions(mspID string, displayName string, config *ConfigObject) *CreatePeerOptions {
 	return &CreatePeerOptions{
-		MspID:       core.StringPtr(mspID),
+		MspID: core.StringPtr(mspID),
 		DisplayName: core.StringPtr(displayName),
-		Config:      config,
+		Config: config,
 	}
 }
 
@@ -6722,6 +6816,7 @@ type DeleteAllNotificationsResponse struct {
 	Details *string `json:"details,omitempty"`
 }
 
+
 // UnmarshalDeleteAllNotificationsResponse unmarshals an instance of DeleteAllNotificationsResponse from the specified map of raw messages.
 func UnmarshalDeleteAllNotificationsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteAllNotificationsResponse)
@@ -6763,6 +6858,7 @@ type DeleteAllSessionsResponse struct {
 	// How many session entries that were deleted.
 	Deleted *float64 `json:"deleted,omitempty"`
 }
+
 
 // UnmarshalDeleteAllSessionsResponse unmarshals an instance of DeleteAllSessionsResponse from the specified map of raw messages.
 func UnmarshalDeleteAllSessionsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -6822,6 +6918,7 @@ type DeleteComponentResponse struct {
 	DisplayName *string `json:"display_name,omitempty"`
 }
 
+
 // UnmarshalDeleteComponentResponse unmarshals an instance of DeleteComponentResponse from the specified map of raw messages.
 func UnmarshalDeleteComponentResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteComponentResponse)
@@ -6878,6 +6975,7 @@ type DeleteMultiComponentsResponse struct {
 	Deleted []DeleteComponentResponse `json:"deleted,omitempty"`
 }
 
+
 // UnmarshalDeleteMultiComponentsResponse unmarshals an instance of DeleteMultiComponentsResponse from the specified map of raw messages.
 func UnmarshalDeleteMultiComponentsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteMultiComponentsResponse)
@@ -6925,6 +7023,7 @@ type DeleteSignatureCollectionResponse struct {
 	// The unique transaction ID of this signature collection. Must start with a letter.
 	TxID *string `json:"tx_id,omitempty"`
 }
+
 
 // UnmarshalDeleteSignatureCollectionResponse unmarshals an instance of DeleteSignatureCollectionResponse from the specified map of raw messages.
 func UnmarshalDeleteSignatureCollectionResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -6998,6 +7097,7 @@ type EditAdminCertsResponse struct {
 	SetAdminCerts []EditAdminCertsResponseSetAdminCertsItem `json:"set_admin_certs,omitempty"`
 }
 
+
 // UnmarshalEditAdminCertsResponse unmarshals an instance of EditAdminCertsResponse from the specified map of raw messages.
 func UnmarshalEditAdminCertsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(EditAdminCertsResponse)
@@ -7042,6 +7142,7 @@ type EditAdminCertsResponseSetAdminCertsItem struct {
 	// A friendly (human readable) duration until certificate expiration.
 	TimeLeft *string `json:"time_left,omitempty"`
 }
+
 
 // UnmarshalEditAdminCertsResponseSetAdminCertsItem unmarshals an instance of EditAdminCertsResponseSetAdminCertsItem from the specified map of raw messages.
 func UnmarshalEditAdminCertsResponseSetAdminCertsItem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7169,8 +7270,8 @@ func (options *EditCaOptions) SetHeaders(param map[string]string) *EditCaOptions
 	return options
 }
 
-// EditLogSettingsBody : File system logging settings. All fields are optional (only send the settings that you want to change). _Changes to
-// this field will restart the IBP console server(s)_.
+// EditLogSettingsBody : File system logging settings. All body fields are optional (only send the fields that you want to change). _Changes
+// to this field will restart the IBP console server(s)_.
 type EditLogSettingsBody struct {
 	// The client side (browser) logging settings. _Changes to this field will restart the IBP console server(s)_.
 	Client *LoggingSettingsClient `json:"client,omitempty"`
@@ -7178,6 +7279,7 @@ type EditLogSettingsBody struct {
 	// The server side logging settings. _Changes to this field will restart the IBP console server(s)_.
 	Server *LoggingSettingsServer `json:"server,omitempty"`
 }
+
 
 // UnmarshalEditLogSettingsBody unmarshals an instance of EditLogSettingsBody from the specified map of raw messages.
 func UnmarshalEditLogSettingsBody(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7506,6 +7608,7 @@ type EditSettingsBodyInactivityTimeouts struct {
 	MaxIdleTime *float64 `json:"max_idle_time,omitempty"`
 }
 
+
 // UnmarshalEditSettingsBodyInactivityTimeouts unmarshals an instance of EditSettingsBodyInactivityTimeouts from the specified map of raw messages.
 func UnmarshalEditSettingsBodyInactivityTimeouts(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(EditSettingsBodyInactivityTimeouts)
@@ -7525,8 +7628,8 @@ func UnmarshalEditSettingsBodyInactivityTimeouts(m map[string]json.RawMessage, r
 type EditSettingsOptions struct {
 	InactivityTimeouts *EditSettingsBodyInactivityTimeouts `json:"inactivity_timeouts,omitempty"`
 
-	// File system logging settings. All fields are optional (only send the settings that you want to change). _Changes to
-	// this field will restart the IBP console server(s)_.
+	// File system logging settings. All body fields are optional (only send the fields that you want to change). _Changes
+	// to this field will restart the IBP console server(s)_.
 	FileLogging *EditLogSettingsBody `json:"file_logging,omitempty"`
 
 	// The base limit for the maximum number of `/api/_*` API requests (aka UI requests) in 1 minute. Defaults `25`. [Rate
@@ -7658,6 +7761,7 @@ type FabVersionObject struct {
 	Image interface{} `json:"image,omitempty"`
 }
 
+
 // UnmarshalFabVersionObject unmarshals an instance of FabVersionObject from the specified map of raw messages.
 func UnmarshalFabVersionObject(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(FabVersionObject)
@@ -7686,6 +7790,7 @@ type FabricVersionDictionary struct {
 	// Allows users to set arbitrary properties
 	additionalProperties map[string]interface{}
 }
+
 
 // SetProperty allows the user to set an arbitrary property on an instance of FabricVersionDictionary
 func (o *FabricVersionDictionary) SetProperty(key string, value interface{}) {
@@ -7786,6 +7891,10 @@ type GenericComponentResponse struct {
 	// 'deployment_attrs'].
 	AdminCerts []string `json:"admin_certs,omitempty"`
 
+	NodeOu *NodeOuGeneral `json:"node_ou,omitempty"`
+
+	Ecert *EcertObjGeneral `json:"ecert,omitempty"`
+
 	// The type of ledger database for a peer. [Available on peer components w/query parameter 'deployment_attrs'].
 	StateDb *string `json:"state_db,omitempty"`
 
@@ -7820,10 +7929,11 @@ type GenericComponentResponse struct {
 // Constants associated with the GenericComponentResponse.Type property.
 // The type of this component [Available on all component types].
 const (
-	GenericComponentResponse_Type_FabricCa      = "fabric-ca"
+	GenericComponentResponse_Type_FabricCa = "fabric-ca"
 	GenericComponentResponse_Type_FabricOrderer = "fabric-orderer"
-	GenericComponentResponse_Type_FabricPeer    = "fabric-peer"
+	GenericComponentResponse_Type_FabricPeer = "fabric-peer"
 )
+
 
 // UnmarshalGenericComponentResponse unmarshals an instance of GenericComponentResponse from the specified map of raw messages.
 func UnmarshalGenericComponentResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7865,6 +7975,14 @@ func UnmarshalGenericComponentResponse(m map[string]json.RawMessage, result inte
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "admin_certs", &obj.AdminCerts)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "node_ou", &obj.NodeOu, UnmarshalNodeOuGeneral)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "ecert", &obj.Ecert, UnmarshalEcertObjGeneral)
 	if err != nil {
 		return
 	}
@@ -7919,8 +8037,9 @@ type GenericComponentResponseResources struct {
 
 	Proxy *GenericResources `json:"proxy,omitempty"`
 
-	Couchdb *GenericResources `json:"couchdb,omitempty"`
+	Statedb *GenericResources `json:"statedb,omitempty"`
 }
+
 
 // UnmarshalGenericComponentResponseResources unmarshals an instance of GenericComponentResponseResources from the specified map of raw messages.
 func UnmarshalGenericComponentResponseResources(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7941,7 +8060,7 @@ func UnmarshalGenericComponentResponseResources(m map[string]json.RawMessage, re
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "couchdb", &obj.Couchdb, UnmarshalGenericResources)
+	err = core.UnmarshalModel(m, "statedb", &obj.Statedb, UnmarshalGenericResources)
 	if err != nil {
 		return
 	}
@@ -7958,8 +8077,9 @@ type GenericComponentResponseStorage struct {
 
 	Orderer *StorageObject `json:"orderer,omitempty"`
 
-	Couchdb *StorageObject `json:"couchdb,omitempty"`
+	Statedb *StorageObject `json:"statedb,omitempty"`
 }
+
 
 // UnmarshalGenericComponentResponseStorage unmarshals an instance of GenericComponentResponseStorage from the specified map of raw messages.
 func UnmarshalGenericComponentResponseStorage(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7976,7 +8096,7 @@ func UnmarshalGenericComponentResponseStorage(m map[string]json.RawMessage, resu
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "couchdb", &obj.Couchdb, UnmarshalStorageObject)
+	err = core.UnmarshalModel(m, "statedb", &obj.Statedb, UnmarshalStorageObject)
 	if err != nil {
 		return
 	}
@@ -7990,6 +8110,7 @@ type GenericResourceLimits struct {
 
 	Memory *string `json:"memory,omitempty"`
 }
+
 
 // UnmarshalGenericResourceLimits unmarshals an instance of GenericResourceLimits from the specified map of raw messages.
 func UnmarshalGenericResourceLimits(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -8013,6 +8134,7 @@ type GenericResources struct {
 	Limits *GenericResourceLimits `json:"limits,omitempty"`
 }
 
+
 // UnmarshalGenericResources unmarshals an instance of GenericResources from the specified map of raw messages.
 func UnmarshalGenericResources(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GenericResources)
@@ -8035,6 +8157,7 @@ type GenericResourcesRequests struct {
 	Memory *string `json:"memory,omitempty"`
 }
 
+
 // UnmarshalGenericResourcesRequests unmarshals an instance of GenericResourcesRequests from the specified map of raw messages.
 func UnmarshalGenericResourcesRequests(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GenericResourcesRequests)
@@ -8056,6 +8179,7 @@ type GetAthenaHealthStatsResponse struct {
 
 	OS *GetAthenaHealthStatsResponseOS `json:"OS,omitempty"`
 }
+
 
 // UnmarshalGetAthenaHealthStatsResponse unmarshals an instance of GetAthenaHealthStatsResponse from the specified map of raw messages.
 func UnmarshalGetAthenaHealthStatsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -8096,6 +8220,7 @@ type GetAthenaHealthStatsResponseOPTOOLS struct {
 
 	ProxyCache *CacheData `json:"proxy_cache,omitempty"`
 }
+
 
 // UnmarshalGetAthenaHealthStatsResponseOPTOOLS unmarshals an instance of GetAthenaHealthStatsResponseOPTOOLS from the specified map of raw messages.
 func UnmarshalGetAthenaHealthStatsResponseOPTOOLS(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -8155,6 +8280,7 @@ type GetAthenaHealthStatsResponseOPTOOLSMemoryUsage struct {
 	External *string `json:"external,omitempty"`
 }
 
+
 // UnmarshalGetAthenaHealthStatsResponseOPTOOLSMemoryUsage unmarshals an instance of GetAthenaHealthStatsResponseOPTOOLSMemoryUsage from the specified map of raw messages.
 func UnmarshalGetAthenaHealthStatsResponseOPTOOLSMemoryUsage(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GetAthenaHealthStatsResponseOPTOOLSMemoryUsage)
@@ -8203,6 +8329,7 @@ type GetAthenaHealthStatsResponseOS struct {
 	// Time operating system has been running.
 	UpTime *string `json:"up_time,omitempty"`
 }
+
 
 // UnmarshalGetAthenaHealthStatsResponseOS unmarshals an instance of GetAthenaHealthStatsResponseOS from the specified map of raw messages.
 func UnmarshalGetAthenaHealthStatsResponseOS(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -8278,7 +8405,7 @@ type GetComponentByTagOptions struct {
 // It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
 const (
 	GetComponentByTagOptions_DeploymentAttrs_Included = "included"
-	GetComponentByTagOptions_DeploymentAttrs_Omitted  = "omitted"
+	GetComponentByTagOptions_DeploymentAttrs_Omitted = "omitted"
 )
 
 // Constants associated with the GetComponentByTagOptions.ParsedCerts property.
@@ -8287,7 +8414,7 @@ const (
 // Default responses will not include these fields.
 const (
 	GetComponentByTagOptions_ParsedCerts_Included = "included"
-	GetComponentByTagOptions_ParsedCerts_Omitted  = "omitted"
+	GetComponentByTagOptions_ParsedCerts_Omitted = "omitted"
 )
 
 // Constants associated with the GetComponentByTagOptions.Cache property.
@@ -8295,7 +8422,7 @@ const (
 // times if the cache is skipped. Default responses will use the cache.
 const (
 	GetComponentByTagOptions_Cache_Skip = "skip"
-	GetComponentByTagOptions_Cache_Use  = "use"
+	GetComponentByTagOptions_Cache_Use = "use"
 )
 
 // NewGetComponentByTagOptions : Instantiate GetComponentByTagOptions
@@ -8383,7 +8510,7 @@ type GetComponentOptions struct {
 // It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
 const (
 	GetComponentOptions_DeploymentAttrs_Included = "included"
-	GetComponentOptions_DeploymentAttrs_Omitted  = "omitted"
+	GetComponentOptions_DeploymentAttrs_Omitted = "omitted"
 )
 
 // Constants associated with the GetComponentOptions.ParsedCerts property.
@@ -8392,7 +8519,7 @@ const (
 // Default responses will not include these fields.
 const (
 	GetComponentOptions_ParsedCerts_Included = "included"
-	GetComponentOptions_ParsedCerts_Omitted  = "omitted"
+	GetComponentOptions_ParsedCerts_Omitted = "omitted"
 )
 
 // Constants associated with the GetComponentOptions.Cache property.
@@ -8400,7 +8527,7 @@ const (
 // times if the cache is skipped. Default responses will use the cache.
 const (
 	GetComponentOptions_Cache_Skip = "skip"
-	GetComponentOptions_Cache_Use  = "use"
+	GetComponentOptions_Cache_Use = "use"
 )
 
 // Constants associated with the GetComponentOptions.CaAttrs property.
@@ -8416,7 +8543,7 @@ const (
 // imported/created CAs are checked. Default responses will not include these fields.
 const (
 	GetComponentOptions_CaAttrs_Included = "included"
-	GetComponentOptions_CaAttrs_Omitted  = "omitted"
+	GetComponentOptions_CaAttrs_Omitted = "omitted"
 )
 
 // NewGetComponentOptions : Instantiate GetComponentOptions
@@ -8491,10 +8618,10 @@ type GetComponentsByTypeOptions struct {
 // Constants associated with the GetComponentsByTypeOptions.ComponentType property.
 // The type to filter components on.
 const (
-	GetComponentsByTypeOptions_ComponentType_FabricCa      = "fabric-ca"
+	GetComponentsByTypeOptions_ComponentType_FabricCa = "fabric-ca"
 	GetComponentsByTypeOptions_ComponentType_FabricOrderer = "fabric-orderer"
-	GetComponentsByTypeOptions_ComponentType_FabricPeer    = "fabric-peer"
-	GetComponentsByTypeOptions_ComponentType_Msp           = "msp"
+	GetComponentsByTypeOptions_ComponentType_FabricPeer = "fabric-peer"
+	GetComponentsByTypeOptions_ComponentType_Msp = "msp"
 )
 
 // Constants associated with the GetComponentsByTypeOptions.DeploymentAttrs property.
@@ -8506,7 +8633,7 @@ const (
 // It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
 const (
 	GetComponentsByTypeOptions_DeploymentAttrs_Included = "included"
-	GetComponentsByTypeOptions_DeploymentAttrs_Omitted  = "omitted"
+	GetComponentsByTypeOptions_DeploymentAttrs_Omitted = "omitted"
 )
 
 // Constants associated with the GetComponentsByTypeOptions.ParsedCerts property.
@@ -8515,7 +8642,7 @@ const (
 // Default responses will not include these fields.
 const (
 	GetComponentsByTypeOptions_ParsedCerts_Included = "included"
-	GetComponentsByTypeOptions_ParsedCerts_Omitted  = "omitted"
+	GetComponentsByTypeOptions_ParsedCerts_Omitted = "omitted"
 )
 
 // Constants associated with the GetComponentsByTypeOptions.Cache property.
@@ -8523,7 +8650,7 @@ const (
 // times if the cache is skipped. Default responses will use the cache.
 const (
 	GetComponentsByTypeOptions_Cache_Skip = "skip"
-	GetComponentsByTypeOptions_Cache_Use  = "use"
+	GetComponentsByTypeOptions_Cache_Use = "use"
 )
 
 // NewGetComponentsByTypeOptions : Instantiate GetComponentsByTypeOptions
@@ -8578,7 +8705,7 @@ type GetFabVersionsOptions struct {
 // times if the cache is skipped. Default responses will use the cache.
 const (
 	GetFabVersionsOptions_Cache_Skip = "skip"
-	GetFabVersionsOptions_Cache_Use  = "use"
+	GetFabVersionsOptions_Cache_Use = "use"
 )
 
 // NewGetFabVersionsOptions : Instantiate GetFabVersionsOptions
@@ -8603,6 +8730,7 @@ type GetFabricVersionsResponse struct {
 	Versions *GetFabricVersionsResponseVersions `json:"versions,omitempty"`
 }
 
+
 // UnmarshalGetFabricVersionsResponse unmarshals an instance of GetFabricVersionsResponse from the specified map of raw messages.
 func UnmarshalGetFabricVersionsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GetFabricVersionsResponse)
@@ -8625,6 +8753,7 @@ type GetFabricVersionsResponseVersions struct {
 	// A supported release of Fabric for this component type.
 	Orderer *FabricVersionDictionary `json:"orderer,omitempty"`
 }
+
 
 // UnmarshalGetFabricVersionsResponseVersions unmarshals an instance of GetFabricVersionsResponseVersions from the specified map of raw messages.
 func UnmarshalGetFabricVersionsResponseVersions(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -8668,6 +8797,7 @@ type GetMSPCertificateResponse struct {
 	Msps []MspPublicData `json:"msps,omitempty"`
 }
 
+
 // UnmarshalGetMSPCertificateResponse unmarshals an instance of GetMSPCertificateResponse from the specified map of raw messages.
 func UnmarshalGetMSPCertificateResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GetMSPCertificateResponse)
@@ -8697,7 +8827,7 @@ type GetMspCertificateOptions struct {
 // times if the cache is skipped. Default responses will use the cache.
 const (
 	GetMspCertificateOptions_Cache_Skip = "skip"
-	GetMspCertificateOptions_Cache_Use  = "use"
+	GetMspCertificateOptions_Cache_Use = "use"
 )
 
 // NewGetMspCertificateOptions : Instantiate GetMspCertificateOptions
@@ -8731,6 +8861,7 @@ type GetMultiComponentsResponse struct {
 	Components []GenericComponentResponse `json:"components,omitempty"`
 }
 
+
 // UnmarshalGetMultiComponentsResponse unmarshals an instance of GetMultiComponentsResponse from the specified map of raw messages.
 func UnmarshalGetMultiComponentsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GetMultiComponentsResponse)
@@ -8753,6 +8884,7 @@ type GetNotificationsResponse struct {
 	// This array is ordered by creation date.
 	Notifications []NotificationData `json:"notifications,omitempty"`
 }
+
 
 // UnmarshalGetNotificationsResponse unmarshals an instance of GetNotificationsResponse from the specified map of raw messages.
 func UnmarshalGetNotificationsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -8812,7 +8944,7 @@ type GetPostmanOptions struct {
 // your IBP api key credentials. The IBP api key is the username and the api secret is the password.
 const (
 	GetPostmanOptions_AuthType_ApiKey = "api_key"
-	GetPostmanOptions_AuthType_Basic  = "basic"
+	GetPostmanOptions_AuthType_Basic = "basic"
 	GetPostmanOptions_AuthType_Bearer = "bearer"
 )
 
@@ -8988,6 +9120,7 @@ type GetPublicSettingsResponse struct {
 	// The various commit hashes of components powering this IBP console.
 	VERSIONS *GetPublicSettingsResponseVERSIONS `json:"VERSIONS,omitempty"`
 }
+
 
 // UnmarshalGetPublicSettingsResponse unmarshals an instance of GetPublicSettingsResponse from the specified map of raw messages.
 func UnmarshalGetPublicSettingsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -9170,6 +9303,7 @@ type GetPublicSettingsResponseCLUSTERDATA struct {
 	Type *string `json:"type,omitempty"`
 }
 
+
 // UnmarshalGetPublicSettingsResponseCLUSTERDATA unmarshals an instance of GetPublicSettingsResponseCLUSTERDATA from the specified map of raw messages.
 func UnmarshalGetPublicSettingsResponseCLUSTERDATA(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GetPublicSettingsResponseCLUSTERDATA)
@@ -9201,6 +9335,7 @@ type GetPublicSettingsResponseCRN struct {
 
 	Version *string `json:"version,omitempty"`
 }
+
 
 // UnmarshalGetPublicSettingsResponseCRN unmarshals an instance of GetPublicSettingsResponseCRN from the specified map of raw messages.
 func UnmarshalGetPublicSettingsResponseCRN(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -9254,6 +9389,7 @@ type GetPublicSettingsResponseFABRICCAPABILITIES struct {
 	Orderer []string `json:"orderer,omitempty"`
 }
 
+
 // UnmarshalGetPublicSettingsResponseFABRICCAPABILITIES unmarshals an instance of GetPublicSettingsResponseFABRICCAPABILITIES from the specified map of raw messages.
 func UnmarshalGetPublicSettingsResponseFABRICCAPABILITIES(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GetPublicSettingsResponseFABRICCAPABILITIES)
@@ -9282,6 +9418,7 @@ type GetPublicSettingsResponseFILELOGGING struct {
 	Client *LogSettingsResponse `json:"client,omitempty"`
 }
 
+
 // UnmarshalGetPublicSettingsResponseFILELOGGING unmarshals an instance of GetPublicSettingsResponseFILELOGGING from the specified map of raw messages.
 func UnmarshalGetPublicSettingsResponseFILELOGGING(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GetPublicSettingsResponseFILELOGGING)
@@ -9304,6 +9441,7 @@ type GetPublicSettingsResponseINACTIVITYTIMEOUTS struct {
 	// How long to wait before auto-logging out a user. In milliseconds.
 	MaxIdleTime *float64 `json:"max_idle_time,omitempty"`
 }
+
 
 // UnmarshalGetPublicSettingsResponseINACTIVITYTIMEOUTS unmarshals an instance of GetPublicSettingsResponseINACTIVITYTIMEOUTS from the specified map of raw messages.
 func UnmarshalGetPublicSettingsResponseINACTIVITYTIMEOUTS(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -9334,6 +9472,7 @@ type GetPublicSettingsResponseVERSIONS struct {
 	// The tag of the build powering this IBP console.
 	Tag *string `json:"tag,omitempty"`
 }
+
 
 // UnmarshalGetPublicSettingsResponseVERSIONS unmarshals an instance of GetPublicSettingsResponseVERSIONS from the specified map of raw messages.
 func UnmarshalGetPublicSettingsResponseVERSIONS(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -9426,10 +9565,10 @@ type ImportCaOptions struct {
 func (*BlockchainV2) NewImportCaOptions(displayName string, apiURL string, caName string, tlscaName string, tlsCert string) *ImportCaOptions {
 	return &ImportCaOptions{
 		DisplayName: core.StringPtr(displayName),
-		ApiURL:      core.StringPtr(apiURL),
-		CaName:      core.StringPtr(caName),
-		TlscaName:   core.StringPtr(tlscaName),
-		TlsCert:     core.StringPtr(tlsCert),
+		ApiURL: core.StringPtr(apiURL),
+		CaName: core.StringPtr(caName),
+		TlscaName: core.StringPtr(tlscaName),
+		TlsCert: core.StringPtr(tlsCert),
 	}
 }
 
@@ -9515,9 +9654,9 @@ type ImportMspOptions struct {
 // NewImportMspOptions : Instantiate ImportMspOptions
 func (*BlockchainV2) NewImportMspOptions(mspID string, displayName string, rootCerts []string) *ImportMspOptions {
 	return &ImportMspOptions{
-		MspID:       core.StringPtr(mspID),
+		MspID: core.StringPtr(mspID),
 		DisplayName: core.StringPtr(displayName),
-		RootCerts:   rootCerts,
+		RootCerts: rootCerts,
 	}
 }
 
@@ -9628,10 +9767,10 @@ type ImportOrdererOptions struct {
 // NewImportOrdererOptions : Instantiate ImportOrdererOptions
 func (*BlockchainV2) NewImportOrdererOptions(clusterName string, displayName string, mspID string, grpcwpURL string, tlsCaRootCert string) *ImportOrdererOptions {
 	return &ImportOrdererOptions{
-		ClusterName:   core.StringPtr(clusterName),
-		DisplayName:   core.StringPtr(displayName),
-		MspID:         core.StringPtr(mspID),
-		GrpcwpURL:     core.StringPtr(grpcwpURL),
+		ClusterName: core.StringPtr(clusterName),
+		DisplayName: core.StringPtr(displayName),
+		MspID: core.StringPtr(mspID),
+		GrpcwpURL: core.StringPtr(grpcwpURL),
 		TlsCaRootCert: core.StringPtr(tlsCaRootCert),
 	}
 }
@@ -9764,9 +9903,9 @@ type ImportPeerOptions struct {
 // NewImportPeerOptions : Instantiate ImportPeerOptions
 func (*BlockchainV2) NewImportPeerOptions(displayName string, mspID string, grpcwpURL string, tlsCaRootCert string) *ImportPeerOptions {
 	return &ImportPeerOptions{
-		DisplayName:   core.StringPtr(displayName),
-		MspID:         core.StringPtr(mspID),
-		GrpcwpURL:     core.StringPtr(grpcwpURL),
+		DisplayName: core.StringPtr(displayName),
+		MspID: core.StringPtr(mspID),
+		GrpcwpURL: core.StringPtr(grpcwpURL),
 		TlsCaRootCert: core.StringPtr(tlsCaRootCert),
 	}
 }
@@ -9875,7 +10014,7 @@ type ListComponentsOptions struct {
 // It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
 const (
 	ListComponentsOptions_DeploymentAttrs_Included = "included"
-	ListComponentsOptions_DeploymentAttrs_Omitted  = "omitted"
+	ListComponentsOptions_DeploymentAttrs_Omitted = "omitted"
 )
 
 // Constants associated with the ListComponentsOptions.ParsedCerts property.
@@ -9884,7 +10023,7 @@ const (
 // Default responses will not include these fields.
 const (
 	ListComponentsOptions_ParsedCerts_Included = "included"
-	ListComponentsOptions_ParsedCerts_Omitted  = "omitted"
+	ListComponentsOptions_ParsedCerts_Omitted = "omitted"
 )
 
 // Constants associated with the ListComponentsOptions.Cache property.
@@ -9892,7 +10031,7 @@ const (
 // times if the cache is skipped. Default responses will use the cache.
 const (
 	ListComponentsOptions_Cache_Skip = "skip"
-	ListComponentsOptions_Cache_Use  = "use"
+	ListComponentsOptions_Cache_Use = "use"
 )
 
 // Constants associated with the ListComponentsOptions.CaAttrs property.
@@ -9908,7 +10047,7 @@ const (
 // imported/created CAs are checked. Default responses will not include these fields.
 const (
 	ListComponentsOptions_CaAttrs_Included = "included"
-	ListComponentsOptions_CaAttrs_Omitted  = "omitted"
+	ListComponentsOptions_CaAttrs_Omitted = "omitted"
 )
 
 // NewListComponentsOptions : Instantiate ListComponentsOptions
@@ -10002,6 +10141,7 @@ type LogSettingsResponse struct {
 	Server *LoggingSettingsServer `json:"server,omitempty"`
 }
 
+
 // UnmarshalLogSettingsResponse unmarshals an instance of LogSettingsResponse from the specified map of raw messages.
 func UnmarshalLogSettingsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LogSettingsResponse)
@@ -10032,13 +10172,14 @@ type LoggingSettingsClient struct {
 // Constants associated with the LoggingSettingsClient.Level property.
 // Valid log levels: "error", "warn", "info", "verbose", "debug", or "silly".
 const (
-	LoggingSettingsClient_Level_Debug   = "debug"
-	LoggingSettingsClient_Level_Error   = "error"
-	LoggingSettingsClient_Level_Info    = "info"
-	LoggingSettingsClient_Level_Silly   = "silly"
+	LoggingSettingsClient_Level_Debug = "debug"
+	LoggingSettingsClient_Level_Error = "error"
+	LoggingSettingsClient_Level_Info = "info"
+	LoggingSettingsClient_Level_Silly = "silly"
 	LoggingSettingsClient_Level_Verbose = "verbose"
-	LoggingSettingsClient_Level_Warn    = "warn"
+	LoggingSettingsClient_Level_Warn = "warn"
 )
+
 
 // UnmarshalLoggingSettingsClient unmarshals an instance of LoggingSettingsClient from the specified map of raw messages.
 func UnmarshalLoggingSettingsClient(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -10074,13 +10215,14 @@ type LoggingSettingsServer struct {
 // Constants associated with the LoggingSettingsServer.Level property.
 // Valid log levels: "error", "warn", "info", "verbose", "debug", or "silly".
 const (
-	LoggingSettingsServer_Level_Debug   = "debug"
-	LoggingSettingsServer_Level_Error   = "error"
-	LoggingSettingsServer_Level_Info    = "info"
-	LoggingSettingsServer_Level_Silly   = "silly"
+	LoggingSettingsServer_Level_Debug = "debug"
+	LoggingSettingsServer_Level_Error = "error"
+	LoggingSettingsServer_Level_Info = "info"
+	LoggingSettingsServer_Level_Silly = "silly"
 	LoggingSettingsServer_Level_Verbose = "verbose"
-	LoggingSettingsServer_Level_Warn    = "warn"
+	LoggingSettingsServer_Level_Warn = "warn"
 )
+
 
 // UnmarshalLoggingSettingsServer unmarshals an instance of LoggingSettingsServer from the specified map of raw messages.
 func UnmarshalLoggingSettingsServer(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -10112,10 +10254,11 @@ type Metrics struct {
 // Constants associated with the Metrics.Provider property.
 // Metrics provider to use. Can be either 'statsd', 'prometheus', or 'disabled'.
 const (
-	Metrics_Provider_Disabled   = "disabled"
+	Metrics_Provider_Disabled = "disabled"
 	Metrics_Provider_Prometheus = "prometheus"
-	Metrics_Provider_Statsd     = "statsd"
+	Metrics_Provider_Statsd = "statsd"
 )
+
 
 // NewMetrics : Instantiate Metrics (Generic Model Constructor)
 func (*BlockchainV2) NewMetrics(provider string) (model *Metrics, err error) {
@@ -10163,13 +10306,14 @@ const (
 	MetricsStatsd_Network_Udp = "udp"
 )
 
+
 // NewMetricsStatsd : Instantiate MetricsStatsd (Generic Model Constructor)
 func (*BlockchainV2) NewMetricsStatsd(network string, address string, writeInterval string, prefix string) (model *MetricsStatsd, err error) {
 	model = &MetricsStatsd{
-		Network:       core.StringPtr(network),
-		Address:       core.StringPtr(address),
+		Network: core.StringPtr(network),
+		Address: core.StringPtr(address),
 		WriteInterval: core.StringPtr(writeInterval),
-		Prefix:        core.StringPtr(prefix),
+		Prefix: core.StringPtr(prefix),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -10217,12 +10361,13 @@ type MspConfigData struct {
 	Admincerts []string `json:"admincerts,omitempty"`
 }
 
+
 // NewMspConfigData : Instantiate MspConfigData (Generic Model Constructor)
 func (*BlockchainV2) NewMspConfigData(keystore string, signcerts string, cacerts []string) (model *MspConfigData, err error) {
 	model = &MspConfigData{
-		Keystore:  core.StringPtr(keystore),
+		Keystore: core.StringPtr(keystore),
 		Signcerts: core.StringPtr(signcerts),
-		Cacerts:   cacerts,
+		Cacerts: cacerts,
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -10270,6 +10415,7 @@ type MspPublicData struct {
 	// An array that contains one or more base 64 encoded PEM TLS root certificates.
 	TlsRootCerts []string `json:"tls_root_certs,omitempty"`
 }
+
 
 // UnmarshalMspPublicData unmarshals an instance of MspPublicData from the specified map of raw messages.
 func UnmarshalMspPublicData(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -10329,6 +10475,7 @@ type MspResponse struct {
 	// An array that contains one or more base 64 encoded PEM TLS root certificates.
 	TlsRootCerts []string `json:"tls_root_certs,omitempty"`
 }
+
 
 // UnmarshalMspResponse unmarshals an instance of MspResponse from the specified map of raw messages.
 func UnmarshalMspResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -10402,6 +10549,7 @@ type NotificationData struct {
 	TsDisplay *float64 `json:"ts_display,omitempty"`
 }
 
+
 // UnmarshalNotificationData unmarshals an instance of NotificationData from the specified map of raw messages.
 func UnmarshalNotificationData(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(NotificationData)
@@ -10472,6 +10620,10 @@ type OrdererResponse struct {
 	// details about appending raft nodes.
 	ConsenterProposalFin *bool `json:"consenter_proposal_fin,omitempty"`
 
+	NodeOu *NodeOu `json:"node_ou,omitempty"`
+
+	Ecert *EcertObj `json:"ecert,omitempty"`
+
 	// Indicates where the component is running.
 	Location *string `json:"location,omitempty"`
 
@@ -10533,6 +10685,7 @@ const (
 	OrdererResponse_OrdererType_Raft = "raft"
 )
 
+
 // UnmarshalOrdererResponse unmarshals an instance of OrdererResponse from the specified map of raw messages.
 func UnmarshalOrdererResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(OrdererResponse)
@@ -10573,6 +10726,14 @@ func UnmarshalOrdererResponse(m map[string]json.RawMessage, result interface{}) 
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "consenter_proposal_fin", &obj.ConsenterProposalFin)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "node_ou", &obj.NodeOu, UnmarshalNodeOu)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "ecert", &obj.Ecert, UnmarshalEcertObj)
 	if err != nil {
 		return
 	}
@@ -10639,6 +10800,7 @@ type OrdererResponseResources struct {
 	Proxy *GenericResources `json:"proxy,omitempty"`
 }
 
+
 // UnmarshalOrdererResponseResources unmarshals an instance of OrdererResponseResources from the specified map of raw messages.
 func UnmarshalOrdererResponseResources(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(OrdererResponseResources)
@@ -10659,6 +10821,7 @@ type OrdererResponseStorage struct {
 	Orderer *StorageObject `json:"orderer,omitempty"`
 }
 
+
 // UnmarshalOrdererResponseStorage unmarshals an instance of OrdererResponseStorage from the specified map of raw messages.
 func UnmarshalOrdererResponseStorage(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(OrdererResponseStorage)
@@ -10675,8 +10838,11 @@ type PeerResources struct {
 	// This field requires the use of Fabric v2.1.* and higher.
 	Chaincodelauncher *ResourceObjectFabV2 `json:"chaincodelauncher,omitempty"`
 
+	// *Legacy field name* Use the field `statedb` instead. This field requires the use of Fabric v1.4.* and higher.
+	Couchdb *ResourceObjectCouchDb `json:"couchdb,omitempty"`
+
 	// This field requires the use of Fabric v1.4.* and higher.
-	Couchdb *ResourceObject `json:"couchdb,omitempty"`
+	Statedb *ResourceObject `json:"statedb,omitempty"`
 
 	// This field requires the use of Fabric v1.4.* and **lower**.
 	Dind *ResourceObjectFabV1 `json:"dind,omitempty"`
@@ -10691,6 +10857,7 @@ type PeerResources struct {
 	Proxy *ResourceObject `json:"proxy,omitempty"`
 }
 
+
 // UnmarshalPeerResources unmarshals an instance of PeerResources from the specified map of raw messages.
 func UnmarshalPeerResources(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(PeerResources)
@@ -10698,7 +10865,11 @@ func UnmarshalPeerResources(m map[string]json.RawMessage, result interface{}) (e
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "couchdb", &obj.Couchdb, UnmarshalResourceObject)
+	err = core.UnmarshalModel(m, "couchdb", &obj.Couchdb, UnmarshalResourceObjectCouchDb)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "statedb", &obj.Statedb, UnmarshalResourceObject)
 	if err != nil {
 		return
 	}
@@ -10755,6 +10926,10 @@ type PeerResponse struct {
 	// override was not set of if the component was imported.
 	ConfigOverride interface{} `json:"config_override,omitempty"`
 
+	NodeOu *NodeOu `json:"node_ou,omitempty"`
+
+	Ecert *EcertObj `json:"ecert,omitempty"`
+
 	// Indicates where the component is running.
 	Location *string `json:"location,omitempty"`
 
@@ -10794,6 +10969,7 @@ const (
 	PeerResponse_StateDb_Leveldb = "leveldb"
 )
 
+
 // UnmarshalPeerResponse unmarshals an instance of PeerResponse from the specified map of raw messages.
 func UnmarshalPeerResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(PeerResponse)
@@ -10830,6 +11006,14 @@ func UnmarshalPeerResponse(m map[string]json.RawMessage, result interface{}) (er
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "config_override", &obj.ConfigOverride)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "node_ou", &obj.NodeOu, UnmarshalNodeOu)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "ecert", &obj.Ecert, UnmarshalEcertObj)
 	if err != nil {
 		return
 	}
@@ -10883,8 +11067,9 @@ type PeerResponseResources struct {
 
 	Proxy *GenericResources `json:"proxy,omitempty"`
 
-	Couchdb *GenericResources `json:"couchdb,omitempty"`
+	Statedb *GenericResources `json:"statedb,omitempty"`
 }
+
 
 // UnmarshalPeerResponseResources unmarshals an instance of PeerResponseResources from the specified map of raw messages.
 func UnmarshalPeerResponseResources(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -10897,7 +11082,7 @@ func UnmarshalPeerResponseResources(m map[string]json.RawMessage, result interfa
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "couchdb", &obj.Couchdb, UnmarshalGenericResources)
+	err = core.UnmarshalModel(m, "statedb", &obj.Statedb, UnmarshalGenericResources)
 	if err != nil {
 		return
 	}
@@ -10909,8 +11094,9 @@ func UnmarshalPeerResponseResources(m map[string]json.RawMessage, result interfa
 type PeerResponseStorage struct {
 	Peer *StorageObject `json:"peer,omitempty"`
 
-	Couchdb *StorageObject `json:"couchdb,omitempty"`
+	Statedb *StorageObject `json:"statedb,omitempty"`
 }
+
 
 // UnmarshalPeerResponseStorage unmarshals an instance of PeerResponseStorage from the specified map of raw messages.
 func UnmarshalPeerResponseStorage(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -10919,7 +11105,7 @@ func UnmarshalPeerResponseStorage(m map[string]json.RawMessage, result interface
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "couchdb", &obj.Couchdb, UnmarshalStorageObject)
+	err = core.UnmarshalModel(m, "statedb", &obj.Statedb, UnmarshalStorageObject)
 	if err != nil {
 		return
 	}
@@ -10989,6 +11175,7 @@ type RemoveMultiComponentsResponse struct {
 	Removed []DeleteComponentResponse `json:"removed,omitempty"`
 }
 
+
 // UnmarshalRemoveMultiComponentsResponse unmarshals an instance of RemoveMultiComponentsResponse from the specified map of raw messages.
 func UnmarshalRemoveMultiComponentsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RemoveMultiComponentsResponse)
@@ -11012,6 +11199,7 @@ type ResourceLimits struct {
 	Memory *string `json:"memory,omitempty"`
 }
 
+
 // UnmarshalResourceLimits unmarshals an instance of ResourceLimits from the specified map of raw messages.
 func UnmarshalResourceLimits(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ResourceLimits)
@@ -11033,6 +11221,7 @@ type ResourceObject struct {
 
 	Limits *ResourceLimits `json:"limits,omitempty"`
 }
+
 
 // NewResourceObject : Instantiate ResourceObject (Generic Model Constructor)
 func (*BlockchainV2) NewResourceObject(requests *ResourceRequests) (model *ResourceObject, err error) {
@@ -11058,12 +11247,45 @@ func UnmarshalResourceObject(m map[string]json.RawMessage, result interface{}) (
 	return
 }
 
+// ResourceObjectCouchDb : *Legacy field name* Use the field `statedb` instead. This field requires the use of Fabric v1.4.* and higher.
+type ResourceObjectCouchDb struct {
+	Requests *ResourceRequests `json:"requests" validate:"required"`
+
+	Limits *ResourceLimits `json:"limits,omitempty"`
+}
+
+
+// NewResourceObjectCouchDb : Instantiate ResourceObjectCouchDb (Generic Model Constructor)
+func (*BlockchainV2) NewResourceObjectCouchDb(requests *ResourceRequests) (model *ResourceObjectCouchDb, err error) {
+	model = &ResourceObjectCouchDb{
+		Requests: requests,
+	}
+	err = core.ValidateStruct(model, "required parameters")
+	return
+}
+
+// UnmarshalResourceObjectCouchDb unmarshals an instance of ResourceObjectCouchDb from the specified map of raw messages.
+func UnmarshalResourceObjectCouchDb(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ResourceObjectCouchDb)
+	err = core.UnmarshalModel(m, "requests", &obj.Requests, UnmarshalResourceRequests)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "limits", &obj.Limits, UnmarshalResourceLimits)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // ResourceObjectFabV1 : This field requires the use of Fabric v1.4.* and **lower**.
 type ResourceObjectFabV1 struct {
 	Requests *ResourceRequests `json:"requests" validate:"required"`
 
 	Limits *ResourceLimits `json:"limits,omitempty"`
 }
+
 
 // NewResourceObjectFabV1 : Instantiate ResourceObjectFabV1 (Generic Model Constructor)
 func (*BlockchainV2) NewResourceObjectFabV1(requests *ResourceRequests) (model *ResourceObjectFabV1, err error) {
@@ -11095,6 +11317,7 @@ type ResourceObjectFabV2 struct {
 
 	Limits *ResourceLimits `json:"limits,omitempty"`
 }
+
 
 // NewResourceObjectFabV2 : Instantiate ResourceObjectFabV2 (Generic Model Constructor)
 func (*BlockchainV2) NewResourceObjectFabV2(requests *ResourceRequests) (model *ResourceObjectFabV2, err error) {
@@ -11131,6 +11354,7 @@ type ResourceRequests struct {
 	Memory *string `json:"memory,omitempty"`
 }
 
+
 // UnmarshalResourceRequests unmarshals an instance of ResourceRequests from the specified map of raw messages.
 func UnmarshalResourceRequests(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ResourceRequests)
@@ -11151,6 +11375,7 @@ type RestartAthenaResponse struct {
 	// Text describing the outcome of the api.
 	Message *string `json:"message,omitempty"`
 }
+
 
 // UnmarshalRestartAthenaResponse unmarshals an instance of RestartAthenaResponse from the specified map of raw messages.
 func UnmarshalRestartAthenaResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -11196,6 +11421,7 @@ type SettingsTimestampData struct {
 	UpTime *string `json:"up_time,omitempty"`
 }
 
+
 // UnmarshalSettingsTimestampData unmarshals an instance of SettingsTimestampData from the specified map of raw messages.
 func UnmarshalSettingsTimestampData(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SettingsTimestampData)
@@ -11228,6 +11454,7 @@ type StorageObject struct {
 	// Kubernetes storage class for subcomponent's disk space.
 	Class *string `json:"class,omitempty"`
 }
+
 
 // UnmarshalStorageObject unmarshals an instance of StorageObject from the specified map of raw messages.
 func UnmarshalStorageObject(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -11292,6 +11519,7 @@ type UpdateCaBodyConfigOverride struct {
 	Ca *ConfigCAUpdate `json:"ca" validate:"required"`
 }
 
+
 // NewUpdateCaBodyConfigOverride : Instantiate UpdateCaBodyConfigOverride (Generic Model Constructor)
 func (*BlockchainV2) NewUpdateCaBodyConfigOverride(ca *ConfigCAUpdate) (model *UpdateCaBodyConfigOverride, err error) {
 	model = &UpdateCaBodyConfigOverride{
@@ -11317,6 +11545,7 @@ type UpdateCaBodyResources struct {
 	// This field requires the use of Fabric v1.4.* and higher.
 	Ca *ResourceObject `json:"ca" validate:"required"`
 }
+
 
 // NewUpdateCaBodyResources : Instantiate UpdateCaBodyResources (Generic Model Constructor)
 func (*BlockchainV2) NewUpdateCaBodyResources(ca *ResourceObject) (model *UpdateCaBodyResources, err error) {
@@ -11426,6 +11655,7 @@ type UpdateOrdererBodyResources struct {
 	// This field requires the use of Fabric v1.4.* and higher.
 	Proxy *ResourceObject `json:"proxy,omitempty"`
 }
+
 
 // UnmarshalUpdateOrdererBodyResources unmarshals an instance of UpdateOrdererBodyResources from the specified map of raw messages.
 func UnmarshalUpdateOrdererBodyResources(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -11584,11 +11814,62 @@ func (options *UpdatePeerOptions) SetHeaders(param map[string]string) *UpdatePee
 	return options
 }
 
+// EcertObj : EcertObj struct
+type EcertObj struct {
+	// A certificate as base 64 encoded PEM.
+	Cert *string `json:"cert,omitempty"`
+
+	// A certificate as base 64 encoded PEM.
+	Cacert *string `json:"cacert,omitempty"`
+}
+
+
+// UnmarshalEcertObj unmarshals an instance of EcertObj from the specified map of raw messages.
+func UnmarshalEcertObj(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(EcertObj)
+	err = core.UnmarshalPrimitive(m, "cert", &obj.Cert)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cacert", &obj.Cacert)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// EcertObjGeneral : EcertObjGeneral struct
+type EcertObjGeneral struct {
+	// A certificate as base 64 encoded PEM. [Available on peer/orderer components w/query parameter 'deployment_attrs'].
+	Cert *string `json:"cert,omitempty"`
+
+	// A certificate as base 64 encoded PEM. [Available on peer/orderer components w/query parameter 'deployment_attrs'].
+	Cacert *string `json:"cacert,omitempty"`
+}
+
+
+// UnmarshalEcertObjGeneral unmarshals an instance of EcertObjGeneral from the specified map of raw messages.
+func UnmarshalEcertObjGeneral(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(EcertObjGeneral)
+	err = core.UnmarshalPrimitive(m, "cert", &obj.Cert)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cacert", &obj.Cacert)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // Hsm : The connection details of the HSM (Hardware Security Module).
 type Hsm struct {
 	// The url to the HSM. Include the protocol, hostname, and port.
 	Pkcs11endpoint *string `json:"pkcs11endpoint" validate:"required"`
 }
+
 
 // NewHsm : Instantiate Hsm (Generic Model Constructor)
 func (*BlockchainV2) NewHsm(pkcs11endpoint string) (model *Hsm, err error) {
@@ -11627,6 +11908,7 @@ type IdentityAttrs struct {
 	HfAffiliationMgr *bool `json:"hf.AffiliationMgr,omitempty"`
 }
 
+
 // UnmarshalIdentityAttrs unmarshals an instance of IdentityAttrs from the specified map of raw messages.
 func UnmarshalIdentityAttrs(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(IdentityAttrs)
@@ -11655,6 +11937,43 @@ func UnmarshalIdentityAttrs(m map[string]json.RawMessage, result interface{}) (e
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "hf.AffiliationMgr", &obj.HfAffiliationMgr)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// NodeOu : NodeOu struct
+type NodeOu struct {
+	// Indicates if node OUs are enabled or not.
+	Enabled *bool `json:"enabled,omitempty"`
+}
+
+
+// UnmarshalNodeOu unmarshals an instance of NodeOu from the specified map of raw messages.
+func UnmarshalNodeOu(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(NodeOu)
+	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// NodeOuGeneral : NodeOuGeneral struct
+type NodeOuGeneral struct {
+	// Indicates if node OUs are enabled or not. [Available on peer/orderer components w/query parameter
+	// 'deployment_attrs'].
+	Enabled *bool `json:"enabled,omitempty"`
+}
+
+
+// UnmarshalNodeOuGeneral unmarshals an instance of NodeOuGeneral from the specified map of raw messages.
+func UnmarshalNodeOuGeneral(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(NodeOuGeneral)
+	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
 	if err != nil {
 		return
 	}
