@@ -15,14 +15,15 @@
  */
 
 // Package blockchainv3 : Operations and models for the BlockchainV3 service
-package blockchainv3
+package blockchainv3 
 
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
-	common "github.ibm.com/ibmcloud/blockchain-go-sdk/common"
 	"reflect"
+
+	common "github.com/IBM-Blockchain/ibp-go-sdk/common"
+	"github.com/IBM/go-sdk-core/v4/core"  
 )
 
 // BlockchainV3 : This doc lists APIs that you can use to interact with your IBM Blockchain Platform console (IBP

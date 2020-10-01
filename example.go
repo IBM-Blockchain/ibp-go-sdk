@@ -4,7 +4,7 @@ package main
 import (
     "fmt"
     "github.com/IBM/go-sdk-core/v4/core"
-    "github.com/IBM-Blockchain/ibp-go-sdk/blockchainv2"
+    "github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"
 )
 
 func main() {
@@ -18,15 +18,15 @@ func main() {
         BearerToken: "my IAM access token",                                  // alternatively update field with access token
     }*/
 
-    // Create an instance of the "BlockchainV2Options"  struct.
+    // Create an instance of the "BlockchainV3Options"  struct.
     myserviceURL := "https://my-ibp-console.uss01.blockchain.cloud.ibm.com"  // update field with service instance url
-    options := &blockchainv2.BlockchainV2Options{
+    options := &blockchainv3.BlockchainV3Options{
         Authenticator: authenticator,
         URL: myserviceURL,
     }
 
-    // Create an instance of the "BlockchainV2" service client.
-    service, err := blockchainv2.NewBlockchainV2(options)
+    // Create an instance of the "BlockchainV3" service client.
+    service, err := blockchainv3.NewBlockchainV3(options)
     if err != nil {
         // handle error
     }
