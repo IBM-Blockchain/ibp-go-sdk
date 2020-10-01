@@ -20,7 +20,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt" 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/ibmcloud/blockchain-go-sdk/blockchainv3"
