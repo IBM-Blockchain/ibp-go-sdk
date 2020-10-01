@@ -23,7 +23,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.ibm.com/ibmcloud/blockchain-go-sdk/blockchainv3"
+	"github.com/ibmcloud/blockchain-go-sdk/blockchainv3"
 	"io"
 	"io/ioutil"
 	"net/http"
