@@ -15,7 +15,7 @@
  */
 
 // Package blockchainv3 : Operations and models for the BlockchainV3 service
-package blockchainv3
+package blockchainv3 
 
 import (
 	"encoding/json"
