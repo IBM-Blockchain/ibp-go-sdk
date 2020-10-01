@@ -29,6 +29,10 @@ GoLang client library to use the IBM Cloud Blockchain **Service**.
 The IBM Cloud Blockchain Go SDK allows developers to programmatically interact with the
 IBM Cloud Blockchain service.
 
+This repository is generated from an OpenAPI file that describes all available APIs. 
+It is recommended to read through the [IBP API docs](https://cloud.ibm.com/apidocs/blockchain#sdk) to see the list of capabilities.
+Any issues with this SDK can be opened here or against the IBM Blockchain Platform service through IBM Cloud support.
+
 ## Prerequisites
 
 [ibm-cloud-onboarding]: https://cloud.ibm.com/registration?target=%2Fdeveloper%2Fwatson&
@@ -38,6 +42,15 @@ IBM Cloud Blockchain service.
 * An IAM API key to allow the SDK to access your service instance. Create an account level api key [here](https://cloud.ibm.com/iam/apikeys) (alternatively you can create a service instance level api key from the IBM cloud UI).
 * An installation of Go (version 1.12 or above) on your local machine.
 
+## Explore the SDK
+This module is generated from an OpenAPI (swagger) file. 
+The same file populated our [IBP APIs documentation](https://cloud.ibm.com/apidocs/blockchain#sdk).
+To find desired functionality start by browsing the [IBP APIs documentation](https://cloud.ibm.com/apidocs/blockchain#introduction).
+Then find the corresponding go example to the right of the api documentation.
+
+Alternatively you could manually browse the SDK's main file:
+
+- [blockchain_v2.go](./blockchainv2/blockchain_v2.go).
 
 ## Installation
 There are a few different ways to download and install the Blockchain Go SDK project for use by your
@@ -308,13 +321,6 @@ options.SetHeaders(customHeaders)
 result, detailedResponse, err := service.GetComponent(options)
 // "Custom-Header" will be sent along with the "GetComponent" request.
 ```
-
-## Explore the SDK
-This module is generated from the OpenAPI (swagger) file that populated the [IBP APIs documentation](https://cloud.ibm.com/apidocs/blockchain).
-It is recommended to explore the IBP APIs documentation to find the desired functionality.
-Then find the corresponding go example to the right of the api documentation.
-
-Alternatively you could manually browse the SDK's main file [blockchain_v2.go](./blockchainv2/blockchain_v2.go).
 
 ## Generation
 This is a note for developers of this repository on how to rebuild the SDK.
