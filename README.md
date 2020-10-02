@@ -4,10 +4,12 @@ GoLang client library to use the IBM Cloud Blockchain **Service**.
 
 **This module will allow you to use native golang functions to leverage the same functionality seen in the [IBP APIs](https://cloud.ibm.com/apidocs/blockchain)**
 
-<details>
-<summary>Table of Contents</summary>
+
+## Table of Contents
 
 * [Overview](#overview)
+* [Explore the SDK](#explore-the-sdk)
+* [Versions](#versions)
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
 * [Using the SDK](#using-the-sdk)
@@ -22,25 +24,15 @@ GoLang client library to use the IBM Cloud Blockchain **Service**.
 * [Generation](#generation)
 * [License](#license)
 
-</details>
 
 ## Overview
 
 The IBM Cloud Blockchain Go SDK allows developers to programmatically interact with the
-IBM Cloud Blockchain service.
+IBM Blockchain Platform service (IBP).
 
 This repository is generated from an OpenAPI file that describes all available APIs. 
 It is recommended to read through the [IBP API docs](https://cloud.ibm.com/apidocs/blockchain#sdk) to see the list of capabilities.
 Any issues with this SDK can be opened here or against the IBM Blockchain Platform service through IBM Cloud support.
-
-## Prerequisites
-
-[ibm-cloud-onboarding]: https://cloud.ibm.com/registration?target=%2Fdeveloper%2Fwatson&
-
-* An [IBM Cloud][ibm-cloud-onboarding] account.
-* An [IBM Blockchain Platform Service instance](https://cloud.ibm.com/catalog/services/blockchain-platform)
-* An IAM API key to allow the SDK to access your service instance. Create an account level api key [here](https://cloud.ibm.com/iam/apikeys) (alternatively you can create a service instance level api key from the IBM cloud UI).
-* An installation of Go (version 1.12 or above) on your local machine.
 
 ## Explore the SDK
 This module is generated from an OpenAPI (swagger) file. 
@@ -50,9 +42,25 @@ Then find the corresponding go example to the right of the api documentation.
 
 Alternatively you could manually browse the SDK's main file:
 
-- [blockchain_v2.go](./blockchainv2/blockchain_v2.go).
+- version 2 - [blockchain_v2.go](./blockchainv2/blockchain_v2.go).
+- version 3 - [blockchain_v3.go](./blockchainv3/blockchain_v3.go).
 
-## Installation
+## SDK Versions
+As of 10/01/2020 IBP has API versions 1, 2 & 3 under the routes `/v1/`, `/v2`/ and `/v3/` respectfully. 
+However only v2 & v3 have a GoLang SDK. 
+It is recommended to use the latest version by importing the latest module with syntax such as `"github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"`. 
+Version differences can be seen in our [IBP API docs - updates](https://cloud.ibm.com/apidocs/blockchain#updates) section.
+
+## SDK Prerequisites
+
+[ibm-cloud-onboarding]: https://cloud.ibm.com/registration?target=%2Fdeveloper%2Fwatson&
+
+* An [IBM Cloud][ibm-cloud-onboarding] account.
+* An [IBM Blockchain Platform Service instance](https://cloud.ibm.com/catalog/services/blockchain-platform)
+* An IAM API key to allow the SDK to access your service instance. Create an account level api key [here](https://cloud.ibm.com/iam/apikeys) (alternatively you can create a service instance level api key from the IBM cloud UI).
+* An installation of Go (version 1.12 or above) on your local machine.
+
+## SDK Installation
 There are a few different ways to download and install the Blockchain Go SDK project for use by your
 Go application:
 ##### 1. `go get` command
@@ -66,7 +74,7 @@ If your application is using Go modules, you can add a suitable import to your
 Go application, like this:
 ```go
 import (
-    "github.com/IBM-Blockchain/ibp-go-sdk/blockchainv2"
+    "github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"
 )
 ```
 then run `go mod tidy` to download and install the new dependency and update your Go application's
@@ -76,7 +84,7 @@ If your application is using the `dep` dependency management tool, you can add a
 to your `Gopkg.toml` file.  Here is an example:
 ```
 [[constraint]]
-  name = "github.com/IBM-Blockchain/ibp-go-sdk/blockchainv2"
+  name = "github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"
   version = "0.0.1"
 
 ```
@@ -85,7 +93,7 @@ then run `dep ensure`.
 ## Using the SDK
 This section provides general information on how to use the services contained in this SDK.
 ### Constructing service clients
-Each service is implemented in its own package (e.g. `blockchainv2`).
+Each service is implemented in its own package (e.g. `blockchainv3`).
 The package will contain a "service client"
 struct (a client-side representation of the service), as well as an "options" struct that is used to
 construct instances of the service client.  
@@ -93,21 +101,21 @@ Here's an example of how to construct an instance of "My Service":
 ```go
 import (
     "github.com/IBM/go-sdk-core/core"
-    "github.com/IBM-Blockchain/ibp-go-sdk/blockchainv2"
+    "github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"
 )
 
 // Create an authenticator.
 authenticator := /* create an authenticator - see examples below */
 
-// Create an instance of the "BlockchainV2Options"  struct.
+// Create an instance of the "BlockchainV3Options"  struct.
 myserviceURL := "https://myservice.cloud.ibm.com/api"
-options := &blockchainv2.BlockchainV2Options{
+options := &blockchainv3.BlockchainV3Options{
     Authenticator: authenticator,
     URL: myserviceURL,
 }
 
-// Create an instance of the "BlockchainV2" service client.
-service, err := NewBlockchainV2(options)
+// Create an instance of the "BlockchainV3" service client.
+service, err := NewBlockchainV3(options)
 if err != nil {
     // handle error
 }
@@ -137,7 +145,7 @@ For details, see [Authenticating with IAM tokens](https://cloud.ibm.com/docs/ser
 // letting the SDK manage the IAM access token
 import (
     "github.com/IBM/go-sdk-core/core"
-    "github.com/IBM-Blockchain/ibp-go-sdk/blockchainv2"
+    "github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"
 )
 ...
 // Create the IAM authenticator.
@@ -146,12 +154,12 @@ authenticator := &core.IamAuthenticator{
 }
 
 // Create the service options struct.
-options := &blockchainv2.BlockchainV2Options{
+options := &blockchainv3.BlockchainV3Options{
     Authenticator: authenticator,
 }
 
 // Construct the service instance.
-service, err := blockchainv2.NewBlockchainV2(options)
+service, err := blockchainv3.NewBlockchainV3(options)
 
 ```
 
@@ -160,7 +168,7 @@ service, err := blockchainv2.NewBlockchainV2(options)
 ```go
 import (
     "github.com/IBM/go-sdk-core/core"
-    "github.com/IBM-Blockchain/ibp-go-sdk/blockchainv2"
+    "github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"
 )
 ...
 // Create the BearerToken authenticator.
@@ -169,12 +177,12 @@ authenticator := &core.BearerTokenAuthenticator{
 }
 
 // Create the service options struct.
-options := &blockchainv2.BlockchainV2Options{
+options := &blockchainv3.BlockchainV3Options{
     Authenticator: authenticator,
 }
 
 // Construct the service instance.
-service, err := blockchainv2.NewBlockchainV2(options)
+service, err := blockchainv3.NewBlockchainV3(options)
 
 ...
 // Later when the access token expires, the application must refresh the access token,
@@ -235,8 +243,8 @@ if unsuccessful.
 struct as its result:
 ```go
 // Construct the service instance.
-service, err := blockchainv2.NewBlockchainV2(
-    &blockchainv2.BlockchainV2Options{
+service, err := blockchainv3.NewBlockchainV3(
+    &blockchainv3.BlockchainV3Options{
         Authenticator: authenticator,
     })
 
@@ -249,8 +257,8 @@ result, detailedResponse, err := service.GetComponent(options)
 2. Here's an example of calling the `DeleteResource` operation which does not return a response object:
 ```
 // Construct the service instance.
-service, err := blockchainv2.NewBlockchainV2(
-    &blockchainv2.BlockchainV2Options{
+service, err := blockchainv3.NewBlockchainV3(
+    &blockchainv3.BlockchainV3Options{
         Authenticator: authenticator,
     })
 
@@ -293,8 +301,8 @@ The example below sets the header `Custom-Header` with the value "custom_value" 
 header:
 ```go
 // Construct the service instance.
-service, err := blockchainv2.NewBlockchainV2(
-    &blockchainv2.BlockchainV2Options{
+service, err := blockchainv3.NewBlockchainV3(
+    &blockchainv3.BlockchainV3Options{
         Authenticator: authenticator,
     })
 
@@ -322,7 +330,7 @@ result, detailedResponse, err := service.GetComponent(options)
 // "Custom-Header" will be sent along with the "GetComponent" request.
 ```
 
-## Generation
+## SDK Generation
 This is a note for developers of this repository on how to rebuild the SDK.
 - this module was generated/built via the [IBM Cloud OpenAPI SDK generator](https://github.ibm.com/CloudEngineering/openapi-sdkgen)
     - [SDK generator overview](https://github.ibm.com/CloudEngineering/openapi-sdkgen/wiki/SDK-Gen-Overview)
