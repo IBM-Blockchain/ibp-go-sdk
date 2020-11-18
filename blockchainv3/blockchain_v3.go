@@ -15,15 +15,14 @@
  */
 
 // Package blockchainv3 : Operations and models for the BlockchainV3 service
-package blockchainv3 
+package blockchainv3
 
 import (
 	"encoding/json"
 	"fmt"
-	"reflect"
-
+	"github.com/IBM/go-sdk-core/v4/core"
 	common "github.com/IBM-Blockchain/ibp-go-sdk/common"
-	"github.com/IBM/go-sdk-core/v4/core"  
+	"reflect"
 )
 
 // BlockchainV3 : This doc lists APIs that you can use to interact with your IBM Blockchain Platform console (IBP
@@ -620,7 +619,7 @@ func (blockchain *BlockchainV3) CaAction(caActionOptions *CaActionOptions) (resu
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "text/plain")
+	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
 
 	body := make(map[string]interface{})
@@ -937,7 +936,7 @@ func (blockchain *BlockchainV3) PeerAction(peerActionOptions *PeerActionOptions)
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "text/plain")
+	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
 
 	body := make(map[string]interface{})
@@ -1372,7 +1371,7 @@ func (blockchain *BlockchainV3) OrdererAction(ordererActionOptions *OrdererActio
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "text/plain")
+	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
 
 	body := make(map[string]interface{})
@@ -1547,7 +1546,7 @@ func (blockchain *BlockchainV3) SubmitBlock(submitBlockOptions *SubmitBlockOptio
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "text/plain")
+	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
 
 	body := make(map[string]interface{})
@@ -5541,11 +5540,11 @@ func UnmarshalConfigPeerKeepaliveDeliveryClient(m map[string]json.RawMessage, re
 type ConfigPeerLimitsConcurrency struct {
 	// Limits the number of concurrent requests to the endorser service. The endorser service handles application and
 	// system chaincode deployment and invocations (including queries).
-	EndorserService interface{} `json:"endorserService,omitempty"`
+	EndorserService *float64 `json:"endorserService,omitempty"`
 
 	// Limits the number of concurrent requests to the deliver service. The deliver service handles block and transaction
 	// events.
-	DeliverService interface{} `json:"deliverService,omitempty"`
+	DeliverService *float64 `json:"deliverService,omitempty"`
 }
 
 
@@ -6170,7 +6169,7 @@ type CpuHealthStats struct {
 	Model *string `json:"model,omitempty"`
 
 	// Speed of core in MHz.
-	Speed *string `json:"speed,omitempty"`
+	Speed *float64 `json:"speed,omitempty"`
 
 	Times *CpuHealthStatsTimes `json:"times,omitempty"`
 }
@@ -6243,7 +6242,8 @@ func UnmarshalCpuHealthStatsTimes(m map[string]json.RawMessage, result interface
 
 // CreateCaBodyConfigOverride : Set `config_override` to create the root/initial enroll id and enroll secret as well as enabling custom CA
 // configurations (such as using postgres). See the [Fabric CA configuration
-// file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) for available options.
+// file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) for more information about each
+// parameter.
 //
 // The field `tlsca` is optional. The IBP console will copy the value of `config_override.ca` into
 // `config_override.tlsca` if `config_override.tlsca` is omitted (which is recommended).
@@ -6340,7 +6340,8 @@ type CreateCaOptions struct {
 
 	// Set `config_override` to create the root/initial enroll id and enroll secret as well as enabling custom CA
 	// configurations (such as using postgres). See the [Fabric CA configuration
-	// file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) for available options.
+	// file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) for more information about each
+	// parameter.
 	//
 	// The field `tlsca` is optional. The IBP console will copy the value of `config_override.ca` into
 	// `config_override.tlsca` if `config_override.tlsca` is omitted (which is recommended).
@@ -6748,6 +6749,8 @@ type CreatePeerOptions struct {
 	// A descriptive name for this peer. The IBP console tile displays this name.
 	DisplayName *string `json:"display_name" validate:"required"`
 
+	// See this [topic](/docs/blockchain?topic=blockchain-ibp-v2-apis#ibp-v2-apis-config) for instructions on how to build
+	// a crypto object.
 	Crypto *CryptoObject `json:"crypto" validate:"required"`
 
 	// Override the [Fabric Peer configuration
@@ -6882,7 +6885,27 @@ func (options *CreatePeerOptions) SetHeaders(param map[string]string) *CreatePee
 	return options
 }
 
-// CryptoObject : CryptoObject struct
+// CryptoEnrollmentComponent : CryptoEnrollmentComponent struct
+type CryptoEnrollmentComponent struct {
+	// An array that contains base 64 encoded PEM identity certificates for administrators. Also known as signing
+	// certificates of an organization administrator.
+	Admincerts []string `json:"admincerts,omitempty"`
+}
+
+
+// UnmarshalCryptoEnrollmentComponent unmarshals an instance of CryptoEnrollmentComponent from the specified map of raw messages.
+func UnmarshalCryptoEnrollmentComponent(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(CryptoEnrollmentComponent)
+	err = core.UnmarshalPrimitive(m, "admincerts", &obj.Admincerts)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// CryptoObject : See this [topic](/docs/blockchain?topic=blockchain-ibp-v2-apis#ibp-v2-apis-config) for instructions on how to build a
+// crypto object.
 type CryptoObject struct {
 	// This `enrollment` field contains data that allows a component to enroll an identity for itself. Use `enrollment` or
 	// `msp`, not both.
@@ -6912,7 +6935,7 @@ func UnmarshalCryptoObject(m map[string]json.RawMessage, result interface{}) (er
 // CryptoObjectEnrollment : This `enrollment` field contains data that allows a component to enroll an identity for itself. Use `enrollment` or
 // `msp`, not both.
 type CryptoObjectEnrollment struct {
-	Component *CryptoObjectEnrollmentComponent `json:"component" validate:"required"`
+	Component *CryptoEnrollmentComponent `json:"component" validate:"required"`
 
 	Ca *CryptoObjectEnrollmentCa `json:"ca" validate:"required"`
 
@@ -6921,7 +6944,7 @@ type CryptoObjectEnrollment struct {
 
 
 // NewCryptoObjectEnrollment : Instantiate CryptoObjectEnrollment (Generic Model Constructor)
-func (*BlockchainV3) NewCryptoObjectEnrollment(component *CryptoObjectEnrollmentComponent, ca *CryptoObjectEnrollmentCa, tlsca *CryptoObjectEnrollmentTlsca) (model *CryptoObjectEnrollment, err error) {
+func (*BlockchainV3) NewCryptoObjectEnrollment(component *CryptoEnrollmentComponent, ca *CryptoObjectEnrollmentCa, tlsca *CryptoObjectEnrollmentTlsca) (model *CryptoObjectEnrollment, err error) {
 	model = &CryptoObjectEnrollment{
 		Component: component,
 		Ca: ca,
@@ -6934,7 +6957,7 @@ func (*BlockchainV3) NewCryptoObjectEnrollment(component *CryptoObjectEnrollment
 // UnmarshalCryptoObjectEnrollment unmarshals an instance of CryptoObjectEnrollment from the specified map of raw messages.
 func UnmarshalCryptoObjectEnrollment(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(CryptoObjectEnrollment)
-	err = core.UnmarshalModel(m, "component", &obj.Component, UnmarshalCryptoObjectEnrollmentComponent)
+	err = core.UnmarshalModel(m, "component", &obj.Component, UnmarshalCryptoEnrollmentComponent)
 	if err != nil {
 		return
 	}
@@ -6958,10 +6981,11 @@ type CryptoObjectEnrollmentCa struct {
 	// The CA's port.
 	Port *float64 `json:"port" validate:"required"`
 
-	// The CA's "CAName" attribute.
+	// The CA's "CAName" attribute. This name is used to distinguish this CA from the TLS CA.
 	Name *string `json:"name" validate:"required"`
 
-	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection.
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
 	TlsCert *string `json:"tls_cert" validate:"required"`
 
 	// The username of the enroll id.
@@ -7017,23 +7041,6 @@ func UnmarshalCryptoObjectEnrollmentCa(m map[string]json.RawMessage, result inte
 	return
 }
 
-// CryptoObjectEnrollmentComponent : CryptoObjectEnrollmentComponent struct
-type CryptoObjectEnrollmentComponent struct {
-	Admincerts []string `json:"admincerts,omitempty"`
-}
-
-
-// UnmarshalCryptoObjectEnrollmentComponent unmarshals an instance of CryptoObjectEnrollmentComponent from the specified map of raw messages.
-func UnmarshalCryptoObjectEnrollmentComponent(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(CryptoObjectEnrollmentComponent)
-	err = core.UnmarshalPrimitive(m, "admincerts", &obj.Admincerts)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // CryptoObjectEnrollmentTlsca : CryptoObjectEnrollmentTlsca struct
 type CryptoObjectEnrollmentTlsca struct {
 	// The CA's hostname. Do not include protocol or port.
@@ -7042,10 +7049,11 @@ type CryptoObjectEnrollmentTlsca struct {
 	// The CA's port.
 	Port *float64 `json:"port" validate:"required"`
 
-	// The TLS CA's "CAName" attribute.
+	// The TLS CA's "CAName" attribute. This name is used to distinguish this TLS CA from the other CA.
 	Name *string `json:"name" validate:"required"`
 
-	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection.
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
 	TlsCert *string `json:"tls_cert" validate:"required"`
 
 	// The username of the enroll id.
@@ -7227,7 +7235,7 @@ func (options *DeleteAllSessionsOptions) SetHeaders(param map[string]string) *De
 	return options
 }
 
-// DeleteAllSessionsResponse : Describes the outcome of the api.
+// DeleteAllSessionsResponse : DeleteAllSessionsResponse struct
 type DeleteAllSessionsResponse struct {
 	// Response message. "ok" indicates the api completed successfully.
 	Message *string `json:"message,omitempty"`
@@ -7580,7 +7588,7 @@ type EditCaOptions struct {
 	// The operations URL for the CA. Include the protocol, hostname/ip and port.
 	OperationsURL *string `json:"operations_url,omitempty"`
 
-	// The CA's "CAName" attribute.
+	// The CA's "CAName" attribute. This name is used to distinguish this CA from the TLS CA.
 	CaName *string `json:"ca_name,omitempty"`
 
 	// Indicates where the component is running.
@@ -7773,7 +7781,7 @@ type EditOrdererOptions struct {
 	// hostname/ip and port.
 	ApiURL *string `json:"api_url,omitempty"`
 
-	// Used by Fabric health checker to monitor health status of the node. For more information, see [Fabric
+	// Used by Fabric health checker to monitor the health status of this orderer node. For more information, see [Fabric
 	// documentation](https://hyperledger-fabric.readthedocs.io/en/release-1.4/operations_service.html). Include the
 	// protocol, hostname/ip and port.
 	OperationsURL *string `json:"operations_url,omitempty"`
@@ -7894,7 +7902,7 @@ type EditPeerOptions struct {
 	// hostname/ip and port.
 	ApiURL *string `json:"api_url,omitempty"`
 
-	// Used by Fabric health checker to monitor health status of the node. For more information, see [Fabric
+	// Used by Fabric health checker to monitor the health status of this peer. For more information, see [Fabric
 	// documentation](https://hyperledger-fabric.readthedocs.io/en/release-1.4/operations_service.html). Include the
 	// protocol, hostname/ip and port.
 	OperationsURL *string `json:"operations_url,omitempty"`
@@ -8438,7 +8446,8 @@ func UnmarshalGenericComponentResponseMspCa(m map[string]json.RawMessage, result
 
 // GenericComponentResponseMspComponent : GenericComponentResponseMspComponent struct
 type GenericComponentResponseMspComponent struct {
-	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection.
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
 	TlsCert *string `json:"tls_cert,omitempty"`
 
 	// An identity certificate (base 64 encoded PEM) for this component that was signed by the CA (aka enrollment
@@ -8787,7 +8796,7 @@ type GetAthenaHealthStatsResponseOS struct {
 	Endian *string `json:"endian,omitempty"`
 
 	// CPU load in 1, 5, & 15 minute averages. n/a on windows.
-	Loadavg *string `json:"loadavg,omitempty"`
+	Loadavg []float64 `json:"loadavg,omitempty"`
 
 	Cpus []CpuHealthStats `json:"cpus,omitempty"`
 
@@ -10080,7 +10089,8 @@ func UnmarshalImportCaBodyMspCa(m map[string]json.RawMessage, result interface{}
 
 // ImportCaBodyMspComponent : ImportCaBodyMspComponent struct
 type ImportCaBodyMspComponent struct {
-	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection.
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
 	TlsCert *string `json:"tls_cert" validate:"required"`
 }
 
@@ -10158,7 +10168,8 @@ type ImportCaOptions struct {
 
 	Tags []string `json:"tags,omitempty"`
 
-	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection.
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
 	TlsCert *string `json:"tls_cert,omitempty"`
 
 	// Allows users to set headers on API requests
@@ -10325,7 +10336,7 @@ type ImportOrdererOptions struct {
 	// Indicates where the component is running.
 	Location *string `json:"location,omitempty"`
 
-	// Used by Fabric health checker to monitor health status of the node. For more information, see [Fabric
+	// Used by Fabric health checker to monitor the health status of this orderer node. For more information, see [Fabric
 	// documentation](https://hyperledger-fabric.readthedocs.io/en/release-1.4/operations_service.html). Include the
 	// protocol, hostname/ip and port.
 	OperationsURL *string `json:"operations_url,omitempty"`
@@ -10443,7 +10454,7 @@ type ImportPeerOptions struct {
 	// Indicates where the component is running.
 	Location *string `json:"location,omitempty"`
 
-	// Used by Fabric health checker to monitor health status of the node. For more information, see [Fabric
+	// Used by Fabric health checker to monitor the health status of this peer. For more information, see [Fabric
 	// documentation](https://hyperledger-fabric.readthedocs.io/en/release-1.4/operations_service.html). Include the
 	// protocol, hostname/ip and port.
 	OperationsURL *string `json:"operations_url,omitempty"`
@@ -10896,7 +10907,7 @@ type MspCryptoCa struct {
 	RootCerts []string `json:"root_certs" validate:"required"`
 
 	// An array that contains base 64 encoded PEM intermediate CA certificates.
-	Intermediatecerts []string `json:"intermediatecerts,omitempty"`
+	CaIntermediateCerts []string `json:"ca_intermediate_certs,omitempty"`
 }
 
 
@@ -10916,7 +10927,7 @@ func UnmarshalMspCryptoCa(m map[string]json.RawMessage, result interface{}) (err
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "intermediatecerts", &obj.Intermediatecerts)
+	err = core.UnmarshalPrimitive(m, "ca_intermediate_certs", &obj.CaIntermediateCerts)
 	if err != nil {
 		return
 	}
@@ -10935,15 +10946,16 @@ type MspCryptoComp struct {
 
 	// An array that contains base 64 encoded PEM identity certificates for administrators. Also known as signing
 	// certificates of an organization administrator.
-	Admincerts []string `json:"admincerts,omitempty"`
+	AdminCerts []string `json:"admin_certs,omitempty"`
 
 	// A private key (base 64 encoded PEM) for this component's TLS.
 	TlsKey *string `json:"tls_key" validate:"required"`
 
-	// A certificate (base 64 encoded PEM) for this component's TLS.
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
 	TlsCert *string `json:"tls_cert" validate:"required"`
 
-	ClientAuth *MspCryptoCompClientAuth `json:"client_auth,omitempty"`
+	ClientAuth *ClientAuth `json:"client_auth,omitempty"`
 }
 
 
@@ -10970,7 +10982,7 @@ func UnmarshalMspCryptoComp(m map[string]json.RawMessage, result interface{}) (e
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "admincerts", &obj.Admincerts)
+	err = core.UnmarshalPrimitive(m, "admin_certs", &obj.AdminCerts)
 	if err != nil {
 		return
 	}
@@ -10982,30 +10994,7 @@ func UnmarshalMspCryptoComp(m map[string]json.RawMessage, result interface{}) (e
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "client_auth", &obj.ClientAuth, UnmarshalMspCryptoCompClientAuth)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// MspCryptoCompClientAuth : MspCryptoCompClientAuth struct
-type MspCryptoCompClientAuth struct {
-	Type *string `json:"type,omitempty"`
-
-	TlsCerts []string `json:"tls_certs,omitempty"`
-}
-
-
-// UnmarshalMspCryptoCompClientAuth unmarshals an instance of MspCryptoCompClientAuth from the specified map of raw messages.
-func UnmarshalMspCryptoCompClientAuth(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(MspCryptoCompClientAuth)
-	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "tls_certs", &obj.TlsCerts)
+	err = core.UnmarshalModel(m, "client_auth", &obj.ClientAuth, UnmarshalClientAuth)
 	if err != nil {
 		return
 	}
@@ -11015,10 +11004,10 @@ func UnmarshalMspCryptoCompClientAuth(m map[string]json.RawMessage, result inter
 
 // MspCryptoFieldCa : MspCryptoFieldCa struct
 type MspCryptoFieldCa struct {
-	// The "name" to distinguish this CA from the TLS CA.
+	// The CA's "CAName" attribute. This name is used to distinguish this CA from the TLS CA.
 	Name *string `json:"name,omitempty"`
 
-	// An array that contains one or more base 64 encoded PEM root certificates for the CA.
+	// An array that contains one or more base 64 encoded PEM CA root certificates.
 	RootCerts []string `json:"root_certs,omitempty"`
 }
 
@@ -11040,7 +11029,8 @@ func UnmarshalMspCryptoFieldCa(m map[string]json.RawMessage, result interface{})
 
 // MspCryptoFieldComponent : MspCryptoFieldComponent struct
 type MspCryptoFieldComponent struct {
-	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection.
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
 	TlsCert *string `json:"tls_cert" validate:"required"`
 
 	// An identity certificate (base 64 encoded PEM) for this component that was signed by the CA (aka enrollment
@@ -11083,7 +11073,7 @@ func UnmarshalMspCryptoFieldComponent(m map[string]json.RawMessage, result inter
 
 // MspCryptoFieldTlsca : MspCryptoFieldTlsca struct
 type MspCryptoFieldTlsca struct {
-	// The "name" to distinguish the TLS CA from the other CA.
+	// The TLS CA's "CAName" attribute. This name is used to distinguish this TLS CA from the other CA.
 	Name *string `json:"name,omitempty"`
 
 	// An array that contains one or more base 64 encoded PEM root certificates for the TLS CA.
@@ -11371,7 +11361,7 @@ type OrdererResponse struct {
 	// Indicates where the component is running.
 	Location *string `json:"location,omitempty"`
 
-	// Used by Fabric health checker to monitor health status of the node. For more information, see [Fabric
+	// Used by Fabric health checker to monitor the health status of this orderer node. For more information, see [Fabric
 	// documentation](https://hyperledger-fabric.readthedocs.io/en/release-1.4/operations_service.html). Include the
 	// protocol, hostname/ip and port.
 	OperationsURL *string `json:"operations_url,omitempty"`
@@ -11714,7 +11704,7 @@ type PeerResponse struct {
 	// Indicates where the component is running.
 	Location *string `json:"location,omitempty"`
 
-	// Used by Fabric health checker to monitor health status of the node. For more information, see [Fabric
+	// Used by Fabric health checker to monitor the health status of this peer. For more information, see [Fabric
 	// documentation](https://hyperledger-fabric.readthedocs.io/en/release-1.4/operations_service.html). Include the
 	// protocol, hostname/ip and port.
 	OperationsURL *string `json:"operations_url,omitempty"`
@@ -12164,7 +12154,7 @@ func UnmarshalResourceRequests(m map[string]json.RawMessage, result interface{})
 	return
 }
 
-// RestartAthenaResponse : Describes the outcome of the api.
+// RestartAthenaResponse : RestartAthenaResponse struct
 type RestartAthenaResponse struct {
 	// Text describing the outcome of the api.
 	Message *string `json:"message,omitempty"`
@@ -12380,7 +12370,7 @@ type UpdateCaOptions struct {
 	// CPU and memory properties. This feature is not available if using a free Kubernetes cluster.
 	Resources *UpdateCaBodyResources `json:"resources,omitempty"`
 
-	// The Hyperledger Fabric release version to use.
+	// The Hyperledger Fabric release version to update to.
 	Version *string `json:"version,omitempty"`
 
 	// Specify the Kubernetes zone for the deployment. The deployment will use a k8s node in this zone. Find the list of
@@ -12441,6 +12431,312 @@ func (options *UpdateCaOptions) SetHeaders(param map[string]string) *UpdateCaOpt
 	return options
 }
 
+// UpdateEnrollmentCryptoField : Edit the `enrollment` crypto data of this component. Editing the `enrollment` field is only possible if this
+// component was created using the `crypto.enrollment` field, else see the `crypto.msp` field.
+type UpdateEnrollmentCryptoField struct {
+	Component *CryptoEnrollmentComponent `json:"component,omitempty"`
+
+	Ca *UpdateEnrollmentCryptoFieldCa `json:"ca,omitempty"`
+
+	Tlsca *UpdateEnrollmentCryptoFieldTlsca `json:"tlsca,omitempty"`
+}
+
+
+// UnmarshalUpdateEnrollmentCryptoField unmarshals an instance of UpdateEnrollmentCryptoField from the specified map of raw messages.
+func UnmarshalUpdateEnrollmentCryptoField(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateEnrollmentCryptoField)
+	err = core.UnmarshalModel(m, "component", &obj.Component, UnmarshalCryptoEnrollmentComponent)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "ca", &obj.Ca, UnmarshalUpdateEnrollmentCryptoFieldCa)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "tlsca", &obj.Tlsca, UnmarshalUpdateEnrollmentCryptoFieldTlsca)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// UpdateEnrollmentCryptoFieldCa : UpdateEnrollmentCryptoFieldCa struct
+type UpdateEnrollmentCryptoFieldCa struct {
+	// The CA's hostname. Do not include protocol or port.
+	Host *string `json:"host,omitempty"`
+
+	// The CA's port.
+	Port *float64 `json:"port,omitempty"`
+
+	// The CA's "CAName" attribute. This name is used to distinguish this CA from the TLS CA.
+	Name *string `json:"name,omitempty"`
+
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
+	TlsCert *string `json:"tls_cert,omitempty"`
+
+	// The username of the enroll id.
+	EnrollID *string `json:"enroll_id,omitempty"`
+
+	// The password of the enroll id.
+	EnrollSecret *string `json:"enroll_secret,omitempty"`
+}
+
+
+// UnmarshalUpdateEnrollmentCryptoFieldCa unmarshals an instance of UpdateEnrollmentCryptoFieldCa from the specified map of raw messages.
+func UnmarshalUpdateEnrollmentCryptoFieldCa(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateEnrollmentCryptoFieldCa)
+	err = core.UnmarshalPrimitive(m, "host", &obj.Host)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "port", &obj.Port)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_cert", &obj.TlsCert)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enroll_id", &obj.EnrollID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enroll_secret", &obj.EnrollSecret)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// UpdateEnrollmentCryptoFieldTlsca : UpdateEnrollmentCryptoFieldTlsca struct
+type UpdateEnrollmentCryptoFieldTlsca struct {
+	// The CA's hostname. Do not include protocol or port.
+	Host *string `json:"host,omitempty"`
+
+	// The CA's port.
+	Port *float64 `json:"port,omitempty"`
+
+	// The TLS CA's "CAName" attribute. This name is used to distinguish this TLS CA from the other CA.
+	Name *string `json:"name,omitempty"`
+
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
+	TlsCert *string `json:"tls_cert,omitempty"`
+
+	// The username of the enroll id.
+	EnrollID *string `json:"enroll_id,omitempty"`
+
+	// The password of the enroll id.
+	EnrollSecret *string `json:"enroll_secret,omitempty"`
+
+	CsrHosts []string `json:"csr_hosts,omitempty"`
+}
+
+
+// UnmarshalUpdateEnrollmentCryptoFieldTlsca unmarshals an instance of UpdateEnrollmentCryptoFieldTlsca from the specified map of raw messages.
+func UnmarshalUpdateEnrollmentCryptoFieldTlsca(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateEnrollmentCryptoFieldTlsca)
+	err = core.UnmarshalPrimitive(m, "host", &obj.Host)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "port", &obj.Port)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_cert", &obj.TlsCert)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enroll_id", &obj.EnrollID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enroll_secret", &obj.EnrollSecret)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "csr_hosts", &obj.CsrHosts)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// UpdateMspCryptoField : Edit the `msp` crypto data of this component. Editing the `msp` field is only possible if this component was created
+// using the `crypto.msp` field, else see the `crypto.enrollment` field.
+type UpdateMspCryptoField struct {
+	Ca *UpdateMspCryptoFieldCa `json:"ca,omitempty"`
+
+	Tlsca *UpdateMspCryptoFieldTlsca `json:"tlsca,omitempty"`
+
+	Component *UpdateMspCryptoFieldComponent `json:"component,omitempty"`
+}
+
+
+// UnmarshalUpdateMspCryptoField unmarshals an instance of UpdateMspCryptoField from the specified map of raw messages.
+func UnmarshalUpdateMspCryptoField(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateMspCryptoField)
+	err = core.UnmarshalModel(m, "ca", &obj.Ca, UnmarshalUpdateMspCryptoFieldCa)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "tlsca", &obj.Tlsca, UnmarshalUpdateMspCryptoFieldTlsca)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "component", &obj.Component, UnmarshalUpdateMspCryptoFieldComponent)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// UpdateMspCryptoFieldCa : UpdateMspCryptoFieldCa struct
+type UpdateMspCryptoFieldCa struct {
+	// An array that contains one or more base 64 encoded PEM CA root certificates.
+	RootCerts []string `json:"root_certs,omitempty"`
+
+	// An array that contains base 64 encoded PEM intermediate CA certificates.
+	CaIntermediateCerts []string `json:"ca_intermediate_certs,omitempty"`
+}
+
+
+// UnmarshalUpdateMspCryptoFieldCa unmarshals an instance of UpdateMspCryptoFieldCa from the specified map of raw messages.
+func UnmarshalUpdateMspCryptoFieldCa(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateMspCryptoFieldCa)
+	err = core.UnmarshalPrimitive(m, "root_certs", &obj.RootCerts)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ca_intermediate_certs", &obj.CaIntermediateCerts)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// UpdateMspCryptoFieldComponent : UpdateMspCryptoFieldComponent struct
+type UpdateMspCryptoFieldComponent struct {
+	// An identity private key (base 64 encoded PEM) for this component (aka enrollment private key).
+	Ekey *string `json:"ekey,omitempty"`
+
+	// An identity certificate (base 64 encoded PEM) for this component that was signed by the CA (aka enrollment
+	// certificate).
+	Ecert *string `json:"ecert,omitempty"`
+
+	// An array that contains base 64 encoded PEM identity certificates for administrators. Also known as signing
+	// certificates of an organization administrator.
+	AdminCerts []string `json:"admin_certs,omitempty"`
+
+	// A private key (base 64 encoded PEM) for this component's TLS.
+	TlsKey *string `json:"tls_key,omitempty"`
+
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
+	TlsCert *string `json:"tls_cert,omitempty"`
+
+	ClientAuth *ClientAuth `json:"client_auth,omitempty"`
+}
+
+
+// UnmarshalUpdateMspCryptoFieldComponent unmarshals an instance of UpdateMspCryptoFieldComponent from the specified map of raw messages.
+func UnmarshalUpdateMspCryptoFieldComponent(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateMspCryptoFieldComponent)
+	err = core.UnmarshalPrimitive(m, "ekey", &obj.Ekey)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ecert", &obj.Ecert)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "admin_certs", &obj.AdminCerts)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_key", &obj.TlsKey)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_cert", &obj.TlsCert)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "client_auth", &obj.ClientAuth, UnmarshalClientAuth)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// UpdateMspCryptoFieldTlsca : UpdateMspCryptoFieldTlsca struct
+type UpdateMspCryptoFieldTlsca struct {
+	// An array that contains one or more base 64 encoded PEM CA root certificates.
+	RootCerts []string `json:"root_certs,omitempty"`
+
+	// An array that contains base 64 encoded PEM intermediate CA certificates.
+	CaIntermediateCerts []string `json:"ca_intermediate_certs,omitempty"`
+}
+
+
+// UnmarshalUpdateMspCryptoFieldTlsca unmarshals an instance of UpdateMspCryptoFieldTlsca from the specified map of raw messages.
+func UnmarshalUpdateMspCryptoFieldTlsca(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateMspCryptoFieldTlsca)
+	err = core.UnmarshalPrimitive(m, "root_certs", &obj.RootCerts)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ca_intermediate_certs", &obj.CaIntermediateCerts)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// UpdateOrdererBodyCrypto : UpdateOrdererBodyCrypto struct
+type UpdateOrdererBodyCrypto struct {
+	// Edit the `enrollment` crypto data of this component. Editing the `enrollment` field is only possible if this
+	// component was created using the `crypto.enrollment` field, else see the `crypto.msp` field.
+	Enrollment *UpdateEnrollmentCryptoField `json:"enrollment,omitempty"`
+
+	// Edit the `msp` crypto data of this component. Editing the `msp` field is only possible if this component was created
+	// using the `crypto.msp` field, else see the `crypto.enrollment` field.
+	Msp *UpdateMspCryptoField `json:"msp,omitempty"`
+}
+
+
+// UnmarshalUpdateOrdererBodyCrypto unmarshals an instance of UpdateOrdererBodyCrypto from the specified map of raw messages.
+func UnmarshalUpdateOrdererBodyCrypto(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateOrdererBodyCrypto)
+	err = core.UnmarshalModel(m, "enrollment", &obj.Enrollment, UnmarshalUpdateEnrollmentCryptoField)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "msp", &obj.Msp, UnmarshalUpdateMspCryptoField)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // UpdateOrdererBodyResources : CPU and memory properties. This feature is not available if using a free Kubernetes cluster.
 type UpdateOrdererBodyResources struct {
 	// This field requires the use of Fabric v1.4.* and higher.
@@ -12483,8 +12779,7 @@ type UpdateOrdererOptions struct {
 	// *The field **names** below are not case-sensitive.*.
 	ConfigOverride *ConfigOrdererUpdate `json:"config_override,omitempty"`
 
-	// The msp crypto data.
-	Crypto *MspCryptoField `json:"crypto,omitempty"`
+	Crypto *UpdateOrdererBodyCrypto `json:"crypto,omitempty"`
 
 	NodeOu *NodeOu `json:"node_ou,omitempty"`
 
@@ -12494,7 +12789,7 @@ type UpdateOrdererOptions struct {
 	// CPU and memory properties. This feature is not available if using a free Kubernetes cluster.
 	Resources *UpdateOrdererBodyResources `json:"resources,omitempty"`
 
-	// The Hyperledger Fabric release version to use.
+	// The Hyperledger Fabric release version to update to.
 	Version *string `json:"version,omitempty"`
 
 	// Specify the Kubernetes zone for the deployment. The deployment will use a k8s node in this zone. Find the list of
@@ -12532,7 +12827,7 @@ func (options *UpdateOrdererOptions) SetConfigOverride(configOverride *ConfigOrd
 }
 
 // SetCrypto : Allow user to set Crypto
-func (options *UpdateOrdererOptions) SetCrypto(crypto *MspCryptoField) *UpdateOrdererOptions {
+func (options *UpdateOrdererOptions) SetCrypto(crypto *UpdateOrdererBodyCrypto) *UpdateOrdererOptions {
 	options.Crypto = crypto
 	return options
 }
@@ -12573,6 +12868,33 @@ func (options *UpdateOrdererOptions) SetHeaders(param map[string]string) *Update
 	return options
 }
 
+// UpdatePeerBodyCrypto : UpdatePeerBodyCrypto struct
+type UpdatePeerBodyCrypto struct {
+	// Edit the `enrollment` crypto data of this component. Editing the `enrollment` field is only possible if this
+	// component was created using the `crypto.enrollment` field, else see the `crypto.msp` field.
+	Enrollment *UpdateEnrollmentCryptoField `json:"enrollment,omitempty"`
+
+	// Edit the `msp` crypto data of this component. Editing the `msp` field is only possible if this component was created
+	// using the `crypto.msp` field, else see the `crypto.enrollment` field.
+	Msp *UpdateMspCryptoField `json:"msp,omitempty"`
+}
+
+
+// UnmarshalUpdatePeerBodyCrypto unmarshals an instance of UpdatePeerBodyCrypto from the specified map of raw messages.
+func UnmarshalUpdatePeerBodyCrypto(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdatePeerBodyCrypto)
+	err = core.UnmarshalModel(m, "enrollment", &obj.Enrollment, UnmarshalUpdateEnrollmentCryptoField)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "msp", &obj.Msp, UnmarshalUpdateMspCryptoField)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // UpdatePeerOptions : The UpdatePeer options.
 type UpdatePeerOptions struct {
 	// The `id` of the component to modify. Use the [Get all components](#list_components) API to determine the component
@@ -12590,8 +12912,7 @@ type UpdatePeerOptions struct {
 	// *The field **names** below are not case-sensitive.*.
 	ConfigOverride *ConfigPeerUpdate `json:"config_override,omitempty"`
 
-	// The msp crypto data.
-	Crypto *MspCryptoField `json:"crypto,omitempty"`
+	Crypto *UpdatePeerBodyCrypto `json:"crypto,omitempty"`
 
 	NodeOu *NodeOu `json:"node_ou,omitempty"`
 
@@ -12601,7 +12922,7 @@ type UpdatePeerOptions struct {
 	// CPU and memory properties. This feature is not available if using a free Kubernetes cluster.
 	Resources *PeerResources `json:"resources,omitempty"`
 
-	// The Hyperledger Fabric release version to use.
+	// The Hyperledger Fabric release version to update to.
 	Version *string `json:"version,omitempty"`
 
 	// Specify the Kubernetes zone for the deployment. The deployment will use a k8s node in this zone. Find the list of
@@ -12639,7 +12960,7 @@ func (options *UpdatePeerOptions) SetConfigOverride(configOverride *ConfigPeerUp
 }
 
 // SetCrypto : Allow user to set Crypto
-func (options *UpdatePeerOptions) SetCrypto(crypto *MspCryptoField) *UpdatePeerOptions {
+func (options *UpdatePeerOptions) SetCrypto(crypto *UpdatePeerBodyCrypto) *UpdatePeerOptions {
 	options.Crypto = crypto
 	return options
 }
@@ -12741,6 +13062,29 @@ type ActionRenew struct {
 func UnmarshalActionRenew(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ActionRenew)
 	err = core.UnmarshalPrimitive(m, "tls_cert", &obj.TlsCert)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ClientAuth : ClientAuth struct
+type ClientAuth struct {
+	Type *string `json:"type,omitempty"`
+
+	TlsCerts []string `json:"tls_certs,omitempty"`
+}
+
+
+// UnmarshalClientAuth unmarshals an instance of ClientAuth from the specified map of raw messages.
+func UnmarshalClientAuth(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ClientAuth)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_certs", &obj.TlsCerts)
 	if err != nil {
 		return
 	}
