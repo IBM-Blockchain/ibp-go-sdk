@@ -20,10 +20,10 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt" 
+	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/ibmcloud/blockchain-go-sdk/blockchainv3"
+	"github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -205,7 +205,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "location": "ibmcloud", "node_ou": {"enabled": true}, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "timestamp": 1537262855753, "tags": ["Tags"], "version": "Version", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "location": "ibmcloud", "node_ou": {"enabled": true}, "resources": {"ca": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "timestamp": 1537262855753, "tags": ["fabric-ca"], "version": "1.4.6-1", "zone": "-"}`)
 				}))
 			})
 			It(`Invoke GetComponent successfully`, func() {
@@ -786,11 +786,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				createCaOptionsModel.ConfigOverride = createCaBodyConfigOverrideModel
 				createCaOptionsModel.Resources = createCaBodyResourcesModel
 				createCaOptionsModel.Storage = createCaBodyStorageModel
-				createCaOptionsModel.Zone = core.StringPtr("testString")
+				createCaOptionsModel.Zone = core.StringPtr("-")
 				createCaOptionsModel.Replicas = core.Float64Ptr(float64(1))
-				createCaOptionsModel.Tags = []string{"testString"}
+				createCaOptionsModel.Tags = []string{"fabric-ca"}
 				createCaOptionsModel.Hsm = hsmModel
-				createCaOptionsModel.Region = core.StringPtr("testString")
+				createCaOptionsModel.Region = core.StringPtr("-")
 				createCaOptionsModel.Version = core.StringPtr("1.4.6-1")
 				createCaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -817,7 +817,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "display_name": "My CA", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443", "config_override": {"anyKey": "anyValue"}, "location": "ibmcloud", "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "timestamp": 1537262855753, "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "display_name": "My CA", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443", "config_override": {"anyKey": "anyValue"}, "location": "ibmcloud", "msp": {"ca": {"name": "ca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "tlsca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "resources": {"ca": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}}, "tags": ["fabric-ca"], "timestamp": 1537262855753, "version": "1.4.6-1", "zone": "-"}`)
 				}))
 			})
 			It(`Invoke CreateCa successfully`, func() {
@@ -1099,11 +1099,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				createCaOptionsModel.ConfigOverride = createCaBodyConfigOverrideModel
 				createCaOptionsModel.Resources = createCaBodyResourcesModel
 				createCaOptionsModel.Storage = createCaBodyStorageModel
-				createCaOptionsModel.Zone = core.StringPtr("testString")
+				createCaOptionsModel.Zone = core.StringPtr("-")
 				createCaOptionsModel.Replicas = core.Float64Ptr(float64(1))
-				createCaOptionsModel.Tags = []string{"testString"}
+				createCaOptionsModel.Tags = []string{"fabric-ca"}
 				createCaOptionsModel.Hsm = hsmModel
-				createCaOptionsModel.Region = core.StringPtr("testString")
+				createCaOptionsModel.Region = core.StringPtr("-")
 				createCaOptionsModel.Version = core.StringPtr("1.4.6-1")
  				createCaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -1386,11 +1386,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				createCaOptionsModel.ConfigOverride = createCaBodyConfigOverrideModel
 				createCaOptionsModel.Resources = createCaBodyResourcesModel
 				createCaOptionsModel.Storage = createCaBodyStorageModel
-				createCaOptionsModel.Zone = core.StringPtr("testString")
+				createCaOptionsModel.Zone = core.StringPtr("-")
 				createCaOptionsModel.Replicas = core.Float64Ptr(float64(1))
-				createCaOptionsModel.Tags = []string{"testString"}
+				createCaOptionsModel.Tags = []string{"fabric-ca"}
 				createCaOptionsModel.Hsm = hsmModel
-				createCaOptionsModel.Region = core.StringPtr("testString")
+				createCaOptionsModel.Region = core.StringPtr("-")
 				createCaOptionsModel.Version = core.StringPtr("1.4.6-1")
 				createCaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -1464,7 +1464,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				importCaOptionsModel.Msp = importCaBodyMspModel
 				importCaOptionsModel.Location = core.StringPtr("ibmcloud")
 				importCaOptionsModel.OperationsURL = core.StringPtr("https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443")
-				importCaOptionsModel.Tags = []string{"testString"}
+				importCaOptionsModel.Tags = []string{"fabric-ca"}
 				importCaOptionsModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
 				importCaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -1491,7 +1491,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "display_name": "My CA", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443", "config_override": {"anyKey": "anyValue"}, "location": "ibmcloud", "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "timestamp": 1537262855753, "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "display_name": "My CA", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443", "config_override": {"anyKey": "anyValue"}, "location": "ibmcloud", "msp": {"ca": {"name": "ca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "tlsca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "resources": {"ca": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}}, "tags": ["fabric-ca"], "timestamp": 1537262855753, "version": "1.4.6-1", "zone": "-"}`)
 				}))
 			})
 			It(`Invoke ImportCa successfully`, func() {
@@ -1535,7 +1535,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				importCaOptionsModel.Msp = importCaBodyMspModel
 				importCaOptionsModel.Location = core.StringPtr("ibmcloud")
 				importCaOptionsModel.OperationsURL = core.StringPtr("https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443")
-				importCaOptionsModel.Tags = []string{"testString"}
+				importCaOptionsModel.Tags = []string{"fabric-ca"}
 				importCaOptionsModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
  				importCaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -1580,7 +1580,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				importCaOptionsModel.Msp = importCaBodyMspModel
 				importCaOptionsModel.Location = core.StringPtr("ibmcloud")
 				importCaOptionsModel.OperationsURL = core.StringPtr("https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443")
-				importCaOptionsModel.Tags = []string{"testString"}
+				importCaOptionsModel.Tags = []string{"fabric-ca"}
 				importCaOptionsModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
 				importCaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -1846,7 +1846,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				updateCaOptionsModel.Replicas = core.Float64Ptr(float64(1))
 				updateCaOptionsModel.Resources = updateCaBodyResourcesModel
 				updateCaOptionsModel.Version = core.StringPtr("1.4.6-1")
-				updateCaOptionsModel.Zone = core.StringPtr("testString")
+				updateCaOptionsModel.Zone = core.StringPtr("-")
 				updateCaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.UpdateCa(updateCaOptionsModel)
@@ -1872,7 +1872,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "display_name": "My CA", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443", "config_override": {"anyKey": "anyValue"}, "location": "ibmcloud", "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "timestamp": 1537262855753, "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "display_name": "My CA", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443", "config_override": {"anyKey": "anyValue"}, "location": "ibmcloud", "msp": {"ca": {"name": "ca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "tlsca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "resources": {"ca": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}}, "tags": ["fabric-ca"], "timestamp": 1537262855753, "version": "1.4.6-1", "zone": "-"}`)
 				}))
 			})
 			It(`Invoke UpdateCa successfully`, func() {
@@ -2108,7 +2108,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				updateCaOptionsModel.Replicas = core.Float64Ptr(float64(1))
 				updateCaOptionsModel.Resources = updateCaBodyResourcesModel
 				updateCaOptionsModel.Version = core.StringPtr("1.4.6-1")
-				updateCaOptionsModel.Zone = core.StringPtr("testString")
+				updateCaOptionsModel.Zone = core.StringPtr("-")
  				updateCaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -2344,7 +2344,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				updateCaOptionsModel.Replicas = core.Float64Ptr(float64(1))
 				updateCaOptionsModel.Resources = updateCaBodyResourcesModel
 				updateCaOptionsModel.Version = core.StringPtr("1.4.6-1")
-				updateCaOptionsModel.Zone = core.StringPtr("testString")
+				updateCaOptionsModel.Zone = core.StringPtr("-")
 				updateCaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -2398,7 +2398,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				editCaOptionsModel.OperationsURL = core.StringPtr("https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443")
 				editCaOptionsModel.CaName = core.StringPtr("ca")
 				editCaOptionsModel.Location = core.StringPtr("ibmcloud")
-				editCaOptionsModel.Tags = []string{"testString"}
+				editCaOptionsModel.Tags = []string{"fabric-ca"}
 				editCaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.EditCa(editCaOptionsModel)
@@ -2424,7 +2424,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "display_name": "My CA", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443", "config_override": {"anyKey": "anyValue"}, "location": "ibmcloud", "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "timestamp": 1537262855753, "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "display_name": "My CA", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443", "config_override": {"anyKey": "anyValue"}, "location": "ibmcloud", "msp": {"ca": {"name": "ca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "tlsca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "resources": {"ca": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"ca": {"size": "4GiB", "class": "default"}}, "tags": ["fabric-ca"], "timestamp": 1537262855753, "version": "1.4.6-1", "zone": "-"}`)
 				}))
 			})
 			It(`Invoke EditCa successfully`, func() {
@@ -2449,7 +2449,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				editCaOptionsModel.OperationsURL = core.StringPtr("https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443")
 				editCaOptionsModel.CaName = core.StringPtr("ca")
 				editCaOptionsModel.Location = core.StringPtr("ibmcloud")
-				editCaOptionsModel.Tags = []string{"testString"}
+				editCaOptionsModel.Tags = []string{"fabric-ca"}
  				editCaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -2474,7 +2474,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				editCaOptionsModel.OperationsURL = core.StringPtr("https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443")
 				editCaOptionsModel.CaName = core.StringPtr("ca")
 				editCaOptionsModel.Location = core.StringPtr("ibmcloud")
-				editCaOptionsModel.Tags = []string{"testString"}
+				editCaOptionsModel.Tags = []string{"fabric-ca"}
 				editCaOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -2552,7 +2552,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(caActionPath))
 					Expect(req.Method).To(Equal("POST"))
-					res.Header().Set("Content-type", "text/plain")
+					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(202)
 					fmt.Fprintf(res, `{"message": "accepted", "id": "my-ca", "actions": ["restart"]}`)
 				}))
@@ -2667,6 +2667,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				bccspSwModel.Hash = core.StringPtr("SHA2")
 				bccspSwModel.Security = core.Float64Ptr(float64(256))
 
+				// Construct an instance of the ClientAuth model
+				clientAuthModel := new(blockchainv3.ClientAuth)
+				clientAuthModel.Type = core.StringPtr("noclientcert")
+				clientAuthModel.TlsCerts = []string{"testString"}
+
 				// Construct an instance of the ConfigPeerDeliveryclientAddressOverridesItem model
 				configPeerDeliveryclientAddressOverridesItemModel := new(blockchainv3.ConfigPeerDeliveryclientAddressOverridesItem)
 				configPeerDeliveryclientAddressOverridesItemModel.From = core.StringPtr("n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050")
@@ -2713,13 +2718,8 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the ConfigPeerLimitsConcurrency model
 				configPeerLimitsConcurrencyModel := new(blockchainv3.ConfigPeerLimitsConcurrency)
-				configPeerLimitsConcurrencyModel.EndorserService = map[string]interface{}{"anyKey": "anyValue"}
-				configPeerLimitsConcurrencyModel.DeliverService = map[string]interface{}{"anyKey": "anyValue"}
-
-				// Construct an instance of the MspCryptoCompClientAuth model
-				mspCryptoCompClientAuthModel := new(blockchainv3.MspCryptoCompClientAuth)
-				mspCryptoCompClientAuthModel.Type = core.StringPtr("noclientcert")
-				mspCryptoCompClientAuthModel.TlsCerts = []string{"testString"}
+				configPeerLimitsConcurrencyModel.EndorserService = core.Float64Ptr(float64(2500))
+				configPeerLimitsConcurrencyModel.DeliverService = core.Float64Ptr(float64(2500))
 
 				// Construct an instance of the Bccsp model
 				bccspModel := new(blockchainv3.Bccsp)
@@ -2818,6 +2818,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				configPeerLimitsModel := new(blockchainv3.ConfigPeerLimits)
 				configPeerLimitsModel.Concurrency = configPeerLimitsConcurrencyModel
 
+				// Construct an instance of the CryptoEnrollmentComponent model
+				cryptoEnrollmentComponentModel := new(blockchainv3.CryptoEnrollmentComponent)
+				cryptoEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+
 				// Construct an instance of the CryptoObjectEnrollmentCa model
 				cryptoObjectEnrollmentCaModel := new(blockchainv3.CryptoObjectEnrollmentCa)
 				cryptoObjectEnrollmentCaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
@@ -2826,10 +2830,6 @@ var _ = Describe(`BlockchainV3`, func() {
 				cryptoObjectEnrollmentCaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
 				cryptoObjectEnrollmentCaModel.EnrollID = core.StringPtr("admin")
 				cryptoObjectEnrollmentCaModel.EnrollSecret = core.StringPtr("password")
-
-				// Construct an instance of the CryptoObjectEnrollmentComponent model
-				cryptoObjectEnrollmentComponentModel := new(blockchainv3.CryptoObjectEnrollmentComponent)
-				cryptoObjectEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the CryptoObjectEnrollmentTlsca model
 				cryptoObjectEnrollmentTlscaModel := new(blockchainv3.CryptoObjectEnrollmentTlsca)
@@ -2851,16 +2851,16 @@ var _ = Describe(`BlockchainV3`, func() {
 				// Construct an instance of the MspCryptoCa model
 				mspCryptoCaModel := new(blockchainv3.MspCryptoCa)
 				mspCryptoCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				mspCryptoCaModel.Intermediatecerts = []string{"testString"}
+				mspCryptoCaModel.CaIntermediateCerts = []string{"testString"}
 
 				// Construct an instance of the MspCryptoComp model
 				mspCryptoCompModel := new(blockchainv3.MspCryptoComp)
 				mspCryptoCompModel.Ekey = core.StringPtr("testString")
 				mspCryptoCompModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoCompModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				mspCryptoCompModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				mspCryptoCompModel.TlsKey = core.StringPtr("testString")
 				mspCryptoCompModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoCompModel.ClientAuth = mspCryptoCompClientAuthModel
+				mspCryptoCompModel.ClientAuth = clientAuthModel
 
 				// Construct an instance of the ResourceLimits model
 				resourceLimitsModel := new(blockchainv3.ResourceLimits)
@@ -2899,7 +2899,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the CryptoObjectEnrollment model
 				cryptoObjectEnrollmentModel := new(blockchainv3.CryptoObjectEnrollment)
-				cryptoObjectEnrollmentModel.Component = cryptoObjectEnrollmentComponentModel
+				cryptoObjectEnrollmentModel.Component = cryptoEnrollmentComponentModel
 				cryptoObjectEnrollmentModel.Ca = cryptoObjectEnrollmentCaModel
 				cryptoObjectEnrollmentModel.Tlsca = cryptoObjectEnrollmentTlscaModel
 
@@ -2977,11 +2977,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				createPeerOptionsModel.ConfigOverride = configPeerCreateModel
 				createPeerOptionsModel.Resources = peerResourcesModel
 				createPeerOptionsModel.Storage = createPeerBodyStorageModel
-				createPeerOptionsModel.Zone = core.StringPtr("testString")
+				createPeerOptionsModel.Zone = core.StringPtr("-")
 				createPeerOptionsModel.StateDb = core.StringPtr("couchdb")
-				createPeerOptionsModel.Tags = []string{"testString"}
+				createPeerOptionsModel.Tags = []string{"fabric-ca"}
 				createPeerOptionsModel.Hsm = hsmModel
-				createPeerOptionsModel.Region = core.StringPtr("testString")
+				createPeerOptionsModel.Region = core.StringPtr("-")
 				createPeerOptionsModel.Version = core.StringPtr("1.4.6-1")
 				createPeerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
@@ -3008,7 +3008,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "display_name": "My Peer", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "location": "ibmcloud", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "config_override": {"anyKey": "anyValue"}, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"peer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "display_name": "My Peer", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "location": "ibmcloud", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "config_override": {"anyKey": "anyValue"}, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "ca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "tlsca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"peer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"peer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["fabric-ca"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "-"}`)
 				}))
 			})
 			It(`Invoke CreatePeer successfully`, func() {
@@ -3042,6 +3042,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				bccspSwModel.Hash = core.StringPtr("SHA2")
 				bccspSwModel.Security = core.Float64Ptr(float64(256))
 
+				// Construct an instance of the ClientAuth model
+				clientAuthModel := new(blockchainv3.ClientAuth)
+				clientAuthModel.Type = core.StringPtr("noclientcert")
+				clientAuthModel.TlsCerts = []string{"testString"}
+
 				// Construct an instance of the ConfigPeerDeliveryclientAddressOverridesItem model
 				configPeerDeliveryclientAddressOverridesItemModel := new(blockchainv3.ConfigPeerDeliveryclientAddressOverridesItem)
 				configPeerDeliveryclientAddressOverridesItemModel.From = core.StringPtr("n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050")
@@ -3088,13 +3093,8 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the ConfigPeerLimitsConcurrency model
 				configPeerLimitsConcurrencyModel := new(blockchainv3.ConfigPeerLimitsConcurrency)
-				configPeerLimitsConcurrencyModel.EndorserService = map[string]interface{}{"anyKey": "anyValue"}
-				configPeerLimitsConcurrencyModel.DeliverService = map[string]interface{}{"anyKey": "anyValue"}
-
-				// Construct an instance of the MspCryptoCompClientAuth model
-				mspCryptoCompClientAuthModel := new(blockchainv3.MspCryptoCompClientAuth)
-				mspCryptoCompClientAuthModel.Type = core.StringPtr("noclientcert")
-				mspCryptoCompClientAuthModel.TlsCerts = []string{"testString"}
+				configPeerLimitsConcurrencyModel.EndorserService = core.Float64Ptr(float64(2500))
+				configPeerLimitsConcurrencyModel.DeliverService = core.Float64Ptr(float64(2500))
 
 				// Construct an instance of the Bccsp model
 				bccspModel := new(blockchainv3.Bccsp)
@@ -3193,6 +3193,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				configPeerLimitsModel := new(blockchainv3.ConfigPeerLimits)
 				configPeerLimitsModel.Concurrency = configPeerLimitsConcurrencyModel
 
+				// Construct an instance of the CryptoEnrollmentComponent model
+				cryptoEnrollmentComponentModel := new(blockchainv3.CryptoEnrollmentComponent)
+				cryptoEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+
 				// Construct an instance of the CryptoObjectEnrollmentCa model
 				cryptoObjectEnrollmentCaModel := new(blockchainv3.CryptoObjectEnrollmentCa)
 				cryptoObjectEnrollmentCaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
@@ -3201,10 +3205,6 @@ var _ = Describe(`BlockchainV3`, func() {
 				cryptoObjectEnrollmentCaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
 				cryptoObjectEnrollmentCaModel.EnrollID = core.StringPtr("admin")
 				cryptoObjectEnrollmentCaModel.EnrollSecret = core.StringPtr("password")
-
-				// Construct an instance of the CryptoObjectEnrollmentComponent model
-				cryptoObjectEnrollmentComponentModel := new(blockchainv3.CryptoObjectEnrollmentComponent)
-				cryptoObjectEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the CryptoObjectEnrollmentTlsca model
 				cryptoObjectEnrollmentTlscaModel := new(blockchainv3.CryptoObjectEnrollmentTlsca)
@@ -3226,16 +3226,16 @@ var _ = Describe(`BlockchainV3`, func() {
 				// Construct an instance of the MspCryptoCa model
 				mspCryptoCaModel := new(blockchainv3.MspCryptoCa)
 				mspCryptoCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				mspCryptoCaModel.Intermediatecerts = []string{"testString"}
+				mspCryptoCaModel.CaIntermediateCerts = []string{"testString"}
 
 				// Construct an instance of the MspCryptoComp model
 				mspCryptoCompModel := new(blockchainv3.MspCryptoComp)
 				mspCryptoCompModel.Ekey = core.StringPtr("testString")
 				mspCryptoCompModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoCompModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				mspCryptoCompModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				mspCryptoCompModel.TlsKey = core.StringPtr("testString")
 				mspCryptoCompModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoCompModel.ClientAuth = mspCryptoCompClientAuthModel
+				mspCryptoCompModel.ClientAuth = clientAuthModel
 
 				// Construct an instance of the ResourceLimits model
 				resourceLimitsModel := new(blockchainv3.ResourceLimits)
@@ -3274,7 +3274,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the CryptoObjectEnrollment model
 				cryptoObjectEnrollmentModel := new(blockchainv3.CryptoObjectEnrollment)
-				cryptoObjectEnrollmentModel.Component = cryptoObjectEnrollmentComponentModel
+				cryptoObjectEnrollmentModel.Component = cryptoEnrollmentComponentModel
 				cryptoObjectEnrollmentModel.Ca = cryptoObjectEnrollmentCaModel
 				cryptoObjectEnrollmentModel.Tlsca = cryptoObjectEnrollmentTlscaModel
 
@@ -3352,11 +3352,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				createPeerOptionsModel.ConfigOverride = configPeerCreateModel
 				createPeerOptionsModel.Resources = peerResourcesModel
 				createPeerOptionsModel.Storage = createPeerBodyStorageModel
-				createPeerOptionsModel.Zone = core.StringPtr("testString")
+				createPeerOptionsModel.Zone = core.StringPtr("-")
 				createPeerOptionsModel.StateDb = core.StringPtr("couchdb")
-				createPeerOptionsModel.Tags = []string{"testString"}
+				createPeerOptionsModel.Tags = []string{"fabric-ca"}
 				createPeerOptionsModel.Hsm = hsmModel
-				createPeerOptionsModel.Region = core.StringPtr("testString")
+				createPeerOptionsModel.Region = core.StringPtr("-")
 				createPeerOptionsModel.Version = core.StringPtr("1.4.6-1")
  				createPeerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
@@ -3391,6 +3391,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				bccspSwModel.Hash = core.StringPtr("SHA2")
 				bccspSwModel.Security = core.Float64Ptr(float64(256))
 
+				// Construct an instance of the ClientAuth model
+				clientAuthModel := new(blockchainv3.ClientAuth)
+				clientAuthModel.Type = core.StringPtr("noclientcert")
+				clientAuthModel.TlsCerts = []string{"testString"}
+
 				// Construct an instance of the ConfigPeerDeliveryclientAddressOverridesItem model
 				configPeerDeliveryclientAddressOverridesItemModel := new(blockchainv3.ConfigPeerDeliveryclientAddressOverridesItem)
 				configPeerDeliveryclientAddressOverridesItemModel.From = core.StringPtr("n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050")
@@ -3437,13 +3442,8 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the ConfigPeerLimitsConcurrency model
 				configPeerLimitsConcurrencyModel := new(blockchainv3.ConfigPeerLimitsConcurrency)
-				configPeerLimitsConcurrencyModel.EndorserService = map[string]interface{}{"anyKey": "anyValue"}
-				configPeerLimitsConcurrencyModel.DeliverService = map[string]interface{}{"anyKey": "anyValue"}
-
-				// Construct an instance of the MspCryptoCompClientAuth model
-				mspCryptoCompClientAuthModel := new(blockchainv3.MspCryptoCompClientAuth)
-				mspCryptoCompClientAuthModel.Type = core.StringPtr("noclientcert")
-				mspCryptoCompClientAuthModel.TlsCerts = []string{"testString"}
+				configPeerLimitsConcurrencyModel.EndorserService = core.Float64Ptr(float64(2500))
+				configPeerLimitsConcurrencyModel.DeliverService = core.Float64Ptr(float64(2500))
 
 				// Construct an instance of the Bccsp model
 				bccspModel := new(blockchainv3.Bccsp)
@@ -3542,6 +3542,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				configPeerLimitsModel := new(blockchainv3.ConfigPeerLimits)
 				configPeerLimitsModel.Concurrency = configPeerLimitsConcurrencyModel
 
+				// Construct an instance of the CryptoEnrollmentComponent model
+				cryptoEnrollmentComponentModel := new(blockchainv3.CryptoEnrollmentComponent)
+				cryptoEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+
 				// Construct an instance of the CryptoObjectEnrollmentCa model
 				cryptoObjectEnrollmentCaModel := new(blockchainv3.CryptoObjectEnrollmentCa)
 				cryptoObjectEnrollmentCaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
@@ -3550,10 +3554,6 @@ var _ = Describe(`BlockchainV3`, func() {
 				cryptoObjectEnrollmentCaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
 				cryptoObjectEnrollmentCaModel.EnrollID = core.StringPtr("admin")
 				cryptoObjectEnrollmentCaModel.EnrollSecret = core.StringPtr("password")
-
-				// Construct an instance of the CryptoObjectEnrollmentComponent model
-				cryptoObjectEnrollmentComponentModel := new(blockchainv3.CryptoObjectEnrollmentComponent)
-				cryptoObjectEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the CryptoObjectEnrollmentTlsca model
 				cryptoObjectEnrollmentTlscaModel := new(blockchainv3.CryptoObjectEnrollmentTlsca)
@@ -3575,16 +3575,16 @@ var _ = Describe(`BlockchainV3`, func() {
 				// Construct an instance of the MspCryptoCa model
 				mspCryptoCaModel := new(blockchainv3.MspCryptoCa)
 				mspCryptoCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				mspCryptoCaModel.Intermediatecerts = []string{"testString"}
+				mspCryptoCaModel.CaIntermediateCerts = []string{"testString"}
 
 				// Construct an instance of the MspCryptoComp model
 				mspCryptoCompModel := new(blockchainv3.MspCryptoComp)
 				mspCryptoCompModel.Ekey = core.StringPtr("testString")
 				mspCryptoCompModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoCompModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				mspCryptoCompModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				mspCryptoCompModel.TlsKey = core.StringPtr("testString")
 				mspCryptoCompModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoCompModel.ClientAuth = mspCryptoCompClientAuthModel
+				mspCryptoCompModel.ClientAuth = clientAuthModel
 
 				// Construct an instance of the ResourceLimits model
 				resourceLimitsModel := new(blockchainv3.ResourceLimits)
@@ -3623,7 +3623,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the CryptoObjectEnrollment model
 				cryptoObjectEnrollmentModel := new(blockchainv3.CryptoObjectEnrollment)
-				cryptoObjectEnrollmentModel.Component = cryptoObjectEnrollmentComponentModel
+				cryptoObjectEnrollmentModel.Component = cryptoEnrollmentComponentModel
 				cryptoObjectEnrollmentModel.Ca = cryptoObjectEnrollmentCaModel
 				cryptoObjectEnrollmentModel.Tlsca = cryptoObjectEnrollmentTlscaModel
 
@@ -3701,11 +3701,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				createPeerOptionsModel.ConfigOverride = configPeerCreateModel
 				createPeerOptionsModel.Resources = peerResourcesModel
 				createPeerOptionsModel.Storage = createPeerBodyStorageModel
-				createPeerOptionsModel.Zone = core.StringPtr("testString")
+				createPeerOptionsModel.Zone = core.StringPtr("-")
 				createPeerOptionsModel.StateDb = core.StringPtr("couchdb")
-				createPeerOptionsModel.Tags = []string{"testString"}
+				createPeerOptionsModel.Tags = []string{"fabric-ca"}
 				createPeerOptionsModel.Hsm = hsmModel
-				createPeerOptionsModel.Region = core.StringPtr("testString")
+				createPeerOptionsModel.Region = core.StringPtr("-")
 				createPeerOptionsModel.Version = core.StringPtr("1.4.6-1")
 				createPeerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
@@ -3754,7 +3754,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the MspCryptoFieldCa model
 				mspCryptoFieldCaModel := new(blockchainv3.MspCryptoFieldCa)
-				mspCryptoFieldCaModel.Name = core.StringPtr("org1CA")
+				mspCryptoFieldCaModel.Name = core.StringPtr("ca")
 				mspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the MspCryptoFieldComponent model
@@ -3765,7 +3765,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the MspCryptoFieldTlsca model
 				mspCryptoFieldTlscaModel := new(blockchainv3.MspCryptoFieldTlsca)
-				mspCryptoFieldTlscaModel.Name = core.StringPtr("org1tlsCA")
+				mspCryptoFieldTlscaModel.Name = core.StringPtr("tlsca")
 				mspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the MspCryptoField model
@@ -3783,7 +3783,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				importPeerOptionsModel.ApiURL = core.StringPtr("grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051")
 				importPeerOptionsModel.Location = core.StringPtr("ibmcloud")
 				importPeerOptionsModel.OperationsURL = core.StringPtr("https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443")
-				importPeerOptionsModel.Tags = []string{"testString"}
+				importPeerOptionsModel.Tags = []string{"fabric-ca"}
 				importPeerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ImportPeer(importPeerOptionsModel)
@@ -3809,7 +3809,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "display_name": "My Peer", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "location": "ibmcloud", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "config_override": {"anyKey": "anyValue"}, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"peer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "display_name": "My Peer", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "location": "ibmcloud", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "config_override": {"anyKey": "anyValue"}, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "ca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "tlsca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"peer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"peer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["fabric-ca"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "-"}`)
 				}))
 			})
 			It(`Invoke ImportPeer successfully`, func() {
@@ -3828,7 +3828,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the MspCryptoFieldCa model
 				mspCryptoFieldCaModel := new(blockchainv3.MspCryptoFieldCa)
-				mspCryptoFieldCaModel.Name = core.StringPtr("org1CA")
+				mspCryptoFieldCaModel.Name = core.StringPtr("ca")
 				mspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the MspCryptoFieldComponent model
@@ -3839,7 +3839,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the MspCryptoFieldTlsca model
 				mspCryptoFieldTlscaModel := new(blockchainv3.MspCryptoFieldTlsca)
-				mspCryptoFieldTlscaModel.Name = core.StringPtr("org1tlsCA")
+				mspCryptoFieldTlscaModel.Name = core.StringPtr("tlsca")
 				mspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the MspCryptoField model
@@ -3857,7 +3857,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				importPeerOptionsModel.ApiURL = core.StringPtr("grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051")
 				importPeerOptionsModel.Location = core.StringPtr("ibmcloud")
 				importPeerOptionsModel.OperationsURL = core.StringPtr("https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443")
-				importPeerOptionsModel.Tags = []string{"testString"}
+				importPeerOptionsModel.Tags = []string{"fabric-ca"}
  				importPeerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -3876,7 +3876,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the MspCryptoFieldCa model
 				mspCryptoFieldCaModel := new(blockchainv3.MspCryptoFieldCa)
-				mspCryptoFieldCaModel.Name = core.StringPtr("org1CA")
+				mspCryptoFieldCaModel.Name = core.StringPtr("ca")
 				mspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the MspCryptoFieldComponent model
@@ -3887,7 +3887,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the MspCryptoFieldTlsca model
 				mspCryptoFieldTlscaModel := new(blockchainv3.MspCryptoFieldTlsca)
-				mspCryptoFieldTlscaModel.Name = core.StringPtr("org1tlsCA")
+				mspCryptoFieldTlscaModel.Name = core.StringPtr("tlsca")
 				mspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the MspCryptoField model
@@ -3905,7 +3905,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				importPeerOptionsModel.ApiURL = core.StringPtr("grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051")
 				importPeerOptionsModel.Location = core.StringPtr("ibmcloud")
 				importPeerOptionsModel.OperationsURL = core.StringPtr("https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443")
-				importPeerOptionsModel.Tags = []string{"testString"}
+				importPeerOptionsModel.Tags = []string{"fabric-ca"}
 				importPeerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -3960,7 +3960,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				editPeerOptionsModel.GrpcwpURL = core.StringPtr("https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084")
 				editPeerOptionsModel.MspID = core.StringPtr("Org1")
 				editPeerOptionsModel.Location = core.StringPtr("ibmcloud")
-				editPeerOptionsModel.Tags = []string{"testString"}
+				editPeerOptionsModel.Tags = []string{"fabric-ca"}
 				editPeerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.EditPeer(editPeerOptionsModel)
@@ -3986,7 +3986,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "display_name": "My Peer", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "location": "ibmcloud", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "config_override": {"anyKey": "anyValue"}, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"peer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "display_name": "My Peer", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "location": "ibmcloud", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "config_override": {"anyKey": "anyValue"}, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "ca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "tlsca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"peer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"peer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["fabric-ca"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "-"}`)
 				}))
 			})
 			It(`Invoke EditPeer successfully`, func() {
@@ -4012,7 +4012,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				editPeerOptionsModel.GrpcwpURL = core.StringPtr("https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084")
 				editPeerOptionsModel.MspID = core.StringPtr("Org1")
 				editPeerOptionsModel.Location = core.StringPtr("ibmcloud")
-				editPeerOptionsModel.Tags = []string{"testString"}
+				editPeerOptionsModel.Tags = []string{"fabric-ca"}
  				editPeerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -4038,7 +4038,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				editPeerOptionsModel.GrpcwpURL = core.StringPtr("https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084")
 				editPeerOptionsModel.MspID = core.StringPtr("Org1")
 				editPeerOptionsModel.Location = core.StringPtr("ibmcloud")
-				editPeerOptionsModel.Tags = []string{"testString"}
+				editPeerOptionsModel.Tags = []string{"fabric-ca"}
 				editPeerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -4124,7 +4124,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(peerActionPath))
 					Expect(req.Method).To(Equal("POST"))
-					res.Header().Set("Content-type", "text/plain")
+					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(202)
 					fmt.Fprintf(res, `{"message": "accepted", "id": "my-ca", "actions": ["restart"]}`)
 				}))
@@ -4243,6 +4243,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				configPeerGossipPvtDataImplicitCollectionDisseminationPolicyModel.RequiredPeerCount = core.Float64Ptr(float64(0))
 				configPeerGossipPvtDataImplicitCollectionDisseminationPolicyModel.MaxPeerCount = core.Float64Ptr(float64(1))
 
+				// Construct an instance of the ClientAuth model
+				clientAuthModel := new(blockchainv3.ClientAuth)
+				clientAuthModel.Type = core.StringPtr("noclientcert")
+				clientAuthModel.TlsCerts = []string{"testString"}
+
 				// Construct an instance of the ConfigPeerDeliveryclientAddressOverridesItem model
 				configPeerDeliveryclientAddressOverridesItemModel := new(blockchainv3.ConfigPeerDeliveryclientAddressOverridesItem)
 				configPeerDeliveryclientAddressOverridesItemModel.From = core.StringPtr("n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050")
@@ -4289,8 +4294,8 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the ConfigPeerLimitsConcurrency model
 				configPeerLimitsConcurrencyModel := new(blockchainv3.ConfigPeerLimitsConcurrency)
-				configPeerLimitsConcurrencyModel.EndorserService = map[string]interface{}{"anyKey": "anyValue"}
-				configPeerLimitsConcurrencyModel.DeliverService = map[string]interface{}{"anyKey": "anyValue"}
+				configPeerLimitsConcurrencyModel.EndorserService = core.Float64Ptr(float64(2500))
+				configPeerLimitsConcurrencyModel.DeliverService = core.Float64Ptr(float64(2500))
 
 				// Construct an instance of the ConfigPeerAdminService model
 				configPeerAdminServiceModel := new(blockchainv3.ConfigPeerAdminService)
@@ -4383,6 +4388,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				configPeerLimitsModel := new(blockchainv3.ConfigPeerLimits)
 				configPeerLimitsModel.Concurrency = configPeerLimitsConcurrencyModel
 
+				// Construct an instance of the CryptoEnrollmentComponent model
+				cryptoEnrollmentComponentModel := new(blockchainv3.CryptoEnrollmentComponent)
+				cryptoEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+
 				// Construct an instance of the MetricsStatsd model
 				metricsStatsdModel := new(blockchainv3.MetricsStatsd)
 				metricsStatsdModel.Network = core.StringPtr("udp")
@@ -4399,6 +4408,44 @@ var _ = Describe(`BlockchainV3`, func() {
 				resourceRequestsModel := new(blockchainv3.ResourceRequests)
 				resourceRequestsModel.Cpu = core.StringPtr("100m")
 				resourceRequestsModel.Memory = core.StringPtr("256MiB")
+
+				// Construct an instance of the UpdateEnrollmentCryptoFieldCa model
+				updateEnrollmentCryptoFieldCaModel := new(blockchainv3.UpdateEnrollmentCryptoFieldCa)
+				updateEnrollmentCryptoFieldCaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
+				updateEnrollmentCryptoFieldCaModel.Port = core.Float64Ptr(float64(7054))
+				updateEnrollmentCryptoFieldCaModel.Name = core.StringPtr("ca")
+				updateEnrollmentCryptoFieldCaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateEnrollmentCryptoFieldCaModel.EnrollID = core.StringPtr("admin")
+				updateEnrollmentCryptoFieldCaModel.EnrollSecret = core.StringPtr("password")
+
+				// Construct an instance of the UpdateEnrollmentCryptoFieldTlsca model
+				updateEnrollmentCryptoFieldTlscaModel := new(blockchainv3.UpdateEnrollmentCryptoFieldTlsca)
+				updateEnrollmentCryptoFieldTlscaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
+				updateEnrollmentCryptoFieldTlscaModel.Port = core.Float64Ptr(float64(7054))
+				updateEnrollmentCryptoFieldTlscaModel.Name = core.StringPtr("tlsca")
+				updateEnrollmentCryptoFieldTlscaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateEnrollmentCryptoFieldTlscaModel.EnrollID = core.StringPtr("admin")
+				updateEnrollmentCryptoFieldTlscaModel.EnrollSecret = core.StringPtr("password")
+				updateEnrollmentCryptoFieldTlscaModel.CsrHosts = []string{"testString"}
+
+				// Construct an instance of the UpdateMspCryptoFieldCa model
+				updateMspCryptoFieldCaModel := new(blockchainv3.UpdateMspCryptoFieldCa)
+				updateMspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldCaModel.CaIntermediateCerts = []string{"testString"}
+
+				// Construct an instance of the UpdateMspCryptoFieldComponent model
+				updateMspCryptoFieldComponentModel := new(blockchainv3.UpdateMspCryptoFieldComponent)
+				updateMspCryptoFieldComponentModel.Ekey = core.StringPtr("testString")
+				updateMspCryptoFieldComponentModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateMspCryptoFieldComponentModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldComponentModel.TlsKey = core.StringPtr("testString")
+				updateMspCryptoFieldComponentModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateMspCryptoFieldComponentModel.ClientAuth = clientAuthModel
+
+				// Construct an instance of the UpdateMspCryptoFieldTlsca model
+				updateMspCryptoFieldTlscaModel := new(blockchainv3.UpdateMspCryptoFieldTlsca)
+				updateMspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldTlscaModel.CaIntermediateCerts = []string{"testString"}
 
 				// Construct an instance of the ConfigPeerChaincode model
 				configPeerChaincodeModel := new(blockchainv3.ConfigPeerChaincode)
@@ -4429,22 +4476,6 @@ var _ = Describe(`BlockchainV3`, func() {
 				metricsModel.Provider = core.StringPtr("prometheus")
 				metricsModel.Statsd = metricsStatsdModel
 
-				// Construct an instance of the MspCryptoFieldCa model
-				mspCryptoFieldCaModel := new(blockchainv3.MspCryptoFieldCa)
-				mspCryptoFieldCaModel.Name = core.StringPtr("org1CA")
-				mspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
-				// Construct an instance of the MspCryptoFieldComponent model
-				mspCryptoFieldComponentModel := new(blockchainv3.MspCryptoFieldComponent)
-				mspCryptoFieldComponentModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoFieldComponentModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoFieldComponentModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
-				// Construct an instance of the MspCryptoFieldTlsca model
-				mspCryptoFieldTlscaModel := new(blockchainv3.MspCryptoFieldTlsca)
-				mspCryptoFieldTlscaModel.Name = core.StringPtr("org1tlsCA")
-				mspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
 				// Construct an instance of the ResourceObject model
 				resourceObjectModel := new(blockchainv3.ResourceObject)
 				resourceObjectModel.Requests = resourceRequestsModel
@@ -4465,17 +4496,23 @@ var _ = Describe(`BlockchainV3`, func() {
 				resourceObjectFabV2Model.Requests = resourceRequestsModel
 				resourceObjectFabV2Model.Limits = resourceLimitsModel
 
+				// Construct an instance of the UpdateEnrollmentCryptoField model
+				updateEnrollmentCryptoFieldModel := new(blockchainv3.UpdateEnrollmentCryptoField)
+				updateEnrollmentCryptoFieldModel.Component = cryptoEnrollmentComponentModel
+				updateEnrollmentCryptoFieldModel.Ca = updateEnrollmentCryptoFieldCaModel
+				updateEnrollmentCryptoFieldModel.Tlsca = updateEnrollmentCryptoFieldTlscaModel
+
+				// Construct an instance of the UpdateMspCryptoField model
+				updateMspCryptoFieldModel := new(blockchainv3.UpdateMspCryptoField)
+				updateMspCryptoFieldModel.Ca = updateMspCryptoFieldCaModel
+				updateMspCryptoFieldModel.Tlsca = updateMspCryptoFieldTlscaModel
+				updateMspCryptoFieldModel.Component = updateMspCryptoFieldComponentModel
+
 				// Construct an instance of the ConfigPeerUpdate model
 				configPeerUpdateModel := new(blockchainv3.ConfigPeerUpdate)
 				configPeerUpdateModel.Peer = configPeerUpdatePeerModel
 				configPeerUpdateModel.Chaincode = configPeerChaincodeModel
 				configPeerUpdateModel.Metrics = metricsModel
-
-				// Construct an instance of the MspCryptoField model
-				mspCryptoFieldModel := new(blockchainv3.MspCryptoField)
-				mspCryptoFieldModel.Ca = mspCryptoFieldCaModel
-				mspCryptoFieldModel.Tlsca = mspCryptoFieldTlscaModel
-				mspCryptoFieldModel.Component = mspCryptoFieldComponentModel
 
 				// Construct an instance of the NodeOu model
 				nodeOuModel := new(blockchainv3.NodeOu)
@@ -4491,17 +4528,22 @@ var _ = Describe(`BlockchainV3`, func() {
 				peerResourcesModel.Peer = resourceObjectModel
 				peerResourcesModel.Proxy = resourceObjectModel
 
+				// Construct an instance of the UpdatePeerBodyCrypto model
+				updatePeerBodyCryptoModel := new(blockchainv3.UpdatePeerBodyCrypto)
+				updatePeerBodyCryptoModel.Enrollment = updateEnrollmentCryptoFieldModel
+				updatePeerBodyCryptoModel.Msp = updateMspCryptoFieldModel
+
 				// Construct an instance of the UpdatePeerOptions model
 				updatePeerOptionsModel := new(blockchainv3.UpdatePeerOptions)
 				updatePeerOptionsModel.ID = core.StringPtr("testString")
 				updatePeerOptionsModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				updatePeerOptionsModel.ConfigOverride = configPeerUpdateModel
-				updatePeerOptionsModel.Crypto = mspCryptoFieldModel
+				updatePeerOptionsModel.Crypto = updatePeerBodyCryptoModel
 				updatePeerOptionsModel.NodeOu = nodeOuModel
 				updatePeerOptionsModel.Replicas = core.Float64Ptr(float64(1))
 				updatePeerOptionsModel.Resources = peerResourcesModel
 				updatePeerOptionsModel.Version = core.StringPtr("1.4.6-1")
-				updatePeerOptionsModel.Zone = core.StringPtr("testString")
+				updatePeerOptionsModel.Zone = core.StringPtr("-")
 				updatePeerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.UpdatePeer(updatePeerOptionsModel)
@@ -4527,7 +4569,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "display_name": "My Peer", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "location": "ibmcloud", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "config_override": {"anyKey": "anyValue"}, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"peer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["Tags"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "display_name": "My Peer", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "location": "ibmcloud", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "config_override": {"anyKey": "anyValue"}, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "ca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "tlsca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"peer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"peer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "tags": ["fabric-ca"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "-"}`)
 				}))
 			})
 			It(`Invoke UpdatePeer successfully`, func() {
@@ -4549,6 +4591,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				configPeerGossipPvtDataImplicitCollectionDisseminationPolicyModel.RequiredPeerCount = core.Float64Ptr(float64(0))
 				configPeerGossipPvtDataImplicitCollectionDisseminationPolicyModel.MaxPeerCount = core.Float64Ptr(float64(1))
 
+				// Construct an instance of the ClientAuth model
+				clientAuthModel := new(blockchainv3.ClientAuth)
+				clientAuthModel.Type = core.StringPtr("noclientcert")
+				clientAuthModel.TlsCerts = []string{"testString"}
+
 				// Construct an instance of the ConfigPeerDeliveryclientAddressOverridesItem model
 				configPeerDeliveryclientAddressOverridesItemModel := new(blockchainv3.ConfigPeerDeliveryclientAddressOverridesItem)
 				configPeerDeliveryclientAddressOverridesItemModel.From = core.StringPtr("n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050")
@@ -4595,8 +4642,8 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the ConfigPeerLimitsConcurrency model
 				configPeerLimitsConcurrencyModel := new(blockchainv3.ConfigPeerLimitsConcurrency)
-				configPeerLimitsConcurrencyModel.EndorserService = map[string]interface{}{"anyKey": "anyValue"}
-				configPeerLimitsConcurrencyModel.DeliverService = map[string]interface{}{"anyKey": "anyValue"}
+				configPeerLimitsConcurrencyModel.EndorserService = core.Float64Ptr(float64(2500))
+				configPeerLimitsConcurrencyModel.DeliverService = core.Float64Ptr(float64(2500))
 
 				// Construct an instance of the ConfigPeerAdminService model
 				configPeerAdminServiceModel := new(blockchainv3.ConfigPeerAdminService)
@@ -4689,6 +4736,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				configPeerLimitsModel := new(blockchainv3.ConfigPeerLimits)
 				configPeerLimitsModel.Concurrency = configPeerLimitsConcurrencyModel
 
+				// Construct an instance of the CryptoEnrollmentComponent model
+				cryptoEnrollmentComponentModel := new(blockchainv3.CryptoEnrollmentComponent)
+				cryptoEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+
 				// Construct an instance of the MetricsStatsd model
 				metricsStatsdModel := new(blockchainv3.MetricsStatsd)
 				metricsStatsdModel.Network = core.StringPtr("udp")
@@ -4705,6 +4756,44 @@ var _ = Describe(`BlockchainV3`, func() {
 				resourceRequestsModel := new(blockchainv3.ResourceRequests)
 				resourceRequestsModel.Cpu = core.StringPtr("100m")
 				resourceRequestsModel.Memory = core.StringPtr("256MiB")
+
+				// Construct an instance of the UpdateEnrollmentCryptoFieldCa model
+				updateEnrollmentCryptoFieldCaModel := new(blockchainv3.UpdateEnrollmentCryptoFieldCa)
+				updateEnrollmentCryptoFieldCaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
+				updateEnrollmentCryptoFieldCaModel.Port = core.Float64Ptr(float64(7054))
+				updateEnrollmentCryptoFieldCaModel.Name = core.StringPtr("ca")
+				updateEnrollmentCryptoFieldCaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateEnrollmentCryptoFieldCaModel.EnrollID = core.StringPtr("admin")
+				updateEnrollmentCryptoFieldCaModel.EnrollSecret = core.StringPtr("password")
+
+				// Construct an instance of the UpdateEnrollmentCryptoFieldTlsca model
+				updateEnrollmentCryptoFieldTlscaModel := new(blockchainv3.UpdateEnrollmentCryptoFieldTlsca)
+				updateEnrollmentCryptoFieldTlscaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
+				updateEnrollmentCryptoFieldTlscaModel.Port = core.Float64Ptr(float64(7054))
+				updateEnrollmentCryptoFieldTlscaModel.Name = core.StringPtr("tlsca")
+				updateEnrollmentCryptoFieldTlscaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateEnrollmentCryptoFieldTlscaModel.EnrollID = core.StringPtr("admin")
+				updateEnrollmentCryptoFieldTlscaModel.EnrollSecret = core.StringPtr("password")
+				updateEnrollmentCryptoFieldTlscaModel.CsrHosts = []string{"testString"}
+
+				// Construct an instance of the UpdateMspCryptoFieldCa model
+				updateMspCryptoFieldCaModel := new(blockchainv3.UpdateMspCryptoFieldCa)
+				updateMspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldCaModel.CaIntermediateCerts = []string{"testString"}
+
+				// Construct an instance of the UpdateMspCryptoFieldComponent model
+				updateMspCryptoFieldComponentModel := new(blockchainv3.UpdateMspCryptoFieldComponent)
+				updateMspCryptoFieldComponentModel.Ekey = core.StringPtr("testString")
+				updateMspCryptoFieldComponentModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateMspCryptoFieldComponentModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldComponentModel.TlsKey = core.StringPtr("testString")
+				updateMspCryptoFieldComponentModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateMspCryptoFieldComponentModel.ClientAuth = clientAuthModel
+
+				// Construct an instance of the UpdateMspCryptoFieldTlsca model
+				updateMspCryptoFieldTlscaModel := new(blockchainv3.UpdateMspCryptoFieldTlsca)
+				updateMspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldTlscaModel.CaIntermediateCerts = []string{"testString"}
 
 				// Construct an instance of the ConfigPeerChaincode model
 				configPeerChaincodeModel := new(blockchainv3.ConfigPeerChaincode)
@@ -4735,22 +4824,6 @@ var _ = Describe(`BlockchainV3`, func() {
 				metricsModel.Provider = core.StringPtr("prometheus")
 				metricsModel.Statsd = metricsStatsdModel
 
-				// Construct an instance of the MspCryptoFieldCa model
-				mspCryptoFieldCaModel := new(blockchainv3.MspCryptoFieldCa)
-				mspCryptoFieldCaModel.Name = core.StringPtr("org1CA")
-				mspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
-				// Construct an instance of the MspCryptoFieldComponent model
-				mspCryptoFieldComponentModel := new(blockchainv3.MspCryptoFieldComponent)
-				mspCryptoFieldComponentModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoFieldComponentModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoFieldComponentModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
-				// Construct an instance of the MspCryptoFieldTlsca model
-				mspCryptoFieldTlscaModel := new(blockchainv3.MspCryptoFieldTlsca)
-				mspCryptoFieldTlscaModel.Name = core.StringPtr("org1tlsCA")
-				mspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
 				// Construct an instance of the ResourceObject model
 				resourceObjectModel := new(blockchainv3.ResourceObject)
 				resourceObjectModel.Requests = resourceRequestsModel
@@ -4771,17 +4844,23 @@ var _ = Describe(`BlockchainV3`, func() {
 				resourceObjectFabV2Model.Requests = resourceRequestsModel
 				resourceObjectFabV2Model.Limits = resourceLimitsModel
 
+				// Construct an instance of the UpdateEnrollmentCryptoField model
+				updateEnrollmentCryptoFieldModel := new(blockchainv3.UpdateEnrollmentCryptoField)
+				updateEnrollmentCryptoFieldModel.Component = cryptoEnrollmentComponentModel
+				updateEnrollmentCryptoFieldModel.Ca = updateEnrollmentCryptoFieldCaModel
+				updateEnrollmentCryptoFieldModel.Tlsca = updateEnrollmentCryptoFieldTlscaModel
+
+				// Construct an instance of the UpdateMspCryptoField model
+				updateMspCryptoFieldModel := new(blockchainv3.UpdateMspCryptoField)
+				updateMspCryptoFieldModel.Ca = updateMspCryptoFieldCaModel
+				updateMspCryptoFieldModel.Tlsca = updateMspCryptoFieldTlscaModel
+				updateMspCryptoFieldModel.Component = updateMspCryptoFieldComponentModel
+
 				// Construct an instance of the ConfigPeerUpdate model
 				configPeerUpdateModel := new(blockchainv3.ConfigPeerUpdate)
 				configPeerUpdateModel.Peer = configPeerUpdatePeerModel
 				configPeerUpdateModel.Chaincode = configPeerChaincodeModel
 				configPeerUpdateModel.Metrics = metricsModel
-
-				// Construct an instance of the MspCryptoField model
-				mspCryptoFieldModel := new(blockchainv3.MspCryptoField)
-				mspCryptoFieldModel.Ca = mspCryptoFieldCaModel
-				mspCryptoFieldModel.Tlsca = mspCryptoFieldTlscaModel
-				mspCryptoFieldModel.Component = mspCryptoFieldComponentModel
 
 				// Construct an instance of the NodeOu model
 				nodeOuModel := new(blockchainv3.NodeOu)
@@ -4797,17 +4876,22 @@ var _ = Describe(`BlockchainV3`, func() {
 				peerResourcesModel.Peer = resourceObjectModel
 				peerResourcesModel.Proxy = resourceObjectModel
 
+				// Construct an instance of the UpdatePeerBodyCrypto model
+				updatePeerBodyCryptoModel := new(blockchainv3.UpdatePeerBodyCrypto)
+				updatePeerBodyCryptoModel.Enrollment = updateEnrollmentCryptoFieldModel
+				updatePeerBodyCryptoModel.Msp = updateMspCryptoFieldModel
+
 				// Construct an instance of the UpdatePeerOptions model
 				updatePeerOptionsModel := new(blockchainv3.UpdatePeerOptions)
 				updatePeerOptionsModel.ID = core.StringPtr("testString")
 				updatePeerOptionsModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				updatePeerOptionsModel.ConfigOverride = configPeerUpdateModel
-				updatePeerOptionsModel.Crypto = mspCryptoFieldModel
+				updatePeerOptionsModel.Crypto = updatePeerBodyCryptoModel
 				updatePeerOptionsModel.NodeOu = nodeOuModel
 				updatePeerOptionsModel.Replicas = core.Float64Ptr(float64(1))
 				updatePeerOptionsModel.Resources = peerResourcesModel
 				updatePeerOptionsModel.Version = core.StringPtr("1.4.6-1")
-				updatePeerOptionsModel.Zone = core.StringPtr("testString")
+				updatePeerOptionsModel.Zone = core.StringPtr("-")
  				updatePeerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -4829,6 +4913,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				configPeerGossipPvtDataImplicitCollectionDisseminationPolicyModel.RequiredPeerCount = core.Float64Ptr(float64(0))
 				configPeerGossipPvtDataImplicitCollectionDisseminationPolicyModel.MaxPeerCount = core.Float64Ptr(float64(1))
 
+				// Construct an instance of the ClientAuth model
+				clientAuthModel := new(blockchainv3.ClientAuth)
+				clientAuthModel.Type = core.StringPtr("noclientcert")
+				clientAuthModel.TlsCerts = []string{"testString"}
+
 				// Construct an instance of the ConfigPeerDeliveryclientAddressOverridesItem model
 				configPeerDeliveryclientAddressOverridesItemModel := new(blockchainv3.ConfigPeerDeliveryclientAddressOverridesItem)
 				configPeerDeliveryclientAddressOverridesItemModel.From = core.StringPtr("n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050")
@@ -4875,8 +4964,8 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the ConfigPeerLimitsConcurrency model
 				configPeerLimitsConcurrencyModel := new(blockchainv3.ConfigPeerLimitsConcurrency)
-				configPeerLimitsConcurrencyModel.EndorserService = map[string]interface{}{"anyKey": "anyValue"}
-				configPeerLimitsConcurrencyModel.DeliverService = map[string]interface{}{"anyKey": "anyValue"}
+				configPeerLimitsConcurrencyModel.EndorserService = core.Float64Ptr(float64(2500))
+				configPeerLimitsConcurrencyModel.DeliverService = core.Float64Ptr(float64(2500))
 
 				// Construct an instance of the ConfigPeerAdminService model
 				configPeerAdminServiceModel := new(blockchainv3.ConfigPeerAdminService)
@@ -4969,6 +5058,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				configPeerLimitsModel := new(blockchainv3.ConfigPeerLimits)
 				configPeerLimitsModel.Concurrency = configPeerLimitsConcurrencyModel
 
+				// Construct an instance of the CryptoEnrollmentComponent model
+				cryptoEnrollmentComponentModel := new(blockchainv3.CryptoEnrollmentComponent)
+				cryptoEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+
 				// Construct an instance of the MetricsStatsd model
 				metricsStatsdModel := new(blockchainv3.MetricsStatsd)
 				metricsStatsdModel.Network = core.StringPtr("udp")
@@ -4985,6 +5078,44 @@ var _ = Describe(`BlockchainV3`, func() {
 				resourceRequestsModel := new(blockchainv3.ResourceRequests)
 				resourceRequestsModel.Cpu = core.StringPtr("100m")
 				resourceRequestsModel.Memory = core.StringPtr("256MiB")
+
+				// Construct an instance of the UpdateEnrollmentCryptoFieldCa model
+				updateEnrollmentCryptoFieldCaModel := new(blockchainv3.UpdateEnrollmentCryptoFieldCa)
+				updateEnrollmentCryptoFieldCaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
+				updateEnrollmentCryptoFieldCaModel.Port = core.Float64Ptr(float64(7054))
+				updateEnrollmentCryptoFieldCaModel.Name = core.StringPtr("ca")
+				updateEnrollmentCryptoFieldCaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateEnrollmentCryptoFieldCaModel.EnrollID = core.StringPtr("admin")
+				updateEnrollmentCryptoFieldCaModel.EnrollSecret = core.StringPtr("password")
+
+				// Construct an instance of the UpdateEnrollmentCryptoFieldTlsca model
+				updateEnrollmentCryptoFieldTlscaModel := new(blockchainv3.UpdateEnrollmentCryptoFieldTlsca)
+				updateEnrollmentCryptoFieldTlscaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
+				updateEnrollmentCryptoFieldTlscaModel.Port = core.Float64Ptr(float64(7054))
+				updateEnrollmentCryptoFieldTlscaModel.Name = core.StringPtr("tlsca")
+				updateEnrollmentCryptoFieldTlscaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateEnrollmentCryptoFieldTlscaModel.EnrollID = core.StringPtr("admin")
+				updateEnrollmentCryptoFieldTlscaModel.EnrollSecret = core.StringPtr("password")
+				updateEnrollmentCryptoFieldTlscaModel.CsrHosts = []string{"testString"}
+
+				// Construct an instance of the UpdateMspCryptoFieldCa model
+				updateMspCryptoFieldCaModel := new(blockchainv3.UpdateMspCryptoFieldCa)
+				updateMspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldCaModel.CaIntermediateCerts = []string{"testString"}
+
+				// Construct an instance of the UpdateMspCryptoFieldComponent model
+				updateMspCryptoFieldComponentModel := new(blockchainv3.UpdateMspCryptoFieldComponent)
+				updateMspCryptoFieldComponentModel.Ekey = core.StringPtr("testString")
+				updateMspCryptoFieldComponentModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateMspCryptoFieldComponentModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldComponentModel.TlsKey = core.StringPtr("testString")
+				updateMspCryptoFieldComponentModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateMspCryptoFieldComponentModel.ClientAuth = clientAuthModel
+
+				// Construct an instance of the UpdateMspCryptoFieldTlsca model
+				updateMspCryptoFieldTlscaModel := new(blockchainv3.UpdateMspCryptoFieldTlsca)
+				updateMspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldTlscaModel.CaIntermediateCerts = []string{"testString"}
 
 				// Construct an instance of the ConfigPeerChaincode model
 				configPeerChaincodeModel := new(blockchainv3.ConfigPeerChaincode)
@@ -5015,22 +5146,6 @@ var _ = Describe(`BlockchainV3`, func() {
 				metricsModel.Provider = core.StringPtr("prometheus")
 				metricsModel.Statsd = metricsStatsdModel
 
-				// Construct an instance of the MspCryptoFieldCa model
-				mspCryptoFieldCaModel := new(blockchainv3.MspCryptoFieldCa)
-				mspCryptoFieldCaModel.Name = core.StringPtr("org1CA")
-				mspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
-				// Construct an instance of the MspCryptoFieldComponent model
-				mspCryptoFieldComponentModel := new(blockchainv3.MspCryptoFieldComponent)
-				mspCryptoFieldComponentModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoFieldComponentModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoFieldComponentModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
-				// Construct an instance of the MspCryptoFieldTlsca model
-				mspCryptoFieldTlscaModel := new(blockchainv3.MspCryptoFieldTlsca)
-				mspCryptoFieldTlscaModel.Name = core.StringPtr("org1tlsCA")
-				mspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
 				// Construct an instance of the ResourceObject model
 				resourceObjectModel := new(blockchainv3.ResourceObject)
 				resourceObjectModel.Requests = resourceRequestsModel
@@ -5051,17 +5166,23 @@ var _ = Describe(`BlockchainV3`, func() {
 				resourceObjectFabV2Model.Requests = resourceRequestsModel
 				resourceObjectFabV2Model.Limits = resourceLimitsModel
 
+				// Construct an instance of the UpdateEnrollmentCryptoField model
+				updateEnrollmentCryptoFieldModel := new(blockchainv3.UpdateEnrollmentCryptoField)
+				updateEnrollmentCryptoFieldModel.Component = cryptoEnrollmentComponentModel
+				updateEnrollmentCryptoFieldModel.Ca = updateEnrollmentCryptoFieldCaModel
+				updateEnrollmentCryptoFieldModel.Tlsca = updateEnrollmentCryptoFieldTlscaModel
+
+				// Construct an instance of the UpdateMspCryptoField model
+				updateMspCryptoFieldModel := new(blockchainv3.UpdateMspCryptoField)
+				updateMspCryptoFieldModel.Ca = updateMspCryptoFieldCaModel
+				updateMspCryptoFieldModel.Tlsca = updateMspCryptoFieldTlscaModel
+				updateMspCryptoFieldModel.Component = updateMspCryptoFieldComponentModel
+
 				// Construct an instance of the ConfigPeerUpdate model
 				configPeerUpdateModel := new(blockchainv3.ConfigPeerUpdate)
 				configPeerUpdateModel.Peer = configPeerUpdatePeerModel
 				configPeerUpdateModel.Chaincode = configPeerChaincodeModel
 				configPeerUpdateModel.Metrics = metricsModel
-
-				// Construct an instance of the MspCryptoField model
-				mspCryptoFieldModel := new(blockchainv3.MspCryptoField)
-				mspCryptoFieldModel.Ca = mspCryptoFieldCaModel
-				mspCryptoFieldModel.Tlsca = mspCryptoFieldTlscaModel
-				mspCryptoFieldModel.Component = mspCryptoFieldComponentModel
 
 				// Construct an instance of the NodeOu model
 				nodeOuModel := new(blockchainv3.NodeOu)
@@ -5077,17 +5198,22 @@ var _ = Describe(`BlockchainV3`, func() {
 				peerResourcesModel.Peer = resourceObjectModel
 				peerResourcesModel.Proxy = resourceObjectModel
 
+				// Construct an instance of the UpdatePeerBodyCrypto model
+				updatePeerBodyCryptoModel := new(blockchainv3.UpdatePeerBodyCrypto)
+				updatePeerBodyCryptoModel.Enrollment = updateEnrollmentCryptoFieldModel
+				updatePeerBodyCryptoModel.Msp = updateMspCryptoFieldModel
+
 				// Construct an instance of the UpdatePeerOptions model
 				updatePeerOptionsModel := new(blockchainv3.UpdatePeerOptions)
 				updatePeerOptionsModel.ID = core.StringPtr("testString")
 				updatePeerOptionsModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				updatePeerOptionsModel.ConfigOverride = configPeerUpdateModel
-				updatePeerOptionsModel.Crypto = mspCryptoFieldModel
+				updatePeerOptionsModel.Crypto = updatePeerBodyCryptoModel
 				updatePeerOptionsModel.NodeOu = nodeOuModel
 				updatePeerOptionsModel.Replicas = core.Float64Ptr(float64(1))
 				updatePeerOptionsModel.Resources = peerResourcesModel
 				updatePeerOptionsModel.Version = core.StringPtr("1.4.6-1")
-				updatePeerOptionsModel.Zone = core.StringPtr("testString")
+				updatePeerOptionsModel.Zone = core.StringPtr("-")
 				updatePeerOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -5145,10 +5271,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				bccspSwModel.Hash = core.StringPtr("SHA2")
 				bccspSwModel.Security = core.Float64Ptr(float64(256))
 
-				// Construct an instance of the MspCryptoCompClientAuth model
-				mspCryptoCompClientAuthModel := new(blockchainv3.MspCryptoCompClientAuth)
-				mspCryptoCompClientAuthModel.Type = core.StringPtr("noclientcert")
-				mspCryptoCompClientAuthModel.TlsCerts = []string{"testString"}
+				// Construct an instance of the ClientAuth model
+				clientAuthModel := new(blockchainv3.ClientAuth)
+				clientAuthModel.Type = core.StringPtr("noclientcert")
+				clientAuthModel.TlsCerts = []string{"testString"}
 
 				// Construct an instance of the Bccsp model
 				bccspModel := new(blockchainv3.Bccsp)
@@ -5174,6 +5300,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				configOrdererMetricsStatsdModel.WriteInterval = core.StringPtr("10s")
 				configOrdererMetricsStatsdModel.Prefix = core.StringPtr("server")
 
+				// Construct an instance of the CryptoEnrollmentComponent model
+				cryptoEnrollmentComponentModel := new(blockchainv3.CryptoEnrollmentComponent)
+				cryptoEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+
 				// Construct an instance of the CryptoObjectEnrollmentCa model
 				cryptoObjectEnrollmentCaModel := new(blockchainv3.CryptoObjectEnrollmentCa)
 				cryptoObjectEnrollmentCaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
@@ -5182,10 +5312,6 @@ var _ = Describe(`BlockchainV3`, func() {
 				cryptoObjectEnrollmentCaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
 				cryptoObjectEnrollmentCaModel.EnrollID = core.StringPtr("admin")
 				cryptoObjectEnrollmentCaModel.EnrollSecret = core.StringPtr("password")
-
-				// Construct an instance of the CryptoObjectEnrollmentComponent model
-				cryptoObjectEnrollmentComponentModel := new(blockchainv3.CryptoObjectEnrollmentComponent)
-				cryptoObjectEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the CryptoObjectEnrollmentTlsca model
 				cryptoObjectEnrollmentTlscaModel := new(blockchainv3.CryptoObjectEnrollmentTlsca)
@@ -5200,16 +5326,16 @@ var _ = Describe(`BlockchainV3`, func() {
 				// Construct an instance of the MspCryptoCa model
 				mspCryptoCaModel := new(blockchainv3.MspCryptoCa)
 				mspCryptoCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				mspCryptoCaModel.Intermediatecerts = []string{"testString"}
+				mspCryptoCaModel.CaIntermediateCerts = []string{"testString"}
 
 				// Construct an instance of the MspCryptoComp model
 				mspCryptoCompModel := new(blockchainv3.MspCryptoComp)
 				mspCryptoCompModel.Ekey = core.StringPtr("testString")
 				mspCryptoCompModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoCompModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				mspCryptoCompModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				mspCryptoCompModel.TlsKey = core.StringPtr("testString")
 				mspCryptoCompModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoCompModel.ClientAuth = mspCryptoCompClientAuthModel
+				mspCryptoCompModel.ClientAuth = clientAuthModel
 
 				// Construct an instance of the ResourceLimits model
 				resourceLimitsModel := new(blockchainv3.ResourceLimits)
@@ -5239,7 +5365,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the CryptoObjectEnrollment model
 				cryptoObjectEnrollmentModel := new(blockchainv3.CryptoObjectEnrollment)
-				cryptoObjectEnrollmentModel.Component = cryptoObjectEnrollmentComponentModel
+				cryptoObjectEnrollmentModel.Component = cryptoEnrollmentComponentModel
 				cryptoObjectEnrollmentModel.Ca = cryptoObjectEnrollmentCaModel
 				cryptoObjectEnrollmentModel.Tlsca = cryptoObjectEnrollmentTlscaModel
 
@@ -5296,9 +5422,9 @@ var _ = Describe(`BlockchainV3`, func() {
 				createOrdererOptionsModel.Resources = createOrdererRaftBodyResourcesModel
 				createOrdererOptionsModel.Storage = createOrdererRaftBodyStorageModel
 				createOrdererOptionsModel.SystemChannelID = core.StringPtr("testchainid")
-				createOrdererOptionsModel.Zone = []string{"testString"}
-				createOrdererOptionsModel.Tags = []string{"testString"}
-				createOrdererOptionsModel.Region = []string{"testString"}
+				createOrdererOptionsModel.Zone = []string{"-"}
+				createOrdererOptionsModel.Tags = []string{"fabric-ca"}
+				createOrdererOptionsModel.Region = []string{"-"}
 				createOrdererOptionsModel.Hsm = hsmModel
 				createOrdererOptionsModel.Version = core.StringPtr("1.4.6-1")
 				createOrdererOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -5326,7 +5452,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "location": "ibmcloud", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "orderer_type": "raft", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["Tags"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "location": "ibmcloud", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "orderer_type": "raft", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "ca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "tlsca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"orderer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["fabric-ca"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "-"}`)
 				}))
 			})
 			It(`Invoke CreateOrderer successfully`, func() {
@@ -5355,10 +5481,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				bccspSwModel.Hash = core.StringPtr("SHA2")
 				bccspSwModel.Security = core.Float64Ptr(float64(256))
 
-				// Construct an instance of the MspCryptoCompClientAuth model
-				mspCryptoCompClientAuthModel := new(blockchainv3.MspCryptoCompClientAuth)
-				mspCryptoCompClientAuthModel.Type = core.StringPtr("noclientcert")
-				mspCryptoCompClientAuthModel.TlsCerts = []string{"testString"}
+				// Construct an instance of the ClientAuth model
+				clientAuthModel := new(blockchainv3.ClientAuth)
+				clientAuthModel.Type = core.StringPtr("noclientcert")
+				clientAuthModel.TlsCerts = []string{"testString"}
 
 				// Construct an instance of the Bccsp model
 				bccspModel := new(blockchainv3.Bccsp)
@@ -5384,6 +5510,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				configOrdererMetricsStatsdModel.WriteInterval = core.StringPtr("10s")
 				configOrdererMetricsStatsdModel.Prefix = core.StringPtr("server")
 
+				// Construct an instance of the CryptoEnrollmentComponent model
+				cryptoEnrollmentComponentModel := new(blockchainv3.CryptoEnrollmentComponent)
+				cryptoEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+
 				// Construct an instance of the CryptoObjectEnrollmentCa model
 				cryptoObjectEnrollmentCaModel := new(blockchainv3.CryptoObjectEnrollmentCa)
 				cryptoObjectEnrollmentCaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
@@ -5392,10 +5522,6 @@ var _ = Describe(`BlockchainV3`, func() {
 				cryptoObjectEnrollmentCaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
 				cryptoObjectEnrollmentCaModel.EnrollID = core.StringPtr("admin")
 				cryptoObjectEnrollmentCaModel.EnrollSecret = core.StringPtr("password")
-
-				// Construct an instance of the CryptoObjectEnrollmentComponent model
-				cryptoObjectEnrollmentComponentModel := new(blockchainv3.CryptoObjectEnrollmentComponent)
-				cryptoObjectEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the CryptoObjectEnrollmentTlsca model
 				cryptoObjectEnrollmentTlscaModel := new(blockchainv3.CryptoObjectEnrollmentTlsca)
@@ -5410,16 +5536,16 @@ var _ = Describe(`BlockchainV3`, func() {
 				// Construct an instance of the MspCryptoCa model
 				mspCryptoCaModel := new(blockchainv3.MspCryptoCa)
 				mspCryptoCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				mspCryptoCaModel.Intermediatecerts = []string{"testString"}
+				mspCryptoCaModel.CaIntermediateCerts = []string{"testString"}
 
 				// Construct an instance of the MspCryptoComp model
 				mspCryptoCompModel := new(blockchainv3.MspCryptoComp)
 				mspCryptoCompModel.Ekey = core.StringPtr("testString")
 				mspCryptoCompModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoCompModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				mspCryptoCompModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				mspCryptoCompModel.TlsKey = core.StringPtr("testString")
 				mspCryptoCompModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoCompModel.ClientAuth = mspCryptoCompClientAuthModel
+				mspCryptoCompModel.ClientAuth = clientAuthModel
 
 				// Construct an instance of the ResourceLimits model
 				resourceLimitsModel := new(blockchainv3.ResourceLimits)
@@ -5449,7 +5575,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the CryptoObjectEnrollment model
 				cryptoObjectEnrollmentModel := new(blockchainv3.CryptoObjectEnrollment)
-				cryptoObjectEnrollmentModel.Component = cryptoObjectEnrollmentComponentModel
+				cryptoObjectEnrollmentModel.Component = cryptoEnrollmentComponentModel
 				cryptoObjectEnrollmentModel.Ca = cryptoObjectEnrollmentCaModel
 				cryptoObjectEnrollmentModel.Tlsca = cryptoObjectEnrollmentTlscaModel
 
@@ -5506,9 +5632,9 @@ var _ = Describe(`BlockchainV3`, func() {
 				createOrdererOptionsModel.Resources = createOrdererRaftBodyResourcesModel
 				createOrdererOptionsModel.Storage = createOrdererRaftBodyStorageModel
 				createOrdererOptionsModel.SystemChannelID = core.StringPtr("testchainid")
-				createOrdererOptionsModel.Zone = []string{"testString"}
-				createOrdererOptionsModel.Tags = []string{"testString"}
-				createOrdererOptionsModel.Region = []string{"testString"}
+				createOrdererOptionsModel.Zone = []string{"-"}
+				createOrdererOptionsModel.Tags = []string{"fabric-ca"}
+				createOrdererOptionsModel.Region = []string{"-"}
 				createOrdererOptionsModel.Hsm = hsmModel
 				createOrdererOptionsModel.Version = core.StringPtr("1.4.6-1")
  				createOrdererOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -5539,10 +5665,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				bccspSwModel.Hash = core.StringPtr("SHA2")
 				bccspSwModel.Security = core.Float64Ptr(float64(256))
 
-				// Construct an instance of the MspCryptoCompClientAuth model
-				mspCryptoCompClientAuthModel := new(blockchainv3.MspCryptoCompClientAuth)
-				mspCryptoCompClientAuthModel.Type = core.StringPtr("noclientcert")
-				mspCryptoCompClientAuthModel.TlsCerts = []string{"testString"}
+				// Construct an instance of the ClientAuth model
+				clientAuthModel := new(blockchainv3.ClientAuth)
+				clientAuthModel.Type = core.StringPtr("noclientcert")
+				clientAuthModel.TlsCerts = []string{"testString"}
 
 				// Construct an instance of the Bccsp model
 				bccspModel := new(blockchainv3.Bccsp)
@@ -5568,6 +5694,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				configOrdererMetricsStatsdModel.WriteInterval = core.StringPtr("10s")
 				configOrdererMetricsStatsdModel.Prefix = core.StringPtr("server")
 
+				// Construct an instance of the CryptoEnrollmentComponent model
+				cryptoEnrollmentComponentModel := new(blockchainv3.CryptoEnrollmentComponent)
+				cryptoEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+
 				// Construct an instance of the CryptoObjectEnrollmentCa model
 				cryptoObjectEnrollmentCaModel := new(blockchainv3.CryptoObjectEnrollmentCa)
 				cryptoObjectEnrollmentCaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
@@ -5576,10 +5706,6 @@ var _ = Describe(`BlockchainV3`, func() {
 				cryptoObjectEnrollmentCaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
 				cryptoObjectEnrollmentCaModel.EnrollID = core.StringPtr("admin")
 				cryptoObjectEnrollmentCaModel.EnrollSecret = core.StringPtr("password")
-
-				// Construct an instance of the CryptoObjectEnrollmentComponent model
-				cryptoObjectEnrollmentComponentModel := new(blockchainv3.CryptoObjectEnrollmentComponent)
-				cryptoObjectEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the CryptoObjectEnrollmentTlsca model
 				cryptoObjectEnrollmentTlscaModel := new(blockchainv3.CryptoObjectEnrollmentTlsca)
@@ -5594,16 +5720,16 @@ var _ = Describe(`BlockchainV3`, func() {
 				// Construct an instance of the MspCryptoCa model
 				mspCryptoCaModel := new(blockchainv3.MspCryptoCa)
 				mspCryptoCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				mspCryptoCaModel.Intermediatecerts = []string{"testString"}
+				mspCryptoCaModel.CaIntermediateCerts = []string{"testString"}
 
 				// Construct an instance of the MspCryptoComp model
 				mspCryptoCompModel := new(blockchainv3.MspCryptoComp)
 				mspCryptoCompModel.Ekey = core.StringPtr("testString")
 				mspCryptoCompModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoCompModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				mspCryptoCompModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				mspCryptoCompModel.TlsKey = core.StringPtr("testString")
 				mspCryptoCompModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoCompModel.ClientAuth = mspCryptoCompClientAuthModel
+				mspCryptoCompModel.ClientAuth = clientAuthModel
 
 				// Construct an instance of the ResourceLimits model
 				resourceLimitsModel := new(blockchainv3.ResourceLimits)
@@ -5633,7 +5759,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the CryptoObjectEnrollment model
 				cryptoObjectEnrollmentModel := new(blockchainv3.CryptoObjectEnrollment)
-				cryptoObjectEnrollmentModel.Component = cryptoObjectEnrollmentComponentModel
+				cryptoObjectEnrollmentModel.Component = cryptoEnrollmentComponentModel
 				cryptoObjectEnrollmentModel.Ca = cryptoObjectEnrollmentCaModel
 				cryptoObjectEnrollmentModel.Tlsca = cryptoObjectEnrollmentTlscaModel
 
@@ -5690,9 +5816,9 @@ var _ = Describe(`BlockchainV3`, func() {
 				createOrdererOptionsModel.Resources = createOrdererRaftBodyResourcesModel
 				createOrdererOptionsModel.Storage = createOrdererRaftBodyStorageModel
 				createOrdererOptionsModel.SystemChannelID = core.StringPtr("testchainid")
-				createOrdererOptionsModel.Zone = []string{"testString"}
-				createOrdererOptionsModel.Tags = []string{"testString"}
-				createOrdererOptionsModel.Region = []string{"testString"}
+				createOrdererOptionsModel.Zone = []string{"-"}
+				createOrdererOptionsModel.Tags = []string{"fabric-ca"}
+				createOrdererOptionsModel.Region = []string{"-"}
 				createOrdererOptionsModel.Hsm = hsmModel
 				createOrdererOptionsModel.Version = core.StringPtr("1.4.6-1")
 				createOrdererOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -5742,7 +5868,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the MspCryptoFieldCa model
 				mspCryptoFieldCaModel := new(blockchainv3.MspCryptoFieldCa)
-				mspCryptoFieldCaModel.Name = core.StringPtr("org1CA")
+				mspCryptoFieldCaModel.Name = core.StringPtr("ca")
 				mspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the MspCryptoFieldComponent model
@@ -5753,7 +5879,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the MspCryptoFieldTlsca model
 				mspCryptoFieldTlscaModel := new(blockchainv3.MspCryptoFieldTlsca)
-				mspCryptoFieldTlscaModel.Name = core.StringPtr("org1tlsCA")
+				mspCryptoFieldTlscaModel.Name = core.StringPtr("tlsca")
 				mspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the MspCryptoField model
@@ -5774,7 +5900,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				importOrdererOptionsModel.Location = core.StringPtr("ibmcloud")
 				importOrdererOptionsModel.OperationsURL = core.StringPtr("https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443")
 				importOrdererOptionsModel.SystemChannelID = core.StringPtr("testchainid")
-				importOrdererOptionsModel.Tags = []string{"testString"}
+				importOrdererOptionsModel.Tags = []string{"fabric-ca"}
 				importOrdererOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.ImportOrderer(importOrdererOptionsModel)
@@ -5800,7 +5926,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "location": "ibmcloud", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "orderer_type": "raft", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["Tags"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "location": "ibmcloud", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "orderer_type": "raft", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "ca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "tlsca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"orderer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["fabric-ca"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "-"}`)
 				}))
 			})
 			It(`Invoke ImportOrderer successfully`, func() {
@@ -5819,7 +5945,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the MspCryptoFieldCa model
 				mspCryptoFieldCaModel := new(blockchainv3.MspCryptoFieldCa)
-				mspCryptoFieldCaModel.Name = core.StringPtr("org1CA")
+				mspCryptoFieldCaModel.Name = core.StringPtr("ca")
 				mspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the MspCryptoFieldComponent model
@@ -5830,7 +5956,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the MspCryptoFieldTlsca model
 				mspCryptoFieldTlscaModel := new(blockchainv3.MspCryptoFieldTlsca)
-				mspCryptoFieldTlscaModel.Name = core.StringPtr("org1tlsCA")
+				mspCryptoFieldTlscaModel.Name = core.StringPtr("tlsca")
 				mspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the MspCryptoField model
@@ -5851,7 +5977,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				importOrdererOptionsModel.Location = core.StringPtr("ibmcloud")
 				importOrdererOptionsModel.OperationsURL = core.StringPtr("https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443")
 				importOrdererOptionsModel.SystemChannelID = core.StringPtr("testchainid")
-				importOrdererOptionsModel.Tags = []string{"testString"}
+				importOrdererOptionsModel.Tags = []string{"fabric-ca"}
  				importOrdererOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -5870,7 +5996,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the MspCryptoFieldCa model
 				mspCryptoFieldCaModel := new(blockchainv3.MspCryptoFieldCa)
-				mspCryptoFieldCaModel.Name = core.StringPtr("org1CA")
+				mspCryptoFieldCaModel.Name = core.StringPtr("ca")
 				mspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the MspCryptoFieldComponent model
@@ -5881,7 +6007,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the MspCryptoFieldTlsca model
 				mspCryptoFieldTlscaModel := new(blockchainv3.MspCryptoFieldTlsca)
-				mspCryptoFieldTlscaModel.Name = core.StringPtr("org1tlsCA")
+				mspCryptoFieldTlscaModel.Name = core.StringPtr("tlsca")
 				mspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 
 				// Construct an instance of the MspCryptoField model
@@ -5902,7 +6028,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				importOrdererOptionsModel.Location = core.StringPtr("ibmcloud")
 				importOrdererOptionsModel.OperationsURL = core.StringPtr("https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443")
 				importOrdererOptionsModel.SystemChannelID = core.StringPtr("testchainid")
-				importOrdererOptionsModel.Tags = []string{"testString"}
+				importOrdererOptionsModel.Tags = []string{"fabric-ca"}
 				importOrdererOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -5960,7 +6086,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				editOrdererOptionsModel.ConsenterProposalFin = core.BoolPtr(true)
 				editOrdererOptionsModel.Location = core.StringPtr("ibmcloud")
 				editOrdererOptionsModel.SystemChannelID = core.StringPtr("testchainid")
-				editOrdererOptionsModel.Tags = []string{"testString"}
+				editOrdererOptionsModel.Tags = []string{"fabric-ca"}
 				editOrdererOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.EditOrderer(editOrdererOptionsModel)
@@ -5986,7 +6112,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "location": "ibmcloud", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "orderer_type": "raft", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["Tags"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "location": "ibmcloud", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "orderer_type": "raft", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "ca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "tlsca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"orderer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["fabric-ca"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "-"}`)
 				}))
 			})
 			It(`Invoke EditOrderer successfully`, func() {
@@ -6015,7 +6141,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				editOrdererOptionsModel.ConsenterProposalFin = core.BoolPtr(true)
 				editOrdererOptionsModel.Location = core.StringPtr("ibmcloud")
 				editOrdererOptionsModel.SystemChannelID = core.StringPtr("testchainid")
-				editOrdererOptionsModel.Tags = []string{"testString"}
+				editOrdererOptionsModel.Tags = []string{"fabric-ca"}
  				editOrdererOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -6044,7 +6170,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				editOrdererOptionsModel.ConsenterProposalFin = core.BoolPtr(true)
 				editOrdererOptionsModel.Location = core.StringPtr("ibmcloud")
 				editOrdererOptionsModel.SystemChannelID = core.StringPtr("testchainid")
-				editOrdererOptionsModel.Tags = []string{"testString"}
+				editOrdererOptionsModel.Tags = []string{"fabric-ca"}
 				editOrdererOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -6129,7 +6255,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(ordererActionPath))
 					Expect(req.Method).To(Equal("POST"))
-					res.Header().Set("Content-type", "text/plain")
+					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(202)
 					fmt.Fprintf(res, `{"message": "accepted", "id": "my-ca", "actions": ["restart"]}`)
 				}))
@@ -6241,6 +6367,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
+				// Construct an instance of the ClientAuth model
+				clientAuthModel := new(blockchainv3.ClientAuth)
+				clientAuthModel.Type = core.StringPtr("noclientcert")
+				clientAuthModel.TlsCerts = []string{"testString"}
+
 				// Construct an instance of the ConfigOrdererAuthentication model
 				configOrdererAuthenticationModel := new(blockchainv3.ConfigOrdererAuthentication)
 				configOrdererAuthenticationModel.TimeWindow = core.StringPtr("15m")
@@ -6259,6 +6390,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				configOrdererMetricsStatsdModel.WriteInterval = core.StringPtr("10s")
 				configOrdererMetricsStatsdModel.Prefix = core.StringPtr("server")
 
+				// Construct an instance of the CryptoEnrollmentComponent model
+				cryptoEnrollmentComponentModel := new(blockchainv3.CryptoEnrollmentComponent)
+				cryptoEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+
 				// Construct an instance of the ResourceLimits model
 				resourceLimitsModel := new(blockchainv3.ResourceLimits)
 				resourceLimitsModel.Cpu = core.StringPtr("100m")
@@ -6268,6 +6403,44 @@ var _ = Describe(`BlockchainV3`, func() {
 				resourceRequestsModel := new(blockchainv3.ResourceRequests)
 				resourceRequestsModel.Cpu = core.StringPtr("100m")
 				resourceRequestsModel.Memory = core.StringPtr("256MiB")
+
+				// Construct an instance of the UpdateEnrollmentCryptoFieldCa model
+				updateEnrollmentCryptoFieldCaModel := new(blockchainv3.UpdateEnrollmentCryptoFieldCa)
+				updateEnrollmentCryptoFieldCaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
+				updateEnrollmentCryptoFieldCaModel.Port = core.Float64Ptr(float64(7054))
+				updateEnrollmentCryptoFieldCaModel.Name = core.StringPtr("ca")
+				updateEnrollmentCryptoFieldCaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateEnrollmentCryptoFieldCaModel.EnrollID = core.StringPtr("admin")
+				updateEnrollmentCryptoFieldCaModel.EnrollSecret = core.StringPtr("password")
+
+				// Construct an instance of the UpdateEnrollmentCryptoFieldTlsca model
+				updateEnrollmentCryptoFieldTlscaModel := new(blockchainv3.UpdateEnrollmentCryptoFieldTlsca)
+				updateEnrollmentCryptoFieldTlscaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
+				updateEnrollmentCryptoFieldTlscaModel.Port = core.Float64Ptr(float64(7054))
+				updateEnrollmentCryptoFieldTlscaModel.Name = core.StringPtr("tlsca")
+				updateEnrollmentCryptoFieldTlscaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateEnrollmentCryptoFieldTlscaModel.EnrollID = core.StringPtr("admin")
+				updateEnrollmentCryptoFieldTlscaModel.EnrollSecret = core.StringPtr("password")
+				updateEnrollmentCryptoFieldTlscaModel.CsrHosts = []string{"testString"}
+
+				// Construct an instance of the UpdateMspCryptoFieldCa model
+				updateMspCryptoFieldCaModel := new(blockchainv3.UpdateMspCryptoFieldCa)
+				updateMspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldCaModel.CaIntermediateCerts = []string{"testString"}
+
+				// Construct an instance of the UpdateMspCryptoFieldComponent model
+				updateMspCryptoFieldComponentModel := new(blockchainv3.UpdateMspCryptoFieldComponent)
+				updateMspCryptoFieldComponentModel.Ekey = core.StringPtr("testString")
+				updateMspCryptoFieldComponentModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateMspCryptoFieldComponentModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldComponentModel.TlsKey = core.StringPtr("testString")
+				updateMspCryptoFieldComponentModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateMspCryptoFieldComponentModel.ClientAuth = clientAuthModel
+
+				// Construct an instance of the UpdateMspCryptoFieldTlsca model
+				updateMspCryptoFieldTlscaModel := new(blockchainv3.UpdateMspCryptoFieldTlsca)
+				updateMspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldTlscaModel.CaIntermediateCerts = []string{"testString"}
 
 				// Construct an instance of the ConfigOrdererDebug model
 				configOrdererDebugModel := new(blockchainv3.ConfigOrdererDebug)
@@ -6284,26 +6457,22 @@ var _ = Describe(`BlockchainV3`, func() {
 				configOrdererMetricsModel.Provider = core.StringPtr("disabled")
 				configOrdererMetricsModel.Statsd = configOrdererMetricsStatsdModel
 
-				// Construct an instance of the MspCryptoFieldCa model
-				mspCryptoFieldCaModel := new(blockchainv3.MspCryptoFieldCa)
-				mspCryptoFieldCaModel.Name = core.StringPtr("org1CA")
-				mspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
-				// Construct an instance of the MspCryptoFieldComponent model
-				mspCryptoFieldComponentModel := new(blockchainv3.MspCryptoFieldComponent)
-				mspCryptoFieldComponentModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoFieldComponentModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoFieldComponentModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
-				// Construct an instance of the MspCryptoFieldTlsca model
-				mspCryptoFieldTlscaModel := new(blockchainv3.MspCryptoFieldTlsca)
-				mspCryptoFieldTlscaModel.Name = core.StringPtr("org1tlsCA")
-				mspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
 				// Construct an instance of the ResourceObject model
 				resourceObjectModel := new(blockchainv3.ResourceObject)
 				resourceObjectModel.Requests = resourceRequestsModel
 				resourceObjectModel.Limits = resourceLimitsModel
+
+				// Construct an instance of the UpdateEnrollmentCryptoField model
+				updateEnrollmentCryptoFieldModel := new(blockchainv3.UpdateEnrollmentCryptoField)
+				updateEnrollmentCryptoFieldModel.Component = cryptoEnrollmentComponentModel
+				updateEnrollmentCryptoFieldModel.Ca = updateEnrollmentCryptoFieldCaModel
+				updateEnrollmentCryptoFieldModel.Tlsca = updateEnrollmentCryptoFieldTlscaModel
+
+				// Construct an instance of the UpdateMspCryptoField model
+				updateMspCryptoFieldModel := new(blockchainv3.UpdateMspCryptoField)
+				updateMspCryptoFieldModel.Ca = updateMspCryptoFieldCaModel
+				updateMspCryptoFieldModel.Tlsca = updateMspCryptoFieldTlscaModel
+				updateMspCryptoFieldModel.Component = updateMspCryptoFieldComponentModel
 
 				// Construct an instance of the ConfigOrdererUpdate model
 				configOrdererUpdateModel := new(blockchainv3.ConfigOrdererUpdate)
@@ -6311,15 +6480,14 @@ var _ = Describe(`BlockchainV3`, func() {
 				configOrdererUpdateModel.Debug = configOrdererDebugModel
 				configOrdererUpdateModel.Metrics = configOrdererMetricsModel
 
-				// Construct an instance of the MspCryptoField model
-				mspCryptoFieldModel := new(blockchainv3.MspCryptoField)
-				mspCryptoFieldModel.Ca = mspCryptoFieldCaModel
-				mspCryptoFieldModel.Tlsca = mspCryptoFieldTlscaModel
-				mspCryptoFieldModel.Component = mspCryptoFieldComponentModel
-
 				// Construct an instance of the NodeOu model
 				nodeOuModel := new(blockchainv3.NodeOu)
 				nodeOuModel.Enabled = core.BoolPtr(true)
+
+				// Construct an instance of the UpdateOrdererBodyCrypto model
+				updateOrdererBodyCryptoModel := new(blockchainv3.UpdateOrdererBodyCrypto)
+				updateOrdererBodyCryptoModel.Enrollment = updateEnrollmentCryptoFieldModel
+				updateOrdererBodyCryptoModel.Msp = updateMspCryptoFieldModel
 
 				// Construct an instance of the UpdateOrdererBodyResources model
 				updateOrdererBodyResourcesModel := new(blockchainv3.UpdateOrdererBodyResources)
@@ -6331,12 +6499,12 @@ var _ = Describe(`BlockchainV3`, func() {
 				updateOrdererOptionsModel.ID = core.StringPtr("testString")
 				updateOrdererOptionsModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				updateOrdererOptionsModel.ConfigOverride = configOrdererUpdateModel
-				updateOrdererOptionsModel.Crypto = mspCryptoFieldModel
+				updateOrdererOptionsModel.Crypto = updateOrdererBodyCryptoModel
 				updateOrdererOptionsModel.NodeOu = nodeOuModel
 				updateOrdererOptionsModel.Replicas = core.Float64Ptr(float64(1))
 				updateOrdererOptionsModel.Resources = updateOrdererBodyResourcesModel
 				updateOrdererOptionsModel.Version = core.StringPtr("1.4.6-1")
-				updateOrdererOptionsModel.Zone = core.StringPtr("testString")
+				updateOrdererOptionsModel.Zone = core.StringPtr("-")
 				updateOrdererOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.UpdateOrderer(updateOrdererOptionsModel)
@@ -6362,7 +6530,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "location": "ibmcloud", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "orderer_type": "raft", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["Tags"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "location": "ibmcloud", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "orderer_type": "raft", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "ca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "tlsca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"orderer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["fabric-ca"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "-"}`)
 				}))
 			})
 			It(`Invoke UpdateOrderer successfully`, func() {
@@ -6379,6 +6547,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
+				// Construct an instance of the ClientAuth model
+				clientAuthModel := new(blockchainv3.ClientAuth)
+				clientAuthModel.Type = core.StringPtr("noclientcert")
+				clientAuthModel.TlsCerts = []string{"testString"}
+
 				// Construct an instance of the ConfigOrdererAuthentication model
 				configOrdererAuthenticationModel := new(blockchainv3.ConfigOrdererAuthentication)
 				configOrdererAuthenticationModel.TimeWindow = core.StringPtr("15m")
@@ -6397,6 +6570,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				configOrdererMetricsStatsdModel.WriteInterval = core.StringPtr("10s")
 				configOrdererMetricsStatsdModel.Prefix = core.StringPtr("server")
 
+				// Construct an instance of the CryptoEnrollmentComponent model
+				cryptoEnrollmentComponentModel := new(blockchainv3.CryptoEnrollmentComponent)
+				cryptoEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+
 				// Construct an instance of the ResourceLimits model
 				resourceLimitsModel := new(blockchainv3.ResourceLimits)
 				resourceLimitsModel.Cpu = core.StringPtr("100m")
@@ -6406,6 +6583,44 @@ var _ = Describe(`BlockchainV3`, func() {
 				resourceRequestsModel := new(blockchainv3.ResourceRequests)
 				resourceRequestsModel.Cpu = core.StringPtr("100m")
 				resourceRequestsModel.Memory = core.StringPtr("256MiB")
+
+				// Construct an instance of the UpdateEnrollmentCryptoFieldCa model
+				updateEnrollmentCryptoFieldCaModel := new(blockchainv3.UpdateEnrollmentCryptoFieldCa)
+				updateEnrollmentCryptoFieldCaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
+				updateEnrollmentCryptoFieldCaModel.Port = core.Float64Ptr(float64(7054))
+				updateEnrollmentCryptoFieldCaModel.Name = core.StringPtr("ca")
+				updateEnrollmentCryptoFieldCaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateEnrollmentCryptoFieldCaModel.EnrollID = core.StringPtr("admin")
+				updateEnrollmentCryptoFieldCaModel.EnrollSecret = core.StringPtr("password")
+
+				// Construct an instance of the UpdateEnrollmentCryptoFieldTlsca model
+				updateEnrollmentCryptoFieldTlscaModel := new(blockchainv3.UpdateEnrollmentCryptoFieldTlsca)
+				updateEnrollmentCryptoFieldTlscaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
+				updateEnrollmentCryptoFieldTlscaModel.Port = core.Float64Ptr(float64(7054))
+				updateEnrollmentCryptoFieldTlscaModel.Name = core.StringPtr("tlsca")
+				updateEnrollmentCryptoFieldTlscaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateEnrollmentCryptoFieldTlscaModel.EnrollID = core.StringPtr("admin")
+				updateEnrollmentCryptoFieldTlscaModel.EnrollSecret = core.StringPtr("password")
+				updateEnrollmentCryptoFieldTlscaModel.CsrHosts = []string{"testString"}
+
+				// Construct an instance of the UpdateMspCryptoFieldCa model
+				updateMspCryptoFieldCaModel := new(blockchainv3.UpdateMspCryptoFieldCa)
+				updateMspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldCaModel.CaIntermediateCerts = []string{"testString"}
+
+				// Construct an instance of the UpdateMspCryptoFieldComponent model
+				updateMspCryptoFieldComponentModel := new(blockchainv3.UpdateMspCryptoFieldComponent)
+				updateMspCryptoFieldComponentModel.Ekey = core.StringPtr("testString")
+				updateMspCryptoFieldComponentModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateMspCryptoFieldComponentModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldComponentModel.TlsKey = core.StringPtr("testString")
+				updateMspCryptoFieldComponentModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateMspCryptoFieldComponentModel.ClientAuth = clientAuthModel
+
+				// Construct an instance of the UpdateMspCryptoFieldTlsca model
+				updateMspCryptoFieldTlscaModel := new(blockchainv3.UpdateMspCryptoFieldTlsca)
+				updateMspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldTlscaModel.CaIntermediateCerts = []string{"testString"}
 
 				// Construct an instance of the ConfigOrdererDebug model
 				configOrdererDebugModel := new(blockchainv3.ConfigOrdererDebug)
@@ -6422,26 +6637,22 @@ var _ = Describe(`BlockchainV3`, func() {
 				configOrdererMetricsModel.Provider = core.StringPtr("disabled")
 				configOrdererMetricsModel.Statsd = configOrdererMetricsStatsdModel
 
-				// Construct an instance of the MspCryptoFieldCa model
-				mspCryptoFieldCaModel := new(blockchainv3.MspCryptoFieldCa)
-				mspCryptoFieldCaModel.Name = core.StringPtr("org1CA")
-				mspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
-				// Construct an instance of the MspCryptoFieldComponent model
-				mspCryptoFieldComponentModel := new(blockchainv3.MspCryptoFieldComponent)
-				mspCryptoFieldComponentModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoFieldComponentModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoFieldComponentModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
-				// Construct an instance of the MspCryptoFieldTlsca model
-				mspCryptoFieldTlscaModel := new(blockchainv3.MspCryptoFieldTlsca)
-				mspCryptoFieldTlscaModel.Name = core.StringPtr("org1tlsCA")
-				mspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
 				// Construct an instance of the ResourceObject model
 				resourceObjectModel := new(blockchainv3.ResourceObject)
 				resourceObjectModel.Requests = resourceRequestsModel
 				resourceObjectModel.Limits = resourceLimitsModel
+
+				// Construct an instance of the UpdateEnrollmentCryptoField model
+				updateEnrollmentCryptoFieldModel := new(blockchainv3.UpdateEnrollmentCryptoField)
+				updateEnrollmentCryptoFieldModel.Component = cryptoEnrollmentComponentModel
+				updateEnrollmentCryptoFieldModel.Ca = updateEnrollmentCryptoFieldCaModel
+				updateEnrollmentCryptoFieldModel.Tlsca = updateEnrollmentCryptoFieldTlscaModel
+
+				// Construct an instance of the UpdateMspCryptoField model
+				updateMspCryptoFieldModel := new(blockchainv3.UpdateMspCryptoField)
+				updateMspCryptoFieldModel.Ca = updateMspCryptoFieldCaModel
+				updateMspCryptoFieldModel.Tlsca = updateMspCryptoFieldTlscaModel
+				updateMspCryptoFieldModel.Component = updateMspCryptoFieldComponentModel
 
 				// Construct an instance of the ConfigOrdererUpdate model
 				configOrdererUpdateModel := new(blockchainv3.ConfigOrdererUpdate)
@@ -6449,15 +6660,14 @@ var _ = Describe(`BlockchainV3`, func() {
 				configOrdererUpdateModel.Debug = configOrdererDebugModel
 				configOrdererUpdateModel.Metrics = configOrdererMetricsModel
 
-				// Construct an instance of the MspCryptoField model
-				mspCryptoFieldModel := new(blockchainv3.MspCryptoField)
-				mspCryptoFieldModel.Ca = mspCryptoFieldCaModel
-				mspCryptoFieldModel.Tlsca = mspCryptoFieldTlscaModel
-				mspCryptoFieldModel.Component = mspCryptoFieldComponentModel
-
 				// Construct an instance of the NodeOu model
 				nodeOuModel := new(blockchainv3.NodeOu)
 				nodeOuModel.Enabled = core.BoolPtr(true)
+
+				// Construct an instance of the UpdateOrdererBodyCrypto model
+				updateOrdererBodyCryptoModel := new(blockchainv3.UpdateOrdererBodyCrypto)
+				updateOrdererBodyCryptoModel.Enrollment = updateEnrollmentCryptoFieldModel
+				updateOrdererBodyCryptoModel.Msp = updateMspCryptoFieldModel
 
 				// Construct an instance of the UpdateOrdererBodyResources model
 				updateOrdererBodyResourcesModel := new(blockchainv3.UpdateOrdererBodyResources)
@@ -6469,12 +6679,12 @@ var _ = Describe(`BlockchainV3`, func() {
 				updateOrdererOptionsModel.ID = core.StringPtr("testString")
 				updateOrdererOptionsModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				updateOrdererOptionsModel.ConfigOverride = configOrdererUpdateModel
-				updateOrdererOptionsModel.Crypto = mspCryptoFieldModel
+				updateOrdererOptionsModel.Crypto = updateOrdererBodyCryptoModel
 				updateOrdererOptionsModel.NodeOu = nodeOuModel
 				updateOrdererOptionsModel.Replicas = core.Float64Ptr(float64(1))
 				updateOrdererOptionsModel.Resources = updateOrdererBodyResourcesModel
 				updateOrdererOptionsModel.Version = core.StringPtr("1.4.6-1")
-				updateOrdererOptionsModel.Zone = core.StringPtr("testString")
+				updateOrdererOptionsModel.Zone = core.StringPtr("-")
  				updateOrdererOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -6491,6 +6701,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
+				// Construct an instance of the ClientAuth model
+				clientAuthModel := new(blockchainv3.ClientAuth)
+				clientAuthModel.Type = core.StringPtr("noclientcert")
+				clientAuthModel.TlsCerts = []string{"testString"}
+
 				// Construct an instance of the ConfigOrdererAuthentication model
 				configOrdererAuthenticationModel := new(blockchainv3.ConfigOrdererAuthentication)
 				configOrdererAuthenticationModel.TimeWindow = core.StringPtr("15m")
@@ -6509,6 +6724,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				configOrdererMetricsStatsdModel.WriteInterval = core.StringPtr("10s")
 				configOrdererMetricsStatsdModel.Prefix = core.StringPtr("server")
 
+				// Construct an instance of the CryptoEnrollmentComponent model
+				cryptoEnrollmentComponentModel := new(blockchainv3.CryptoEnrollmentComponent)
+				cryptoEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+
 				// Construct an instance of the ResourceLimits model
 				resourceLimitsModel := new(blockchainv3.ResourceLimits)
 				resourceLimitsModel.Cpu = core.StringPtr("100m")
@@ -6518,6 +6737,44 @@ var _ = Describe(`BlockchainV3`, func() {
 				resourceRequestsModel := new(blockchainv3.ResourceRequests)
 				resourceRequestsModel.Cpu = core.StringPtr("100m")
 				resourceRequestsModel.Memory = core.StringPtr("256MiB")
+
+				// Construct an instance of the UpdateEnrollmentCryptoFieldCa model
+				updateEnrollmentCryptoFieldCaModel := new(blockchainv3.UpdateEnrollmentCryptoFieldCa)
+				updateEnrollmentCryptoFieldCaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
+				updateEnrollmentCryptoFieldCaModel.Port = core.Float64Ptr(float64(7054))
+				updateEnrollmentCryptoFieldCaModel.Name = core.StringPtr("ca")
+				updateEnrollmentCryptoFieldCaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateEnrollmentCryptoFieldCaModel.EnrollID = core.StringPtr("admin")
+				updateEnrollmentCryptoFieldCaModel.EnrollSecret = core.StringPtr("password")
+
+				// Construct an instance of the UpdateEnrollmentCryptoFieldTlsca model
+				updateEnrollmentCryptoFieldTlscaModel := new(blockchainv3.UpdateEnrollmentCryptoFieldTlsca)
+				updateEnrollmentCryptoFieldTlscaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
+				updateEnrollmentCryptoFieldTlscaModel.Port = core.Float64Ptr(float64(7054))
+				updateEnrollmentCryptoFieldTlscaModel.Name = core.StringPtr("tlsca")
+				updateEnrollmentCryptoFieldTlscaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateEnrollmentCryptoFieldTlscaModel.EnrollID = core.StringPtr("admin")
+				updateEnrollmentCryptoFieldTlscaModel.EnrollSecret = core.StringPtr("password")
+				updateEnrollmentCryptoFieldTlscaModel.CsrHosts = []string{"testString"}
+
+				// Construct an instance of the UpdateMspCryptoFieldCa model
+				updateMspCryptoFieldCaModel := new(blockchainv3.UpdateMspCryptoFieldCa)
+				updateMspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldCaModel.CaIntermediateCerts = []string{"testString"}
+
+				// Construct an instance of the UpdateMspCryptoFieldComponent model
+				updateMspCryptoFieldComponentModel := new(blockchainv3.UpdateMspCryptoFieldComponent)
+				updateMspCryptoFieldComponentModel.Ekey = core.StringPtr("testString")
+				updateMspCryptoFieldComponentModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateMspCryptoFieldComponentModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldComponentModel.TlsKey = core.StringPtr("testString")
+				updateMspCryptoFieldComponentModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateMspCryptoFieldComponentModel.ClientAuth = clientAuthModel
+
+				// Construct an instance of the UpdateMspCryptoFieldTlsca model
+				updateMspCryptoFieldTlscaModel := new(blockchainv3.UpdateMspCryptoFieldTlsca)
+				updateMspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldTlscaModel.CaIntermediateCerts = []string{"testString"}
 
 				// Construct an instance of the ConfigOrdererDebug model
 				configOrdererDebugModel := new(blockchainv3.ConfigOrdererDebug)
@@ -6534,26 +6791,22 @@ var _ = Describe(`BlockchainV3`, func() {
 				configOrdererMetricsModel.Provider = core.StringPtr("disabled")
 				configOrdererMetricsModel.Statsd = configOrdererMetricsStatsdModel
 
-				// Construct an instance of the MspCryptoFieldCa model
-				mspCryptoFieldCaModel := new(blockchainv3.MspCryptoFieldCa)
-				mspCryptoFieldCaModel.Name = core.StringPtr("org1CA")
-				mspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
-				// Construct an instance of the MspCryptoFieldComponent model
-				mspCryptoFieldComponentModel := new(blockchainv3.MspCryptoFieldComponent)
-				mspCryptoFieldComponentModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoFieldComponentModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoFieldComponentModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
-				// Construct an instance of the MspCryptoFieldTlsca model
-				mspCryptoFieldTlscaModel := new(blockchainv3.MspCryptoFieldTlsca)
-				mspCryptoFieldTlscaModel.Name = core.StringPtr("org1tlsCA")
-				mspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-
 				// Construct an instance of the ResourceObject model
 				resourceObjectModel := new(blockchainv3.ResourceObject)
 				resourceObjectModel.Requests = resourceRequestsModel
 				resourceObjectModel.Limits = resourceLimitsModel
+
+				// Construct an instance of the UpdateEnrollmentCryptoField model
+				updateEnrollmentCryptoFieldModel := new(blockchainv3.UpdateEnrollmentCryptoField)
+				updateEnrollmentCryptoFieldModel.Component = cryptoEnrollmentComponentModel
+				updateEnrollmentCryptoFieldModel.Ca = updateEnrollmentCryptoFieldCaModel
+				updateEnrollmentCryptoFieldModel.Tlsca = updateEnrollmentCryptoFieldTlscaModel
+
+				// Construct an instance of the UpdateMspCryptoField model
+				updateMspCryptoFieldModel := new(blockchainv3.UpdateMspCryptoField)
+				updateMspCryptoFieldModel.Ca = updateMspCryptoFieldCaModel
+				updateMspCryptoFieldModel.Tlsca = updateMspCryptoFieldTlscaModel
+				updateMspCryptoFieldModel.Component = updateMspCryptoFieldComponentModel
 
 				// Construct an instance of the ConfigOrdererUpdate model
 				configOrdererUpdateModel := new(blockchainv3.ConfigOrdererUpdate)
@@ -6561,15 +6814,14 @@ var _ = Describe(`BlockchainV3`, func() {
 				configOrdererUpdateModel.Debug = configOrdererDebugModel
 				configOrdererUpdateModel.Metrics = configOrdererMetricsModel
 
-				// Construct an instance of the MspCryptoField model
-				mspCryptoFieldModel := new(blockchainv3.MspCryptoField)
-				mspCryptoFieldModel.Ca = mspCryptoFieldCaModel
-				mspCryptoFieldModel.Tlsca = mspCryptoFieldTlscaModel
-				mspCryptoFieldModel.Component = mspCryptoFieldComponentModel
-
 				// Construct an instance of the NodeOu model
 				nodeOuModel := new(blockchainv3.NodeOu)
 				nodeOuModel.Enabled = core.BoolPtr(true)
+
+				// Construct an instance of the UpdateOrdererBodyCrypto model
+				updateOrdererBodyCryptoModel := new(blockchainv3.UpdateOrdererBodyCrypto)
+				updateOrdererBodyCryptoModel.Enrollment = updateEnrollmentCryptoFieldModel
+				updateOrdererBodyCryptoModel.Msp = updateMspCryptoFieldModel
 
 				// Construct an instance of the UpdateOrdererBodyResources model
 				updateOrdererBodyResourcesModel := new(blockchainv3.UpdateOrdererBodyResources)
@@ -6581,12 +6833,12 @@ var _ = Describe(`BlockchainV3`, func() {
 				updateOrdererOptionsModel.ID = core.StringPtr("testString")
 				updateOrdererOptionsModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				updateOrdererOptionsModel.ConfigOverride = configOrdererUpdateModel
-				updateOrdererOptionsModel.Crypto = mspCryptoFieldModel
+				updateOrdererOptionsModel.Crypto = updateOrdererBodyCryptoModel
 				updateOrdererOptionsModel.NodeOu = nodeOuModel
 				updateOrdererOptionsModel.Replicas = core.Float64Ptr(float64(1))
 				updateOrdererOptionsModel.Resources = updateOrdererBodyResourcesModel
 				updateOrdererOptionsModel.Version = core.StringPtr("1.4.6-1")
-				updateOrdererOptionsModel.Zone = core.StringPtr("testString")
+				updateOrdererOptionsModel.Zone = core.StringPtr("-")
 				updateOrdererOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -6659,9 +6911,9 @@ var _ = Describe(`BlockchainV3`, func() {
 					// Verify the contents of the request
 					Expect(req.URL.Path).To(Equal(submitBlockPath))
 					Expect(req.Method).To(Equal("PUT"))
-					res.Header().Set("Content-type", "text/plain")
+					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "location": "ibmcloud", "node_ou": {"enabled": true}, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "timestamp": 1537262855753, "tags": ["Tags"], "version": "Version", "zone": "Zone"}`)
+					fmt.Fprintf(res, `{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "location": "ibmcloud", "node_ou": {"enabled": true}, "resources": {"ca": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "timestamp": 1537262855753, "tags": ["fabric-ca"], "version": "1.4.6-1", "zone": "-"}`)
 				}))
 			})
 			It(`Invoke SubmitBlock successfully`, func() {
@@ -6752,7 +7004,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				importMspOptionsModel.MspID = core.StringPtr("Org1")
 				importMspOptionsModel.DisplayName = core.StringPtr("My Peer")
 				importMspOptionsModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				importMspOptionsModel.IntermediateCerts = []string{"testString"}
+				importMspOptionsModel.IntermediateCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkRhdGEgaGVyZSBpZiB0aGlzIHdhcyByZWFsCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"}
 				importMspOptionsModel.Admins = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				importMspOptionsModel.TlsRootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				importMspOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6780,7 +7032,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "type": "fabric-peer", "display_name": "My Peer", "msp_id": "Org1", "timestamp": 1537262855753, "tags": ["Tags"], "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "intermediate_certs": ["IntermediateCerts"], "admins": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "scheme_version": "v1", "tls_root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}`)
+					fmt.Fprintf(res, `{"id": "component-1", "type": "fabric-peer", "display_name": "My Peer", "msp_id": "Org1", "timestamp": 1537262855753, "tags": ["fabric-ca"], "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "intermediate_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkRhdGEgaGVyZSBpZiB0aGlzIHdhcyByZWFsCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"], "admins": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "scheme_version": "v1", "tls_root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}`)
 				}))
 			})
 			It(`Invoke ImportMsp successfully`, func() {
@@ -6802,7 +7054,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				importMspOptionsModel.MspID = core.StringPtr("Org1")
 				importMspOptionsModel.DisplayName = core.StringPtr("My Peer")
 				importMspOptionsModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				importMspOptionsModel.IntermediateCerts = []string{"testString"}
+				importMspOptionsModel.IntermediateCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkRhdGEgaGVyZSBpZiB0aGlzIHdhcyByZWFsCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"}
 				importMspOptionsModel.Admins = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				importMspOptionsModel.TlsRootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
  				importMspOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6826,7 +7078,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				importMspOptionsModel.MspID = core.StringPtr("Org1")
 				importMspOptionsModel.DisplayName = core.StringPtr("My Peer")
 				importMspOptionsModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				importMspOptionsModel.IntermediateCerts = []string{"testString"}
+				importMspOptionsModel.IntermediateCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkRhdGEgaGVyZSBpZiB0aGlzIHdhcyByZWFsCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"}
 				importMspOptionsModel.Admins = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				importMspOptionsModel.TlsRootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				importMspOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6880,7 +7132,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				editMspOptionsModel.MspID = core.StringPtr("Org1")
 				editMspOptionsModel.DisplayName = core.StringPtr("My Peer")
 				editMspOptionsModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				editMspOptionsModel.IntermediateCerts = []string{"testString"}
+				editMspOptionsModel.IntermediateCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkRhdGEgaGVyZSBpZiB0aGlzIHdhcyByZWFsCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"}
 				editMspOptionsModel.Admins = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				editMspOptionsModel.TlsRootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				editMspOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6908,7 +7160,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"id": "component-1", "type": "fabric-peer", "display_name": "My Peer", "msp_id": "Org1", "timestamp": 1537262855753, "tags": ["Tags"], "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "intermediate_certs": ["IntermediateCerts"], "admins": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "scheme_version": "v1", "tls_root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}`)
+					fmt.Fprintf(res, `{"id": "component-1", "type": "fabric-peer", "display_name": "My Peer", "msp_id": "Org1", "timestamp": 1537262855753, "tags": ["fabric-ca"], "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "intermediate_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkRhdGEgaGVyZSBpZiB0aGlzIHdhcyByZWFsCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"], "admins": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="], "scheme_version": "v1", "tls_root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}`)
 				}))
 			})
 			It(`Invoke EditMsp successfully`, func() {
@@ -6931,7 +7183,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				editMspOptionsModel.MspID = core.StringPtr("Org1")
 				editMspOptionsModel.DisplayName = core.StringPtr("My Peer")
 				editMspOptionsModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				editMspOptionsModel.IntermediateCerts = []string{"testString"}
+				editMspOptionsModel.IntermediateCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkRhdGEgaGVyZSBpZiB0aGlzIHdhcyByZWFsCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"}
 				editMspOptionsModel.Admins = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				editMspOptionsModel.TlsRootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
  				editMspOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -6956,7 +7208,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				editMspOptionsModel.MspID = core.StringPtr("Org1")
 				editMspOptionsModel.DisplayName = core.StringPtr("My Peer")
 				editMspOptionsModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				editMspOptionsModel.IntermediateCerts = []string{"testString"}
+				editMspOptionsModel.IntermediateCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkRhdGEgaGVyZSBpZiB0aGlzIHdhcyByZWFsCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"}
 				editMspOptionsModel.Admins = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				editMspOptionsModel.TlsRootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				editMspOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
@@ -7153,7 +7405,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"changes_made": 1, "set_admin_certs": [{"base_64_pem": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "issuer": "/C=US/ST=North Carolina/O=Hyperledger/OU=Fabric/CN=fabric-ca-server", "not_after_ts": 1597770420000, "not_before_ts": 1566234120000, "serial_number_hex": "649a1206fd0bc8be994886dd715cecb0a7a21276", "signature_algorithm": "SHA256withECDSA", "subject": "/OU=client/CN=admin", "X509_version": 3, "time_left": "TimeLeft"}]}`)
+					fmt.Fprintf(res, `{"changes_made": 1, "set_admin_certs": [{"base_64_pem": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "issuer": "/C=US/ST=North Carolina/O=Hyperledger/OU=Fabric/CN=fabric-ca-server", "not_after_ts": 1597770420000, "not_before_ts": 1566234120000, "serial_number_hex": "649a1206fd0bc8be994886dd715cecb0a7a21276", "signature_algorithm": "SHA256withECDSA", "subject": "/OU=client/CN=admin", "X509_version": 3, "time_left": "10 hrs"}]}`)
 				}))
 			})
 			It(`Invoke EditAdminCerts successfully`, func() {
@@ -7388,7 +7640,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"components": [{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "location": "ibmcloud", "node_ou": {"enabled": true}, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "timestamp": 1537262855753, "tags": ["Tags"], "version": "Version", "zone": "Zone"}]}`)
+					fmt.Fprintf(res, `{"components": [{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "location": "ibmcloud", "node_ou": {"enabled": true}, "resources": {"ca": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "timestamp": 1537262855753, "tags": ["fabric-ca"], "version": "1.4.6-1", "zone": "-"}]}`)
 				}))
 			})
 			It(`Invoke ListComponents successfully`, func() {
@@ -7514,7 +7766,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"components": [{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "location": "ibmcloud", "node_ou": {"enabled": true}, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "timestamp": 1537262855753, "tags": ["Tags"], "version": "Version", "zone": "Zone"}]}`)
+					fmt.Fprintf(res, `{"components": [{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "location": "ibmcloud", "node_ou": {"enabled": true}, "resources": {"ca": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "timestamp": 1537262855753, "tags": ["fabric-ca"], "version": "1.4.6-1", "zone": "-"}]}`)
 				}))
 			})
 			It(`Invoke GetComponentsByType successfully`, func() {
@@ -7647,7 +7899,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"components": [{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "location": "ibmcloud", "node_ou": {"enabled": true}, "resources": {"ca": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "40m", "memory": "40M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "timestamp": 1537262855753, "tags": ["Tags"], "version": "Version", "zone": "Zone"}]}`)
+					fmt.Fprintf(res, `{"components": [{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "location": "ibmcloud", "node_ou": {"enabled": true}, "resources": {"ca": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "timestamp": 1537262855753, "tags": ["fabric-ca"], "version": "1.4.6-1", "zone": "-"}]}`)
 				}))
 			})
 			It(`Invoke GetComponentByTag successfully`, func() {
@@ -8190,7 +8442,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"ACTIVITY_TRACKER_PATH": "/logs", "ATHENA_ID": "17v7e", "AUTH_SCHEME": "iam", "CALLBACK_URI": "/auth/cb", "CLUSTER_DATA": {"type": "paid"}, "CONFIGTXLATOR_URL": "https://n3a3ec3-configtxlator.ibp.us-south.containers.appdomain.cloud", "CRN": {"account_id": "a/abcd", "c_name": "staging", "c_type": "public", "instance_id": "abc123", "location": "us-south", "resource_id": "ResourceID", "resource_type": "ResourceType", "service_name": "blockchain", "version": "v1"}, "CRN_STRING": "crn:v1:staging:public:blockchain:us-south:a/abcd:abc123::", "CSP_HEADER_VALUES": ["CSPHEADERVALUES"], "DB_SYSTEM": "system", "DEPLOYER_URL": "https://api.dev.blockchain.cloud.ibm.com", "DOMAIN": "DOMAIN", "ENVIRONMENT": "ENVIRONMENT", "FABRIC_CAPABILITIES": {"application": ["V1_1"], "channel": ["V1_1"], "orderer": ["V1_1"]}, "FEATURE_FLAGS": {"anyKey": "anyValue"}, "FILE_LOGGING": {"server": {"client": {"enabled": true, "level": "silly", "unique_name": false}, "server": {"enabled": true, "level": "silly", "unique_name": false}}, "client": {"client": {"enabled": true, "level": "silly", "unique_name": false}, "server": {"enabled": true, "level": "silly", "unique_name": false}}}, "HOST_URL": "http://localhost:3000", "IAM_CACHE_ENABLED": true, "IAM_URL": "IAMURL", "IBM_ID_CALLBACK_URL": "IBMIDCALLBACKURL", "IGNORE_CONFIG_FILE": true, "INACTIVITY_TIMEOUTS": {"enabled": true, "max_idle_time": 60000}, "INFRASTRUCTURE": "ibmcloud", "LANDING_URL": "http://localhost:3000", "LOGIN_URI": "/auth/login", "LOGOUT_URI": "/auth/logout", "MAX_REQ_PER_MIN": 25, "MAX_REQ_PER_MIN_AK": 25, "MEMORY_CACHE_ENABLED": true, "PORT": "3000", "PROXY_CACHE_ENABLED": true, "PROXY_TLS_FABRIC_REQS": "PROXYTLSFABRICREQS", "PROXY_TLS_HTTP_URL": "PROXYTLSHTTPURL", "PROXY_TLS_WS_URL": "anyValue", "REGION": "REGION", "SESSION_CACHE_ENABLED": true, "TIMEOUTS": {"anyKey": "anyValue"}, "TIMESTAMPS": {"now": 1542746836056, "born": 1542746836056, "next_settings_update": "1.2 mins", "up_time": "30 days"}, "TRANSACTION_VISIBILITY": {"anyKey": "anyValue"}, "TRUST_PROXY": "loopback", "TRUST_UNKNOWN_CERTS": true, "VERSIONS": {"apollo": "65f3cbfd", "athena": "1198f94", "stitch": "0f1a0c6", "tag": "v0.4.31"}}`)
+					fmt.Fprintf(res, `{"ACTIVITY_TRACKER_PATH": "/logs", "ATHENA_ID": "17v7e", "AUTH_SCHEME": "iam", "CALLBACK_URI": "/auth/cb", "CLUSTER_DATA": {"type": "paid"}, "CONFIGTXLATOR_URL": "https://n3a3ec3-configtxlator.ibp.us-south.containers.appdomain.cloud", "CRN": {"account_id": "a/abcd", "c_name": "staging", "c_type": "public", "instance_id": "abc123", "location": "us-south", "resource_id": "-", "resource_type": "-", "service_name": "blockchain", "version": "v1"}, "CRN_STRING": "crn:v1:staging:public:blockchain:us-south:a/abcd:abc123::", "CSP_HEADER_VALUES": ["-"], "DB_SYSTEM": "system", "DEPLOYER_URL": "https://api.dev.blockchain.cloud.ibm.com", "DOMAIN": "localhost", "ENVIRONMENT": "prod", "FABRIC_CAPABILITIES": {"application": ["V1_1"], "channel": ["V1_1"], "orderer": ["V1_1"]}, "FEATURE_FLAGS": {"anyKey": "anyValue"}, "FILE_LOGGING": {"server": {"client": {"enabled": true, "level": "silly", "unique_name": false}, "server": {"enabled": true, "level": "silly", "unique_name": false}}, "client": {"client": {"enabled": true, "level": "silly", "unique_name": false}, "server": {"enabled": true, "level": "silly", "unique_name": false}}}, "HOST_URL": "http://localhost:3000", "IAM_CACHE_ENABLED": true, "IAM_URL": "-", "IBM_ID_CALLBACK_URL": "http://localhost:3000/auth/login", "IGNORE_CONFIG_FILE": true, "INACTIVITY_TIMEOUTS": {"enabled": true, "max_idle_time": 60000}, "INFRASTRUCTURE": "ibmcloud", "LANDING_URL": "http://localhost:3000", "LOGIN_URI": "/auth/login", "LOGOUT_URI": "/auth/logout", "MAX_REQ_PER_MIN": 25, "MAX_REQ_PER_MIN_AK": 25, "MEMORY_CACHE_ENABLED": true, "PORT": "3000", "PROXY_CACHE_ENABLED": true, "PROXY_TLS_FABRIC_REQS": "always", "PROXY_TLS_HTTP_URL": "http://localhost:3000", "PROXY_TLS_WS_URL": "anyValue", "REGION": "us_south", "SESSION_CACHE_ENABLED": true, "TIMEOUTS": {"anyKey": "anyValue"}, "TIMESTAMPS": {"now": 1542746836056, "born": 1542746836056, "next_settings_update": "1.2 mins", "up_time": "30 days"}, "TRANSACTION_VISIBILITY": {"anyKey": "anyValue"}, "TRUST_PROXY": "loopback", "TRUST_UNKNOWN_CERTS": true, "VERSIONS": {"apollo": "65f3cbfd", "athena": "1198f94", "stitch": "0f1a0c6", "tag": "v0.4.31"}}`)
 				}))
 			})
 			It(`Invoke GetSettings successfully`, func() {
@@ -8325,7 +8577,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("PUT"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"ACTIVITY_TRACKER_PATH": "/logs", "ATHENA_ID": "17v7e", "AUTH_SCHEME": "iam", "CALLBACK_URI": "/auth/cb", "CLUSTER_DATA": {"type": "paid"}, "CONFIGTXLATOR_URL": "https://n3a3ec3-configtxlator.ibp.us-south.containers.appdomain.cloud", "CRN": {"account_id": "a/abcd", "c_name": "staging", "c_type": "public", "instance_id": "abc123", "location": "us-south", "resource_id": "ResourceID", "resource_type": "ResourceType", "service_name": "blockchain", "version": "v1"}, "CRN_STRING": "crn:v1:staging:public:blockchain:us-south:a/abcd:abc123::", "CSP_HEADER_VALUES": ["CSPHEADERVALUES"], "DB_SYSTEM": "system", "DEPLOYER_URL": "https://api.dev.blockchain.cloud.ibm.com", "DOMAIN": "DOMAIN", "ENVIRONMENT": "ENVIRONMENT", "FABRIC_CAPABILITIES": {"application": ["V1_1"], "channel": ["V1_1"], "orderer": ["V1_1"]}, "FEATURE_FLAGS": {"anyKey": "anyValue"}, "FILE_LOGGING": {"server": {"client": {"enabled": true, "level": "silly", "unique_name": false}, "server": {"enabled": true, "level": "silly", "unique_name": false}}, "client": {"client": {"enabled": true, "level": "silly", "unique_name": false}, "server": {"enabled": true, "level": "silly", "unique_name": false}}}, "HOST_URL": "http://localhost:3000", "IAM_CACHE_ENABLED": true, "IAM_URL": "IAMURL", "IBM_ID_CALLBACK_URL": "IBMIDCALLBACKURL", "IGNORE_CONFIG_FILE": true, "INACTIVITY_TIMEOUTS": {"enabled": true, "max_idle_time": 60000}, "INFRASTRUCTURE": "ibmcloud", "LANDING_URL": "http://localhost:3000", "LOGIN_URI": "/auth/login", "LOGOUT_URI": "/auth/logout", "MAX_REQ_PER_MIN": 25, "MAX_REQ_PER_MIN_AK": 25, "MEMORY_CACHE_ENABLED": true, "PORT": "3000", "PROXY_CACHE_ENABLED": true, "PROXY_TLS_FABRIC_REQS": "PROXYTLSFABRICREQS", "PROXY_TLS_HTTP_URL": "PROXYTLSHTTPURL", "PROXY_TLS_WS_URL": "anyValue", "REGION": "REGION", "SESSION_CACHE_ENABLED": true, "TIMEOUTS": {"anyKey": "anyValue"}, "TIMESTAMPS": {"now": 1542746836056, "born": 1542746836056, "next_settings_update": "1.2 mins", "up_time": "30 days"}, "TRANSACTION_VISIBILITY": {"anyKey": "anyValue"}, "TRUST_PROXY": "loopback", "TRUST_UNKNOWN_CERTS": true, "VERSIONS": {"apollo": "65f3cbfd", "athena": "1198f94", "stitch": "0f1a0c6", "tag": "v0.4.31"}}`)
+					fmt.Fprintf(res, `{"ACTIVITY_TRACKER_PATH": "/logs", "ATHENA_ID": "17v7e", "AUTH_SCHEME": "iam", "CALLBACK_URI": "/auth/cb", "CLUSTER_DATA": {"type": "paid"}, "CONFIGTXLATOR_URL": "https://n3a3ec3-configtxlator.ibp.us-south.containers.appdomain.cloud", "CRN": {"account_id": "a/abcd", "c_name": "staging", "c_type": "public", "instance_id": "abc123", "location": "us-south", "resource_id": "-", "resource_type": "-", "service_name": "blockchain", "version": "v1"}, "CRN_STRING": "crn:v1:staging:public:blockchain:us-south:a/abcd:abc123::", "CSP_HEADER_VALUES": ["-"], "DB_SYSTEM": "system", "DEPLOYER_URL": "https://api.dev.blockchain.cloud.ibm.com", "DOMAIN": "localhost", "ENVIRONMENT": "prod", "FABRIC_CAPABILITIES": {"application": ["V1_1"], "channel": ["V1_1"], "orderer": ["V1_1"]}, "FEATURE_FLAGS": {"anyKey": "anyValue"}, "FILE_LOGGING": {"server": {"client": {"enabled": true, "level": "silly", "unique_name": false}, "server": {"enabled": true, "level": "silly", "unique_name": false}}, "client": {"client": {"enabled": true, "level": "silly", "unique_name": false}, "server": {"enabled": true, "level": "silly", "unique_name": false}}}, "HOST_URL": "http://localhost:3000", "IAM_CACHE_ENABLED": true, "IAM_URL": "-", "IBM_ID_CALLBACK_URL": "http://localhost:3000/auth/login", "IGNORE_CONFIG_FILE": true, "INACTIVITY_TIMEOUTS": {"enabled": true, "max_idle_time": 60000}, "INFRASTRUCTURE": "ibmcloud", "LANDING_URL": "http://localhost:3000", "LOGIN_URI": "/auth/login", "LOGOUT_URI": "/auth/logout", "MAX_REQ_PER_MIN": 25, "MAX_REQ_PER_MIN_AK": 25, "MEMORY_CACHE_ENABLED": true, "PORT": "3000", "PROXY_CACHE_ENABLED": true, "PROXY_TLS_FABRIC_REQS": "always", "PROXY_TLS_HTTP_URL": "http://localhost:3000", "PROXY_TLS_WS_URL": "anyValue", "REGION": "us_south", "SESSION_CACHE_ENABLED": true, "TIMEOUTS": {"anyKey": "anyValue"}, "TIMESTAMPS": {"now": 1542746836056, "born": 1542746836056, "next_settings_update": "1.2 mins", "up_time": "30 days"}, "TRANSACTION_VISIBILITY": {"anyKey": "anyValue"}, "TRUST_PROXY": "loopback", "TRUST_UNKNOWN_CERTS": true, "VERSIONS": {"apollo": "65f3cbfd", "athena": "1198f94", "stitch": "0f1a0c6", "tag": "v0.4.31"}}`)
 				}))
 			})
 			It(`Invoke EditSettings successfully`, func() {
@@ -8602,7 +8854,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("GET"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"OPTOOLS": {"instance_id": "p59ta", "now": 1542746836056, "born": 1542746836056, "up_time": "30 days", "memory_usage": {"rss": "56.1 MB", "heapTotal": "34.4 MB", "heapUsed": "28.4 MB", "external": "369.3 KB"}, "session_cache_stats": {"hits": 42, "misses": 11, "keys": 4, "cache_size": "CacheSize"}, "couch_cache_stats": {"hits": 42, "misses": 11, "keys": 4, "cache_size": "CacheSize"}, "iam_cache_stats": {"hits": 42, "misses": 11, "keys": 4, "cache_size": "CacheSize"}, "proxy_cache": {"hits": 42, "misses": 11, "keys": 4, "cache_size": "CacheSize"}}, "OS": {"arch": "x64", "type": "Windows_NT", "endian": "LE", "loadavg": "[0,0,0]", "cpus": [{"model": "Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz", "speed": "2592", "times": {"idle": 131397203, "irq": 6068640, "nice": 0, "sys": 9652328, "user": 4152187}}], "total_memory": "31.7 GB", "free_memory": "21.9 GB", "up_time": "4.9 days"}}`)
+					fmt.Fprintf(res, `{"OPTOOLS": {"instance_id": "p59ta", "now": 1542746836056, "born": 1542746836056, "up_time": "30 days", "memory_usage": {"rss": "56.1 MB", "heapTotal": "34.4 MB", "heapUsed": "28.4 MB", "external": "369.3 KB"}, "session_cache_stats": {"hits": 42, "misses": 11, "keys": 100, "cache_size": "4.19 KiB"}, "couch_cache_stats": {"hits": 42, "misses": 11, "keys": 100, "cache_size": "4.19 KiB"}, "iam_cache_stats": {"hits": 42, "misses": 11, "keys": 100, "cache_size": "4.19 KiB"}, "proxy_cache": {"hits": 42, "misses": 11, "keys": 100, "cache_size": "4.19 KiB"}}, "OS": {"arch": "x64", "type": "Windows_NT", "endian": "LE", "loadavg": [0], "cpus": [{"model": "Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz", "speed": 2592, "times": {"idle": 131397203, "irq": 6068640, "nice": 0, "sys": 9652328, "user": 4152187}}], "total_memory": "31.7 GB", "free_memory": "21.9 GB", "up_time": "4.9 days"}}`)
 				}))
 			})
 			It(`Invoke GetHealth successfully`, func() {
@@ -8723,7 +8975,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"total": 10, "returning": 3, "notifications": [{"id": "60d84819bfa17adb4174ff3a1c52b5d6", "type": "notification", "status": "pending", "by": "By", "message": "Restarting application", "ts_display": 1537262855753}]}`)
+					fmt.Fprintf(res, `{"total": 10, "returning": 3, "notifications": [{"id": "60d84819bfa17adb4174ff3a1c52b5d6", "type": "notification", "status": "pending", "by": "d******a@us.ibm.com", "message": "Restarting application", "ts_display": 1537262855753}]}`)
 				}))
 			})
 			It(`Invoke ListNotifications successfully`, func() {
@@ -9055,7 +9307,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"message": "restarting - give me 10 seconds"}`)
+					fmt.Fprintf(res, `{"message": "restarting - give me 5-30 seconds"}`)
 				}))
 			})
 			It(`Invoke Restart successfully`, func() {
@@ -9361,7 +9613,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("DELETE"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"message": "ok", "flushed": ["couch_cache"]}`)
+					fmt.Fprintf(res, `{"message": "ok", "flushed": ["iam_cache"]}`)
 				}))
 			})
 			It(`Invoke ClearCaches successfully`, func() {
@@ -10329,11 +10581,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				createCaOptionsModel.SetConfigOverride(createCaBodyConfigOverrideModel)
 				createCaOptionsModel.SetResources(createCaBodyResourcesModel)
 				createCaOptionsModel.SetStorage(createCaBodyStorageModel)
-				createCaOptionsModel.SetZone("testString")
+				createCaOptionsModel.SetZone("-")
 				createCaOptionsModel.SetReplicas(float64(1))
-				createCaOptionsModel.SetTags([]string{"testString"})
+				createCaOptionsModel.SetTags([]string{"fabric-ca"})
 				createCaOptionsModel.SetHsm(hsmModel)
-				createCaOptionsModel.SetRegion("testString")
+				createCaOptionsModel.SetRegion("-")
 				createCaOptionsModel.SetVersion("1.4.6-1")
 				createCaOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createCaOptionsModel).ToNot(BeNil())
@@ -10341,11 +10593,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(createCaOptionsModel.ConfigOverride).To(Equal(createCaBodyConfigOverrideModel))
 				Expect(createCaOptionsModel.Resources).To(Equal(createCaBodyResourcesModel))
 				Expect(createCaOptionsModel.Storage).To(Equal(createCaBodyStorageModel))
-				Expect(createCaOptionsModel.Zone).To(Equal(core.StringPtr("testString")))
+				Expect(createCaOptionsModel.Zone).To(Equal(core.StringPtr("-")))
 				Expect(createCaOptionsModel.Replicas).To(Equal(core.Float64Ptr(float64(1))))
-				Expect(createCaOptionsModel.Tags).To(Equal([]string{"testString"}))
+				Expect(createCaOptionsModel.Tags).To(Equal([]string{"fabric-ca"}))
 				Expect(createCaOptionsModel.Hsm).To(Equal(hsmModel))
-				Expect(createCaOptionsModel.Region).To(Equal(core.StringPtr("testString")))
+				Expect(createCaOptionsModel.Region).To(Equal(core.StringPtr("-")))
 				Expect(createCaOptionsModel.Version).To(Equal(core.StringPtr("1.4.6-1")))
 				Expect(createCaOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -10370,13 +10622,13 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(bccspSwModel.Hash).To(Equal(core.StringPtr("SHA2")))
 				Expect(bccspSwModel.Security).To(Equal(core.Float64Ptr(float64(256))))
 
-				// Construct an instance of the MspCryptoCompClientAuth model
-				mspCryptoCompClientAuthModel := new(blockchainv3.MspCryptoCompClientAuth)
-				Expect(mspCryptoCompClientAuthModel).ToNot(BeNil())
-				mspCryptoCompClientAuthModel.Type = core.StringPtr("noclientcert")
-				mspCryptoCompClientAuthModel.TlsCerts = []string{"testString"}
-				Expect(mspCryptoCompClientAuthModel.Type).To(Equal(core.StringPtr("noclientcert")))
-				Expect(mspCryptoCompClientAuthModel.TlsCerts).To(Equal([]string{"testString"}))
+				// Construct an instance of the ClientAuth model
+				clientAuthModel := new(blockchainv3.ClientAuth)
+				Expect(clientAuthModel).ToNot(BeNil())
+				clientAuthModel.Type = core.StringPtr("noclientcert")
+				clientAuthModel.TlsCerts = []string{"testString"}
+				Expect(clientAuthModel.Type).To(Equal(core.StringPtr("noclientcert")))
+				Expect(clientAuthModel.TlsCerts).To(Equal([]string{"testString"}))
 
 				// Construct an instance of the Bccsp model
 				bccspModel := new(blockchainv3.Bccsp)
@@ -10418,6 +10670,12 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(configOrdererMetricsStatsdModel.WriteInterval).To(Equal(core.StringPtr("10s")))
 				Expect(configOrdererMetricsStatsdModel.Prefix).To(Equal(core.StringPtr("server")))
 
+				// Construct an instance of the CryptoEnrollmentComponent model
+				cryptoEnrollmentComponentModel := new(blockchainv3.CryptoEnrollmentComponent)
+				Expect(cryptoEnrollmentComponentModel).ToNot(BeNil())
+				cryptoEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				Expect(cryptoEnrollmentComponentModel.Admincerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
+
 				// Construct an instance of the CryptoObjectEnrollmentCa model
 				cryptoObjectEnrollmentCaModel := new(blockchainv3.CryptoObjectEnrollmentCa)
 				Expect(cryptoObjectEnrollmentCaModel).ToNot(BeNil())
@@ -10433,12 +10691,6 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(cryptoObjectEnrollmentCaModel.TlsCert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
 				Expect(cryptoObjectEnrollmentCaModel.EnrollID).To(Equal(core.StringPtr("admin")))
 				Expect(cryptoObjectEnrollmentCaModel.EnrollSecret).To(Equal(core.StringPtr("password")))
-
-				// Construct an instance of the CryptoObjectEnrollmentComponent model
-				cryptoObjectEnrollmentComponentModel := new(blockchainv3.CryptoObjectEnrollmentComponent)
-				Expect(cryptoObjectEnrollmentComponentModel).ToNot(BeNil())
-				cryptoObjectEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				Expect(cryptoObjectEnrollmentComponentModel.Admincerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
 
 				// Construct an instance of the CryptoObjectEnrollmentTlsca model
 				cryptoObjectEnrollmentTlscaModel := new(blockchainv3.CryptoObjectEnrollmentTlsca)
@@ -10462,25 +10714,25 @@ var _ = Describe(`BlockchainV3`, func() {
 				mspCryptoCaModel := new(blockchainv3.MspCryptoCa)
 				Expect(mspCryptoCaModel).ToNot(BeNil())
 				mspCryptoCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				mspCryptoCaModel.Intermediatecerts = []string{"testString"}
+				mspCryptoCaModel.CaIntermediateCerts = []string{"testString"}
 				Expect(mspCryptoCaModel.RootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
-				Expect(mspCryptoCaModel.Intermediatecerts).To(Equal([]string{"testString"}))
+				Expect(mspCryptoCaModel.CaIntermediateCerts).To(Equal([]string{"testString"}))
 
 				// Construct an instance of the MspCryptoComp model
 				mspCryptoCompModel := new(blockchainv3.MspCryptoComp)
 				Expect(mspCryptoCompModel).ToNot(BeNil())
 				mspCryptoCompModel.Ekey = core.StringPtr("testString")
 				mspCryptoCompModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoCompModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				mspCryptoCompModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				mspCryptoCompModel.TlsKey = core.StringPtr("testString")
 				mspCryptoCompModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoCompModel.ClientAuth = mspCryptoCompClientAuthModel
+				mspCryptoCompModel.ClientAuth = clientAuthModel
 				Expect(mspCryptoCompModel.Ekey).To(Equal(core.StringPtr("testString")))
 				Expect(mspCryptoCompModel.Ecert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
-				Expect(mspCryptoCompModel.Admincerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
+				Expect(mspCryptoCompModel.AdminCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
 				Expect(mspCryptoCompModel.TlsKey).To(Equal(core.StringPtr("testString")))
 				Expect(mspCryptoCompModel.TlsCert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
-				Expect(mspCryptoCompModel.ClientAuth).To(Equal(mspCryptoCompClientAuthModel))
+				Expect(mspCryptoCompModel.ClientAuth).To(Equal(clientAuthModel))
 
 				// Construct an instance of the ResourceLimits model
 				resourceLimitsModel := new(blockchainv3.ResourceLimits)
@@ -10527,10 +10779,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				// Construct an instance of the CryptoObjectEnrollment model
 				cryptoObjectEnrollmentModel := new(blockchainv3.CryptoObjectEnrollment)
 				Expect(cryptoObjectEnrollmentModel).ToNot(BeNil())
-				cryptoObjectEnrollmentModel.Component = cryptoObjectEnrollmentComponentModel
+				cryptoObjectEnrollmentModel.Component = cryptoEnrollmentComponentModel
 				cryptoObjectEnrollmentModel.Ca = cryptoObjectEnrollmentCaModel
 				cryptoObjectEnrollmentModel.Tlsca = cryptoObjectEnrollmentTlscaModel
-				Expect(cryptoObjectEnrollmentModel.Component).To(Equal(cryptoObjectEnrollmentComponentModel))
+				Expect(cryptoObjectEnrollmentModel.Component).To(Equal(cryptoEnrollmentComponentModel))
 				Expect(cryptoObjectEnrollmentModel.Ca).To(Equal(cryptoObjectEnrollmentCaModel))
 				Expect(cryptoObjectEnrollmentModel.Tlsca).To(Equal(cryptoObjectEnrollmentTlscaModel))
 
@@ -10615,9 +10867,9 @@ var _ = Describe(`BlockchainV3`, func() {
 				createOrdererOptionsModel.SetResources(createOrdererRaftBodyResourcesModel)
 				createOrdererOptionsModel.SetStorage(createOrdererRaftBodyStorageModel)
 				createOrdererOptionsModel.SetSystemChannelID("testchainid")
-				createOrdererOptionsModel.SetZone([]string{"testString"})
-				createOrdererOptionsModel.SetTags([]string{"testString"})
-				createOrdererOptionsModel.SetRegion([]string{"testString"})
+				createOrdererOptionsModel.SetZone([]string{"-"})
+				createOrdererOptionsModel.SetTags([]string{"fabric-ca"})
+				createOrdererOptionsModel.SetRegion([]string{"-"})
 				createOrdererOptionsModel.SetHsm(hsmModel)
 				createOrdererOptionsModel.SetVersion("1.4.6-1")
 				createOrdererOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -10633,9 +10885,9 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(createOrdererOptionsModel.Resources).To(Equal(createOrdererRaftBodyResourcesModel))
 				Expect(createOrdererOptionsModel.Storage).To(Equal(createOrdererRaftBodyStorageModel))
 				Expect(createOrdererOptionsModel.SystemChannelID).To(Equal(core.StringPtr("testchainid")))
-				Expect(createOrdererOptionsModel.Zone).To(Equal([]string{"testString"}))
-				Expect(createOrdererOptionsModel.Tags).To(Equal([]string{"testString"}))
-				Expect(createOrdererOptionsModel.Region).To(Equal([]string{"testString"}))
+				Expect(createOrdererOptionsModel.Zone).To(Equal([]string{"-"}))
+				Expect(createOrdererOptionsModel.Tags).To(Equal([]string{"fabric-ca"}))
+				Expect(createOrdererOptionsModel.Region).To(Equal([]string{"-"}))
 				Expect(createOrdererOptionsModel.Hsm).To(Equal(hsmModel))
 				Expect(createOrdererOptionsModel.Version).To(Equal(core.StringPtr("1.4.6-1")))
 				Expect(createOrdererOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -10683,6 +10935,14 @@ var _ = Describe(`BlockchainV3`, func() {
 				bccspSwModel.Security = core.Float64Ptr(float64(256))
 				Expect(bccspSwModel.Hash).To(Equal(core.StringPtr("SHA2")))
 				Expect(bccspSwModel.Security).To(Equal(core.Float64Ptr(float64(256))))
+
+				// Construct an instance of the ClientAuth model
+				clientAuthModel := new(blockchainv3.ClientAuth)
+				Expect(clientAuthModel).ToNot(BeNil())
+				clientAuthModel.Type = core.StringPtr("noclientcert")
+				clientAuthModel.TlsCerts = []string{"testString"}
+				Expect(clientAuthModel.Type).To(Equal(core.StringPtr("noclientcert")))
+				Expect(clientAuthModel.TlsCerts).To(Equal([]string{"testString"}))
 
 				// Construct an instance of the ConfigPeerDeliveryclientAddressOverridesItem model
 				configPeerDeliveryclientAddressOverridesItemModel := new(blockchainv3.ConfigPeerDeliveryclientAddressOverridesItem)
@@ -10763,18 +11023,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				// Construct an instance of the ConfigPeerLimitsConcurrency model
 				configPeerLimitsConcurrencyModel := new(blockchainv3.ConfigPeerLimitsConcurrency)
 				Expect(configPeerLimitsConcurrencyModel).ToNot(BeNil())
-				configPeerLimitsConcurrencyModel.EndorserService = map[string]interface{}{"anyKey": "anyValue"}
-				configPeerLimitsConcurrencyModel.DeliverService = map[string]interface{}{"anyKey": "anyValue"}
-				Expect(configPeerLimitsConcurrencyModel.EndorserService).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
-				Expect(configPeerLimitsConcurrencyModel.DeliverService).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
-
-				// Construct an instance of the MspCryptoCompClientAuth model
-				mspCryptoCompClientAuthModel := new(blockchainv3.MspCryptoCompClientAuth)
-				Expect(mspCryptoCompClientAuthModel).ToNot(BeNil())
-				mspCryptoCompClientAuthModel.Type = core.StringPtr("noclientcert")
-				mspCryptoCompClientAuthModel.TlsCerts = []string{"testString"}
-				Expect(mspCryptoCompClientAuthModel.Type).To(Equal(core.StringPtr("noclientcert")))
-				Expect(mspCryptoCompClientAuthModel.TlsCerts).To(Equal([]string{"testString"}))
+				configPeerLimitsConcurrencyModel.EndorserService = core.Float64Ptr(float64(2500))
+				configPeerLimitsConcurrencyModel.DeliverService = core.Float64Ptr(float64(2500))
+				Expect(configPeerLimitsConcurrencyModel.EndorserService).To(Equal(core.Float64Ptr(float64(2500))))
+				Expect(configPeerLimitsConcurrencyModel.DeliverService).To(Equal(core.Float64Ptr(float64(2500))))
 
 				// Construct an instance of the Bccsp model
 				bccspModel := new(blockchainv3.Bccsp)
@@ -10944,6 +11196,12 @@ var _ = Describe(`BlockchainV3`, func() {
 				configPeerLimitsModel.Concurrency = configPeerLimitsConcurrencyModel
 				Expect(configPeerLimitsModel.Concurrency).To(Equal(configPeerLimitsConcurrencyModel))
 
+				// Construct an instance of the CryptoEnrollmentComponent model
+				cryptoEnrollmentComponentModel := new(blockchainv3.CryptoEnrollmentComponent)
+				Expect(cryptoEnrollmentComponentModel).ToNot(BeNil())
+				cryptoEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				Expect(cryptoEnrollmentComponentModel.Admincerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
+
 				// Construct an instance of the CryptoObjectEnrollmentCa model
 				cryptoObjectEnrollmentCaModel := new(blockchainv3.CryptoObjectEnrollmentCa)
 				Expect(cryptoObjectEnrollmentCaModel).ToNot(BeNil())
@@ -10959,12 +11217,6 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(cryptoObjectEnrollmentCaModel.TlsCert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
 				Expect(cryptoObjectEnrollmentCaModel.EnrollID).To(Equal(core.StringPtr("admin")))
 				Expect(cryptoObjectEnrollmentCaModel.EnrollSecret).To(Equal(core.StringPtr("password")))
-
-				// Construct an instance of the CryptoObjectEnrollmentComponent model
-				cryptoObjectEnrollmentComponentModel := new(blockchainv3.CryptoObjectEnrollmentComponent)
-				Expect(cryptoObjectEnrollmentComponentModel).ToNot(BeNil())
-				cryptoObjectEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				Expect(cryptoObjectEnrollmentComponentModel.Admincerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
 
 				// Construct an instance of the CryptoObjectEnrollmentTlsca model
 				cryptoObjectEnrollmentTlscaModel := new(blockchainv3.CryptoObjectEnrollmentTlsca)
@@ -11000,25 +11252,25 @@ var _ = Describe(`BlockchainV3`, func() {
 				mspCryptoCaModel := new(blockchainv3.MspCryptoCa)
 				Expect(mspCryptoCaModel).ToNot(BeNil())
 				mspCryptoCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				mspCryptoCaModel.Intermediatecerts = []string{"testString"}
+				mspCryptoCaModel.CaIntermediateCerts = []string{"testString"}
 				Expect(mspCryptoCaModel.RootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
-				Expect(mspCryptoCaModel.Intermediatecerts).To(Equal([]string{"testString"}))
+				Expect(mspCryptoCaModel.CaIntermediateCerts).To(Equal([]string{"testString"}))
 
 				// Construct an instance of the MspCryptoComp model
 				mspCryptoCompModel := new(blockchainv3.MspCryptoComp)
 				Expect(mspCryptoCompModel).ToNot(BeNil())
 				mspCryptoCompModel.Ekey = core.StringPtr("testString")
 				mspCryptoCompModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoCompModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				mspCryptoCompModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
 				mspCryptoCompModel.TlsKey = core.StringPtr("testString")
 				mspCryptoCompModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoCompModel.ClientAuth = mspCryptoCompClientAuthModel
+				mspCryptoCompModel.ClientAuth = clientAuthModel
 				Expect(mspCryptoCompModel.Ekey).To(Equal(core.StringPtr("testString")))
 				Expect(mspCryptoCompModel.Ecert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
-				Expect(mspCryptoCompModel.Admincerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
+				Expect(mspCryptoCompModel.AdminCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
 				Expect(mspCryptoCompModel.TlsKey).To(Equal(core.StringPtr("testString")))
 				Expect(mspCryptoCompModel.TlsCert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
-				Expect(mspCryptoCompModel.ClientAuth).To(Equal(mspCryptoCompClientAuthModel))
+				Expect(mspCryptoCompModel.ClientAuth).To(Equal(clientAuthModel))
 
 				// Construct an instance of the ResourceLimits model
 				resourceLimitsModel := new(blockchainv3.ResourceLimits)
@@ -11085,10 +11337,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				// Construct an instance of the CryptoObjectEnrollment model
 				cryptoObjectEnrollmentModel := new(blockchainv3.CryptoObjectEnrollment)
 				Expect(cryptoObjectEnrollmentModel).ToNot(BeNil())
-				cryptoObjectEnrollmentModel.Component = cryptoObjectEnrollmentComponentModel
+				cryptoObjectEnrollmentModel.Component = cryptoEnrollmentComponentModel
 				cryptoObjectEnrollmentModel.Ca = cryptoObjectEnrollmentCaModel
 				cryptoObjectEnrollmentModel.Tlsca = cryptoObjectEnrollmentTlscaModel
-				Expect(cryptoObjectEnrollmentModel.Component).To(Equal(cryptoObjectEnrollmentComponentModel))
+				Expect(cryptoObjectEnrollmentModel.Component).To(Equal(cryptoEnrollmentComponentModel))
 				Expect(cryptoObjectEnrollmentModel.Ca).To(Equal(cryptoObjectEnrollmentCaModel))
 				Expect(cryptoObjectEnrollmentModel.Tlsca).To(Equal(cryptoObjectEnrollmentTlscaModel))
 
@@ -11211,11 +11463,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				createPeerOptionsModel.SetConfigOverride(configPeerCreateModel)
 				createPeerOptionsModel.SetResources(peerResourcesModel)
 				createPeerOptionsModel.SetStorage(createPeerBodyStorageModel)
-				createPeerOptionsModel.SetZone("testString")
+				createPeerOptionsModel.SetZone("-")
 				createPeerOptionsModel.SetStateDb("couchdb")
-				createPeerOptionsModel.SetTags([]string{"testString"})
+				createPeerOptionsModel.SetTags([]string{"fabric-ca"})
 				createPeerOptionsModel.SetHsm(hsmModel)
-				createPeerOptionsModel.SetRegion("testString")
+				createPeerOptionsModel.SetRegion("-")
 				createPeerOptionsModel.SetVersion("1.4.6-1")
 				createPeerOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(createPeerOptionsModel).ToNot(BeNil())
@@ -11225,16 +11477,16 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(createPeerOptionsModel.ConfigOverride).To(Equal(configPeerCreateModel))
 				Expect(createPeerOptionsModel.Resources).To(Equal(peerResourcesModel))
 				Expect(createPeerOptionsModel.Storage).To(Equal(createPeerBodyStorageModel))
-				Expect(createPeerOptionsModel.Zone).To(Equal(core.StringPtr("testString")))
+				Expect(createPeerOptionsModel.Zone).To(Equal(core.StringPtr("-")))
 				Expect(createPeerOptionsModel.StateDb).To(Equal(core.StringPtr("couchdb")))
-				Expect(createPeerOptionsModel.Tags).To(Equal([]string{"testString"}))
+				Expect(createPeerOptionsModel.Tags).To(Equal([]string{"fabric-ca"}))
 				Expect(createPeerOptionsModel.Hsm).To(Equal(hsmModel))
-				Expect(createPeerOptionsModel.Region).To(Equal(core.StringPtr("testString")))
+				Expect(createPeerOptionsModel.Region).To(Equal(core.StringPtr("-")))
 				Expect(createPeerOptionsModel.Version).To(Equal(core.StringPtr("1.4.6-1")))
 				Expect(createPeerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewCryptoObjectEnrollment successfully`, func() {
-				var component *blockchainv3.CryptoObjectEnrollmentComponent = nil
+				var component *blockchainv3.CryptoEnrollmentComponent = nil
 				var ca *blockchainv3.CryptoObjectEnrollmentCa = nil
 				var tlsca *blockchainv3.CryptoObjectEnrollmentTlsca = nil
 				_, err := testService.NewCryptoObjectEnrollment(component, ca, tlsca)
@@ -11344,7 +11596,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				editCaOptionsModel.SetOperationsURL("https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443")
 				editCaOptionsModel.SetCaName("ca")
 				editCaOptionsModel.SetLocation("ibmcloud")
-				editCaOptionsModel.SetTags([]string{"testString"})
+				editCaOptionsModel.SetTags([]string{"fabric-ca"})
 				editCaOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(editCaOptionsModel).ToNot(BeNil())
 				Expect(editCaOptionsModel.ID).To(Equal(core.StringPtr("testString")))
@@ -11353,7 +11605,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(editCaOptionsModel.OperationsURL).To(Equal(core.StringPtr("https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443")))
 				Expect(editCaOptionsModel.CaName).To(Equal(core.StringPtr("ca")))
 				Expect(editCaOptionsModel.Location).To(Equal(core.StringPtr("ibmcloud")))
-				Expect(editCaOptionsModel.Tags).To(Equal([]string{"testString"}))
+				Expect(editCaOptionsModel.Tags).To(Equal([]string{"fabric-ca"}))
 				Expect(editCaOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewEditMspOptions successfully`, func() {
@@ -11364,7 +11616,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				editMspOptionsModel.SetMspID("Org1")
 				editMspOptionsModel.SetDisplayName("My Peer")
 				editMspOptionsModel.SetRootCerts([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="})
-				editMspOptionsModel.SetIntermediateCerts([]string{"testString"})
+				editMspOptionsModel.SetIntermediateCerts([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkRhdGEgaGVyZSBpZiB0aGlzIHdhcyByZWFsCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"})
 				editMspOptionsModel.SetAdmins([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="})
 				editMspOptionsModel.SetTlsRootCerts([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="})
 				editMspOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -11373,7 +11625,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(editMspOptionsModel.MspID).To(Equal(core.StringPtr("Org1")))
 				Expect(editMspOptionsModel.DisplayName).To(Equal(core.StringPtr("My Peer")))
 				Expect(editMspOptionsModel.RootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
-				Expect(editMspOptionsModel.IntermediateCerts).To(Equal([]string{"testString"}))
+				Expect(editMspOptionsModel.IntermediateCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkRhdGEgaGVyZSBpZiB0aGlzIHdhcyByZWFsCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"}))
 				Expect(editMspOptionsModel.Admins).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
 				Expect(editMspOptionsModel.TlsRootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
 				Expect(editMspOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -11392,7 +11644,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				editOrdererOptionsModel.SetConsenterProposalFin(true)
 				editOrdererOptionsModel.SetLocation("ibmcloud")
 				editOrdererOptionsModel.SetSystemChannelID("testchainid")
-				editOrdererOptionsModel.SetTags([]string{"testString"})
+				editOrdererOptionsModel.SetTags([]string{"fabric-ca"})
 				editOrdererOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(editOrdererOptionsModel).ToNot(BeNil())
 				Expect(editOrdererOptionsModel.ID).To(Equal(core.StringPtr("testString")))
@@ -11405,7 +11657,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(editOrdererOptionsModel.ConsenterProposalFin).To(Equal(core.BoolPtr(true)))
 				Expect(editOrdererOptionsModel.Location).To(Equal(core.StringPtr("ibmcloud")))
 				Expect(editOrdererOptionsModel.SystemChannelID).To(Equal(core.StringPtr("testchainid")))
-				Expect(editOrdererOptionsModel.Tags).To(Equal([]string{"testString"}))
+				Expect(editOrdererOptionsModel.Tags).To(Equal([]string{"fabric-ca"}))
 				Expect(editOrdererOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewEditPeerOptions successfully`, func() {
@@ -11419,7 +11671,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				editPeerOptionsModel.SetGrpcwpURL("https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084")
 				editPeerOptionsModel.SetMspID("Org1")
 				editPeerOptionsModel.SetLocation("ibmcloud")
-				editPeerOptionsModel.SetTags([]string{"testString"})
+				editPeerOptionsModel.SetTags([]string{"fabric-ca"})
 				editPeerOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(editPeerOptionsModel).ToNot(BeNil())
 				Expect(editPeerOptionsModel.ID).To(Equal(core.StringPtr("testString")))
@@ -11429,7 +11681,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(editPeerOptionsModel.GrpcwpURL).To(Equal(core.StringPtr("https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084")))
 				Expect(editPeerOptionsModel.MspID).To(Equal(core.StringPtr("Org1")))
 				Expect(editPeerOptionsModel.Location).To(Equal(core.StringPtr("ibmcloud")))
-				Expect(editPeerOptionsModel.Tags).To(Equal([]string{"testString"}))
+				Expect(editPeerOptionsModel.Tags).To(Equal([]string{"fabric-ca"}))
 				Expect(editPeerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewEditSettingsOptions successfully`, func() {
@@ -11675,7 +11927,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				importCaOptionsModel.SetMsp(importCaBodyMspModel)
 				importCaOptionsModel.SetLocation("ibmcloud")
 				importCaOptionsModel.SetOperationsURL("https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443")
-				importCaOptionsModel.SetTags([]string{"testString"})
+				importCaOptionsModel.SetTags([]string{"fabric-ca"})
 				importCaOptionsModel.SetTlsCert("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
 				importCaOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(importCaOptionsModel).ToNot(BeNil())
@@ -11684,7 +11936,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(importCaOptionsModel.Msp).To(Equal(importCaBodyMspModel))
 				Expect(importCaOptionsModel.Location).To(Equal(core.StringPtr("ibmcloud")))
 				Expect(importCaOptionsModel.OperationsURL).To(Equal(core.StringPtr("https://n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud:9443")))
-				Expect(importCaOptionsModel.Tags).To(Equal([]string{"testString"}))
+				Expect(importCaOptionsModel.Tags).To(Equal([]string{"fabric-ca"}))
 				Expect(importCaOptionsModel.TlsCert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
 				Expect(importCaOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
@@ -11697,7 +11949,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				importMspOptionsModel.SetMspID("Org1")
 				importMspOptionsModel.SetDisplayName("My Peer")
 				importMspOptionsModel.SetRootCerts([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="})
-				importMspOptionsModel.SetIntermediateCerts([]string{"testString"})
+				importMspOptionsModel.SetIntermediateCerts([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkRhdGEgaGVyZSBpZiB0aGlzIHdhcyByZWFsCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"})
 				importMspOptionsModel.SetAdmins([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="})
 				importMspOptionsModel.SetTlsRootCerts([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="})
 				importMspOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
@@ -11705,7 +11957,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(importMspOptionsModel.MspID).To(Equal(core.StringPtr("Org1")))
 				Expect(importMspOptionsModel.DisplayName).To(Equal(core.StringPtr("My Peer")))
 				Expect(importMspOptionsModel.RootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
-				Expect(importMspOptionsModel.IntermediateCerts).To(Equal([]string{"testString"}))
+				Expect(importMspOptionsModel.IntermediateCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkRhdGEgaGVyZSBpZiB0aGlzIHdhcyByZWFsCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"}))
 				Expect(importMspOptionsModel.Admins).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
 				Expect(importMspOptionsModel.TlsRootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
 				Expect(importMspOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
@@ -11714,9 +11966,9 @@ var _ = Describe(`BlockchainV3`, func() {
 				// Construct an instance of the MspCryptoFieldCa model
 				mspCryptoFieldCaModel := new(blockchainv3.MspCryptoFieldCa)
 				Expect(mspCryptoFieldCaModel).ToNot(BeNil())
-				mspCryptoFieldCaModel.Name = core.StringPtr("org1CA")
+				mspCryptoFieldCaModel.Name = core.StringPtr("ca")
 				mspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				Expect(mspCryptoFieldCaModel.Name).To(Equal(core.StringPtr("org1CA")))
+				Expect(mspCryptoFieldCaModel.Name).To(Equal(core.StringPtr("ca")))
 				Expect(mspCryptoFieldCaModel.RootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
 
 				// Construct an instance of the MspCryptoFieldComponent model
@@ -11732,9 +11984,9 @@ var _ = Describe(`BlockchainV3`, func() {
 				// Construct an instance of the MspCryptoFieldTlsca model
 				mspCryptoFieldTlscaModel := new(blockchainv3.MspCryptoFieldTlsca)
 				Expect(mspCryptoFieldTlscaModel).ToNot(BeNil())
-				mspCryptoFieldTlscaModel.Name = core.StringPtr("org1tlsCA")
+				mspCryptoFieldTlscaModel.Name = core.StringPtr("tlsca")
 				mspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				Expect(mspCryptoFieldTlscaModel.Name).To(Equal(core.StringPtr("org1tlsCA")))
+				Expect(mspCryptoFieldTlscaModel.Name).To(Equal(core.StringPtr("tlsca")))
 				Expect(mspCryptoFieldTlscaModel.RootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
 
 				// Construct an instance of the MspCryptoField model
@@ -11764,7 +12016,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				importOrdererOptionsModel.SetLocation("ibmcloud")
 				importOrdererOptionsModel.SetOperationsURL("https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443")
 				importOrdererOptionsModel.SetSystemChannelID("testchainid")
-				importOrdererOptionsModel.SetTags([]string{"testString"})
+				importOrdererOptionsModel.SetTags([]string{"fabric-ca"})
 				importOrdererOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(importOrdererOptionsModel).ToNot(BeNil())
 				Expect(importOrdererOptionsModel.ClusterName).To(Equal(core.StringPtr("ordering service 1")))
@@ -11777,16 +12029,16 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(importOrdererOptionsModel.Location).To(Equal(core.StringPtr("ibmcloud")))
 				Expect(importOrdererOptionsModel.OperationsURL).To(Equal(core.StringPtr("https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443")))
 				Expect(importOrdererOptionsModel.SystemChannelID).To(Equal(core.StringPtr("testchainid")))
-				Expect(importOrdererOptionsModel.Tags).To(Equal([]string{"testString"}))
+				Expect(importOrdererOptionsModel.Tags).To(Equal([]string{"fabric-ca"}))
 				Expect(importOrdererOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewImportPeerOptions successfully`, func() {
 				// Construct an instance of the MspCryptoFieldCa model
 				mspCryptoFieldCaModel := new(blockchainv3.MspCryptoFieldCa)
 				Expect(mspCryptoFieldCaModel).ToNot(BeNil())
-				mspCryptoFieldCaModel.Name = core.StringPtr("org1CA")
+				mspCryptoFieldCaModel.Name = core.StringPtr("ca")
 				mspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				Expect(mspCryptoFieldCaModel.Name).To(Equal(core.StringPtr("org1CA")))
+				Expect(mspCryptoFieldCaModel.Name).To(Equal(core.StringPtr("ca")))
 				Expect(mspCryptoFieldCaModel.RootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
 
 				// Construct an instance of the MspCryptoFieldComponent model
@@ -11802,9 +12054,9 @@ var _ = Describe(`BlockchainV3`, func() {
 				// Construct an instance of the MspCryptoFieldTlsca model
 				mspCryptoFieldTlscaModel := new(blockchainv3.MspCryptoFieldTlsca)
 				Expect(mspCryptoFieldTlscaModel).ToNot(BeNil())
-				mspCryptoFieldTlscaModel.Name = core.StringPtr("org1tlsCA")
+				mspCryptoFieldTlscaModel.Name = core.StringPtr("tlsca")
 				mspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				Expect(mspCryptoFieldTlscaModel.Name).To(Equal(core.StringPtr("org1tlsCA")))
+				Expect(mspCryptoFieldTlscaModel.Name).To(Equal(core.StringPtr("tlsca")))
 				Expect(mspCryptoFieldTlscaModel.RootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
 
 				// Construct an instance of the MspCryptoField model
@@ -11830,7 +12082,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				importPeerOptionsModel.SetApiURL("grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051")
 				importPeerOptionsModel.SetLocation("ibmcloud")
 				importPeerOptionsModel.SetOperationsURL("https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443")
-				importPeerOptionsModel.SetTags([]string{"testString"})
+				importPeerOptionsModel.SetTags([]string{"fabric-ca"})
 				importPeerOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(importPeerOptionsModel).ToNot(BeNil())
 				Expect(importPeerOptionsModel.DisplayName).To(Equal(core.StringPtr("My Peer")))
@@ -11840,7 +12092,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(importPeerOptionsModel.ApiURL).To(Equal(core.StringPtr("grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051")))
 				Expect(importPeerOptionsModel.Location).To(Equal(core.StringPtr("ibmcloud")))
 				Expect(importPeerOptionsModel.OperationsURL).To(Equal(core.StringPtr("https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443")))
-				Expect(importPeerOptionsModel.Tags).To(Equal([]string{"testString"}))
+				Expect(importPeerOptionsModel.Tags).To(Equal([]string{"fabric-ca"}))
 				Expect(importPeerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewListComponentsOptions successfully`, func() {
@@ -12412,7 +12664,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				updateCaOptionsModel.SetReplicas(float64(1))
 				updateCaOptionsModel.SetResources(updateCaBodyResourcesModel)
 				updateCaOptionsModel.SetVersion("1.4.6-1")
-				updateCaOptionsModel.SetZone("testString")
+				updateCaOptionsModel.SetZone("-")
 				updateCaOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateCaOptionsModel).ToNot(BeNil())
 				Expect(updateCaOptionsModel.ID).To(Equal(core.StringPtr("testString")))
@@ -12420,10 +12672,18 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(updateCaOptionsModel.Replicas).To(Equal(core.Float64Ptr(float64(1))))
 				Expect(updateCaOptionsModel.Resources).To(Equal(updateCaBodyResourcesModel))
 				Expect(updateCaOptionsModel.Version).To(Equal(core.StringPtr("1.4.6-1")))
-				Expect(updateCaOptionsModel.Zone).To(Equal(core.StringPtr("testString")))
+				Expect(updateCaOptionsModel.Zone).To(Equal(core.StringPtr("-")))
 				Expect(updateCaOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateOrdererOptions successfully`, func() {
+				// Construct an instance of the ClientAuth model
+				clientAuthModel := new(blockchainv3.ClientAuth)
+				Expect(clientAuthModel).ToNot(BeNil())
+				clientAuthModel.Type = core.StringPtr("noclientcert")
+				clientAuthModel.TlsCerts = []string{"testString"}
+				Expect(clientAuthModel.Type).To(Equal(core.StringPtr("noclientcert")))
+				Expect(clientAuthModel.TlsCerts).To(Equal([]string{"testString"}))
+
 				// Construct an instance of the ConfigOrdererAuthentication model
 				configOrdererAuthenticationModel := new(blockchainv3.ConfigOrdererAuthentication)
 				Expect(configOrdererAuthenticationModel).ToNot(BeNil())
@@ -12454,6 +12714,12 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(configOrdererMetricsStatsdModel.WriteInterval).To(Equal(core.StringPtr("10s")))
 				Expect(configOrdererMetricsStatsdModel.Prefix).To(Equal(core.StringPtr("server")))
 
+				// Construct an instance of the CryptoEnrollmentComponent model
+				cryptoEnrollmentComponentModel := new(blockchainv3.CryptoEnrollmentComponent)
+				Expect(cryptoEnrollmentComponentModel).ToNot(BeNil())
+				cryptoEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				Expect(cryptoEnrollmentComponentModel.Admincerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
+
 				// Construct an instance of the ResourceLimits model
 				resourceLimitsModel := new(blockchainv3.ResourceLimits)
 				Expect(resourceLimitsModel).ToNot(BeNil())
@@ -12469,6 +12735,72 @@ var _ = Describe(`BlockchainV3`, func() {
 				resourceRequestsModel.Memory = core.StringPtr("256MiB")
 				Expect(resourceRequestsModel.Cpu).To(Equal(core.StringPtr("100m")))
 				Expect(resourceRequestsModel.Memory).To(Equal(core.StringPtr("256MiB")))
+
+				// Construct an instance of the UpdateEnrollmentCryptoFieldCa model
+				updateEnrollmentCryptoFieldCaModel := new(blockchainv3.UpdateEnrollmentCryptoFieldCa)
+				Expect(updateEnrollmentCryptoFieldCaModel).ToNot(BeNil())
+				updateEnrollmentCryptoFieldCaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
+				updateEnrollmentCryptoFieldCaModel.Port = core.Float64Ptr(float64(7054))
+				updateEnrollmentCryptoFieldCaModel.Name = core.StringPtr("ca")
+				updateEnrollmentCryptoFieldCaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateEnrollmentCryptoFieldCaModel.EnrollID = core.StringPtr("admin")
+				updateEnrollmentCryptoFieldCaModel.EnrollSecret = core.StringPtr("password")
+				Expect(updateEnrollmentCryptoFieldCaModel.Host).To(Equal(core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")))
+				Expect(updateEnrollmentCryptoFieldCaModel.Port).To(Equal(core.Float64Ptr(float64(7054))))
+				Expect(updateEnrollmentCryptoFieldCaModel.Name).To(Equal(core.StringPtr("ca")))
+				Expect(updateEnrollmentCryptoFieldCaModel.TlsCert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
+				Expect(updateEnrollmentCryptoFieldCaModel.EnrollID).To(Equal(core.StringPtr("admin")))
+				Expect(updateEnrollmentCryptoFieldCaModel.EnrollSecret).To(Equal(core.StringPtr("password")))
+
+				// Construct an instance of the UpdateEnrollmentCryptoFieldTlsca model
+				updateEnrollmentCryptoFieldTlscaModel := new(blockchainv3.UpdateEnrollmentCryptoFieldTlsca)
+				Expect(updateEnrollmentCryptoFieldTlscaModel).ToNot(BeNil())
+				updateEnrollmentCryptoFieldTlscaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
+				updateEnrollmentCryptoFieldTlscaModel.Port = core.Float64Ptr(float64(7054))
+				updateEnrollmentCryptoFieldTlscaModel.Name = core.StringPtr("tlsca")
+				updateEnrollmentCryptoFieldTlscaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateEnrollmentCryptoFieldTlscaModel.EnrollID = core.StringPtr("admin")
+				updateEnrollmentCryptoFieldTlscaModel.EnrollSecret = core.StringPtr("password")
+				updateEnrollmentCryptoFieldTlscaModel.CsrHosts = []string{"testString"}
+				Expect(updateEnrollmentCryptoFieldTlscaModel.Host).To(Equal(core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")))
+				Expect(updateEnrollmentCryptoFieldTlscaModel.Port).To(Equal(core.Float64Ptr(float64(7054))))
+				Expect(updateEnrollmentCryptoFieldTlscaModel.Name).To(Equal(core.StringPtr("tlsca")))
+				Expect(updateEnrollmentCryptoFieldTlscaModel.TlsCert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
+				Expect(updateEnrollmentCryptoFieldTlscaModel.EnrollID).To(Equal(core.StringPtr("admin")))
+				Expect(updateEnrollmentCryptoFieldTlscaModel.EnrollSecret).To(Equal(core.StringPtr("password")))
+				Expect(updateEnrollmentCryptoFieldTlscaModel.CsrHosts).To(Equal([]string{"testString"}))
+
+				// Construct an instance of the UpdateMspCryptoFieldCa model
+				updateMspCryptoFieldCaModel := new(blockchainv3.UpdateMspCryptoFieldCa)
+				Expect(updateMspCryptoFieldCaModel).ToNot(BeNil())
+				updateMspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldCaModel.CaIntermediateCerts = []string{"testString"}
+				Expect(updateMspCryptoFieldCaModel.RootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
+				Expect(updateMspCryptoFieldCaModel.CaIntermediateCerts).To(Equal([]string{"testString"}))
+
+				// Construct an instance of the UpdateMspCryptoFieldComponent model
+				updateMspCryptoFieldComponentModel := new(blockchainv3.UpdateMspCryptoFieldComponent)
+				Expect(updateMspCryptoFieldComponentModel).ToNot(BeNil())
+				updateMspCryptoFieldComponentModel.Ekey = core.StringPtr("testString")
+				updateMspCryptoFieldComponentModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateMspCryptoFieldComponentModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldComponentModel.TlsKey = core.StringPtr("testString")
+				updateMspCryptoFieldComponentModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateMspCryptoFieldComponentModel.ClientAuth = clientAuthModel
+				Expect(updateMspCryptoFieldComponentModel.Ekey).To(Equal(core.StringPtr("testString")))
+				Expect(updateMspCryptoFieldComponentModel.Ecert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
+				Expect(updateMspCryptoFieldComponentModel.AdminCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
+				Expect(updateMspCryptoFieldComponentModel.TlsKey).To(Equal(core.StringPtr("testString")))
+				Expect(updateMspCryptoFieldComponentModel.TlsCert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
+				Expect(updateMspCryptoFieldComponentModel.ClientAuth).To(Equal(clientAuthModel))
+
+				// Construct an instance of the UpdateMspCryptoFieldTlsca model
+				updateMspCryptoFieldTlscaModel := new(blockchainv3.UpdateMspCryptoFieldTlsca)
+				Expect(updateMspCryptoFieldTlscaModel).ToNot(BeNil())
+				updateMspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldTlscaModel.CaIntermediateCerts = []string{"testString"}
+				Expect(updateMspCryptoFieldTlscaModel.RootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
+				Expect(updateMspCryptoFieldTlscaModel.CaIntermediateCerts).To(Equal([]string{"testString"}))
 
 				// Construct an instance of the ConfigOrdererDebug model
 				configOrdererDebugModel := new(blockchainv3.ConfigOrdererDebug)
@@ -12494,32 +12826,6 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(configOrdererMetricsModel.Provider).To(Equal(core.StringPtr("disabled")))
 				Expect(configOrdererMetricsModel.Statsd).To(Equal(configOrdererMetricsStatsdModel))
 
-				// Construct an instance of the MspCryptoFieldCa model
-				mspCryptoFieldCaModel := new(blockchainv3.MspCryptoFieldCa)
-				Expect(mspCryptoFieldCaModel).ToNot(BeNil())
-				mspCryptoFieldCaModel.Name = core.StringPtr("org1CA")
-				mspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				Expect(mspCryptoFieldCaModel.Name).To(Equal(core.StringPtr("org1CA")))
-				Expect(mspCryptoFieldCaModel.RootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
-
-				// Construct an instance of the MspCryptoFieldComponent model
-				mspCryptoFieldComponentModel := new(blockchainv3.MspCryptoFieldComponent)
-				Expect(mspCryptoFieldComponentModel).ToNot(BeNil())
-				mspCryptoFieldComponentModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoFieldComponentModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoFieldComponentModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				Expect(mspCryptoFieldComponentModel.TlsCert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
-				Expect(mspCryptoFieldComponentModel.Ecert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
-				Expect(mspCryptoFieldComponentModel.AdminCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
-
-				// Construct an instance of the MspCryptoFieldTlsca model
-				mspCryptoFieldTlscaModel := new(blockchainv3.MspCryptoFieldTlsca)
-				Expect(mspCryptoFieldTlscaModel).ToNot(BeNil())
-				mspCryptoFieldTlscaModel.Name = core.StringPtr("org1tlsCA")
-				mspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				Expect(mspCryptoFieldTlscaModel.Name).To(Equal(core.StringPtr("org1tlsCA")))
-				Expect(mspCryptoFieldTlscaModel.RootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
-
 				// Construct an instance of the ResourceObject model
 				resourceObjectModel := new(blockchainv3.ResourceObject)
 				Expect(resourceObjectModel).ToNot(BeNil())
@@ -12527,6 +12833,26 @@ var _ = Describe(`BlockchainV3`, func() {
 				resourceObjectModel.Limits = resourceLimitsModel
 				Expect(resourceObjectModel.Requests).To(Equal(resourceRequestsModel))
 				Expect(resourceObjectModel.Limits).To(Equal(resourceLimitsModel))
+
+				// Construct an instance of the UpdateEnrollmentCryptoField model
+				updateEnrollmentCryptoFieldModel := new(blockchainv3.UpdateEnrollmentCryptoField)
+				Expect(updateEnrollmentCryptoFieldModel).ToNot(BeNil())
+				updateEnrollmentCryptoFieldModel.Component = cryptoEnrollmentComponentModel
+				updateEnrollmentCryptoFieldModel.Ca = updateEnrollmentCryptoFieldCaModel
+				updateEnrollmentCryptoFieldModel.Tlsca = updateEnrollmentCryptoFieldTlscaModel
+				Expect(updateEnrollmentCryptoFieldModel.Component).To(Equal(cryptoEnrollmentComponentModel))
+				Expect(updateEnrollmentCryptoFieldModel.Ca).To(Equal(updateEnrollmentCryptoFieldCaModel))
+				Expect(updateEnrollmentCryptoFieldModel.Tlsca).To(Equal(updateEnrollmentCryptoFieldTlscaModel))
+
+				// Construct an instance of the UpdateMspCryptoField model
+				updateMspCryptoFieldModel := new(blockchainv3.UpdateMspCryptoField)
+				Expect(updateMspCryptoFieldModel).ToNot(BeNil())
+				updateMspCryptoFieldModel.Ca = updateMspCryptoFieldCaModel
+				updateMspCryptoFieldModel.Tlsca = updateMspCryptoFieldTlscaModel
+				updateMspCryptoFieldModel.Component = updateMspCryptoFieldComponentModel
+				Expect(updateMspCryptoFieldModel.Ca).To(Equal(updateMspCryptoFieldCaModel))
+				Expect(updateMspCryptoFieldModel.Tlsca).To(Equal(updateMspCryptoFieldTlscaModel))
+				Expect(updateMspCryptoFieldModel.Component).To(Equal(updateMspCryptoFieldComponentModel))
 
 				// Construct an instance of the ConfigOrdererUpdate model
 				configOrdererUpdateModel := new(blockchainv3.ConfigOrdererUpdate)
@@ -12538,21 +12864,19 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(configOrdererUpdateModel.Debug).To(Equal(configOrdererDebugModel))
 				Expect(configOrdererUpdateModel.Metrics).To(Equal(configOrdererMetricsModel))
 
-				// Construct an instance of the MspCryptoField model
-				mspCryptoFieldModel := new(blockchainv3.MspCryptoField)
-				Expect(mspCryptoFieldModel).ToNot(BeNil())
-				mspCryptoFieldModel.Ca = mspCryptoFieldCaModel
-				mspCryptoFieldModel.Tlsca = mspCryptoFieldTlscaModel
-				mspCryptoFieldModel.Component = mspCryptoFieldComponentModel
-				Expect(mspCryptoFieldModel.Ca).To(Equal(mspCryptoFieldCaModel))
-				Expect(mspCryptoFieldModel.Tlsca).To(Equal(mspCryptoFieldTlscaModel))
-				Expect(mspCryptoFieldModel.Component).To(Equal(mspCryptoFieldComponentModel))
-
 				// Construct an instance of the NodeOu model
 				nodeOuModel := new(blockchainv3.NodeOu)
 				Expect(nodeOuModel).ToNot(BeNil())
 				nodeOuModel.Enabled = core.BoolPtr(true)
 				Expect(nodeOuModel.Enabled).To(Equal(core.BoolPtr(true)))
+
+				// Construct an instance of the UpdateOrdererBodyCrypto model
+				updateOrdererBodyCryptoModel := new(blockchainv3.UpdateOrdererBodyCrypto)
+				Expect(updateOrdererBodyCryptoModel).ToNot(BeNil())
+				updateOrdererBodyCryptoModel.Enrollment = updateEnrollmentCryptoFieldModel
+				updateOrdererBodyCryptoModel.Msp = updateMspCryptoFieldModel
+				Expect(updateOrdererBodyCryptoModel.Enrollment).To(Equal(updateEnrollmentCryptoFieldModel))
+				Expect(updateOrdererBodyCryptoModel.Msp).To(Equal(updateMspCryptoFieldModel))
 
 				// Construct an instance of the UpdateOrdererBodyResources model
 				updateOrdererBodyResourcesModel := new(blockchainv3.UpdateOrdererBodyResources)
@@ -12568,23 +12892,23 @@ var _ = Describe(`BlockchainV3`, func() {
 				updateOrdererOptionsModel.SetID("testString")
 				updateOrdererOptionsModel.SetAdminCerts([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="})
 				updateOrdererOptionsModel.SetConfigOverride(configOrdererUpdateModel)
-				updateOrdererOptionsModel.SetCrypto(mspCryptoFieldModel)
+				updateOrdererOptionsModel.SetCrypto(updateOrdererBodyCryptoModel)
 				updateOrdererOptionsModel.SetNodeOu(nodeOuModel)
 				updateOrdererOptionsModel.SetReplicas(float64(1))
 				updateOrdererOptionsModel.SetResources(updateOrdererBodyResourcesModel)
 				updateOrdererOptionsModel.SetVersion("1.4.6-1")
-				updateOrdererOptionsModel.SetZone("testString")
+				updateOrdererOptionsModel.SetZone("-")
 				updateOrdererOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updateOrdererOptionsModel).ToNot(BeNil())
 				Expect(updateOrdererOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(updateOrdererOptionsModel.AdminCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
 				Expect(updateOrdererOptionsModel.ConfigOverride).To(Equal(configOrdererUpdateModel))
-				Expect(updateOrdererOptionsModel.Crypto).To(Equal(mspCryptoFieldModel))
+				Expect(updateOrdererOptionsModel.Crypto).To(Equal(updateOrdererBodyCryptoModel))
 				Expect(updateOrdererOptionsModel.NodeOu).To(Equal(nodeOuModel))
 				Expect(updateOrdererOptionsModel.Replicas).To(Equal(core.Float64Ptr(float64(1))))
 				Expect(updateOrdererOptionsModel.Resources).To(Equal(updateOrdererBodyResourcesModel))
 				Expect(updateOrdererOptionsModel.Version).To(Equal(core.StringPtr("1.4.6-1")))
-				Expect(updateOrdererOptionsModel.Zone).To(Equal(core.StringPtr("testString")))
+				Expect(updateOrdererOptionsModel.Zone).To(Equal(core.StringPtr("-")))
 				Expect(updateOrdererOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdatePeerOptions successfully`, func() {
@@ -12595,6 +12919,14 @@ var _ = Describe(`BlockchainV3`, func() {
 				configPeerGossipPvtDataImplicitCollectionDisseminationPolicyModel.MaxPeerCount = core.Float64Ptr(float64(1))
 				Expect(configPeerGossipPvtDataImplicitCollectionDisseminationPolicyModel.RequiredPeerCount).To(Equal(core.Float64Ptr(float64(0))))
 				Expect(configPeerGossipPvtDataImplicitCollectionDisseminationPolicyModel.MaxPeerCount).To(Equal(core.Float64Ptr(float64(1))))
+
+				// Construct an instance of the ClientAuth model
+				clientAuthModel := new(blockchainv3.ClientAuth)
+				Expect(clientAuthModel).ToNot(BeNil())
+				clientAuthModel.Type = core.StringPtr("noclientcert")
+				clientAuthModel.TlsCerts = []string{"testString"}
+				Expect(clientAuthModel.Type).To(Equal(core.StringPtr("noclientcert")))
+				Expect(clientAuthModel.TlsCerts).To(Equal([]string{"testString"}))
 
 				// Construct an instance of the ConfigPeerDeliveryclientAddressOverridesItem model
 				configPeerDeliveryclientAddressOverridesItemModel := new(blockchainv3.ConfigPeerDeliveryclientAddressOverridesItem)
@@ -12675,10 +13007,10 @@ var _ = Describe(`BlockchainV3`, func() {
 				// Construct an instance of the ConfigPeerLimitsConcurrency model
 				configPeerLimitsConcurrencyModel := new(blockchainv3.ConfigPeerLimitsConcurrency)
 				Expect(configPeerLimitsConcurrencyModel).ToNot(BeNil())
-				configPeerLimitsConcurrencyModel.EndorserService = map[string]interface{}{"anyKey": "anyValue"}
-				configPeerLimitsConcurrencyModel.DeliverService = map[string]interface{}{"anyKey": "anyValue"}
-				Expect(configPeerLimitsConcurrencyModel.EndorserService).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
-				Expect(configPeerLimitsConcurrencyModel.DeliverService).To(Equal(map[string]interface{}{"anyKey": "anyValue"}))
+				configPeerLimitsConcurrencyModel.EndorserService = core.Float64Ptr(float64(2500))
+				configPeerLimitsConcurrencyModel.DeliverService = core.Float64Ptr(float64(2500))
+				Expect(configPeerLimitsConcurrencyModel.EndorserService).To(Equal(core.Float64Ptr(float64(2500))))
+				Expect(configPeerLimitsConcurrencyModel.DeliverService).To(Equal(core.Float64Ptr(float64(2500))))
 
 				// Construct an instance of the ConfigPeerAdminService model
 				configPeerAdminServiceModel := new(blockchainv3.ConfigPeerAdminService)
@@ -12838,6 +13170,12 @@ var _ = Describe(`BlockchainV3`, func() {
 				configPeerLimitsModel.Concurrency = configPeerLimitsConcurrencyModel
 				Expect(configPeerLimitsModel.Concurrency).To(Equal(configPeerLimitsConcurrencyModel))
 
+				// Construct an instance of the CryptoEnrollmentComponent model
+				cryptoEnrollmentComponentModel := new(blockchainv3.CryptoEnrollmentComponent)
+				Expect(cryptoEnrollmentComponentModel).ToNot(BeNil())
+				cryptoEnrollmentComponentModel.Admincerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				Expect(cryptoEnrollmentComponentModel.Admincerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
+
 				// Construct an instance of the MetricsStatsd model
 				metricsStatsdModel := new(blockchainv3.MetricsStatsd)
 				Expect(metricsStatsdModel).ToNot(BeNil())
@@ -12865,6 +13203,72 @@ var _ = Describe(`BlockchainV3`, func() {
 				resourceRequestsModel.Memory = core.StringPtr("256MiB")
 				Expect(resourceRequestsModel.Cpu).To(Equal(core.StringPtr("100m")))
 				Expect(resourceRequestsModel.Memory).To(Equal(core.StringPtr("256MiB")))
+
+				// Construct an instance of the UpdateEnrollmentCryptoFieldCa model
+				updateEnrollmentCryptoFieldCaModel := new(blockchainv3.UpdateEnrollmentCryptoFieldCa)
+				Expect(updateEnrollmentCryptoFieldCaModel).ToNot(BeNil())
+				updateEnrollmentCryptoFieldCaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
+				updateEnrollmentCryptoFieldCaModel.Port = core.Float64Ptr(float64(7054))
+				updateEnrollmentCryptoFieldCaModel.Name = core.StringPtr("ca")
+				updateEnrollmentCryptoFieldCaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateEnrollmentCryptoFieldCaModel.EnrollID = core.StringPtr("admin")
+				updateEnrollmentCryptoFieldCaModel.EnrollSecret = core.StringPtr("password")
+				Expect(updateEnrollmentCryptoFieldCaModel.Host).To(Equal(core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")))
+				Expect(updateEnrollmentCryptoFieldCaModel.Port).To(Equal(core.Float64Ptr(float64(7054))))
+				Expect(updateEnrollmentCryptoFieldCaModel.Name).To(Equal(core.StringPtr("ca")))
+				Expect(updateEnrollmentCryptoFieldCaModel.TlsCert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
+				Expect(updateEnrollmentCryptoFieldCaModel.EnrollID).To(Equal(core.StringPtr("admin")))
+				Expect(updateEnrollmentCryptoFieldCaModel.EnrollSecret).To(Equal(core.StringPtr("password")))
+
+				// Construct an instance of the UpdateEnrollmentCryptoFieldTlsca model
+				updateEnrollmentCryptoFieldTlscaModel := new(blockchainv3.UpdateEnrollmentCryptoFieldTlsca)
+				Expect(updateEnrollmentCryptoFieldTlscaModel).ToNot(BeNil())
+				updateEnrollmentCryptoFieldTlscaModel.Host = core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")
+				updateEnrollmentCryptoFieldTlscaModel.Port = core.Float64Ptr(float64(7054))
+				updateEnrollmentCryptoFieldTlscaModel.Name = core.StringPtr("tlsca")
+				updateEnrollmentCryptoFieldTlscaModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateEnrollmentCryptoFieldTlscaModel.EnrollID = core.StringPtr("admin")
+				updateEnrollmentCryptoFieldTlscaModel.EnrollSecret = core.StringPtr("password")
+				updateEnrollmentCryptoFieldTlscaModel.CsrHosts = []string{"testString"}
+				Expect(updateEnrollmentCryptoFieldTlscaModel.Host).To(Equal(core.StringPtr("n3a3ec3-myca.ibp.us-south.containers.appdomain.cloud")))
+				Expect(updateEnrollmentCryptoFieldTlscaModel.Port).To(Equal(core.Float64Ptr(float64(7054))))
+				Expect(updateEnrollmentCryptoFieldTlscaModel.Name).To(Equal(core.StringPtr("tlsca")))
+				Expect(updateEnrollmentCryptoFieldTlscaModel.TlsCert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
+				Expect(updateEnrollmentCryptoFieldTlscaModel.EnrollID).To(Equal(core.StringPtr("admin")))
+				Expect(updateEnrollmentCryptoFieldTlscaModel.EnrollSecret).To(Equal(core.StringPtr("password")))
+				Expect(updateEnrollmentCryptoFieldTlscaModel.CsrHosts).To(Equal([]string{"testString"}))
+
+				// Construct an instance of the UpdateMspCryptoFieldCa model
+				updateMspCryptoFieldCaModel := new(blockchainv3.UpdateMspCryptoFieldCa)
+				Expect(updateMspCryptoFieldCaModel).ToNot(BeNil())
+				updateMspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldCaModel.CaIntermediateCerts = []string{"testString"}
+				Expect(updateMspCryptoFieldCaModel.RootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
+				Expect(updateMspCryptoFieldCaModel.CaIntermediateCerts).To(Equal([]string{"testString"}))
+
+				// Construct an instance of the UpdateMspCryptoFieldComponent model
+				updateMspCryptoFieldComponentModel := new(blockchainv3.UpdateMspCryptoFieldComponent)
+				Expect(updateMspCryptoFieldComponentModel).ToNot(BeNil())
+				updateMspCryptoFieldComponentModel.Ekey = core.StringPtr("testString")
+				updateMspCryptoFieldComponentModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateMspCryptoFieldComponentModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldComponentModel.TlsKey = core.StringPtr("testString")
+				updateMspCryptoFieldComponentModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
+				updateMspCryptoFieldComponentModel.ClientAuth = clientAuthModel
+				Expect(updateMspCryptoFieldComponentModel.Ekey).To(Equal(core.StringPtr("testString")))
+				Expect(updateMspCryptoFieldComponentModel.Ecert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
+				Expect(updateMspCryptoFieldComponentModel.AdminCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
+				Expect(updateMspCryptoFieldComponentModel.TlsKey).To(Equal(core.StringPtr("testString")))
+				Expect(updateMspCryptoFieldComponentModel.TlsCert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
+				Expect(updateMspCryptoFieldComponentModel.ClientAuth).To(Equal(clientAuthModel))
+
+				// Construct an instance of the UpdateMspCryptoFieldTlsca model
+				updateMspCryptoFieldTlscaModel := new(blockchainv3.UpdateMspCryptoFieldTlsca)
+				Expect(updateMspCryptoFieldTlscaModel).ToNot(BeNil())
+				updateMspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
+				updateMspCryptoFieldTlscaModel.CaIntermediateCerts = []string{"testString"}
+				Expect(updateMspCryptoFieldTlscaModel.RootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
+				Expect(updateMspCryptoFieldTlscaModel.CaIntermediateCerts).To(Equal([]string{"testString"}))
 
 				// Construct an instance of the ConfigPeerChaincode model
 				configPeerChaincodeModel := new(blockchainv3.ConfigPeerChaincode)
@@ -12918,32 +13322,6 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(metricsModel.Provider).To(Equal(core.StringPtr("prometheus")))
 				Expect(metricsModel.Statsd).To(Equal(metricsStatsdModel))
 
-				// Construct an instance of the MspCryptoFieldCa model
-				mspCryptoFieldCaModel := new(blockchainv3.MspCryptoFieldCa)
-				Expect(mspCryptoFieldCaModel).ToNot(BeNil())
-				mspCryptoFieldCaModel.Name = core.StringPtr("org1CA")
-				mspCryptoFieldCaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				Expect(mspCryptoFieldCaModel.Name).To(Equal(core.StringPtr("org1CA")))
-				Expect(mspCryptoFieldCaModel.RootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
-
-				// Construct an instance of the MspCryptoFieldComponent model
-				mspCryptoFieldComponentModel := new(blockchainv3.MspCryptoFieldComponent)
-				Expect(mspCryptoFieldComponentModel).ToNot(BeNil())
-				mspCryptoFieldComponentModel.TlsCert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoFieldComponentModel.Ecert = core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")
-				mspCryptoFieldComponentModel.AdminCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				Expect(mspCryptoFieldComponentModel.TlsCert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
-				Expect(mspCryptoFieldComponentModel.Ecert).To(Equal(core.StringPtr("LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=")))
-				Expect(mspCryptoFieldComponentModel.AdminCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
-
-				// Construct an instance of the MspCryptoFieldTlsca model
-				mspCryptoFieldTlscaModel := new(blockchainv3.MspCryptoFieldTlsca)
-				Expect(mspCryptoFieldTlscaModel).ToNot(BeNil())
-				mspCryptoFieldTlscaModel.Name = core.StringPtr("org1tlsCA")
-				mspCryptoFieldTlscaModel.RootCerts = []string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}
-				Expect(mspCryptoFieldTlscaModel.Name).To(Equal(core.StringPtr("org1tlsCA")))
-				Expect(mspCryptoFieldTlscaModel.RootCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
-
 				// Construct an instance of the ResourceObject model
 				resourceObjectModel := new(blockchainv3.ResourceObject)
 				Expect(resourceObjectModel).ToNot(BeNil())
@@ -12976,6 +13354,26 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(resourceObjectFabV2Model.Requests).To(Equal(resourceRequestsModel))
 				Expect(resourceObjectFabV2Model.Limits).To(Equal(resourceLimitsModel))
 
+				// Construct an instance of the UpdateEnrollmentCryptoField model
+				updateEnrollmentCryptoFieldModel := new(blockchainv3.UpdateEnrollmentCryptoField)
+				Expect(updateEnrollmentCryptoFieldModel).ToNot(BeNil())
+				updateEnrollmentCryptoFieldModel.Component = cryptoEnrollmentComponentModel
+				updateEnrollmentCryptoFieldModel.Ca = updateEnrollmentCryptoFieldCaModel
+				updateEnrollmentCryptoFieldModel.Tlsca = updateEnrollmentCryptoFieldTlscaModel
+				Expect(updateEnrollmentCryptoFieldModel.Component).To(Equal(cryptoEnrollmentComponentModel))
+				Expect(updateEnrollmentCryptoFieldModel.Ca).To(Equal(updateEnrollmentCryptoFieldCaModel))
+				Expect(updateEnrollmentCryptoFieldModel.Tlsca).To(Equal(updateEnrollmentCryptoFieldTlscaModel))
+
+				// Construct an instance of the UpdateMspCryptoField model
+				updateMspCryptoFieldModel := new(blockchainv3.UpdateMspCryptoField)
+				Expect(updateMspCryptoFieldModel).ToNot(BeNil())
+				updateMspCryptoFieldModel.Ca = updateMspCryptoFieldCaModel
+				updateMspCryptoFieldModel.Tlsca = updateMspCryptoFieldTlscaModel
+				updateMspCryptoFieldModel.Component = updateMspCryptoFieldComponentModel
+				Expect(updateMspCryptoFieldModel.Ca).To(Equal(updateMspCryptoFieldCaModel))
+				Expect(updateMspCryptoFieldModel.Tlsca).To(Equal(updateMspCryptoFieldTlscaModel))
+				Expect(updateMspCryptoFieldModel.Component).To(Equal(updateMspCryptoFieldComponentModel))
+
 				// Construct an instance of the ConfigPeerUpdate model
 				configPeerUpdateModel := new(blockchainv3.ConfigPeerUpdate)
 				Expect(configPeerUpdateModel).ToNot(BeNil())
@@ -12985,16 +13383,6 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(configPeerUpdateModel.Peer).To(Equal(configPeerUpdatePeerModel))
 				Expect(configPeerUpdateModel.Chaincode).To(Equal(configPeerChaincodeModel))
 				Expect(configPeerUpdateModel.Metrics).To(Equal(metricsModel))
-
-				// Construct an instance of the MspCryptoField model
-				mspCryptoFieldModel := new(blockchainv3.MspCryptoField)
-				Expect(mspCryptoFieldModel).ToNot(BeNil())
-				mspCryptoFieldModel.Ca = mspCryptoFieldCaModel
-				mspCryptoFieldModel.Tlsca = mspCryptoFieldTlscaModel
-				mspCryptoFieldModel.Component = mspCryptoFieldComponentModel
-				Expect(mspCryptoFieldModel.Ca).To(Equal(mspCryptoFieldCaModel))
-				Expect(mspCryptoFieldModel.Tlsca).To(Equal(mspCryptoFieldTlscaModel))
-				Expect(mspCryptoFieldModel.Component).To(Equal(mspCryptoFieldComponentModel))
 
 				// Construct an instance of the NodeOu model
 				nodeOuModel := new(blockchainv3.NodeOu)
@@ -13020,29 +13408,37 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(peerResourcesModel.Peer).To(Equal(resourceObjectModel))
 				Expect(peerResourcesModel.Proxy).To(Equal(resourceObjectModel))
 
+				// Construct an instance of the UpdatePeerBodyCrypto model
+				updatePeerBodyCryptoModel := new(blockchainv3.UpdatePeerBodyCrypto)
+				Expect(updatePeerBodyCryptoModel).ToNot(BeNil())
+				updatePeerBodyCryptoModel.Enrollment = updateEnrollmentCryptoFieldModel
+				updatePeerBodyCryptoModel.Msp = updateMspCryptoFieldModel
+				Expect(updatePeerBodyCryptoModel.Enrollment).To(Equal(updateEnrollmentCryptoFieldModel))
+				Expect(updatePeerBodyCryptoModel.Msp).To(Equal(updateMspCryptoFieldModel))
+
 				// Construct an instance of the UpdatePeerOptions model
 				id := "testString"
 				updatePeerOptionsModel := testService.NewUpdatePeerOptions(id)
 				updatePeerOptionsModel.SetID("testString")
 				updatePeerOptionsModel.SetAdminCerts([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="})
 				updatePeerOptionsModel.SetConfigOverride(configPeerUpdateModel)
-				updatePeerOptionsModel.SetCrypto(mspCryptoFieldModel)
+				updatePeerOptionsModel.SetCrypto(updatePeerBodyCryptoModel)
 				updatePeerOptionsModel.SetNodeOu(nodeOuModel)
 				updatePeerOptionsModel.SetReplicas(float64(1))
 				updatePeerOptionsModel.SetResources(peerResourcesModel)
 				updatePeerOptionsModel.SetVersion("1.4.6-1")
-				updatePeerOptionsModel.SetZone("testString")
+				updatePeerOptionsModel.SetZone("-")
 				updatePeerOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(updatePeerOptionsModel).ToNot(BeNil())
 				Expect(updatePeerOptionsModel.ID).To(Equal(core.StringPtr("testString")))
 				Expect(updatePeerOptionsModel.AdminCerts).To(Equal([]string{"LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="}))
 				Expect(updatePeerOptionsModel.ConfigOverride).To(Equal(configPeerUpdateModel))
-				Expect(updatePeerOptionsModel.Crypto).To(Equal(mspCryptoFieldModel))
+				Expect(updatePeerOptionsModel.Crypto).To(Equal(updatePeerBodyCryptoModel))
 				Expect(updatePeerOptionsModel.NodeOu).To(Equal(nodeOuModel))
 				Expect(updatePeerOptionsModel.Replicas).To(Equal(core.Float64Ptr(float64(1))))
 				Expect(updatePeerOptionsModel.Resources).To(Equal(peerResourcesModel))
 				Expect(updatePeerOptionsModel.Version).To(Equal(core.StringPtr("1.4.6-1")))
-				Expect(updatePeerOptionsModel.Zone).To(Equal(core.StringPtr("testString")))
+				Expect(updatePeerOptionsModel.Zone).To(Equal(core.StringPtr("-")))
 				Expect(updatePeerOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewHsm successfully`, func() {
