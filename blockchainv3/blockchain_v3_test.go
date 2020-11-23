@@ -19,11 +19,11 @@ package blockchainv3_test
 import (
 	"bytes"
 	"fmt"
+	"github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"
 	"github.com/IBM/go-sdk-core/v4/core"
 	"github.com/go-openapi/strfmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -6887,7 +6887,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				// Construct an instance of the SubmitBlockOptions model
 				submitBlockOptionsModel := new(blockchainv3.SubmitBlockOptions)
 				submitBlockOptionsModel.ID = core.StringPtr("testString")
-				submitBlockOptionsModel.B64Block = core.StringPtr("bWFzc2l2ZSBiaW5hcnkgb2YgYSBjb25maWcgYmxvY2sgd291bGQgYmUgaGVyZSBpZiB0aGlzIHdhcyByZWFs")
+				submitBlockOptionsModel.B64Block = core.StringPtr("bWFzc2l2ZSBiaW5hcnkgb2YgYSBjb25maWcgYmxvY2sgd291bGQgYmUgaGVyZSBpZiB0aGlzIHdhcyByZWFsLCBwbGVhc2UgZG9udCBzZW5kIHRoaXM=")
 				submitBlockOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
 				result, response, operationErr := testService.SubmitBlock(submitBlockOptionsModel)
@@ -6933,7 +6933,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				// Construct an instance of the SubmitBlockOptions model
 				submitBlockOptionsModel := new(blockchainv3.SubmitBlockOptions)
 				submitBlockOptionsModel.ID = core.StringPtr("testString")
-				submitBlockOptionsModel.B64Block = core.StringPtr("bWFzc2l2ZSBiaW5hcnkgb2YgYSBjb25maWcgYmxvY2sgd291bGQgYmUgaGVyZSBpZiB0aGlzIHdhcyByZWFs")
+				submitBlockOptionsModel.B64Block = core.StringPtr("bWFzc2l2ZSBiaW5hcnkgb2YgYSBjb25maWcgYmxvY2sgd291bGQgYmUgaGVyZSBpZiB0aGlzIHdhcyByZWFsLCBwbGVhc2UgZG9udCBzZW5kIHRoaXM=")
  				submitBlockOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
@@ -6953,7 +6953,7 @@ var _ = Describe(`BlockchainV3`, func() {
 				// Construct an instance of the SubmitBlockOptions model
 				submitBlockOptionsModel := new(blockchainv3.SubmitBlockOptions)
 				submitBlockOptionsModel.ID = core.StringPtr("testString")
-				submitBlockOptionsModel.B64Block = core.StringPtr("bWFzc2l2ZSBiaW5hcnkgb2YgYSBjb25maWcgYmxvY2sgd291bGQgYmUgaGVyZSBpZiB0aGlzIHdhcyByZWFs")
+				submitBlockOptionsModel.B64Block = core.StringPtr("bWFzc2l2ZSBiaW5hcnkgb2YgYSBjb25maWcgYmxvY2sgd291bGQgYmUgaGVyZSBpZiB0aGlzIHdhcyByZWFsLCBwbGVhc2UgZG9udCBzZW5kIHRoaXM=")
 				submitBlockOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
@@ -7833,15 +7833,15 @@ var _ = Describe(`BlockchainV3`, func() {
 			})
 		})
 	})
-	Describe(`GetComponentByTag(getComponentByTagOptions *GetComponentByTagOptions) - Operation response error`, func() {
-		getComponentByTagPath := "/ak/api/v3/components/tags/testString"
+	Describe(`GetComponentsByTag(getComponentsByTagOptions *GetComponentsByTagOptions) - Operation response error`, func() {
+		getComponentsByTagPath := "/ak/api/v3/components/tags/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getComponentByTagPath))
+					Expect(req.URL.Path).To(Equal(getComponentsByTagPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["deployment_attrs"]).To(Equal([]string{"included"}))
 
@@ -7854,7 +7854,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					fmt.Fprintf(res, `} this is not valid json {`)
 				}))
 			})
-			It(`Invoke GetComponentByTag with error: Operation response processing error`, func() {
+			It(`Invoke GetComponentsByTag with error: Operation response processing error`, func() {
 				testService, testServiceErr := blockchainv3.NewBlockchainV3(&blockchainv3.BlockchainV3Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
@@ -7862,15 +7862,15 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
-				// Construct an instance of the GetComponentByTagOptions model
-				getComponentByTagOptionsModel := new(blockchainv3.GetComponentByTagOptions)
-				getComponentByTagOptionsModel.Tag = core.StringPtr("testString")
-				getComponentByTagOptionsModel.DeploymentAttrs = core.StringPtr("included")
-				getComponentByTagOptionsModel.ParsedCerts = core.StringPtr("included")
-				getComponentByTagOptionsModel.Cache = core.StringPtr("skip")
-				getComponentByTagOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the GetComponentsByTagOptions model
+				getComponentsByTagOptionsModel := new(blockchainv3.GetComponentsByTagOptions)
+				getComponentsByTagOptionsModel.Tag = core.StringPtr("testString")
+				getComponentsByTagOptionsModel.DeploymentAttrs = core.StringPtr("included")
+				getComponentsByTagOptionsModel.ParsedCerts = core.StringPtr("included")
+				getComponentsByTagOptionsModel.Cache = core.StringPtr("skip")
+				getComponentsByTagOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Expect response parsing to fail since we are receiving a text/plain response
-				result, response, operationErr := testService.GetComponentByTag(getComponentByTagOptionsModel)
+				result, response, operationErr := testService.GetComponentsByTag(getComponentsByTagOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).To(BeNil())
@@ -7881,15 +7881,15 @@ var _ = Describe(`BlockchainV3`, func() {
 		})
 	})
 
-	Describe(`GetComponentByTag(getComponentByTagOptions *GetComponentByTagOptions)`, func() {
-		getComponentByTagPath := "/ak/api/v3/components/tags/testString"
+	Describe(`GetComponentsByTag(getComponentsByTagOptions *GetComponentsByTagOptions)`, func() {
+		getComponentsByTagPath := "/ak/api/v3/components/tags/testString"
 		Context(`Using mock server endpoint`, func() {
 			BeforeEach(func() {
 				testServer = httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 					defer GinkgoRecover()
 
 					// Verify the contents of the request
-					Expect(req.URL.Path).To(Equal(getComponentByTagPath))
+					Expect(req.URL.Path).To(Equal(getComponentsByTagPath))
 					Expect(req.Method).To(Equal("GET"))
 					Expect(req.URL.Query()["deployment_attrs"]).To(Equal([]string{"included"}))
 
@@ -7902,7 +7902,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					fmt.Fprintf(res, `{"components": [{"id": "myca-2", "type": "fabric-ca", "display_name": "Example CA", "grpcwp_url": "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084", "api_url": "grpcs://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:7051", "operations_url": "https://n3a3ec3-mypeer.ibp.us-south.containers.appdomain.cloud:9443", "msp": {"ca": {"name": "org1CA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "org1tlsCA", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "location": "ibmcloud", "node_ou": {"enabled": true}, "resources": {"ca": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "peer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "orderer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "statedb": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "state_db": "couchdb", "storage": {"ca": {"size": "4GiB", "class": "default"}, "peer": {"size": "4GiB", "class": "default"}, "orderer": {"size": "4GiB", "class": "default"}, "statedb": {"size": "4GiB", "class": "default"}}, "timestamp": 1537262855753, "tags": ["fabric-ca"], "version": "1.4.6-1", "zone": "-"}]}`)
 				}))
 			})
-			It(`Invoke GetComponentByTag successfully`, func() {
+			It(`Invoke GetComponentsByTag successfully`, func() {
 				testService, testServiceErr := blockchainv3.NewBlockchainV3(&blockchainv3.BlockchainV3Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
@@ -7911,26 +7911,26 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(testService).ToNot(BeNil())
 
 				// Invoke operation with nil options model (negative test)
-				result, response, operationErr := testService.GetComponentByTag(nil)
+				result, response, operationErr := testService.GetComponentsByTag(nil)
 				Expect(operationErr).NotTo(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
 
-				// Construct an instance of the GetComponentByTagOptions model
-				getComponentByTagOptionsModel := new(blockchainv3.GetComponentByTagOptions)
-				getComponentByTagOptionsModel.Tag = core.StringPtr("testString")
-				getComponentByTagOptionsModel.DeploymentAttrs = core.StringPtr("included")
-				getComponentByTagOptionsModel.ParsedCerts = core.StringPtr("included")
-				getComponentByTagOptionsModel.Cache = core.StringPtr("skip")
- 				getComponentByTagOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the GetComponentsByTagOptions model
+				getComponentsByTagOptionsModel := new(blockchainv3.GetComponentsByTagOptions)
+				getComponentsByTagOptionsModel.Tag = core.StringPtr("testString")
+				getComponentsByTagOptionsModel.DeploymentAttrs = core.StringPtr("included")
+				getComponentsByTagOptionsModel.ParsedCerts = core.StringPtr("included")
+				getComponentsByTagOptionsModel.Cache = core.StringPtr("skip")
+ 				getComponentsByTagOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 
 				// Invoke operation with valid options model (positive test)
-				result, response, operationErr = testService.GetComponentByTag(getComponentByTagOptionsModel)
+				result, response, operationErr = testService.GetComponentsByTag(getComponentsByTagOptionsModel)
 				Expect(operationErr).To(BeNil())
 				Expect(response).ToNot(BeNil())
 				Expect(result).ToNot(BeNil())
 			})
-			It(`Invoke GetComponentByTag with error: Operation validation and request error`, func() {
+			It(`Invoke GetComponentsByTag with error: Operation validation and request error`, func() {
 				testService, testServiceErr := blockchainv3.NewBlockchainV3(&blockchainv3.BlockchainV3Options{
 					URL:           testServer.URL,
 					Authenticator: &core.NoAuthAuthenticator{},
@@ -7938,25 +7938,25 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(testServiceErr).To(BeNil())
 				Expect(testService).ToNot(BeNil())
 
-				// Construct an instance of the GetComponentByTagOptions model
-				getComponentByTagOptionsModel := new(blockchainv3.GetComponentByTagOptions)
-				getComponentByTagOptionsModel.Tag = core.StringPtr("testString")
-				getComponentByTagOptionsModel.DeploymentAttrs = core.StringPtr("included")
-				getComponentByTagOptionsModel.ParsedCerts = core.StringPtr("included")
-				getComponentByTagOptionsModel.Cache = core.StringPtr("skip")
-				getComponentByTagOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
+				// Construct an instance of the GetComponentsByTagOptions model
+				getComponentsByTagOptionsModel := new(blockchainv3.GetComponentsByTagOptions)
+				getComponentsByTagOptionsModel.Tag = core.StringPtr("testString")
+				getComponentsByTagOptionsModel.DeploymentAttrs = core.StringPtr("included")
+				getComponentsByTagOptionsModel.ParsedCerts = core.StringPtr("included")
+				getComponentsByTagOptionsModel.Cache = core.StringPtr("skip")
+				getComponentsByTagOptionsModel.Headers = map[string]string{"x-custom-header": "x-custom-value"}
 				// Invoke operation with empty URL (negative test)
 				err := testService.SetServiceURL("")
 				Expect(err).To(BeNil())
-				result, response, operationErr := testService.GetComponentByTag(getComponentByTagOptionsModel)
+				result, response, operationErr := testService.GetComponentsByTag(getComponentsByTagOptionsModel)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(operationErr.Error()).To(ContainSubstring(core.ERRORMSG_SERVICE_URL_MISSING))
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
-				// Construct a second instance of the GetComponentByTagOptions model with no property values
-				getComponentByTagOptionsModelNew := new(blockchainv3.GetComponentByTagOptions)
+				// Construct a second instance of the GetComponentsByTagOptions model with no property values
+				getComponentsByTagOptionsModelNew := new(blockchainv3.GetComponentsByTagOptions)
 				// Invoke operation with invalid model (negative test)
-				result, response, operationErr = testService.GetComponentByTag(getComponentByTagOptionsModelNew)
+				result, response, operationErr = testService.GetComponentsByTag(getComponentsByTagOptionsModelNew)
 				Expect(operationErr).ToNot(BeNil())
 				Expect(response).To(BeNil())
 				Expect(result).To(BeNil())
@@ -11749,22 +11749,6 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(editSettingsOptionsModel.FabricGeneralTimeoutMs).To(Equal(core.Float64Ptr(float64(10000))))
 				Expect(editSettingsOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
-			It(`Invoke NewGetComponentByTagOptions successfully`, func() {
-				// Construct an instance of the GetComponentByTagOptions model
-				tag := "testString"
-				getComponentByTagOptionsModel := testService.NewGetComponentByTagOptions(tag)
-				getComponentByTagOptionsModel.SetTag("testString")
-				getComponentByTagOptionsModel.SetDeploymentAttrs("included")
-				getComponentByTagOptionsModel.SetParsedCerts("included")
-				getComponentByTagOptionsModel.SetCache("skip")
-				getComponentByTagOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
-				Expect(getComponentByTagOptionsModel).ToNot(BeNil())
-				Expect(getComponentByTagOptionsModel.Tag).To(Equal(core.StringPtr("testString")))
-				Expect(getComponentByTagOptionsModel.DeploymentAttrs).To(Equal(core.StringPtr("included")))
-				Expect(getComponentByTagOptionsModel.ParsedCerts).To(Equal(core.StringPtr("included")))
-				Expect(getComponentByTagOptionsModel.Cache).To(Equal(core.StringPtr("skip")))
-				Expect(getComponentByTagOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
-			})
 			It(`Invoke NewGetComponentOptions successfully`, func() {
 				// Construct an instance of the GetComponentOptions model
 				id := "testString"
@@ -11782,6 +11766,22 @@ var _ = Describe(`BlockchainV3`, func() {
 				Expect(getComponentOptionsModel.Cache).To(Equal(core.StringPtr("skip")))
 				Expect(getComponentOptionsModel.CaAttrs).To(Equal(core.StringPtr("included")))
 				Expect(getComponentOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
+			})
+			It(`Invoke NewGetComponentsByTagOptions successfully`, func() {
+				// Construct an instance of the GetComponentsByTagOptions model
+				tag := "testString"
+				getComponentsByTagOptionsModel := testService.NewGetComponentsByTagOptions(tag)
+				getComponentsByTagOptionsModel.SetTag("testString")
+				getComponentsByTagOptionsModel.SetDeploymentAttrs("included")
+				getComponentsByTagOptionsModel.SetParsedCerts("included")
+				getComponentsByTagOptionsModel.SetCache("skip")
+				getComponentsByTagOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
+				Expect(getComponentsByTagOptionsModel).ToNot(BeNil())
+				Expect(getComponentsByTagOptionsModel.Tag).To(Equal(core.StringPtr("testString")))
+				Expect(getComponentsByTagOptionsModel.DeploymentAttrs).To(Equal(core.StringPtr("included")))
+				Expect(getComponentsByTagOptionsModel.ParsedCerts).To(Equal(core.StringPtr("included")))
+				Expect(getComponentsByTagOptionsModel.Cache).To(Equal(core.StringPtr("skip")))
+				Expect(getComponentsByTagOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewGetComponentsByTypeOptions successfully`, func() {
 				// Construct an instance of the GetComponentsByTypeOptions model
@@ -12283,11 +12283,11 @@ var _ = Describe(`BlockchainV3`, func() {
 				id := "testString"
 				submitBlockOptionsModel := testService.NewSubmitBlockOptions(id)
 				submitBlockOptionsModel.SetID("testString")
-				submitBlockOptionsModel.SetB64Block("bWFzc2l2ZSBiaW5hcnkgb2YgYSBjb25maWcgYmxvY2sgd291bGQgYmUgaGVyZSBpZiB0aGlzIHdhcyByZWFs")
+				submitBlockOptionsModel.SetB64Block("bWFzc2l2ZSBiaW5hcnkgb2YgYSBjb25maWcgYmxvY2sgd291bGQgYmUgaGVyZSBpZiB0aGlzIHdhcyByZWFsLCBwbGVhc2UgZG9udCBzZW5kIHRoaXM=")
 				submitBlockOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(submitBlockOptionsModel).ToNot(BeNil())
 				Expect(submitBlockOptionsModel.ID).To(Equal(core.StringPtr("testString")))
-				Expect(submitBlockOptionsModel.B64Block).To(Equal(core.StringPtr("bWFzc2l2ZSBiaW5hcnkgb2YgYSBjb25maWcgYmxvY2sgd291bGQgYmUgaGVyZSBpZiB0aGlzIHdhcyByZWFs")))
+				Expect(submitBlockOptionsModel.B64Block).To(Equal(core.StringPtr("bWFzc2l2ZSBiaW5hcnkgb2YgYSBjb25maWcgYmxvY2sgd291bGQgYmUgaGVyZSBpZiB0aGlzIHdhcyByZWFsLCBwbGVhc2UgZG9udCBzZW5kIHRoaXM=")))
 				Expect(submitBlockOptionsModel.Headers).To(Equal(map[string]string{"foo": "bar"}))
 			})
 			It(`Invoke NewUpdateCaBodyConfigOverride successfully`, func() {

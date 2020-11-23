@@ -9,6 +9,7 @@ GoLang client library to use the IBM Cloud Blockchain **Service**.
 
 * [Overview](#overview)
 * [Prerequisites](#prerequisites)
+* [Explore the SDK](#explore-the-sdk)
 * [Installation](#installation)
 * [Using the SDK](#using-the-sdk)
   * [Constructing service clients](#constructing-service-clients)
@@ -18,7 +19,6 @@ GoLang client library to use the IBM Cloud Blockchain **Service**.
   * [Error Handling](#error-handling)
   * [Default headers](#default-headers)
   * [Sending request headers](#sending-request-headers)
-* [Explore the SDK](#explore-the-sdk)
 * [Generation](#generation)
 * [License](#license)
 
@@ -35,7 +35,7 @@ Any issues with this SDK can be opened here or against the IBM Blockchain Platfo
 
 ## Prerequisites
 
-[ibm-cloud-onboarding]: https://cloud.ibm.com/registration?target=%2Fdeveloper%2Fwatson&
+[ibm-cloud-onboarding]: https://cloud.ibm.com/registration
 
 * An [IBM Cloud][ibm-cloud-onboarding] account.
 * An [IBM Blockchain Platform Service instance](https://cloud.ibm.com/catalog/services/blockchain-platform)
