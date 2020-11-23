@@ -20,8 +20,8 @@ package blockchainv3
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/IBM/go-sdk-core/v4/core"
 	common "github.com/IBM-Blockchain/ibp-go-sdk/common"
+	"github.com/IBM/go-sdk-core/v4/core"
 	"reflect"
 )
 
@@ -1970,21 +1970,21 @@ func (blockchain *BlockchainV3) GetComponentsByType(getComponentsByTypeOptions *
 	return
 }
 
-// GetComponentByTag : Get components with tag
+// GetComponentsByTag : Get components with tag
 // Get the IBP console's data on components that have a specific tag. The component might be imported or created. Tags
 // are not case-sensitive.
-func (blockchain *BlockchainV3) GetComponentByTag(getComponentByTagOptions *GetComponentByTagOptions) (result *GetMultiComponentsResponse, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getComponentByTagOptions, "getComponentByTagOptions cannot be nil")
+func (blockchain *BlockchainV3) GetComponentsByTag(getComponentsByTagOptions *GetComponentsByTagOptions) (result *GetMultiComponentsResponse, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getComponentsByTagOptions, "getComponentsByTagOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(getComponentByTagOptions, "getComponentByTagOptions")
+	err = core.ValidateStruct(getComponentsByTagOptions, "getComponentsByTagOptions")
 	if err != nil {
 		return
 	}
 
 	pathSegments := []string{"ak/api/v3/components/tags"}
-	pathParameters := []string{*getComponentByTagOptions.Tag}
+	pathParameters := []string{*getComponentsByTagOptions.Tag}
 
 	builder := core.NewRequestBuilder(core.GET)
 	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
@@ -1992,24 +1992,24 @@ func (blockchain *BlockchainV3) GetComponentByTag(getComponentByTagOptions *GetC
 		return
 	}
 
-	for headerName, headerValue := range getComponentByTagOptions.Headers {
+	for headerName, headerValue := range getComponentsByTagOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("blockchain", "V3", "GetComponentByTag")
+	sdkHeaders := common.GetSdkHeaders("blockchain", "V3", "GetComponentsByTag")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
 
-	if getComponentByTagOptions.DeploymentAttrs != nil {
-		builder.AddQuery("deployment_attrs", fmt.Sprint(*getComponentByTagOptions.DeploymentAttrs))
+	if getComponentsByTagOptions.DeploymentAttrs != nil {
+		builder.AddQuery("deployment_attrs", fmt.Sprint(*getComponentsByTagOptions.DeploymentAttrs))
 	}
-	if getComponentByTagOptions.ParsedCerts != nil {
-		builder.AddQuery("parsed_certs", fmt.Sprint(*getComponentByTagOptions.ParsedCerts))
+	if getComponentsByTagOptions.ParsedCerts != nil {
+		builder.AddQuery("parsed_certs", fmt.Sprint(*getComponentsByTagOptions.ParsedCerts))
 	}
-	if getComponentByTagOptions.Cache != nil {
-		builder.AddQuery("cache", fmt.Sprint(*getComponentByTagOptions.Cache))
+	if getComponentsByTagOptions.Cache != nil {
+		builder.AddQuery("cache", fmt.Sprint(*getComponentsByTagOptions.Cache))
 	}
 
 	request, err := builder.Build()
@@ -8850,98 +8850,6 @@ func UnmarshalGetAthenaHealthStatsResponseOS(m map[string]json.RawMessage, resul
 	return
 }
 
-// GetComponentByTagOptions : The GetComponentByTag options.
-type GetComponentByTagOptions struct {
-	// The tag to filter components on. Not case-sensitive.
-	Tag *string `json:"tag" validate:"required"`
-
-	// Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources', 'storage',
-	// 'zone', 'region', 'admin_certs', etc. Default responses will not include these fields.
-	//
-	// **This parameter will not work on *imported* components.**
-	//
-	// It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
-	DeploymentAttrs *string `json:"deployment_attrs,omitempty"`
-
-	// Set to 'included' if the response should include parsed PEM data along with base 64 encoded PEM string. Parsed
-	// certificate data will include fields such as the serial number, issuer, expiration, subject, subject alt names, etc.
-	// Default responses will not include these fields.
-	ParsedCerts *string `json:"parsed_certs,omitempty"`
-
-	// Set to 'skip' if the response should skip local data and fetch live data wherever possible. Expect longer response
-	// times if the cache is skipped. Default responses will use the cache.
-	Cache *string `json:"cache,omitempty"`
-
-	// Allows users to set headers on API requests
-	Headers map[string]string
-}
-
-// Constants associated with the GetComponentByTagOptions.DeploymentAttrs property.
-// Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources', 'storage',
-// 'zone', 'region', 'admin_certs', etc. Default responses will not include these fields.
-//
-// **This parameter will not work on *imported* components.**
-//
-// It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
-const (
-	GetComponentByTagOptions_DeploymentAttrs_Included = "included"
-	GetComponentByTagOptions_DeploymentAttrs_Omitted = "omitted"
-)
-
-// Constants associated with the GetComponentByTagOptions.ParsedCerts property.
-// Set to 'included' if the response should include parsed PEM data along with base 64 encoded PEM string. Parsed
-// certificate data will include fields such as the serial number, issuer, expiration, subject, subject alt names, etc.
-// Default responses will not include these fields.
-const (
-	GetComponentByTagOptions_ParsedCerts_Included = "included"
-	GetComponentByTagOptions_ParsedCerts_Omitted = "omitted"
-)
-
-// Constants associated with the GetComponentByTagOptions.Cache property.
-// Set to 'skip' if the response should skip local data and fetch live data wherever possible. Expect longer response
-// times if the cache is skipped. Default responses will use the cache.
-const (
-	GetComponentByTagOptions_Cache_Skip = "skip"
-	GetComponentByTagOptions_Cache_Use = "use"
-)
-
-// NewGetComponentByTagOptions : Instantiate GetComponentByTagOptions
-func (*BlockchainV3) NewGetComponentByTagOptions(tag string) *GetComponentByTagOptions {
-	return &GetComponentByTagOptions{
-		Tag: core.StringPtr(tag),
-	}
-}
-
-// SetTag : Allow user to set Tag
-func (options *GetComponentByTagOptions) SetTag(tag string) *GetComponentByTagOptions {
-	options.Tag = core.StringPtr(tag)
-	return options
-}
-
-// SetDeploymentAttrs : Allow user to set DeploymentAttrs
-func (options *GetComponentByTagOptions) SetDeploymentAttrs(deploymentAttrs string) *GetComponentByTagOptions {
-	options.DeploymentAttrs = core.StringPtr(deploymentAttrs)
-	return options
-}
-
-// SetParsedCerts : Allow user to set ParsedCerts
-func (options *GetComponentByTagOptions) SetParsedCerts(parsedCerts string) *GetComponentByTagOptions {
-	options.ParsedCerts = core.StringPtr(parsedCerts)
-	return options
-}
-
-// SetCache : Allow user to set Cache
-func (options *GetComponentByTagOptions) SetCache(cache string) *GetComponentByTagOptions {
-	options.Cache = core.StringPtr(cache)
-	return options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *GetComponentByTagOptions) SetHeaders(param map[string]string) *GetComponentByTagOptions {
-	options.Headers = param
-	return options
-}
-
 // GetComponentOptions : The GetComponent options.
 type GetComponentOptions struct {
 	// The `id` of the component to retrieve. Use the [Get all components](#list_components) API to determine the component
@@ -9065,6 +8973,98 @@ func (options *GetComponentOptions) SetCaAttrs(caAttrs string) *GetComponentOpti
 
 // SetHeaders : Allow user to set Headers
 func (options *GetComponentOptions) SetHeaders(param map[string]string) *GetComponentOptions {
+	options.Headers = param
+	return options
+}
+
+// GetComponentsByTagOptions : The GetComponentsByTag options.
+type GetComponentsByTagOptions struct {
+	// The tag to filter components on. Not case-sensitive.
+	Tag *string `json:"tag" validate:"required"`
+
+	// Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources', 'storage',
+	// 'zone', 'region', 'admin_certs', etc. Default responses will not include these fields.
+	//
+	// **This parameter will not work on *imported* components.**
+	//
+	// It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
+	DeploymentAttrs *string `json:"deployment_attrs,omitempty"`
+
+	// Set to 'included' if the response should include parsed PEM data along with base 64 encoded PEM string. Parsed
+	// certificate data will include fields such as the serial number, issuer, expiration, subject, subject alt names, etc.
+	// Default responses will not include these fields.
+	ParsedCerts *string `json:"parsed_certs,omitempty"`
+
+	// Set to 'skip' if the response should skip local data and fetch live data wherever possible. Expect longer response
+	// times if the cache is skipped. Default responses will use the cache.
+	Cache *string `json:"cache,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the GetComponentsByTagOptions.DeploymentAttrs property.
+// Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources', 'storage',
+// 'zone', 'region', 'admin_certs', etc. Default responses will not include these fields.
+//
+// **This parameter will not work on *imported* components.**
+//
+// It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
+const (
+	GetComponentsByTagOptions_DeploymentAttrs_Included = "included"
+	GetComponentsByTagOptions_DeploymentAttrs_Omitted = "omitted"
+)
+
+// Constants associated with the GetComponentsByTagOptions.ParsedCerts property.
+// Set to 'included' if the response should include parsed PEM data along with base 64 encoded PEM string. Parsed
+// certificate data will include fields such as the serial number, issuer, expiration, subject, subject alt names, etc.
+// Default responses will not include these fields.
+const (
+	GetComponentsByTagOptions_ParsedCerts_Included = "included"
+	GetComponentsByTagOptions_ParsedCerts_Omitted = "omitted"
+)
+
+// Constants associated with the GetComponentsByTagOptions.Cache property.
+// Set to 'skip' if the response should skip local data and fetch live data wherever possible. Expect longer response
+// times if the cache is skipped. Default responses will use the cache.
+const (
+	GetComponentsByTagOptions_Cache_Skip = "skip"
+	GetComponentsByTagOptions_Cache_Use = "use"
+)
+
+// NewGetComponentsByTagOptions : Instantiate GetComponentsByTagOptions
+func (*BlockchainV3) NewGetComponentsByTagOptions(tag string) *GetComponentsByTagOptions {
+	return &GetComponentsByTagOptions{
+		Tag: core.StringPtr(tag),
+	}
+}
+
+// SetTag : Allow user to set Tag
+func (options *GetComponentsByTagOptions) SetTag(tag string) *GetComponentsByTagOptions {
+	options.Tag = core.StringPtr(tag)
+	return options
+}
+
+// SetDeploymentAttrs : Allow user to set DeploymentAttrs
+func (options *GetComponentsByTagOptions) SetDeploymentAttrs(deploymentAttrs string) *GetComponentsByTagOptions {
+	options.DeploymentAttrs = core.StringPtr(deploymentAttrs)
+	return options
+}
+
+// SetParsedCerts : Allow user to set ParsedCerts
+func (options *GetComponentsByTagOptions) SetParsedCerts(parsedCerts string) *GetComponentsByTagOptions {
+	options.ParsedCerts = core.StringPtr(parsedCerts)
+	return options
+}
+
+// SetCache : Allow user to set Cache
+func (options *GetComponentsByTagOptions) SetCache(cache string) *GetComponentsByTagOptions {
+	options.Cache = core.StringPtr(cache)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetComponentsByTagOptions) SetHeaders(param map[string]string) *GetComponentsByTagOptions {
 	options.Headers = param
 	return options
 }
