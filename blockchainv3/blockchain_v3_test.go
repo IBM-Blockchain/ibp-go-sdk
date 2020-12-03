@@ -2554,7 +2554,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(202)
-					fmt.Fprintf(res, `{"message": "accepted", "id": "my-ca", "actions": ["restart"]}`)
+					fmt.Fprintf(res, `{"message": "accepted", "id": "myca", "actions": ["restart"]}`)
 				}))
 			})
 			It(`Invoke CaAction successfully`, func() {
@@ -4126,7 +4126,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(202)
-					fmt.Fprintf(res, `{"message": "accepted", "id": "my-ca", "actions": ["restart"]}`)
+					fmt.Fprintf(res, `{"message": "accepted", "id": "myca", "actions": ["restart"]}`)
 				}))
 			})
 			It(`Invoke PeerAction successfully`, func() {
@@ -6257,7 +6257,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("POST"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(202)
-					fmt.Fprintf(res, `{"message": "accepted", "id": "my-ca", "actions": ["restart"]}`)
+					fmt.Fprintf(res, `{"message": "accepted", "id": "myca", "actions": ["restart"]}`)
 				}))
 			})
 			It(`Invoke OrdererAction successfully`, func() {
@@ -7731,7 +7731,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the GetComponentsByTypeOptions model
 				getComponentsByTypeOptionsModel := new(blockchainv3.GetComponentsByTypeOptions)
-				getComponentsByTypeOptionsModel.ComponentType = core.StringPtr("fabric-peer")
+				getComponentsByTypeOptionsModel.Type = core.StringPtr("fabric-peer")
 				getComponentsByTypeOptionsModel.DeploymentAttrs = core.StringPtr("included")
 				getComponentsByTypeOptionsModel.ParsedCerts = core.StringPtr("included")
 				getComponentsByTypeOptionsModel.Cache = core.StringPtr("skip")
@@ -7785,7 +7785,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the GetComponentsByTypeOptions model
 				getComponentsByTypeOptionsModel := new(blockchainv3.GetComponentsByTypeOptions)
-				getComponentsByTypeOptionsModel.ComponentType = core.StringPtr("fabric-peer")
+				getComponentsByTypeOptionsModel.Type = core.StringPtr("fabric-peer")
 				getComponentsByTypeOptionsModel.DeploymentAttrs = core.StringPtr("included")
 				getComponentsByTypeOptionsModel.ParsedCerts = core.StringPtr("included")
 				getComponentsByTypeOptionsModel.Cache = core.StringPtr("skip")
@@ -7807,7 +7807,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 				// Construct an instance of the GetComponentsByTypeOptions model
 				getComponentsByTypeOptionsModel := new(blockchainv3.GetComponentsByTypeOptions)
-				getComponentsByTypeOptionsModel.ComponentType = core.StringPtr("fabric-peer")
+				getComponentsByTypeOptionsModel.Type = core.StringPtr("fabric-peer")
 				getComponentsByTypeOptionsModel.DeploymentAttrs = core.StringPtr("included")
 				getComponentsByTypeOptionsModel.ParsedCerts = core.StringPtr("included")
 				getComponentsByTypeOptionsModel.Cache = core.StringPtr("skip")
@@ -9409,7 +9409,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.Method).To(Equal("DELETE"))
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, `{"message": "ok", "deleted": 42}`)
+					fmt.Fprintf(res, `{"message": "delete submitted"}`)
 				}))
 			})
 			It(`Invoke DeleteAllSessions successfully`, func() {
@@ -11785,15 +11785,15 @@ var _ = Describe(`BlockchainV3`, func() {
 			})
 			It(`Invoke NewGetComponentsByTypeOptions successfully`, func() {
 				// Construct an instance of the GetComponentsByTypeOptions model
-				componentType := "fabric-peer"
-				getComponentsByTypeOptionsModel := testService.NewGetComponentsByTypeOptions(componentType)
-				getComponentsByTypeOptionsModel.SetComponentType("fabric-peer")
+				typeVar := "fabric-peer"
+				getComponentsByTypeOptionsModel := testService.NewGetComponentsByTypeOptions(typeVar)
+				getComponentsByTypeOptionsModel.SetType("fabric-peer")
 				getComponentsByTypeOptionsModel.SetDeploymentAttrs("included")
 				getComponentsByTypeOptionsModel.SetParsedCerts("included")
 				getComponentsByTypeOptionsModel.SetCache("skip")
 				getComponentsByTypeOptionsModel.SetHeaders(map[string]string{"foo": "bar"})
 				Expect(getComponentsByTypeOptionsModel).ToNot(BeNil())
-				Expect(getComponentsByTypeOptionsModel.ComponentType).To(Equal(core.StringPtr("fabric-peer")))
+				Expect(getComponentsByTypeOptionsModel.Type).To(Equal(core.StringPtr("fabric-peer")))
 				Expect(getComponentsByTypeOptionsModel.DeploymentAttrs).To(Equal(core.StringPtr("included")))
 				Expect(getComponentsByTypeOptionsModel.ParsedCerts).To(Equal(core.StringPtr("included")))
 				Expect(getComponentsByTypeOptionsModel.Cache).To(Equal(core.StringPtr("skip")))
