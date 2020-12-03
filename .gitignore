@@ -8,3 +8,4 @@ vendor/
 .openapi-generator-ignore
 .openapi-generator/VERSION
 /.project
+manual.go

@@ -1922,8 +1922,8 @@ func (blockchain *BlockchainV3) GetComponentsByType(getComponentsByTypeOptions *
 		return
 	}
 
-	pathSegments := []string{}
-	pathParameters := []string{*getComponentsByTypeOptions.ComponentType}
+	pathSegments := []string{"ak/api/v3/components/types"}
+	pathParameters := []string{*getComponentsByTypeOptions.Type}
 
 	builder := core.NewRequestBuilder(core.GET)
 	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
@@ -7237,11 +7237,8 @@ func (options *DeleteAllSessionsOptions) SetHeaders(param map[string]string) *De
 
 // DeleteAllSessionsResponse : DeleteAllSessionsResponse struct
 type DeleteAllSessionsResponse struct {
-	// Response message. "ok" indicates the api completed successfully.
+	// Response message. Indicates the api completed successfully.
 	Message *string `json:"message,omitempty"`
-
-	// How many session entries that were deleted.
-	Deleted *float64 `json:"deleted,omitempty"`
 }
 
 
@@ -7249,10 +7246,6 @@ type DeleteAllSessionsResponse struct {
 func UnmarshalDeleteAllSessionsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteAllSessionsResponse)
 	err = core.UnmarshalPrimitive(m, "message", &obj.Message)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "deleted", &obj.Deleted)
 	if err != nil {
 		return
 	}
@@ -9071,8 +9064,8 @@ func (options *GetComponentsByTagOptions) SetHeaders(param map[string]string) *G
 
 // GetComponentsByTypeOptions : The GetComponentsByType options.
 type GetComponentsByTypeOptions struct {
-	// The type to filter components on.
-	ComponentType *string `json:"component-type" validate:"required"`
+	// The type of component to filter components on.
+	Type *string `json:"type" validate:"required"`
 
 	// Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources', 'storage',
 	// 'zone', 'region', 'admin_certs', etc. Default responses will not include these fields.
@@ -9095,13 +9088,13 @@ type GetComponentsByTypeOptions struct {
 	Headers map[string]string
 }
 
-// Constants associated with the GetComponentsByTypeOptions.ComponentType property.
-// The type to filter components on.
+// Constants associated with the GetComponentsByTypeOptions.Type property.
+// The type of component to filter components on.
 const (
-	GetComponentsByTypeOptions_ComponentType_FabricCa = "fabric-ca"
-	GetComponentsByTypeOptions_ComponentType_FabricOrderer = "fabric-orderer"
-	GetComponentsByTypeOptions_ComponentType_FabricPeer = "fabric-peer"
-	GetComponentsByTypeOptions_ComponentType_Msp = "msp"
+	GetComponentsByTypeOptions_Type_FabricCa = "fabric-ca"
+	GetComponentsByTypeOptions_Type_FabricOrderer = "fabric-orderer"
+	GetComponentsByTypeOptions_Type_FabricPeer = "fabric-peer"
+	GetComponentsByTypeOptions_Type_Msp = "msp"
 )
 
 // Constants associated with the GetComponentsByTypeOptions.DeploymentAttrs property.
@@ -9134,15 +9127,15 @@ const (
 )
 
 // NewGetComponentsByTypeOptions : Instantiate GetComponentsByTypeOptions
-func (*BlockchainV3) NewGetComponentsByTypeOptions(componentType string) *GetComponentsByTypeOptions {
+func (*BlockchainV3) NewGetComponentsByTypeOptions(typeVar string) *GetComponentsByTypeOptions {
 	return &GetComponentsByTypeOptions{
-		ComponentType: core.StringPtr(componentType),
+		Type: core.StringPtr(typeVar),
 	}
 }
 
-// SetComponentType : Allow user to set ComponentType
-func (options *GetComponentsByTypeOptions) SetComponentType(componentType string) *GetComponentsByTypeOptions {
-	options.ComponentType = core.StringPtr(componentType)
+// SetType : Allow user to set Type
+func (options *GetComponentsByTypeOptions) SetType(typeVar string) *GetComponentsByTypeOptions {
+	options.Type = core.StringPtr(typeVar)
 	return options
 }
 
