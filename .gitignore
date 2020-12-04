@@ -9,3 +9,30 @@ vendor/
 .openapi-generator/VERSION
 /.project
 manual.go
+
+
+# IDEs and editors
+/.idea
+/.vscode
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+
+# history
+.history
+
+# coverage
+blockchainv3/coverage.out
+
+# test secrets
+integration_test/tmpCert.pem
+
+# lcs
+integration_test/env/
+integration_test/msp/
+integration_test/all_examples_v2.go
+
+# binary
+integration_test/integration_test
