@@ -5,10 +5,10 @@ go 1.14
 require (
 	github.com/IBM/go-sdk-core/v4 v4.0.5
 	github.com/Knetic/govaluate v3.0.0+incompatible // indirect
+	github.com/VividCortex/gohistogram v1.0.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cloudflare/cfssl v1.5.0 // indirect
 	github.com/go-openapi/strfmt v0.19.5
-	github.com/go-sql-driver/mysql v1.5.0 // indirect
 	github.com/google/certificate-transparency-go v1.1.1 // indirect
 	github.com/gorilla/handlers v1.5.1 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
@@ -29,7 +29,6 @@ require (
 	github.com/prometheus/common v0.15.0 // indirect
 	github.com/prometheus/procfs v0.2.0 // indirect
 	github.com/spf13/cast v1.3.1 // indirect
-	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.7.1 // indirect
 	github.com/stretchr/testify v1.6.1
 	github.com/sykesm/zap-logfmt v0.0.4 // indirect

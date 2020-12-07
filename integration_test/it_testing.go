@@ -79,13 +79,13 @@ func main() {
 	client := createClient(fp, *caResult.ApiURL)
 
 	// enroll the CA using the client we just made
-	enrollResp := enrollCA(client)
+	org1EnrollResponse := enrollCA(client)
 
 	// register the admins for org 1
 	numRetries := 1
-	orgIdentity := registerAndEnrollAdmin(enrollResp, "org1", &numRetries)
+	orgIdentity := registerAndEnrollAdmin(org1EnrollResponse, "org1", &numRetries)
 	numRetries = 1
-	_ = registerAdmin(enrollResp, "peer", "peer", &numRetries)
+	_ = registerAdmin(org1EnrollResponse, "peer", "peer", &numRetries)
 
 	// create/import the msp definition
 	createOrImportMSP(tlsCert, orgIdentity, service, "Org1 MSP", "org1msp")
@@ -115,13 +115,13 @@ func main() {
 	client = createClient(fp, *caResult.ApiURL)
 
 	// enroll the CA using the client we just made
-	enrollResp = enrollCA(client)
+	OS1EnrollResponse := enrollCA(client)
 
 	// register the admins for the ordering org
 	numRetries = 1
-	orgIdentity = registerAndEnrollAdmin(enrollResp, "OS", &numRetries)
+	orgIdentity = registerAndEnrollAdmin(OS1EnrollResponse, "OS", &numRetries)
 	numRetries = 1
-	_ = registerAdmin(enrollResp, "OS", "orderer", &numRetries)
+	_ = registerAdmin(OS1EnrollResponse, "OS", "orderer", &numRetries)
 
 	// create/import the msp definition
 	createOrImportMSP(tlsCert, orgIdentity, service, "Ordering Service MSP", "osmsp")
@@ -133,9 +133,15 @@ func main() {
 	// create orderer
 	createOrderer(service, cryptoObjectSlice)
 
+	//----------------------------------------------------------------------------------------------
+	// Cleanup
+	//----------------------------------------------------------------------------------------------
 	log.Println(ItTest + "finally, delete any existing components in the cluster")
 	deleteAllComponents(service)
-	log.Println(ItTest + "**SUCCESS** - test completed with no known errors")
+	//removeIdentity("org1admin", org1EnrollResponse)	// dsh - comment out these two calls to "removeIdentity" to run without removing the identities
+	//removeIdentity("peer1", org1EnrollResponse)		// dsh - see below for one more spot
+	//removeIdentity("OS1", OS1EnrollResponse)
+	log.Println(ItTest + "**SUCCESS** - test completed")
 
 }
 
@@ -323,13 +329,6 @@ func registerAndEnrollAdmin(enrollResp *lib.EnrollmentResponse, prefix string, r
 	identity, err := enrollResp.Identity.RegisterAndEnroll(req)
 
 	if err != nil {
-		errorAsString := err.Error()
-		if strings.Contains(errorAsString, "is already registered") && *retries < 3 { // already registered then remove the registration and try again
-			*retries++
-			removeIdentity(name, enrollResp)
-			log.Println(ItTest + "the identity " + name + " was already registered. trying again to remove it")
-			return registerAndEnrollAdmin(enrollResp, prefix, retries)
-		}
 		log.Fatalln(ItTest+"**ERROR** - problem registering and enrolling "+name, err)
 	}
 	log.Println(ItTest + "**SUCCESS** - " + name + " registered")
@@ -338,18 +337,11 @@ func registerAndEnrollAdmin(enrollResp *lib.EnrollmentResponse, prefix string, r
 
 func registerAdmin(enrollResp *lib.EnrollmentResponse, prefix, identityType string, retries *int) error {
 	log.Println(ItTest + "registering peer admin")
-	name := prefix + "1"
+	name := prefix + "1"                        // todo - abstract this part
 	secret := prefix + "1pw"
 	regReq := &api.RegistrationRequest{Name: name, Secret: secret, Type: identityType} // registers user with the name
 	_, err := enrollResp.Identity.Register(regReq)
 	if err != nil {
-		errorAsString := err.Error()
-		if strings.Contains(errorAsString, "is already registered") && *retries < 3 { // already registered then remove the registration and try again
-			*retries++
-			removeIdentity(name, enrollResp)
-			log.Println(ItTest + "the identity " + name + " was already registered. trying again to remove it")
-			return registerAdmin(enrollResp, prefix, identityType, retries)
-		}
 		log.Fatalln(ItTest+"**ERROR** - problem registering "+name, err)
 	}
 	log.Println(ItTest + "**SUCCESS** - " + name + " admin was registered")
@@ -438,16 +430,29 @@ func createCryptoObject(apiUrl, enrollID, enrollSecret string, tlsCert []byte, i
 	return cryptoObject
 }
 
-func removeIdentity(orgName string, enrollResp *lib.EnrollmentResponse) {
-	rr := &api.RemoveIdentityRequest{
-		ID:    orgName,
-		Force: true,
-	}
-	_, err2 := enrollResp.Identity.RemoveIdentity(rr)
-	if err2 != nil {
-		log.Fatalln(ItTest + "Failed to remove the identity")
-	}
-}
+//func removeIdentity(orgName string, enrollResp *lib.EnrollmentResponse) {
+//	rr := &api.RemoveIdentityRequest{
+//		ID:    orgName,
+//		Force: true,
+//	}
+//	ir, err := enrollResp.Identity.RemoveIdentity(rr)
+//	if err != nil {
+//		log.Println(ItTest + "**ERROR** - problem removing identity for ", orgName) // use log.Println here so it won't stop the script during cleanup
+//	}
+//	log.Println(ItTest + "**SUCCESS** - the identity for " + orgName + "was deleted. Response: ", ir)
+//}
+
+//func removeIdentityIfRegistered(name, errorAsString string, enrollResp *lib.EnrollmentResponse, retries *int) bool {
+//	wasRemoved := false
+//	if strings.Contains(errorAsString, "is already registered") && *retries < 3 { // already registered then remove the registration and try again
+//		log.Println(ItTest + "the identity " + name + " was already registered. trying again to remove it")
+//		*retries++
+//		//removeIdentity(name, enrollResp)											// dsh comment out this line to run it without it ever removing anything
+//		log.Println(ItTest + "**SUCCESS** - " + name + " identity was removed")
+//		wasRemoved = true
+//	}
+//	return wasRemoved
+//}
 
 ////---------------------------------------------------------------------------------------------------------------------
 //// Create CA workaround
