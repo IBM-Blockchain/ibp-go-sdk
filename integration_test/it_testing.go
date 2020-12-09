@@ -14,10 +14,41 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"testing"
 	"time"
 
 	"github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"
 	"github.com/IBM/go-sdk-core/v4/core"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
+)
+
+func TestE2ev2(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "E2ev2 Suite")
+}
+
+const (
+	org1CAName             = "Org1 CA"
+	org1AdminName          = "org1admin"
+	org1AdminPassword      = "org1adminpw"
+	peerType               = "peer"
+	peer1AdminName         = "peer1"
+	peer1AdminPassword     = "peer1pw"
+	org1MSPDisplayName     = "Org1 MSP"
+	org1MSPID              = "org1msp"
+	osCAName               = "Ordering Service CA"
+	osAdminName            = "OSadmin"
+	osAdminPassword        = "OSadminpw"
+	ordererType            = "orderer"
+	orderer1Name           = "OS1"
+	orderer1Password       = "OS1pw"
+	orderer1MSPDisplayName = "Ordering Service MSP"
+	orderer1MSPID          = "osmsp"
+)
+
+var (
+	pemCertFilePath = "./env/tmpCert.pem"
 )
 
 const ItTest = "[IT_TEST] "
@@ -77,34 +108,34 @@ func main() {
 	// Create Org 1 and it's components
 	//----------------------------------------------------------------------------------------------
 	// we'll create our first certificate authority
-	encodedTlsCert, caApiUrl := createCA(service, "Org1 CA")
+	encodedTlsCert, caApiUrl := createCA(service, org1CAName)
 
 	// Get TLS Cert
 	tlsCert := getDecodedTlsCert(encodedTlsCert)
 
 	// filepath and name for the cert we're creating
-	fp := "./env/tmpCert.pem"
+	//pemCertFilePath := "./env/"
 
 	// write TLS Cert to a file
-	writeFileToLocalDirectory(fp, tlsCert)
+	writeFileToLocalDirectory(pemCertFilePath, tlsCert)
 
 	// create a tls client to use to enroll the CA
-	client := createClient(fp, caApiUrl)
+	client := createClient(pemCertFilePath, caApiUrl)
 
 	// enroll the CA using the client we just made
 	org1EnrollResponse := enrollCA(client)
 
 	// register the admins for org 1
 	retries := 1
-	orgIdentity := registerAndEnrollAdmin(org1EnrollResponse, "org1admin", "org1adminpw", &retries)
+	orgIdentity := registerAndEnrollAdmin(org1EnrollResponse, org1AdminName, org1AdminPassword, &retries)
 	retries = 1
-	_ = registerAdmin(org1EnrollResponse, "peer", "peer1", "peer1pw", &retries)
+	_ = registerAdmin(org1EnrollResponse, peerType, peer1AdminName, peer1AdminPassword, &retries)
 
 	// create/import the msp definition
-	createOrImportMSP(tlsCert, orgIdentity, service, "Org1 MSP", "org1msp")
+	createOrImportMSP(tlsCert, orgIdentity, service, org1MSPDisplayName, org1MSPID)
 
 	// create a crypto object
-	cryptoObject := createCryptoObject(caApiUrl, "peer1", "peer1pw", tlsCert, orgIdentity, service)
+	cryptoObject := createCryptoObject(caApiUrl, peer1AdminName, peer1AdminPassword, tlsCert, orgIdentity, service)
 
 	// create peer org 1
 	createPeer(service, cryptoObject)
@@ -113,34 +144,31 @@ func main() {
 	// Create Ordering Org and it's components
 	//----------------------------------------------------------------------------------------------
 	// we'll create our first certificate authority
-	encodedTlsCert, caApiUrl = createCA(service,"Ordering Service CA")
+	encodedTlsCert, caApiUrl = createCA(service, osCAName)
 
 	// Get TLS Cert
 	tlsCert = getDecodedTlsCert(encodedTlsCert)
 
-	// filepath and name for the cert we're creating
-	fp = "./env/tmpCert.pem"
-
 	// write TLS Cert to a file
-	writeFileToLocalDirectory(fp, tlsCert)
+	writeFileToLocalDirectory(pemCertFilePath, tlsCert)
 
 	// create a tls client to use to enroll the CA
-	client = createClient(fp, caApiUrl)
+	client = createClient(pemCertFilePath, caApiUrl)
 
 	// enroll the CA using the client we just made
 	OS1EnrollResponse := enrollCA(client)
 
 	// register the admins for the ordering org
 	retries = 1
-	orgIdentity = registerAndEnrollAdmin(OS1EnrollResponse, "OSadmin", "OSadminpw", &retries)
+	orgIdentity = registerAndEnrollAdmin(OS1EnrollResponse, osAdminName, osAdminPassword, &retries)
 	retries = 1
-	_ = registerAdmin(OS1EnrollResponse, "orderer", "OS1", "OS1pw", &retries)
+	_ = registerAdmin(OS1EnrollResponse, ordererType, orderer1Name, orderer1Password, &retries)
 
 	// create/import the msp definition
-	createOrImportMSP(tlsCert, orgIdentity, service, "Ordering Service MSP", "osmsp")
+	createOrImportMSP(tlsCert, orgIdentity, service, orderer1MSPDisplayName, orderer1MSPID)
 
 	// create a crypto object
-	cryptoObject = createCryptoObject(caApiUrl, "OS1", "OS1pw", tlsCert, orgIdentity, service)
+	cryptoObject = createCryptoObject(caApiUrl, orderer1Name, orderer1Password, tlsCert, orgIdentity, service)
 	cryptoObjectSlice := []blockchainv3.CryptoObject{*cryptoObject}
 
 	// create orderer
@@ -216,7 +244,7 @@ func writeFileToLocalDirectory(filename string, tlsCert []byte) {
 
 	f, err := os.Create(filename)
 	if err != nil {
-		log.Fatalln(ItTest+"**ERROR** - problem creating the tempCert.pem file: ", err)
+		log.Fatalln(ItTest+"**ERROR** - problem creating " + filename, err)
 	}
 
 	defer f.Close()
@@ -263,9 +291,9 @@ func createCA(service *blockchainv3.BlockchainV3, displayName string) (string, s
 		log.Fatalln(ItTest+"**ERROR** - problem creating CA: ", err)
 	}
 	log.Println(ItTest + "**SUCCESS** - CA created")
-	log.Println(ItTest + "[DEBUG] CA's api url: ", *result.ApiURL)
-	log.Println(ItTest + "[DEBUG] CA's ID: ", *result.ID)
-	log.Println(ItTest + "[DEBUG] CA's DepComponentID: ", *result.DepComponentID)
+	log.Println(ItTest+"[DEBUG] CA's api url: ", *result.ApiURL)
+	log.Println(ItTest+"[DEBUG] CA's ID: ", *result.ID)
+	log.Println(ItTest+"[DEBUG] CA's DepComponentID: ", *result.DepComponentID)
 	// as a last step, we'll wait on the CA to come up before allowing anything else to happen
 	waitForCaToComeUp(*result.ApiURL)
 	return *result.Msp.Component.TlsCert, *result.ApiURL
@@ -334,7 +362,7 @@ func enrollCA(client *lib.Client) *lib.EnrollmentResponse {
 }
 
 func registerAndEnrollAdmin(enrollResp *lib.EnrollmentResponse, name, secret string, retries *int) *lib.Identity {
-	log.Println(ItTest + "registering and enrolling ", name)
+	log.Println(ItTest+"registering and enrolling ", name)
 	req := &api.RegistrationRequest{Name: name, Secret: secret, Type: "admin"} // registers user with the name
 	identity, err := enrollResp.Identity.RegisterAndEnroll(req)
 
@@ -392,14 +420,14 @@ func createOrderer(service *blockchainv3.BlockchainV3, cryptoObjectSlice []block
 	opts := service.NewCreateOrdererOptions("raft", "osmsp", "Ordering Service MSP", cryptoObjectSlice)
 	_, _, err := service.CreateOrderer(opts)
 	if err != nil {
-		log.Fatalln(ItTest + "**ERROR** - problem creating the orderer", err)
+		log.Fatalln(ItTest+"**ERROR** - problem creating the orderer", err)
 	}
 	log.Println(ItTest + "**SUCCESS** - Ordering Org1 created")
 }
 
 func createCryptoObject(apiUrl, enrollID, enrollSecret string, tlsCert []byte, identity *lib.Identity,
 	service *blockchainv3.BlockchainV3) *blockchainv3.CryptoObject {
-	log.Println(ItTest + "[DEBUG] - inside createCryptoObject - api url: ", apiUrl)
+	log.Println(ItTest+"[DEBUG] - inside createCryptoObject - api url: ", apiUrl)
 	caName := "ca"
 	tlsName := "tlsca"
 	caTlsCert := base64.StdEncoding.EncodeToString(tlsCert)
@@ -454,9 +482,9 @@ func removeIdentity(orgName string, enrollResp *lib.EnrollmentResponse) {
 	}
 	ir, err := enrollResp.Identity.RemoveIdentity(rr)
 	if err != nil {
-		log.Println(ItTest + "**ERROR** - problem removing identity for ", orgName) // use log.Println here so it won't stop the script during cleanup
+		log.Println(ItTest+"**ERROR** - problem removing identity for ", orgName) // use log.Println here so it won't stop the script during cleanup
 	}
-	log.Println(ItTest + "**SUCCESS** - the identity for " + orgName + "was deleted. Response: ", ir)
+	log.Println(ItTest+"**SUCCESS** - the identity for "+orgName+"was deleted. Response: ", ir)
 }
 
 func removeIdentityIfRegistered(name, errorAsString string, enrollResp *lib.EnrollmentResponse, retries *int) bool {
@@ -464,7 +492,7 @@ func removeIdentityIfRegistered(name, errorAsString string, enrollResp *lib.Enro
 	if strings.Contains(errorAsString, "is already registered") && *retries < 3 { // already registered then remove the registration and try again
 		log.Println(ItTest + "the identity " + name + " was already registered. trying again to remove it")
 		*retries++
-		removeIdentity(name, enrollResp)											// dsh comment out this line to run it without it ever removing anything
+		removeIdentity(name, enrollResp) // dsh comment out this line to run it without it ever removing anything
 		log.Println(ItTest + "**SUCCESS** - " + name + " identity was removed")
 		wasRemoved = true
 	}
