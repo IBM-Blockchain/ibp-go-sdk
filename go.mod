@@ -13,7 +13,7 @@ require (
 	github.com/gorilla/handlers v1.5.1 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/grantae/certinfo v0.0.0-20170412194111-59d56a35515b // indirect
-	github.com/hyperledger/fabric v2.1.1+incompatible // indirect
+	github.com/hyperledger/fabric v2.1.1+incompatible
 	github.com/hyperledger/fabric-amcl v0.0.0-20200424173818-327c9e2cf77a // indirect
 	github.com/hyperledger/fabric-ca v1.4.9
 	github.com/hyperledger/fabric-lib-go v1.0.0 // indirect
@@ -25,6 +25,7 @@ require (
 	github.com/onsi/ginkgo v1.14.0
 	github.com/onsi/gomega v1.10.1
 	github.com/op/go-logging v0.0.0-20160315200505-970db520ece7 // indirect
+	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.8.0 // indirect
 	github.com/prometheus/common v0.15.0 // indirect
 	github.com/prometheus/procfs v0.2.0 // indirect
