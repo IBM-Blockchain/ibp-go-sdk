@@ -58,12 +58,12 @@ var _ = BeforeSuite(func() {
 	// initialize integration functions lib variables
 	it.Logger = log.New(GinkgoWriter, "IT", log.Ldate)
 	it.LogPrefix = "[IT_TEST] "
+	it.Logger.Println(ItTest + "\n\n***********************************STARTING INTEGRATION TEST***********************************")
 
 	// get global setup information from a file
 	s := setupInformation{}
 	err := getSetupInfo(&s)
 	Expect(err).NotTo(HaveOccurred())
-	it.Logger.Println(ItTest + "\n\n***********************************STARTING INTEGRATION TEST***********************************")
 
 	// create a blockchain service to work with
 	service, err = createAService(s)
@@ -218,7 +218,6 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 //----------------------------------------------------------------------------------------------
 
 func getSetupInfo(setupInfo *setupInformation) error {
-	it.Logger.Println(ItTest + "\n\n***********************************STARTING INTEGRATION TEST***********************************")
 	it.Logger.Println(ItTest + "reading in the setup information from dev.json")
 	file, err := ioutil.ReadFile("./env/dev.json")
 	if err != nil {
