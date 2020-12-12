@@ -4,7 +4,6 @@ import (
 	"crypto/tls"
 	"encoding/base64"
 	"errors"
-	//"fmt"
 	"github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"
 	"github.com/hyperledger/fabric-ca/api"
 	"github.com/hyperledger/fabric-ca/lib"
@@ -18,116 +17,10 @@ import (
 	"time"
 )
 
-const (
-	//org1CAName             = "Org1 CA"
-	//org1AdminName          = "org1admin"
-	//org1AdminPassword      = "org1adminpw"
-	//peerType               = "peer"
-	//peer1AdminName         = "peer1"
-	//peer1AdminPassword     = "peer1pw"
-	//org1MSPDisplayName     = "Org1 MSP"
-	//org1MSPID              = "org1msp"
-	//osCAName               = "Ordering Service CA"
-	//osAdminName            = "OSadmin"
-	//osAdminPassword        = "OSadminpw"
-	//ordererType            = "orderer"
-	//orderer1Name           = "OS1"
-	//orderer1Password       = "OS1pw"
-	//orderer1MSPDisplayName = "Ordering Service MSP"
-	//orderer1MSPID          = "osmsp"
-	//LogPrefix                 = "[IT_TEST] "
-	//pemCertFilePath        = "./env/tmpCert.pem"
-)
-
 var (
 	LogPrefix string
 	Logger *log.Logger
-	l = Logger.Println
-	e = Logger.Println
-	//l func(...interface{}) // store log.Println here for easier coding
-	//e func(...interface{}) // store log.Fatalln here for easier coding
-	//file *os.File
-	//service *blockchainv3.BlockchainV3
 )
-
-//type setupInformation struct {
-//	APIKey       string `json:"api_key"`
-//	IdentityURL  string `json:"identity_url"`
-//	MyServiceURL string `json:"my_service_url"` // service instance url
-//}
-
-//func createLogFile() *os.File {
-//	// get the timestamp to add to the log name
-//	t := getCurrentTimeFormatted()
-//
-//	lp := "./logs/it_testing_" + t + ".log"
-//	file, err := os.OpenFile(lp, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//
-//	return file
-//}
-//
-//func setupLogger(file *os.File) {
-//	log.SetOutput(file)
-//	//l.Println()
-//	//e = log.Fatalln
-//}
-//
-//func getSetupInfo(setupInfo *setupInformation, l func(...interface{})) {
-//	Logger.Println(LogPrefix + "\n\n***********************************STARTING INTEGRATION TEST***********************************")
-//	Logger.Println(LogPrefix + "reading in the setup information from dev.json")
-//	file, err := ioutil.ReadFile("./env/dev.json")
-//	if err != nil {
-//		Logger.Println(LogPrefix+"**ERROR** - problem reading in the setup info: ", err)
-//	}
-//
-//	err = json.Unmarshal(file, setupInfo)
-//	if err != nil {
-//		Logger.Println(LogPrefix+"**ERROR** - problem unmarshalling the setup info: ", err)
-//	}
-//	Logger.Println(LogPrefix + "**Success** - setup information transferred to the test")
-//}
-//
-//func getCurrentTimeFormatted() string {
-//	t := time.Now()
-//	z, _ := t.Zone()
-//	return t.Format("2006 Jan _2 15:04:05") + " " + z
-//}
-//
-//func createAService(s setupInformation, l, e func(...interface{})) *blockchainv3.BlockchainV3 {
-//	Logger.Println(LogPrefix + "creating a service")
-//	// Create an authenticator
-//	authenticator := &core.IamAuthenticator{
-//		ApiKey: s.APIKey,
-//		URL:    s.IdentityURL,
-//	}
-//
-//	// Create an instance of the "BlockchainV3Options" struct
-//	options := &blockchainv3.BlockchainV3Options{
-//		Authenticator: authenticator,
-//		URL:           s.MyServiceURL,
-//	}
-//
-//	// Create an instance of the "BlockchainV3" service client.
-//	service, err := blockchainv3.NewBlockchainV3(options)
-//	if err != nil {
-//		Logger.Println(LogPrefix + "**ERROR** - problem creating an instance of blockchainv3")
-//	}
-//	Logger.Println(LogPrefix + "**SUCCESS** - service created")
-//	return service
-//}
-//
-//func deleteAllComponents(service *blockchainv3.BlockchainV3, l, e func(...interface{})) {
-//	Logger.Println(LogPrefix + "deleting all components")
-//	opts := service.NewDeleteAllComponentsOptions()
-//	_, _, err := service.DeleteAllComponents(opts)
-//	if err != nil {
-//		Logger.Println(LogPrefix+"**ERROR** - problem deleting all components: ", err)
-//	}
-//	Logger.Println(LogPrefix + "**SUCCESS** - all components were deleted")
-//}
 
 func CreateCA(service *blockchainv3.BlockchainV3, displayName string) (string, string, error) {
 	Logger.Println(LogPrefix + "creating a CA")
@@ -362,37 +255,15 @@ func CreatePeer(service *blockchainv3.BlockchainV3, cryptoObject *blockchainv3.C
 	return nil
 }
 
-func createOrderer(service *blockchainv3.BlockchainV3, cryptoObjectSlice []blockchainv3.CryptoObject) {
+func CreateOrderer(service *blockchainv3.BlockchainV3, cryptoObjectSlice []blockchainv3.CryptoObject) error {
 	opts := service.NewCreateOrdererOptions("raft", "osmsp", "Ordering Service MSP", cryptoObjectSlice)
 	_, _, err := service.CreateOrderer(opts)
 	if err != nil {
 		Logger.Println(LogPrefix+"**ERROR** - problem creating the orderer", err)
+		return err
 	}
 	Logger.Println(LogPrefix + "**SUCCESS** - Ordering Org1 created")
-}
-
-func removeIdentity(orgName string, enrollResp *lib.EnrollmentResponse) {
-	rr := &api.RemoveIdentityRequest{
-		ID:    orgName,
-		Force: true,
-	}
-	ir, err := enrollResp.Identity.RemoveIdentity(rr)
-	if err != nil {
-		Logger.Println(LogPrefix+"**ERROR** - problem removing identity for ", orgName) // use log.Println here so it won't stop the script during cleanup
-	}
-	Logger.Println(LogPrefix+"**SUCCESS** - the identity for "+orgName+"was deleted. Response: ", ir)
-}
-
-func removeIdentityIfRegistered(name, errorAsString string, enrollResp *lib.EnrollmentResponse, retries *int) bool {
-	wasRemoved := false
-	if strings.Contains(errorAsString, "is already registered") && *retries < 3 { // already registered then remove the registration and try again
-		Logger.Println(LogPrefix + "the identity " + name + " was already registered. trying again to remove it")
-		*retries++
-		removeIdentity(name, enrollResp) // dsh comment out this line to run it without it ever removing anything
-		Logger.Println(LogPrefix + "**SUCCESS** - " + name + " identity was removed")
-		wasRemoved = true
-	}
-	return wasRemoved
+	return nil
 }
 
 //----------------------------------------------------------------------------------------------
@@ -440,115 +311,26 @@ func waitForCaToComeUp(apiUrl string) error {
 	return nil
 }
 
-////---------------------------------------------------------------------------------------------------------------------
-//// Create CA workaround
-////---------------------------------------------------------------------------------------------------------------------
-//// workaround if you don't want to keep creating CAs - useful for debugging this test by allowing a single run of the "Create CA" code above - otherwise comment it out
-//caComponentID := "org1ca"
-//getComponentOptions := &blockchainv3.GetComponentOptions{ID: &caComponentID}
-//caResult, detailedResponse, err := service.GetComponent(getComponentOptions)
-//Logger.Println(IT_TEST + "The returned CA: ", *caResult)
-//// END OF WORKAROUND
-////---------------------------------------------------------------------------------------------------------------------
+func removeIdentity(orgName string, enrollResp *lib.EnrollmentResponse) {
+	rr := &api.RemoveIdentityRequest{
+		ID:    orgName,
+		Force: true,
+	}
+	ir, err := enrollResp.Identity.RemoveIdentity(rr)
+	if err != nil {
+		Logger.Println(LogPrefix+"**ERROR** - problem removing identity for ", orgName) // use log.Println here so it won't stop the script during cleanup
+	}
+	Logger.Println(LogPrefix+"**SUCCESS** - the identity for "+orgName+"was deleted. Response: ", ir)
+}
 
-
-//func main() {
-//	// setup a logger
-//	file = createLogFile() // we need a file to write the logs to
-//	defer file.Close()
-//	setupLogger(file)
-//
-//	// get global setup information from a file
-//	s := setupInformation{}
-//	getSetupInfo(&s)
-//	Logger.Println(LogPrefix + "start")
-//
-//	// create a blockchain service to work with
-//	service := createAService(s)
-//
-//	// make sure everything is cleaned up
-//	Logger.Println(LogPrefix + "delete any existing components in the cluster")
-//	deleteAllComponents(service)
-//
-//	// if the CA is not given a moment the new CA might fail to come up
-//	Logger.Println(LogPrefix + "wait 10 seconds to make sure that everything was deleted")
-//	time.Sleep(15 * time.Second)
-//
-//	//----------------------------------------------------------------------------------------------
-//	// Create Org 1 and it's components
-//	//----------------------------------------------------------------------------------------------
-//	// we'll create our first certificate authority
-//	encodedTlsCert, caApiUrl := createCA(service, org1CAName)
-//
-//	// Get TLS Cert
-//	tlsCert := getDecodedTlsCert(encodedTlsCert)
-//
-//	// filepath and name for the cert we're creating
-//	//pemCertFilePath := "./env/"
-//
-//	// write TLS Cert to a file
-//	writeFileToLocalDirectory(pemCertFilePath, tlsCert)
-//
-//	// create a tls client to use to enroll the CA
-//	client := createClient(pemCertFilePath, caApiUrl)
-//
-//	// enroll the CA using the client we just made
-//	org1EnrollResponse := enrollCA(client)
-//
-//	// register the admins for org 1
-//	retries := 1
-//	orgIdentity := registerAndEnrollAdmin(org1EnrollResponse, org1AdminName, org1AdminPassword, &retries)
-//	retries = 1
-//	_ = registerAdmin(org1EnrollResponse, peerType, peer1AdminName, peer1AdminPassword, &retries)
-//
-//	// create/import the msp definition
-//	createOrImportMSP(tlsCert, orgIdentity, service, org1MSPDisplayName, org1MSPID)
-//
-//	// create a crypto object
-//	cryptoObject := createCryptoObject(caApiUrl, peer1AdminName, peer1AdminPassword, tlsCert, orgIdentity, service)
-//
-//	// create peer org 1
-//	createPeer(service, cryptoObject)
-//
-//	//----------------------------------------------------------------------------------------------
-//	// Create Ordering Org and it's components
-//	//----------------------------------------------------------------------------------------------
-//	// we'll create our first certificate authority
-//	encodedTlsCert, caApiUrl = createCA(service, osCAName)
-//
-//	// Get TLS Cert
-//	tlsCert = getDecodedTlsCert(encodedTlsCert)
-//
-//	// write TLS Cert to a file
-//	writeFileToLocalDirectory(pemCertFilePath, tlsCert)
-//
-//	// create a tls client to use to enroll the CA
-//	client = createClient(pemCertFilePath, caApiUrl)
-//
-//	// enroll the CA using the client we just made
-//	OS1EnrollResponse := enrollCA(client)
-//
-//	// register the admins for the ordering org
-//	retries = 1
-//	orgIdentity = registerAndEnrollAdmin(OS1EnrollResponse, osAdminName, osAdminPassword, &retries)
-//	retries = 1
-//	_ = registerAdmin(OS1EnrollResponse, ordererType, orderer1Name, orderer1Password, &retries)
-//
-//	// create/import the msp definition
-//	createOrImportMSP(tlsCert, orgIdentity, service, orderer1MSPDisplayName, orderer1MSPID)
-//
-//	// create a crypto object
-//	cryptoObject = createCryptoObject(caApiUrl, orderer1Name, orderer1Password, tlsCert, orgIdentity, service)
-//	cryptoObjectSlice := []blockchainv3.CryptoObject{*cryptoObject}
-//
-//	// create orderer
-//	createOrderer(service, cryptoObjectSlice)
-//
-//	//----------------------------------------------------------------------------------------------
-//	// Cleanup
-//	//----------------------------------------------------------------------------------------------
-//	Logger.Println(LogPrefix + "finally, delete any existing components in the cluster")
-//	deleteAllComponents(service)
-//	Logger.Println(LogPrefix + "**SUCCESS** - test completed")
-//
-//}
+func removeIdentityIfRegistered(name, errorAsString string, enrollResp *lib.EnrollmentResponse, retries *int) bool {
+	wasRemoved := false
+	if strings.Contains(errorAsString, "is already registered") && *retries < 3 { // already registered then remove the registration and try again
+		Logger.Println(LogPrefix + "the identity " + name + " was already registered. trying again to remove it")
+		*retries++
+		removeIdentity(name, enrollResp) // dsh comment out this line to run it without it ever removing anything
+		Logger.Println(LogPrefix + "**SUCCESS** - " + name + " identity was removed")
+		wasRemoved = true
+	}
+	return wasRemoved
+}

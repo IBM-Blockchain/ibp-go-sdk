@@ -31,7 +31,6 @@ integration_test/tmpCert.pem
 
 # lcs
 integration_test/env/
-integration_test/logs/
 integration_test/msp/
 integration_test/all_examples_v2.go
 

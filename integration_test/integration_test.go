@@ -2,60 +2,50 @@ package integration_test
 
 import (
 	"encoding/json"
-	"github.com/hyperledger/fabric-ca/lib"
-
 	"github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"
 	it "github.com/IBM-Blockchain/ibp-go-sdk/integration_test"
 	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/hyperledger/fabric-ca/lib"
 	"io/ioutil"
 	"log"
 
-	//"github.com/hyperledger/fabric-ca/api"
-	//"github.com/hyperledger/fabric-ca/lib"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	//"io/ioutil"
-	//"log"
-	//"net/http"
-	"os"
+
 	"time"
 )
 
 const (
-	//l = log.Println //GinkgoWriter
-	colorRed           = "\033[31m" // for error messages
-	org1CAName         = "Org1 CA"
-	org1AdminName      = "org1admin"
-	org1AdminPassword  = "org1adminpw"
-	peerType           = "peer"
-	peer1AdminName     = "peer1"
-	peer1AdminPassword = "peer1pw"
-	org1MSPDisplayName = "Org1 MSP"
-	org1MSPID          = "org1msp"
-	//osCAName               = "Ordering Service CA"
-	//osAdminName            = "OSadmin"
-	//osAdminPassword        = "OSadminpw"
-	//ordererType            = "orderer"
-	//orderer1Name           = "OS1"
-	//orderer1Password       = "OS1pw"
-	//orderer1MSPDisplayName = "Ordering Service MSP"
-	//orderer1MSPID          = "osmsp"
-	ItTest          = "[IT_TEST] "
-	pemCertFilePath = "./env/tmpCert.pem"
+	org1CAName             = "Org1 CA"
+	org1AdminName          = "org1admin"
+	org1AdminPassword      = "org1adminpw"
+	peerType               = "peer"
+	peer1AdminName         = "peer1"
+	peer1AdminPassword     = "peer1pw"
+	org1MSPDisplayName     = "Org1 MSP"
+	org1MSPID              = "org1msp"
+	osCAName               = "Ordering Service CA"
+	osAdminName            = "OSadmin"
+	osAdminPassword        = "OSadminpw"
+	ordererType            = "orderer"
+	orderer1Name           = "OS1"
+	orderer1Password       = "OS1pw"
+	orderer1MSPDisplayName = "Ordering Service MSP"
+	orderer1MSPID          = "osmsp"
+	ItTest                 = "[IT_TEST] "
+	pemCertFilePath        = "./env/tmpCert.pem"
 )
 
 var (
-	//l = fmt.Println
-	l                        func(...interface{}) // store log.Println here for easier coding
-	lp                       string
-	file                     *os.File
 	service                  *blockchainv3.BlockchainV3
 	encodedTlsCert, caApiUrl string
 	tlsCert                  []byte
 	client                   *lib.Client
 	org1EnrollResponse       *lib.EnrollmentResponse
+	OS1EnrollResponse        *lib.EnrollmentResponse
 	orgIdentity              *lib.Identity
 	cryptoObject             *blockchainv3.CryptoObject
+	cryptoObjectSlice        []blockchainv3.CryptoObject
 )
 
 type setupInformation struct {
@@ -103,23 +93,23 @@ var _ = AfterSuite(func() {
 var _ = Describe("GOLANG SDK Integration Test", func() {
 	Describe("Creating Org1 CA Components", func() {
 		// we'll create our first certificate authority
-		It("should successfully create a CA and return the api url and the tls cert", func() {
+		It("should successfully create Org1 CA and return the api url and the tls cert", func() {
 			cert, url, err := it.CreateCA(service, org1CAName)
-			encodedTlsCert = cert	// initialize global variables
+			encodedTlsCert = cert // initialize global variables
 			caApiUrl = url
 			it.Logger.Println("encodedTlsCert from CreateCA call: ", encodedTlsCert)
 			Expect(err).NotTo(HaveOccurred())
 			Expect(encodedTlsCert).NotTo(Equal(""))
 			Expect(caApiUrl).To(ContainSubstring("https://"))
 		})
-		It("should decode and return the TLS cert passed in from the CA", func() {
+		It("should decode and return the TLS cert passed in from Org1 CA", func() {
 			it.Logger.Println("encodedTlsCert in the GetDecodedTlsCert test: ", encodedTlsCert)
 			resp, err := it.GetDecodedTlsCert(encodedTlsCert)
 			tlsCert = resp
 			Expect(err).NotTo(HaveOccurred())
 			Expect(tlsCert).NotTo(Equal(nil))
 		})
-		It("should write the TLS cert to a pem file", func() {
+		It("should write the TLS cert for Org1 to a pem file", func() {
 			err := it.WriteFileToLocalDirectory(pemCertFilePath, tlsCert)
 			Expect(err).NotTo(HaveOccurred())
 		})
@@ -128,13 +118,13 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			client = resp
 			Expect(client).NotTo(Equal(nil))
 		})
-		It("should enroll the CA using the client we just made", func() {
+		It("should enroll Org1 CA using the client we just made", func() {
 			resp, err := it.EnrollCA(client)
 			org1EnrollResponse = resp
 			Expect(err).NotTo(HaveOccurred())
 			Expect(org1EnrollResponse).NotTo(BeNil()) // todo do better. this is a weak assertion - lcs
 		})
-		It("should register the admins for org 1", func() {
+		It("should register the admins for Org1", func() {
 			retries := 1
 			resp, err := it.RegisterAndEnrollAdmin(org1EnrollResponse, org1AdminName, org1AdminPassword, &retries)
 			orgIdentity = resp
@@ -146,65 +136,86 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			err := it.RegisterAdmin(org1EnrollResponse, peerType, peer1AdminName, peer1AdminPassword, &retries)
 			Expect(err).NotTo(HaveOccurred())
 		})
-		It("should create/import the msp definition", func() {
+		It("should create/import the msp definition for Org1 flow", func() {
 			err := it.CreateOrImportMSP(tlsCert, orgIdentity, service, org1MSPDisplayName, org1MSPID)
 			Expect(err).NotTo(HaveOccurred())
 		})
-		It("should create a crypto object", func() {
+		It("should create a crypto object for Org1 flow", func() {
 			resp, err := it.CreateCryptoObject(caApiUrl, peer1AdminName, peer1AdminPassword, tlsCert, orgIdentity, service)
 			cryptoObject = resp
 			Expect(err).NotTo(HaveOccurred())
 			Expect(cryptoObject).NotTo(BeNil()) // todo make better assertions - lcs
 		})
-		It("should create peer org 1", func() {
+		It("should create Peer Org1", func() {
 			err := it.CreatePeer(service, cryptoObject)
 			Expect(err).NotTo(HaveOccurred())
 		})
 	})
-
-	//	// create/import the msp definition
-	//	createOrImportMSP(tlsCert, orgIdentity, service, org1MSPDisplayName, org1MSPID)
-	//
-	//	// create a crypto object
-	//	cryptoObject := createCryptoObject(caApiUrl, peer1AdminName, peer1AdminPassword, tlsCert, orgIdentity, service)
-	//
-	//	// create peer org 1
-	//	createPeer(service, cryptoObject)
-	//
+	Describe("Creating Ordering Org Components", func() {
+		// we'll create our first certificate authority
+		It("should successfully create the Ordering Org CA and return the api url and the tls cert", func() {
+			cert, url, err := it.CreateCA(service, osCAName)
+			encodedTlsCert = cert // initialize global variables
+			caApiUrl = url
+			it.Logger.Println("encodedTlsCert from CreateCA call: ", encodedTlsCert)
+			Expect(err).NotTo(HaveOccurred())
+			Expect(encodedTlsCert).NotTo(Equal(""))
+			Expect(caApiUrl).To(ContainSubstring("https://"))
+		})
+		It("should decode and return the TLS cert passed in from the Ordering Org CA", func() {
+			it.Logger.Println("encodedTlsCert in the GetDecodedTlsCert test: ", encodedTlsCert)
+			resp, err := it.GetDecodedTlsCert(encodedTlsCert)
+			tlsCert = resp
+			Expect(err).NotTo(HaveOccurred())
+			Expect(tlsCert).NotTo(Equal(nil))
+		})
+		It("should write the TLS cert for Ordering Org1 CA to a pem file", func() {
+			err := it.WriteFileToLocalDirectory(pemCertFilePath, tlsCert)
+			Expect(err).NotTo(HaveOccurred())
+		})
+		It("should create a tls client to use to enroll the Ordering Org CA", func() {
+			resp := it.CreateClient(pemCertFilePath, caApiUrl)
+			client = resp
+			Expect(client).NotTo(Equal(nil))
+		})
+		It("should enroll the Ordering Org CA using the client we just made", func() {
+			resp, err := it.EnrollCA(client)
+			OS1EnrollResponse = resp
+			Expect(err).NotTo(HaveOccurred())
+			Expect(org1EnrollResponse).NotTo(BeNil()) // todo do better. this is a weak assertion - lcs
+		})
+		It("should register the admins for the Ordering Org", func() {
+			retries := 1
+			resp, err := it.RegisterAndEnrollAdmin(OS1EnrollResponse, osAdminName, osAdminPassword, &retries)
+			orgIdentity = resp
+			Expect(err).NotTo(HaveOccurred())
+			Expect(orgIdentity).NotTo(BeNil()) // todo fix this weak assumption - lcs
+		})
+		It("should register the orderer admin", func() {
+			retries := 1
+			err := it.RegisterAdmin(OS1EnrollResponse, ordererType, orderer1Name, orderer1Password, &retries)
+			Expect(err).NotTo(HaveOccurred())
+		})
+		It("should create/import the msp definition for the orderer flow", func() {
+			err := it.CreateOrImportMSP(tlsCert, orgIdentity, service, orderer1MSPDisplayName, orderer1MSPID)
+			Expect(err).NotTo(HaveOccurred())
+		})
+		It("should create a crypto object for the orderer flow", func() {
+			resp, err := it.CreateCryptoObject(caApiUrl, orderer1Name, orderer1Password, tlsCert, orgIdentity, service)
+			cryptoObjectSlice = []blockchainv3.CryptoObject{*resp}
+			Expect(err).NotTo(HaveOccurred())
+			Expect(cryptoObject).NotTo(BeNil()) // todo make better assertions - lcs
+		})
+		It("should create Orderer 1", func() {
+			err := it.CreateOrderer(service, cryptoObjectSlice)
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
 })
-
-//----------------------------------------------------------------------------------------------
-// Helper/Aux functions
-//----------------------------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------------------------
 // Setup and teardown functions
 //----------------------------------------------------------------------------------------------
-
-func createLogFile() (*os.File, error) {
-	// get the timestamp to add to the log name
-	t := getCurrentTimeFormatted()
-
-	lp = "./logs/it_testing_" + t + ".log"
-	file, err := os.OpenFile(lp, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
-	if err != nil {
-		log.Println(colorRed, ItTest, err)
-		return nil, err
-	}
-
-	return file, nil
-}
-
-func getCurrentTimeFormatted() string {
-	t := time.Now()
-	z, _ := t.Zone()
-	return t.Format("2006 Jan _2 15:04:05") + " " + z
-}
-
-//func setupLogger(file *os.File) {
-//	log.SetOutput(file)
-//	l = log.Println
-//}
 
 func getSetupInfo(setupInfo *setupInformation) error {
 	it.Logger.Println(ItTest + "\n\n***********************************STARTING INTEGRATION TEST***********************************")
@@ -241,7 +252,7 @@ func createAService(s setupInformation) (*blockchainv3.BlockchainV3, error) {
 	// Create an instance of the "BlockchainV3" service client.
 	service, err := blockchainv3.NewBlockchainV3(options)
 	if err != nil {
-		it.Logger.Println(colorRed, ItTest+"**ERROR** - problem creating an instance of blockchainv3")
+		it.Logger.Println(ItTest + "**ERROR** - problem creating an instance of blockchainv3")
 		return nil, err
 	}
 	it.Logger.Println(ItTest + "**SUCCESS** - service created")
