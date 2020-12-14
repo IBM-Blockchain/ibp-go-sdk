@@ -18,12 +18,15 @@ import (
 )
 
 const (
+	adminName              = "admin"
+	adminPassword          = "adminpw"
 	org1CAName             = "Org1 CA"
 	org1AdminName          = "org1admin"
 	org1AdminPassword      = "org1adminpw"
 	peerType               = "peer"
 	peer1AdminName         = "peer1"
 	peer1AdminPassword     = "peer1pw"
+	peerOrg1DisplayName    = "Peer Org1"
 	org1MSPDisplayName     = "Org1 MSP"
 	org1MSPID              = "org1msp"
 	osCAName               = "Ordering Service CA"
@@ -102,7 +105,7 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 	Describe("Creating Org1 CA Components", func() {
 		// we'll create our first certificate authority
 		It("should successfully create Org1 CA and return the api url and the tls cert", func() {
-			cert, url, err := it.CreateCA(service, org1CAName)
+			cert, url, err := it.CreateCA(service, org1CAName, adminName, adminPassword)
 			encodedTlsCert = cert // initialize global variables
 			caApiUrl = url
 			Expect(err).NotTo(HaveOccurred())
@@ -120,12 +123,12 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			Expect(err).NotTo(HaveOccurred())
 		})
 		It("should create a tls client to use to enroll the CA", func() {
-			resp := it.CreateClient(pemCertFilePath, caApiUrl)
+			resp := it.CreateClient(pemCertFilePath, caApiUrl, org1CAName)
 			client = resp
 			Expect(client).NotTo(Equal(nil))
 		})
 		It("should enroll Org1 CA using the client we just made", func() {
-			resp, err := it.EnrollCA(client)
+			resp, err := it.EnrollCA(client, adminName, adminPassword)
 			org1EnrollResponse = resp
 			Expect(err).NotTo(HaveOccurred())
 			Expect(org1EnrollResponse).NotTo(BeNil()) // todo do better. this is a weak assertion - lcs
@@ -153,14 +156,14 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			Expect(cryptoObject).NotTo(BeNil()) // todo make better assertions - lcs
 		})
 		It("should create Peer Org1", func() {
-			err := it.CreatePeer(service, cryptoObject)
+			err := it.CreatePeer(service, cryptoObject, org1MSPID, peerOrg1DisplayName)
 			Expect(err).NotTo(HaveOccurred())
 		})
 	})
 	Describe("Creating Ordering Org Components", func() {
 		// we'll create our first certificate authority
 		It("should successfully create the Ordering Org CA and return the api url and the tls cert", func() {
-			cert, url, err := it.CreateCA(service, osCAName)
+			cert, url, err := it.CreateCA(service, osCAName, adminName, adminPassword)
 			encodedTlsCert = cert // initialize global variables
 			caApiUrl = url
 			Expect(err).NotTo(HaveOccurred())
@@ -178,12 +181,12 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			Expect(err).NotTo(HaveOccurred())
 		})
 		It("should create a tls client to use to enroll the Ordering Org CA", func() {
-			resp := it.CreateClient(pemCertFilePath, caApiUrl)
+			resp := it.CreateClient(pemCertFilePath, caApiUrl, osCAName)
 			client = resp
 			Expect(client).NotTo(Equal(nil))
 		})
 		It("should enroll the Ordering Org CA using the client we just made", func() {
-			resp, err := it.EnrollCA(client)
+			resp, err := it.EnrollCA(client,adminName, adminPassword)
 			OS1EnrollResponse = resp
 			Expect(err).NotTo(HaveOccurred())
 			Expect(org1EnrollResponse).NotTo(BeNil()) // todo do better. this is a weak assertion - lcs
@@ -212,12 +215,12 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 				Expect(err).NotTo(HaveOccurred())
 				Expect(cryptoObject).NotTo(BeNil()) // todo make better assertions - lcs
 			} else {
-				err = errors.New(ItTest+"***ERROR*** - problem creating crypto object for the orderer flow")
+				err = errors.New(ItTest + "***ERROR*** - problem creating crypto object for the orderer flow")
 			}
 			Expect(err).NotTo(HaveOccurred())
 		})
 		It("should create Orderer 1", func() {
-			err := it.CreateOrderer(service, cryptoObjectSlice)
+			err := it.CreateOrderer(service, cryptoObjectSlice, orderer1MSPID, orderer1MSPDisplayName)
 			Expect(err).NotTo(HaveOccurred())
 		})
 	})

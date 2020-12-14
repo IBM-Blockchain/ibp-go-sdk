@@ -19,13 +19,13 @@ import (
 
 var (
 	LogPrefix string
-	Logger *log.Logger
+	Logger    *log.Logger
 )
 
-func CreateCA(service *blockchainv3.BlockchainV3, displayName string) (string, string, error) {
+func CreateCA(service *blockchainv3.BlockchainV3, displayName, username, password string) (string, string, error) {
 	Logger.Println(LogPrefix + "creating a CA")
 	var identities []blockchainv3.ConfigCARegistryIdentitiesItem
-	svc, err := service.NewConfigCARegistryIdentitiesItem("admin", "adminpw", "client")
+	svc, err := service.NewConfigCARegistryIdentitiesItem(username, password, "client")
 	if err != nil {
 		Logger.Println(LogPrefix+"**ERROR** - problem with NewConfigCARegistryIdentitiesItem: ", err)
 		return "", "", err
@@ -59,9 +59,7 @@ func CreateCA(service *blockchainv3.BlockchainV3, displayName string) (string, s
 		return "", "", err
 	}
 	Logger.Println(LogPrefix + "**SUCCESS** - CA created")
-	Logger.Println(LogPrefix+"[DEBUG] CA's api url: ", *result.ApiURL)
-	Logger.Println(LogPrefix+"[DEBUG] CA's ID: ", *result.ID)
-	Logger.Println(LogPrefix+"[DEBUG] CA's DepComponentID: ", *result.DepComponentID)
+
 	// as a last step, we'll wait on the CA to come up before allowing anything else to happen
 	err = waitForCaToComeUp(*result.ApiURL)
 	return *result.Msp.Component.TlsCert, *result.ApiURL, err
@@ -71,7 +69,7 @@ func GetDecodedTlsCert(ec string) ([]byte, error) {
 	// decode the base64 string in the CA's MSP
 	tlsCert, err := base64.StdEncoding.DecodeString(ec)
 	if err != nil {
-		Logger.Println(LogPrefix + "error copying the cert", err)
+		Logger.Println(LogPrefix+"error copying the cert", err)
 		return nil, err
 	}
 	return tlsCert, nil
@@ -83,7 +81,7 @@ func WriteFileToLocalDirectory(filename string, tlsCert []byte) error {
 
 	f, err := os.Create(filename)
 	if err != nil {
-		Logger.Println(LogPrefix + "**ERROR** - problem creating "+filename, err)
+		Logger.Println(LogPrefix+"**ERROR** - problem creating "+filename, err)
 		return err
 	}
 
@@ -92,17 +90,17 @@ func WriteFileToLocalDirectory(filename string, tlsCert []byte) error {
 	// write out the decoded PEM to the file
 	_, err = f.Write(tlsCert)
 	if err != nil {
-		Logger.Println(LogPrefix + "**ERROR** - problem writing out the decoded PEM file: ", err)
+		Logger.Println(LogPrefix+"**ERROR** - problem writing out the decoded PEM file: ", err)
 		return err
 	}
 	if err := f.Sync(); err != nil {
-		Logger.Println(LogPrefix + "**ERROR** - problem during file sync: ", err)
+		Logger.Println(LogPrefix+"**ERROR** - problem during file sync: ", err)
 		return err
 	}
 	return nil
 }
 
-func CreateClient(tlsCertFilePath, apiURL string) *lib.Client {
+func CreateClient(tlsCertFilePath, apiURL, name string) *lib.Client {
 	// create a client config and enable it with TLS (using the tls cert from the CA's MSP)
 	Logger.Println(LogPrefix + "creating the config to enroll the CA")
 	cfg := &lib.ClientConfig{
@@ -110,7 +108,7 @@ func CreateClient(tlsCertFilePath, apiURL string) *lib.Client {
 			Enabled:   true,
 			CertFiles: []string{tlsCertFilePath},
 		},
-		CAName: "Org1 CA",
+		CAName: name,
 		URL:    apiURL,
 	}
 
@@ -123,15 +121,15 @@ func CreateClient(tlsCertFilePath, apiURL string) *lib.Client {
 	return client
 }
 
-func EnrollCA(client *lib.Client) (*lib.EnrollmentResponse, error) {
+func EnrollCA(client *lib.Client, name, secret string) (*lib.EnrollmentResponse, error) {
 	// use the client to enroll the CA
 	Logger.Println(LogPrefix + "enrolling the CA admin")
 
 	// create CA Enrollment request and enroll the CA
 	req := &api.EnrollmentRequest{
 		Type:   "x509",
-		Name:   "admin",
-		Secret: "adminpw",
+		Name:   name,
+		Secret: secret,
 	}
 	resp, err := client.Enroll(req)
 	if err != nil {
@@ -160,7 +158,7 @@ func RegisterAndEnrollAdmin(enrollResp *lib.EnrollmentResponse, name, secret str
 }
 
 func RegisterAdmin(enrollResp *lib.EnrollmentResponse, identityType, name, secret string, retries *int) error {
-	Logger.Println(LogPrefix + "registering peer admin")
+	Logger.Println(LogPrefix + "registering admin for " + name)
 	regReq := &api.RegistrationRequest{Name: name, Secret: secret, Type: identityType} // registers user with the name
 	_, err := enrollResp.Identity.Register(regReq)
 	if err != nil {
@@ -178,7 +176,6 @@ func CreateOrImportMSP(tlsCert []byte, identity *lib.Identity, service *blockcha
 	Logger.Println(LogPrefix + "creating/importing the msp definition for " + identity.GetName())
 	tlsRootCerts := []string{string(tlsCert)}
 	admins := []string{string(identity.GetECert().Cert())} // registers using the identity
-	//mspID := strings.ToLower(strings.Join(strings.Fields(displayName), ""))
 	Logger.Println(LogPrefix+"The MSP ID is: ", mspID)
 	importMspOpts := service.NewImportMspOptions(mspID, displayName, tlsRootCerts)
 	importMspOpts.SetAdmins(admins[:])
@@ -193,7 +190,6 @@ func CreateOrImportMSP(tlsCert []byte, identity *lib.Identity, service *blockcha
 
 func CreateCryptoObject(apiUrl, enrollID, enrollSecret string, tlsCert []byte, identity *lib.Identity,
 	service *blockchainv3.BlockchainV3) (*blockchainv3.CryptoObject, error) {
-	Logger.Println(LogPrefix+"[DEBUG] - inside createCryptoObject - api url: ", apiUrl)
 	caName := "ca"
 	tlsName := "tlsca"
 	caTlsCert := base64.StdEncoding.EncodeToString(tlsCert)
@@ -206,7 +202,7 @@ func CreateCryptoObject(apiUrl, enrollID, enrollSecret string, tlsCert []byte, i
 	hostname := strings.Split(parsedUrl.Host, ":")[0]
 	port, err := strconv.ParseFloat(parsedUrl.Port(), 64)
 	if err != nil {
-		Logger.Println(LogPrefix + "**ERROR** - problem getting the port from the url. url: ", apiUrl)
+		Logger.Println(LogPrefix+"**ERROR** - problem getting the port from the url. url: ", apiUrl)
 		return nil, err
 	}
 
@@ -244,25 +240,25 @@ func CreateCryptoObject(apiUrl, enrollID, enrollSecret string, tlsCert []byte, i
 	return cryptoObject, nil
 }
 
-func CreatePeer(service *blockchainv3.BlockchainV3, cryptoObject *blockchainv3.CryptoObject) error {
-	opts := service.NewCreatePeerOptions("org1msp", "Peer Org1", cryptoObject)
+func CreatePeer(service *blockchainv3.BlockchainV3, cryptoObject *blockchainv3.CryptoObject, mspID, displayName string) error {
+	opts := service.NewCreatePeerOptions(mspID, displayName, cryptoObject)
 	_, _, err := service.CreatePeer(opts)
 	if err != nil {
 		Logger.Println(LogPrefix+"**ERROR** - problem creating the peer: ", err)
 		return err
 	}
-	Logger.Println(LogPrefix + "**SUCCESS** - Peer Org1 created")
+	Logger.Println(LogPrefix + "**SUCCESS** - " + displayName + " created")
 	return nil
 }
 
-func CreateOrderer(service *blockchainv3.BlockchainV3, cryptoObjectSlice []blockchainv3.CryptoObject) error {
-	opts := service.NewCreateOrdererOptions("raft", "osmsp", "Ordering Service MSP", cryptoObjectSlice)
+func CreateOrderer(service *blockchainv3.BlockchainV3, cryptoObjectSlice []blockchainv3.CryptoObject, mspID, displayName string) error {
+	opts := service.NewCreateOrdererOptions("raft", mspID, displayName, cryptoObjectSlice)
 	_, _, err := service.CreateOrderer(opts)
 	if err != nil {
 		Logger.Println(LogPrefix+"**ERROR** - problem creating the orderer", err)
 		return err
 	}
-	Logger.Println(LogPrefix + "**SUCCESS** - Ordering Org1 created")
+	Logger.Println(LogPrefix + "**SUCCESS** - " + displayName + " created")
 	return nil
 }
 
@@ -312,15 +308,15 @@ func waitForCaToComeUp(apiUrl string) error {
 }
 
 func removeIdentity(orgName string, enrollResp *lib.EnrollmentResponse) {
-	rr := &api.RemoveIdentityRequest{
+	removeRequest := &api.RemoveIdentityRequest{
 		ID:    orgName,
 		Force: true,
 	}
-	ir, err := enrollResp.Identity.RemoveIdentity(rr)
+	removeIdentityResponse, err := enrollResp.Identity.RemoveIdentity(removeRequest)
 	if err != nil {
-		Logger.Println(LogPrefix+"**ERROR** - problem removing identity for ", orgName) // use log.Println here so it won't stop the script during cleanup
+		Logger.Println(LogPrefix+"**ERROR** - problem removing identity for ", orgName)
 	}
-	Logger.Println(LogPrefix+"**SUCCESS** - the identity for "+orgName+"was deleted. Response: ", ir)
+	Logger.Println(LogPrefix+"**SUCCESS** - the identity for "+orgName+"was deleted. Response: ", removeIdentityResponse)
 }
 
 func removeIdentityIfRegistered(name, errorAsString string, enrollResp *lib.EnrollmentResponse, retries *int) bool {
