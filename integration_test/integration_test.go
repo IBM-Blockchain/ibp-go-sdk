@@ -2,12 +2,14 @@ package integration_test
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"
 	it "github.com/IBM-Blockchain/ibp-go-sdk/integration_test"
 	"github.com/IBM/go-sdk-core/v4/core"
 	"github.com/hyperledger/fabric-ca/lib"
 	"io/ioutil"
 	"log"
+	"os"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -34,6 +36,7 @@ const (
 	orderer1MSPID          = "osmsp"
 	ItTest                 = "[IT_TEST] "
 	pemCertFilePath        = "./env/tmpCert.pem"
+	mspDirectory           = "./msp/"
 )
 
 var (
@@ -46,6 +49,7 @@ var (
 	orgIdentity              *lib.Identity
 	cryptoObject             *blockchainv3.CryptoObject
 	cryptoObjectSlice        []blockchainv3.CryptoObject
+	setupInfo                setupInformation
 )
 
 type setupInformation struct {
@@ -61,12 +65,12 @@ var _ = BeforeSuite(func() {
 	it.Logger.Println(ItTest + "\n\n***********************************STARTING INTEGRATION TEST***********************************")
 
 	// get global setup information from a file
-	s := setupInformation{}
-	err := getSetupInfo(&s)
+	setupInfo = setupInformation{}
+	err := getSetupInfo(&setupInfo)
 	Expect(err).NotTo(HaveOccurred())
 
 	// create a blockchain service to work with
-	service, err = createAService(s)
+	service, err = createAService(setupInfo)
 	Expect(err).NotTo(HaveOccurred())
 
 	// make sure everything is cleaned up
@@ -85,8 +89,12 @@ var _ = AfterSuite(func() {
 	it.Logger.Println(ItTest + "finally, delete any existing components in the cluster")
 	err := deleteAllComponents(service)
 	Expect(err).NotTo(HaveOccurred())
+	err = deleteLocallyCreatedFiles()
+	Expect(err).NotTo(HaveOccurred())
 	if err == nil {
 		it.Logger.Println(ItTest + "**SUCCESS** - test completed")
+	} else {
+		it.Logger.Println(ItTest + "***UNSUCCESSFUL*** one or more errors occurred")
 	}
 })
 
@@ -97,13 +105,11 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			cert, url, err := it.CreateCA(service, org1CAName)
 			encodedTlsCert = cert // initialize global variables
 			caApiUrl = url
-			it.Logger.Println("encodedTlsCert from CreateCA call: ", encodedTlsCert)
 			Expect(err).NotTo(HaveOccurred())
 			Expect(encodedTlsCert).NotTo(Equal(""))
 			Expect(caApiUrl).To(ContainSubstring("https://"))
 		})
 		It("should decode and return the TLS cert passed in from Org1 CA", func() {
-			it.Logger.Println("encodedTlsCert in the GetDecodedTlsCert test: ", encodedTlsCert)
 			resp, err := it.GetDecodedTlsCert(encodedTlsCert)
 			tlsCert = resp
 			Expect(err).NotTo(HaveOccurred())
@@ -157,13 +163,11 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			cert, url, err := it.CreateCA(service, osCAName)
 			encodedTlsCert = cert // initialize global variables
 			caApiUrl = url
-			it.Logger.Println("encodedTlsCert from CreateCA call: ", encodedTlsCert)
 			Expect(err).NotTo(HaveOccurred())
 			Expect(encodedTlsCert).NotTo(Equal(""))
 			Expect(caApiUrl).To(ContainSubstring("https://"))
 		})
 		It("should decode and return the TLS cert passed in from the Ordering Org CA", func() {
-			it.Logger.Println("encodedTlsCert in the GetDecodedTlsCert test: ", encodedTlsCert)
 			resp, err := it.GetDecodedTlsCert(encodedTlsCert)
 			tlsCert = resp
 			Expect(err).NotTo(HaveOccurred())
@@ -202,9 +206,15 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 		})
 		It("should create a crypto object for the orderer flow", func() {
 			resp, err := it.CreateCryptoObject(caApiUrl, orderer1Name, orderer1Password, tlsCert, orgIdentity, service)
-			cryptoObjectSlice = []blockchainv3.CryptoObject{*resp}
+			Expect(resp).NotTo(BeNil())
+			if resp != nil {
+				cryptoObjectSlice = []blockchainv3.CryptoObject{*resp}
+				Expect(err).NotTo(HaveOccurred())
+				Expect(cryptoObject).NotTo(BeNil()) // todo make better assertions - lcs
+			} else {
+				err = errors.New(ItTest+"***ERROR*** - problem creating crypto object for the orderer flow")
+			}
 			Expect(err).NotTo(HaveOccurred())
-			Expect(cryptoObject).NotTo(BeNil()) // todo make better assertions - lcs
 		})
 		It("should create Orderer 1", func() {
 			err := it.CreateOrderer(service, cryptoObjectSlice)
@@ -267,5 +277,18 @@ func deleteAllComponents(service *blockchainv3.BlockchainV3) error {
 		return err
 	}
 	it.Logger.Println(ItTest + "**SUCCESS** - all components were deleted")
+	return nil
+}
+
+func deleteLocallyCreatedFiles() error {
+	it.Logger.Println(ItTest + "deleting locally created files (cert stores, etc)")
+	err := os.Remove(pemCertFilePath)
+	if err != nil {
+		it.Logger.Println(ItTest+"**ERROR** - problem removing the pemCert created during the test", err)
+	}
+	err = os.RemoveAll(mspDirectory)
+	if err != nil {
+		it.Logger.Println(ItTest+"**ERROR** - problem removing the '/msp/' directory created during the test", err)
+	}
 	return nil
 }
