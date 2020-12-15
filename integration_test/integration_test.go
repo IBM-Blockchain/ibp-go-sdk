@@ -63,25 +63,26 @@ type setupInformation struct {
 
 var _ = BeforeSuite(func() {
 	// initialize integration functions lib variables
-	it.Logger = log.New(GinkgoWriter, "IT", log.Ldate)
 	it.LogPrefix = "[IT_TEST] "
-	it.Logger.Println(ItTest + "\n\n***********************************STARTING INTEGRATION TEST***********************************")
+	it.Logger = log.New(GinkgoWriter, "", 0)
+	it.Logger.SetPrefix(time.Now().Format("2006-01-02 15:04:05.000 MST " + it.LogPrefix))
+	it.Logger.Println("\n\n***********************************STARTING INTEGRATION TEST***********************************")
 
 	// get global setup information from a file
 	setupInfo = setupInformation{}
 	err := getSetupInfo(&setupInfo)
 	Expect(err).NotTo(HaveOccurred())
 
-	// create a blockchain service to work with
+	// create a blockchain service instance to work with
 	service, err = createAService(setupInfo)
 	Expect(err).NotTo(HaveOccurred())
 
 	// make sure everything is cleaned up
-	it.Logger.Println(ItTest + "delete any existing components in the cluster")
+	it.Logger.Println("delete any existing components in the cluster")
 	err = deleteAllComponents(service) // maybe a bit redundant here since we'll use the same code in the library and test below - todo sanity check this lcs
 	Expect(err).NotTo(HaveOccurred())
 	// if the CA is not given a moment the new CA might fail to come up
-	it.Logger.Println(ItTest + "wait 10 seconds to make sure that everything was deleted")
+	it.Logger.Println("wait 10 seconds to make sure that everything was deleted")
 	time.Sleep(15 * time.Second)
 })
 
@@ -89,15 +90,15 @@ var _ = AfterSuite(func() {
 	//----------------------------------------------------------------------------------------------
 	// Cleanup
 	//----------------------------------------------------------------------------------------------
-	it.Logger.Println(ItTest + "finally, delete any existing components in the cluster")
+	it.Logger.Println("finally, delete any existing components in the cluster")
 	err := deleteAllComponents(service)
 	Expect(err).NotTo(HaveOccurred())
 	err = deleteLocallyCreatedFiles()
 	Expect(err).NotTo(HaveOccurred())
 	if err == nil {
-		it.Logger.Println(ItTest + "**SUCCESS** - test completed")
+		it.Logger.Println("**SUCCESS** - test completed")
 	} else {
-		it.Logger.Println(ItTest + "***UNSUCCESSFUL*** one or more errors occurred")
+		it.Logger.Println("***UNSUCCESSFUL*** one or more errors occurred")
 	}
 })
 
@@ -215,7 +216,7 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 				Expect(err).NotTo(HaveOccurred())
 				Expect(cryptoObject).NotTo(BeNil()) // todo make better assertions - lcs
 			} else {
-				err = errors.New(ItTest + "***ERROR*** - problem creating crypto object for the orderer flow")
+				err = errors.New("***ERROR*** - problem creating crypto object for the orderer flow")
 			}
 			Expect(err).NotTo(HaveOccurred())
 		})
@@ -231,7 +232,7 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 //----------------------------------------------------------------------------------------------
 
 func getSetupInfo(setupInfo *setupInformation) error {
-	it.Logger.Println(ItTest + "reading in the setup information from dev.json")
+	it.Logger.Println("reading in the setup information from dev.json")
 	file, err := ioutil.ReadFile("./env/dev.json")
 	if err != nil {
 		it.Logger.Println(ItTest+"**ERROR** - problem reading in the setup info: ", err)
@@ -243,12 +244,12 @@ func getSetupInfo(setupInfo *setupInformation) error {
 		it.Logger.Println(ItTest+"**ERROR** - problem unmarshalling the setup info: ", err)
 		return err
 	}
-	it.Logger.Println(ItTest + "**Success** - setup information transferred to the test")
+	it.Logger.Println("**Success** - setup information transferred to the test")
 	return nil
 }
 
 func createAService(s setupInformation) (*blockchainv3.BlockchainV3, error) {
-	it.Logger.Println(ItTest + "creating a service")
+	it.Logger.Println("creating a service")
 	// Create an authenticator
 	authenticator := &core.IamAuthenticator{
 		ApiKey: s.APIKey,
@@ -264,27 +265,27 @@ func createAService(s setupInformation) (*blockchainv3.BlockchainV3, error) {
 	// Create an instance of the "BlockchainV3" service client.
 	service, err := blockchainv3.NewBlockchainV3(options)
 	if err != nil {
-		it.Logger.Println(ItTest + "**ERROR** - problem creating an instance of blockchainv3")
+		it.Logger.Println("**ERROR** - problem creating an instance of blockchainv3")
 		return nil, err
 	}
-	it.Logger.Println(ItTest + "**SUCCESS** - service created")
+	it.Logger.Println("**SUCCESS** - service created")
 	return service, nil
 }
 
 func deleteAllComponents(service *blockchainv3.BlockchainV3) error {
-	it.Logger.Println(ItTest + "deleting all components")
+	it.Logger.Println("deleting all components")
 	opts := service.NewDeleteAllComponentsOptions()
 	_, _, err := service.DeleteAllComponents(opts)
 	if err != nil {
 		it.Logger.Println(ItTest+"**ERROR** - problem deleting all components: ", err)
 		return err
 	}
-	it.Logger.Println(ItTest + "**SUCCESS** - all components were deleted")
+	it.Logger.Println("**SUCCESS** - all components were deleted")
 	return nil
 }
 
 func deleteLocallyCreatedFiles() error {
-	it.Logger.Println(ItTest + "deleting locally created files (cert stores, etc)")
+	it.Logger.Println("deleting locally created files (cert stores, etc)")
 	err := os.Remove(pemCertFilePath)
 	if err != nil {
 		it.Logger.Println(ItTest+"**ERROR** - problem removing the pemCert created during the test", err)

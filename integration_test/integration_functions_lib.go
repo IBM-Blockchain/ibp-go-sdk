@@ -22,6 +22,13 @@ var (
 	Logger    *log.Logger
 )
 
+// set default logger first in case the caller fails to set a logger
+func init() {
+	LogPrefix = "[IT_TEST] "
+	Logger = log.New(os.Stdout, "", 0)
+	Logger.SetPrefix(time.Now().Format("2006-01-02 15:04:05.000 MST " + LogPrefix))
+}
+
 func CreateCA(service *blockchainv3.BlockchainV3, displayName, username, password string) (string, string, error) {
 	Logger.Println(LogPrefix + "creating a CA")
 	var identities []blockchainv3.ConfigCARegistryIdentitiesItem
@@ -65,8 +72,8 @@ func CreateCA(service *blockchainv3.BlockchainV3, displayName, username, passwor
 	return *result.Msp.Component.TlsCert, *result.ApiURL, err
 }
 
+// decode the base64 string in the CA's MSP
 func GetDecodedTlsCert(ec string) ([]byte, error) {
-	// decode the base64 string in the CA's MSP
 	tlsCert, err := base64.StdEncoding.DecodeString(ec)
 	if err != nil {
 		Logger.Println(LogPrefix+"error copying the cert", err)
@@ -279,11 +286,12 @@ func waitForCaToComeUp(apiUrl string) error {
 
 	withinDeadline := false // final check at the end
 
-	for !time.Now().After(deadline) { // make sure we're not past our five minute deadline
+	for !time.Now().After(deadline) { // make sure we're not past our deadline
 		Logger.Println(LogPrefix + "CA's cainfo polled ")
 		resp, err := client.Get(apiUrl + "/cainfo")
 		if err != nil {
 			if os.IsTimeout(err) {
+				time.Sleep(2 * time.Second) // let the polling loop rest a little
 				continue
 			} else {
 				Logger.Println(LogPrefix+"**ERROR** - problem reaching CA - Not a timeout: ", err)
