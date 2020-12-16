@@ -11,6 +11,12 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+
+    env: # set environment variables for test suite
+      IAM_API_KEY: ${{ secrets.IAM_API_KEY }}
+      IAM_IDENTITY_URL: ${{ secrets.IAM_IDENTITY_URL }}
+      IBP_SERVICE_INSTANCE_URL: ${{ secrets.IBP_SERVICE_INSTANCE_URL }}
+
     steps:
 
     - name: Set up Go 1.x
@@ -34,3 +40,9 @@ jobs:
 
     - name: Test
       run: go test -v .
+
+    - name: Integration Test
+      run: |
+        cd integration_test
+        go test -ginkgo.v
+        cd ../
