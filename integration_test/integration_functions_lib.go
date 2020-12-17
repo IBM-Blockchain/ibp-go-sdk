@@ -83,8 +83,8 @@ func GetDecodedTlsCert(ec string) ([]byte, error) {
 	return tlsCert, nil
 }
 
+// convert the tls cert from the newly created CA into a format that can be used to create a PEM file
 func WriteFileToLocalDirectory(filename string, tlsCert []byte) error {
-	// convert the tls cert from the newly created CA into a format that can be used to create a PEM file
 	Logger.Println("creating pem file locally from the tls cert passed in")
 
 	f, err := os.Create(filename)
@@ -108,8 +108,8 @@ func WriteFileToLocalDirectory(filename string, tlsCert []byte) error {
 	return nil
 }
 
+// create a client config and enable it with TLS (using the tls cert from the CA's MSP)
 func CreateClient(tlsCertFilePath, apiURL, name string) *lib.Client {
-	// create a client config and enable it with TLS (using the tls cert from the CA's MSP)
 	Logger.Println("creating the config to enroll the CA")
 	cfg := &lib.ClientConfig{
 		TLS: catls.ClientTLSConfig{
@@ -130,7 +130,6 @@ func CreateClient(tlsCertFilePath, apiURL, name string) *lib.Client {
 }
 
 func EnrollCA(client *lib.Client, name, secret string) (*lib.EnrollmentResponse, error) {
-	// use the client to enroll the CA
 	Logger.Println("enrolling the CA admin")
 
 	// create CA Enrollment request and enroll the CA
@@ -366,7 +365,7 @@ func removeIdentityIfRegistered(name, errorAsString string, enrollResp *lib.Enro
 	if strings.Contains(errorAsString, "is already registered") && *retries < 3 { // already registered then remove the registration and try again
 		Logger.Println("the identity " + name + " was already registered. trying again to remove it")
 		*retries++
-		removeIdentity(name, enrollResp) // dsh comment out this line to run it without it ever removing anything
+		removeIdentity(name, enrollResp)
 		Logger.Println("**SUCCESS** - " + name + " identity was removed")
 		wasRemoved = true
 	}
