@@ -18,11 +18,15 @@
 package blockchainv3
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"reflect"
+	"time"
+
 	common "github.com/IBM-Blockchain/ibp-go-sdk/common"
 	"github.com/IBM/go-sdk-core/v4/core"
-	"reflect"
 )
 
 // BlockchainV3 : This doc lists APIs that you can use to interact with your IBM Blockchain Platform console (IBP
@@ -98,14 +102,65 @@ func NewBlockchainV3(options *BlockchainV3Options) (service *BlockchainV3, err e
 	return
 }
 
+// GetServiceURLForRegion returns the service URL to be used for the specified region
+func GetServiceURLForRegion(region string) (string, error) {
+	return "", fmt.Errorf("service does not support regional URLs")
+}
+
+// Clone makes a copy of "blockchain" suitable for processing requests.
+func (blockchain *BlockchainV3) Clone() *BlockchainV3 {
+	if core.IsNil(blockchain) {
+		return nil
+	}
+	clone := *blockchain
+	clone.Service = blockchain.Service.Clone()
+	return &clone
+}
+
 // SetServiceURL sets the service URL
 func (blockchain *BlockchainV3) SetServiceURL(url string) error {
 	return blockchain.Service.SetServiceURL(url)
 }
 
+// GetServiceURL returns the service URL
+func (blockchain *BlockchainV3) GetServiceURL() string {
+	return blockchain.Service.GetServiceURL()
+}
+
+// SetDefaultHeaders sets HTTP headers to be sent in every request
+func (blockchain *BlockchainV3) SetDefaultHeaders(headers http.Header) {
+	blockchain.Service.SetDefaultHeaders(headers)
+}
+
+// SetEnableGzipCompression sets the service's EnableGzipCompression field
+func (blockchain *BlockchainV3) SetEnableGzipCompression(enableGzip bool) {
+	blockchain.Service.SetEnableGzipCompression(enableGzip)
+}
+
+// GetEnableGzipCompression returns the service's EnableGzipCompression field
+func (blockchain *BlockchainV3) GetEnableGzipCompression() bool {
+	return blockchain.Service.GetEnableGzipCompression()
+}
+
+// EnableRetries enables automatic retries for requests invoked for this service instance.
+// If either parameter is specified as 0, then a default value is used instead.
+func (blockchain *BlockchainV3) EnableRetries(maxRetries int, maxRetryInterval time.Duration) {
+	blockchain.Service.EnableRetries(maxRetries, maxRetryInterval)
+}
+
+// DisableRetries disables automatic retries for requests invoked for this service instance.
+func (blockchain *BlockchainV3) DisableRetries() {
+	blockchain.Service.DisableRetries()
+}
+
 // GetComponent : Get component data
 // Get the IBP console's data on a component (peer, CA, orderer, or MSP). The component might be imported or created.
 func (blockchain *BlockchainV3) GetComponent(getComponentOptions *GetComponentOptions) (result *GenericComponentResponse, response *core.DetailedResponse, err error) {
+	return blockchain.GetComponentWithContext(context.Background(), getComponentOptions)
+}
+
+// GetComponentWithContext is an alternate form of the GetComponent method which supports a Context parameter
+func (blockchain *BlockchainV3) GetComponentWithContext(ctx context.Context, getComponentOptions *GetComponentOptions) (result *GenericComponentResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getComponentOptions, "getComponentOptions cannot be nil")
 	if err != nil {
 		return
@@ -115,11 +170,14 @@ func (blockchain *BlockchainV3) GetComponent(getComponentOptions *GetComponentOp
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components"}
-	pathParameters := []string{*getComponentOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *getComponentOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -174,6 +232,11 @@ func (blockchain *BlockchainV3) GetComponent(getComponentOptions *GetComponentOp
 // Instead use the [Delete component](#delete-component) API to delete the Kubernetes deployment and the IBP console
 // data at once.
 func (blockchain *BlockchainV3) RemoveComponent(removeComponentOptions *RemoveComponentOptions) (result *DeleteComponentResponse, response *core.DetailedResponse, err error) {
+	return blockchain.RemoveComponentWithContext(context.Background(), removeComponentOptions)
+}
+
+// RemoveComponentWithContext is an alternate form of the RemoveComponent method which supports a Context parameter
+func (blockchain *BlockchainV3) RemoveComponentWithContext(ctx context.Context, removeComponentOptions *RemoveComponentOptions) (result *DeleteComponentResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(removeComponentOptions, "removeComponentOptions cannot be nil")
 	if err != nil {
 		return
@@ -183,11 +246,14 @@ func (blockchain *BlockchainV3) RemoveComponent(removeComponentOptions *RemoveCo
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components"}
-	pathParameters := []string{*removeComponentOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *removeComponentOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -229,6 +295,11 @@ func (blockchain *BlockchainV3) RemoveComponent(removeComponentOptions *RemoveCo
 // the Kubernetes cluster where it resides. The Kubernetes delete must succeed before the component will be removed from
 // the IBP console.
 func (blockchain *BlockchainV3) DeleteComponent(deleteComponentOptions *DeleteComponentOptions) (result *DeleteComponentResponse, response *core.DetailedResponse, err error) {
+	return blockchain.DeleteComponentWithContext(context.Background(), deleteComponentOptions)
+}
+
+// DeleteComponentWithContext is an alternate form of the DeleteComponent method which supports a Context parameter
+func (blockchain *BlockchainV3) DeleteComponentWithContext(ctx context.Context, deleteComponentOptions *DeleteComponentOptions) (result *DeleteComponentResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteComponentOptions, "deleteComponentOptions cannot be nil")
 	if err != nil {
 		return
@@ -238,11 +309,14 @@ func (blockchain *BlockchainV3) DeleteComponent(deleteComponentOptions *DeleteCo
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components"}
-	pathParameters := []string{*deleteComponentOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *deleteComponentOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -279,6 +353,11 @@ func (blockchain *BlockchainV3) DeleteComponent(deleteComponentOptions *DeleteCo
 // CreateCa : Create a CA
 // Create a Hyperledger Fabric Certificate Authority (CA) in your Kubernetes cluster.
 func (blockchain *BlockchainV3) CreateCa(createCaOptions *CreateCaOptions) (result *CaResponse, response *core.DetailedResponse, err error) {
+	return blockchain.CreateCaWithContext(context.Background(), createCaOptions)
+}
+
+// CreateCaWithContext is an alternate form of the CreateCa method which supports a Context parameter
+func (blockchain *BlockchainV3) CreateCaWithContext(ctx context.Context, createCaOptions *CreateCaOptions) (result *CaResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createCaOptions, "createCaOptions cannot be nil")
 	if err != nil {
 		return
@@ -288,11 +367,10 @@ func (blockchain *BlockchainV3) CreateCa(createCaOptions *CreateCaOptions) (resu
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-ca"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-ca`, nil)
 	if err != nil {
 		return
 	}
@@ -367,6 +445,11 @@ func (blockchain *BlockchainV3) CreateCa(createCaOptions *CreateCaOptions) (resu
 // Import an existing Certificate Authority (CA) to your IBP console. It is recommended to only import components that
 // were created by this or another IBP console.
 func (blockchain *BlockchainV3) ImportCa(importCaOptions *ImportCaOptions) (result *CaResponse, response *core.DetailedResponse, err error) {
+	return blockchain.ImportCaWithContext(context.Background(), importCaOptions)
+}
+
+// ImportCaWithContext is an alternate form of the ImportCa method which supports a Context parameter
+func (blockchain *BlockchainV3) ImportCaWithContext(ctx context.Context, importCaOptions *ImportCaOptions) (result *CaResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(importCaOptions, "importCaOptions cannot be nil")
 	if err != nil {
 		return
@@ -376,11 +459,10 @@ func (blockchain *BlockchainV3) ImportCa(importCaOptions *ImportCaOptions) (resu
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/fabric-ca"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/fabric-ca`, nil)
 	if err != nil {
 		return
 	}
@@ -445,6 +527,11 @@ func (blockchain *BlockchainV3) ImportCa(importCaOptions *ImportCaOptions) (resu
 // UpdateCa : Update a CA
 // Update Kubernetes deployment attributes of a Hyperledger Fabric Certificate Authority (CA) in your cluster.
 func (blockchain *BlockchainV3) UpdateCa(updateCaOptions *UpdateCaOptions) (result *CaResponse, response *core.DetailedResponse, err error) {
+	return blockchain.UpdateCaWithContext(context.Background(), updateCaOptions)
+}
+
+// UpdateCaWithContext is an alternate form of the UpdateCa method which supports a Context parameter
+func (blockchain *BlockchainV3) UpdateCaWithContext(ctx context.Context, updateCaOptions *UpdateCaOptions) (result *CaResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateCaOptions, "updateCaOptions cannot be nil")
 	if err != nil {
 		return
@@ -454,11 +541,14 @@ func (blockchain *BlockchainV3) UpdateCa(updateCaOptions *UpdateCaOptions) (resu
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-ca"}
-	pathParameters := []string{*updateCaOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *updateCaOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-ca/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -518,6 +608,11 @@ func (blockchain *BlockchainV3) UpdateCa(updateCaOptions *UpdateCaOptions) (resu
 // Modify local metadata fields of a Certificate Authority (CA). For example, the "display_name" field. This API will
 // **not** change any Kubernetes deployment attributes for the CA.
 func (blockchain *BlockchainV3) EditCa(editCaOptions *EditCaOptions) (result *CaResponse, response *core.DetailedResponse, err error) {
+	return blockchain.EditCaWithContext(context.Background(), editCaOptions)
+}
+
+// EditCaWithContext is an alternate form of the EditCa method which supports a Context parameter
+func (blockchain *BlockchainV3) EditCaWithContext(ctx context.Context, editCaOptions *EditCaOptions) (result *CaResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(editCaOptions, "editCaOptions cannot be nil")
 	if err != nil {
 		return
@@ -527,11 +622,14 @@ func (blockchain *BlockchainV3) EditCa(editCaOptions *EditCaOptions) (result *Ca
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/fabric-ca"}
-	pathParameters := []string{*editCaOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *editCaOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/fabric-ca/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -593,6 +691,11 @@ func (blockchain *BlockchainV3) EditCa(editCaOptions *EditCaOptions) (result *Ca
 // CaAction : Submit action to a CA
 // Submit an action to a Fabric CA component. Actions such as restarting the component or certificate operations.
 func (blockchain *BlockchainV3) CaAction(caActionOptions *CaActionOptions) (result *ActionsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.CaActionWithContext(context.Background(), caActionOptions)
+}
+
+// CaActionWithContext is an alternate form of the CaAction method which supports a Context parameter
+func (blockchain *BlockchainV3) CaActionWithContext(ctx context.Context, caActionOptions *CaActionOptions) (result *ActionsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(caActionOptions, "caActionOptions cannot be nil")
 	if err != nil {
 		return
@@ -602,11 +705,14 @@ func (blockchain *BlockchainV3) CaAction(caActionOptions *CaActionOptions) (resu
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-ca", "actions"}
-	pathParameters := []string{*caActionOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *caActionOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-ca/{id}/actions`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -656,6 +762,11 @@ func (blockchain *BlockchainV3) CaAction(caActionOptions *CaActionOptions) (resu
 // CreatePeer : Create a peer
 // Create a Hyperledger Fabric peer in your Kubernetes cluster.
 func (blockchain *BlockchainV3) CreatePeer(createPeerOptions *CreatePeerOptions) (result *PeerResponse, response *core.DetailedResponse, err error) {
+	return blockchain.CreatePeerWithContext(context.Background(), createPeerOptions)
+}
+
+// CreatePeerWithContext is an alternate form of the CreatePeer method which supports a Context parameter
+func (blockchain *BlockchainV3) CreatePeerWithContext(ctx context.Context, createPeerOptions *CreatePeerOptions) (result *PeerResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createPeerOptions, "createPeerOptions cannot be nil")
 	if err != nil {
 		return
@@ -665,11 +776,10 @@ func (blockchain *BlockchainV3) CreatePeer(createPeerOptions *CreatePeerOptions)
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-peer"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-peer`, nil)
 	if err != nil {
 		return
 	}
@@ -750,6 +860,11 @@ func (blockchain *BlockchainV3) CreatePeer(createPeerOptions *CreatePeerOptions)
 // Import an existing peer into your IBP console. It is recommended to only import components that were created by this
 // or another IBP console.
 func (blockchain *BlockchainV3) ImportPeer(importPeerOptions *ImportPeerOptions) (result *PeerResponse, response *core.DetailedResponse, err error) {
+	return blockchain.ImportPeerWithContext(context.Background(), importPeerOptions)
+}
+
+// ImportPeerWithContext is an alternate form of the ImportPeer method which supports a Context parameter
+func (blockchain *BlockchainV3) ImportPeerWithContext(ctx context.Context, importPeerOptions *ImportPeerOptions) (result *PeerResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(importPeerOptions, "importPeerOptions cannot be nil")
 	if err != nil {
 		return
@@ -759,11 +874,10 @@ func (blockchain *BlockchainV3) ImportPeer(importPeerOptions *ImportPeerOptions)
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/fabric-peer"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/fabric-peer`, nil)
 	if err != nil {
 		return
 	}
@@ -832,6 +946,11 @@ func (blockchain *BlockchainV3) ImportPeer(importPeerOptions *ImportPeerOptions)
 // Modify local metadata fields of a peer. For example, the "display_name" field. This API will **not** change any
 // Kubernetes deployment attributes for the peer.
 func (blockchain *BlockchainV3) EditPeer(editPeerOptions *EditPeerOptions) (result *PeerResponse, response *core.DetailedResponse, err error) {
+	return blockchain.EditPeerWithContext(context.Background(), editPeerOptions)
+}
+
+// EditPeerWithContext is an alternate form of the EditPeer method which supports a Context parameter
+func (blockchain *BlockchainV3) EditPeerWithContext(ctx context.Context, editPeerOptions *EditPeerOptions) (result *PeerResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(editPeerOptions, "editPeerOptions cannot be nil")
 	if err != nil {
 		return
@@ -841,11 +960,14 @@ func (blockchain *BlockchainV3) EditPeer(editPeerOptions *EditPeerOptions) (resu
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/fabric-peer"}
-	pathParameters := []string{*editPeerOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *editPeerOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/fabric-peer/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -910,6 +1032,11 @@ func (blockchain *BlockchainV3) EditPeer(editPeerOptions *EditPeerOptions) (resu
 // PeerAction : Submit action to a peer
 // Submit an action to a Fabric Peer component. Actions such as restarting the component or certificate operations.
 func (blockchain *BlockchainV3) PeerAction(peerActionOptions *PeerActionOptions) (result *ActionsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.PeerActionWithContext(context.Background(), peerActionOptions)
+}
+
+// PeerActionWithContext is an alternate form of the PeerAction method which supports a Context parameter
+func (blockchain *BlockchainV3) PeerActionWithContext(ctx context.Context, peerActionOptions *PeerActionOptions) (result *ActionsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(peerActionOptions, "peerActionOptions cannot be nil")
 	if err != nil {
 		return
@@ -919,11 +1046,14 @@ func (blockchain *BlockchainV3) PeerAction(peerActionOptions *PeerActionOptions)
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-peer", "actions"}
-	pathParameters := []string{*peerActionOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *peerActionOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-peer/{id}/actions`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -979,6 +1109,11 @@ func (blockchain *BlockchainV3) PeerAction(peerActionOptions *PeerActionOptions)
 // UpdatePeer : Update a peer
 // Update Kubernetes deployment attributes of a Hyperledger Fabric Peer node.
 func (blockchain *BlockchainV3) UpdatePeer(updatePeerOptions *UpdatePeerOptions) (result *PeerResponse, response *core.DetailedResponse, err error) {
+	return blockchain.UpdatePeerWithContext(context.Background(), updatePeerOptions)
+}
+
+// UpdatePeerWithContext is an alternate form of the UpdatePeer method which supports a Context parameter
+func (blockchain *BlockchainV3) UpdatePeerWithContext(ctx context.Context, updatePeerOptions *UpdatePeerOptions) (result *PeerResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updatePeerOptions, "updatePeerOptions cannot be nil")
 	if err != nil {
 		return
@@ -988,11 +1123,14 @@ func (blockchain *BlockchainV3) UpdatePeer(updatePeerOptions *UpdatePeerOptions)
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-peer"}
-	pathParameters := []string{*updatePeerOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *updatePeerOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-peer/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1060,7 +1198,12 @@ func (blockchain *BlockchainV3) UpdatePeer(updatePeerOptions *UpdatePeerOptions)
 // CreateOrderer : Create an ordering service
 // Create a Hyperledger Ordering Service (OS) in your Kubernetes cluster. Currently, only raft ordering nodes are
 // supported.
-func (blockchain *BlockchainV3) CreateOrderer(createOrdererOptions *CreateOrdererOptions) (result *OrdererResponse, response *core.DetailedResponse, err error) {
+func (blockchain *BlockchainV3) CreateOrderer(createOrdererOptions *CreateOrdererOptions) (result *CreateOrdererResponse, response *core.DetailedResponse, err error) {
+	return blockchain.CreateOrdererWithContext(context.Background(), createOrdererOptions)
+}
+
+// CreateOrdererWithContext is an alternate form of the CreateOrderer method which supports a Context parameter
+func (blockchain *BlockchainV3) CreateOrdererWithContext(ctx context.Context, createOrdererOptions *CreateOrdererOptions) (result *CreateOrdererResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createOrdererOptions, "createOrdererOptions cannot be nil")
 	if err != nil {
 		return
@@ -1070,11 +1213,10 @@ func (blockchain *BlockchainV3) CreateOrderer(createOrdererOptions *CreateOrdere
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-orderer"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-orderer`, nil)
 	if err != nil {
 		return
 	}
@@ -1154,7 +1296,7 @@ func (blockchain *BlockchainV3) CreateOrderer(createOrdererOptions *CreateOrdere
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalOrdererResponse)
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCreateOrdererResponse)
 	if err != nil {
 		return
 	}
@@ -1167,6 +1309,11 @@ func (blockchain *BlockchainV3) CreateOrderer(createOrdererOptions *CreateOrdere
 // Import an existing Ordering Service (OS) to your IBP console. It is recommended to only import components that were
 // created by this or another IBP console.
 func (blockchain *BlockchainV3) ImportOrderer(importOrdererOptions *ImportOrdererOptions) (result *OrdererResponse, response *core.DetailedResponse, err error) {
+	return blockchain.ImportOrdererWithContext(context.Background(), importOrdererOptions)
+}
+
+// ImportOrdererWithContext is an alternate form of the ImportOrderer method which supports a Context parameter
+func (blockchain *BlockchainV3) ImportOrdererWithContext(ctx context.Context, importOrdererOptions *ImportOrdererOptions) (result *OrdererResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(importOrdererOptions, "importOrdererOptions cannot be nil")
 	if err != nil {
 		return
@@ -1176,11 +1323,10 @@ func (blockchain *BlockchainV3) ImportOrderer(importOrdererOptions *ImportOrdere
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/fabric-orderer"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/fabric-orderer`, nil)
 	if err != nil {
 		return
 	}
@@ -1258,6 +1404,11 @@ func (blockchain *BlockchainV3) ImportOrderer(importOrdererOptions *ImportOrdere
 // Modify local metadata fields of a single node in an Ordering Service (OS). For example, the "display_name" field.
 // This API will **not** change any Kubernetes deployment attributes for the node.
 func (blockchain *BlockchainV3) EditOrderer(editOrdererOptions *EditOrdererOptions) (result *OrdererResponse, response *core.DetailedResponse, err error) {
+	return blockchain.EditOrdererWithContext(context.Background(), editOrdererOptions)
+}
+
+// EditOrdererWithContext is an alternate form of the EditOrderer method which supports a Context parameter
+func (blockchain *BlockchainV3) EditOrdererWithContext(ctx context.Context, editOrdererOptions *EditOrdererOptions) (result *OrdererResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(editOrdererOptions, "editOrdererOptions cannot be nil")
 	if err != nil {
 		return
@@ -1267,11 +1418,14 @@ func (blockchain *BlockchainV3) EditOrderer(editOrdererOptions *EditOrdererOptio
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/fabric-orderer"}
-	pathParameters := []string{*editOrdererOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *editOrdererOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/fabric-orderer/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1345,6 +1499,11 @@ func (blockchain *BlockchainV3) EditOrderer(editOrdererOptions *EditOrdererOptio
 // OrdererAction : Submit action to an orderer
 // Submit an action to a Fabric Orderer component. Actions such as restarting the component or certificate operations.
 func (blockchain *BlockchainV3) OrdererAction(ordererActionOptions *OrdererActionOptions) (result *ActionsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.OrdererActionWithContext(context.Background(), ordererActionOptions)
+}
+
+// OrdererActionWithContext is an alternate form of the OrdererAction method which supports a Context parameter
+func (blockchain *BlockchainV3) OrdererActionWithContext(ctx context.Context, ordererActionOptions *OrdererActionOptions) (result *ActionsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(ordererActionOptions, "ordererActionOptions cannot be nil")
 	if err != nil {
 		return
@@ -1354,11 +1513,14 @@ func (blockchain *BlockchainV3) OrdererAction(ordererActionOptions *OrdererActio
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-orderer", "actions"}
-	pathParameters := []string{*ordererActionOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *ordererActionOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-orderer/{id}/actions`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1411,6 +1573,11 @@ func (blockchain *BlockchainV3) OrdererAction(ordererActionOptions *OrdererActio
 // UpdateOrderer : Update an orderer node
 // Update Kubernetes deployment attributes of a Hyperledger Fabric Ordering node.
 func (blockchain *BlockchainV3) UpdateOrderer(updateOrdererOptions *UpdateOrdererOptions) (result *OrdererResponse, response *core.DetailedResponse, err error) {
+	return blockchain.UpdateOrdererWithContext(context.Background(), updateOrdererOptions)
+}
+
+// UpdateOrdererWithContext is an alternate form of the UpdateOrderer method which supports a Context parameter
+func (blockchain *BlockchainV3) UpdateOrdererWithContext(ctx context.Context, updateOrdererOptions *UpdateOrdererOptions) (result *OrdererResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateOrdererOptions, "updateOrdererOptions cannot be nil")
 	if err != nil {
 		return
@@ -1420,11 +1587,14 @@ func (blockchain *BlockchainV3) UpdateOrderer(updateOrdererOptions *UpdateOrdere
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-orderer"}
-	pathParameters := []string{*updateOrdererOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *updateOrdererOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-orderer/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1520,6 +1690,11 @@ func (blockchain *BlockchainV3) UpdateOrderer(updateOrdererOptions *UpdateOrdere
 //   10. Use the [Edit data about an orderer](#edit-orderer) API to change the pre-created node's field
 // `consenter_proposal_fin` to `true`. This changes the status icon on the IBP console.
 func (blockchain *BlockchainV3) SubmitBlock(submitBlockOptions *SubmitBlockOptions) (result *GenericComponentResponse, response *core.DetailedResponse, err error) {
+	return blockchain.SubmitBlockWithContext(context.Background(), submitBlockOptions)
+}
+
+// SubmitBlockWithContext is an alternate form of the SubmitBlock method which supports a Context parameter
+func (blockchain *BlockchainV3) SubmitBlockWithContext(ctx context.Context, submitBlockOptions *SubmitBlockOptions) (result *GenericComponentResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(submitBlockOptions, "submitBlockOptions cannot be nil")
 	if err != nil {
 		return
@@ -1529,11 +1704,14 @@ func (blockchain *BlockchainV3) SubmitBlock(submitBlockOptions *SubmitBlockOptio
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components", "config"}
-	pathParameters := []string{*submitBlockOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *submitBlockOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/{id}/config`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1581,6 +1759,11 @@ func (blockchain *BlockchainV3) SubmitBlock(submitBlockOptions *SubmitBlockOptio
 // Create or import a Membership Service Provider (MSP) definition into your IBP console. This definition represents an
 // organization that controls a peer or OS (Ordering Service).
 func (blockchain *BlockchainV3) ImportMsp(importMspOptions *ImportMspOptions) (result *MspResponse, response *core.DetailedResponse, err error) {
+	return blockchain.ImportMspWithContext(context.Background(), importMspOptions)
+}
+
+// ImportMspWithContext is an alternate form of the ImportMsp method which supports a Context parameter
+func (blockchain *BlockchainV3) ImportMspWithContext(ctx context.Context, importMspOptions *ImportMspOptions) (result *MspResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(importMspOptions, "importMspOptions cannot be nil")
 	if err != nil {
 		return
@@ -1590,11 +1773,10 @@ func (blockchain *BlockchainV3) ImportMsp(importMspOptions *ImportMspOptions) (r
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/msp"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/msp`, nil)
 	if err != nil {
 		return
 	}
@@ -1657,6 +1839,11 @@ func (blockchain *BlockchainV3) ImportMsp(importMspOptions *ImportMspOptions) (r
 // Modify local metadata fields of a Membership Service Provider (MSP) definition. For example, the "display_name"
 // property.
 func (blockchain *BlockchainV3) EditMsp(editMspOptions *EditMspOptions) (result *MspResponse, response *core.DetailedResponse, err error) {
+	return blockchain.EditMspWithContext(context.Background(), editMspOptions)
+}
+
+// EditMspWithContext is an alternate form of the EditMsp method which supports a Context parameter
+func (blockchain *BlockchainV3) EditMspWithContext(ctx context.Context, editMspOptions *EditMspOptions) (result *MspResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(editMspOptions, "editMspOptions cannot be nil")
 	if err != nil {
 		return
@@ -1666,11 +1853,14 @@ func (blockchain *BlockchainV3) EditMsp(editMspOptions *EditMspOptions) (result 
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/msp"}
-	pathParameters := []string{*editMspOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *editMspOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/msp/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1732,6 +1922,11 @@ func (blockchain *BlockchainV3) EditMsp(editMspOptions *EditMspOptions) (result 
 // GetMspCertificate : Get MSP's public certificates
 // External IBP consoles can use this API to get the public certificate for your given MSP id.
 func (blockchain *BlockchainV3) GetMspCertificate(getMspCertificateOptions *GetMspCertificateOptions) (result *GetMSPCertificateResponse, response *core.DetailedResponse, err error) {
+	return blockchain.GetMspCertificateWithContext(context.Background(), getMspCertificateOptions)
+}
+
+// GetMspCertificateWithContext is an alternate form of the GetMspCertificate method which supports a Context parameter
+func (blockchain *BlockchainV3) GetMspCertificateWithContext(ctx context.Context, getMspCertificateOptions *GetMspCertificateOptions) (result *GetMSPCertificateResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getMspCertificateOptions, "getMspCertificateOptions cannot be nil")
 	if err != nil {
 		return
@@ -1741,11 +1936,14 @@ func (blockchain *BlockchainV3) GetMspCertificate(getMspCertificateOptions *GetM
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/msps"}
-	pathParameters := []string{*getMspCertificateOptions.MspID}
+	pathParamsMap := map[string]string{
+		"msp_id": *getMspCertificateOptions.MspID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/msps/{msp_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1790,6 +1988,11 @@ func (blockchain *BlockchainV3) GetMspCertificate(getMspCertificateOptions *GetM
 //
 // **This API will not work on *imported* components.**.
 func (blockchain *BlockchainV3) EditAdminCerts(editAdminCertsOptions *EditAdminCertsOptions) (result *EditAdminCertsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.EditAdminCertsWithContext(context.Background(), editAdminCertsOptions)
+}
+
+// EditAdminCertsWithContext is an alternate form of the EditAdminCerts method which supports a Context parameter
+func (blockchain *BlockchainV3) EditAdminCertsWithContext(ctx context.Context, editAdminCertsOptions *EditAdminCertsOptions) (result *EditAdminCertsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(editAdminCertsOptions, "editAdminCertsOptions cannot be nil")
 	if err != nil {
 		return
@@ -1799,11 +2002,14 @@ func (blockchain *BlockchainV3) EditAdminCerts(editAdminCertsOptions *EditAdminC
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components", "certs"}
-	pathParameters := []string{*editAdminCertsOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *editAdminCertsOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/{id}/certs`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1854,16 +2060,20 @@ func (blockchain *BlockchainV3) EditAdminCerts(editAdminCertsOptions *EditAdminC
 // Get the IBP console's data on all components (peers, CAs, orderers, and MSPs). The component might be imported or
 // created.
 func (blockchain *BlockchainV3) ListComponents(listComponentsOptions *ListComponentsOptions) (result *GetMultiComponentsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.ListComponentsWithContext(context.Background(), listComponentsOptions)
+}
+
+// ListComponentsWithContext is an alternate form of the ListComponents method which supports a Context parameter
+func (blockchain *BlockchainV3) ListComponentsWithContext(ctx context.Context, listComponentsOptions *ListComponentsOptions) (result *GetMultiComponentsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listComponentsOptions, "listComponentsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components`, nil)
 	if err != nil {
 		return
 	}
@@ -1913,6 +2123,11 @@ func (blockchain *BlockchainV3) ListComponents(listComponentsOptions *ListCompon
 // GetComponentsByType : Get components of a type
 // Get the IBP console's data on components that are a specific type. The component might be imported or created.
 func (blockchain *BlockchainV3) GetComponentsByType(getComponentsByTypeOptions *GetComponentsByTypeOptions) (result *GetMultiComponentsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.GetComponentsByTypeWithContext(context.Background(), getComponentsByTypeOptions)
+}
+
+// GetComponentsByTypeWithContext is an alternate form of the GetComponentsByType method which supports a Context parameter
+func (blockchain *BlockchainV3) GetComponentsByTypeWithContext(ctx context.Context, getComponentsByTypeOptions *GetComponentsByTypeOptions) (result *GetMultiComponentsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getComponentsByTypeOptions, "getComponentsByTypeOptions cannot be nil")
 	if err != nil {
 		return
@@ -1922,11 +2137,14 @@ func (blockchain *BlockchainV3) GetComponentsByType(getComponentsByTypeOptions *
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/types"}
-	pathParameters := []string{*getComponentsByTypeOptions.Type}
+	pathParamsMap := map[string]string{
+		"type": *getComponentsByTypeOptions.Type,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/types/{type}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1974,6 +2192,11 @@ func (blockchain *BlockchainV3) GetComponentsByType(getComponentsByTypeOptions *
 // Get the IBP console's data on components that have a specific tag. The component might be imported or created. Tags
 // are not case-sensitive.
 func (blockchain *BlockchainV3) GetComponentsByTag(getComponentsByTagOptions *GetComponentsByTagOptions) (result *GetMultiComponentsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.GetComponentsByTagWithContext(context.Background(), getComponentsByTagOptions)
+}
+
+// GetComponentsByTagWithContext is an alternate form of the GetComponentsByTag method which supports a Context parameter
+func (blockchain *BlockchainV3) GetComponentsByTagWithContext(ctx context.Context, getComponentsByTagOptions *GetComponentsByTagOptions) (result *GetMultiComponentsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getComponentsByTagOptions, "getComponentsByTagOptions cannot be nil")
 	if err != nil {
 		return
@@ -1983,11 +2206,14 @@ func (blockchain *BlockchainV3) GetComponentsByTag(getComponentsByTagOptions *Ge
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/tags"}
-	pathParameters := []string{*getComponentsByTagOptions.Tag}
+	pathParamsMap := map[string]string{
+		"tag": *getComponentsByTagOptions.Tag,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/tags/{tag}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2039,6 +2265,11 @@ func (blockchain *BlockchainV3) GetComponentsByTag(getComponentsByTagOptions *Ge
 // Instead use the [Delete components with tag](#delete_components_by_tag) API to delete the Kubernetes deployment and
 // the IBP console data at once.
 func (blockchain *BlockchainV3) RemoveComponentsByTag(removeComponentsByTagOptions *RemoveComponentsByTagOptions) (result *RemoveMultiComponentsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.RemoveComponentsByTagWithContext(context.Background(), removeComponentsByTagOptions)
+}
+
+// RemoveComponentsByTagWithContext is an alternate form of the RemoveComponentsByTag method which supports a Context parameter
+func (blockchain *BlockchainV3) RemoveComponentsByTagWithContext(ctx context.Context, removeComponentsByTagOptions *RemoveComponentsByTagOptions) (result *RemoveMultiComponentsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(removeComponentsByTagOptions, "removeComponentsByTagOptions cannot be nil")
 	if err != nil {
 		return
@@ -2048,11 +2279,14 @@ func (blockchain *BlockchainV3) RemoveComponentsByTag(removeComponentsByTagOptio
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/tags"}
-	pathParameters := []string{*removeComponentsByTagOptions.Tag}
+	pathParamsMap := map[string]string{
+		"tag": *removeComponentsByTagOptions.Tag,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/tags/{tag}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2096,6 +2330,11 @@ func (blockchain *BlockchainV3) RemoveComponentsByTag(removeComponentsByTagOptio
 // from the Kubernetes cluster where they reside. The Kubernetes delete must succeed before the component will be
 // removed from the IBP console.
 func (blockchain *BlockchainV3) DeleteComponentsByTag(deleteComponentsByTagOptions *DeleteComponentsByTagOptions) (result *DeleteMultiComponentsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.DeleteComponentsByTagWithContext(context.Background(), deleteComponentsByTagOptions)
+}
+
+// DeleteComponentsByTagWithContext is an alternate form of the DeleteComponentsByTag method which supports a Context parameter
+func (blockchain *BlockchainV3) DeleteComponentsByTagWithContext(ctx context.Context, deleteComponentsByTagOptions *DeleteComponentsByTagOptions) (result *DeleteMultiComponentsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteComponentsByTagOptions, "deleteComponentsByTagOptions cannot be nil")
 	if err != nil {
 		return
@@ -2105,11 +2344,14 @@ func (blockchain *BlockchainV3) DeleteComponentsByTag(deleteComponentsByTagOptio
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/tags"}
-	pathParameters := []string{*deleteComponentsByTagOptions.Tag}
+	pathParamsMap := map[string]string{
+		"tag": *deleteComponentsByTagOptions.Tag,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/tags/{tag}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2148,16 +2390,20 @@ func (blockchain *BlockchainV3) DeleteComponentsByTag(deleteComponentsByTagOptio
 // and created components (peers, CAs, orderers, MSPs, and signature collection transactions). This api attempts to
 // effectively reset the IBP console to its initial (empty) state (except for logs & notifications, those will remain).
 func (blockchain *BlockchainV3) DeleteAllComponents(deleteAllComponentsOptions *DeleteAllComponentsOptions) (result *DeleteMultiComponentsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.DeleteAllComponentsWithContext(context.Background(), deleteAllComponentsOptions)
+}
+
+// DeleteAllComponentsWithContext is an alternate form of the DeleteAllComponents method which supports a Context parameter
+func (blockchain *BlockchainV3) DeleteAllComponentsWithContext(ctx context.Context, deleteAllComponentsOptions *DeleteAllComponentsOptions) (result *DeleteMultiComponentsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(deleteAllComponentsOptions, "deleteAllComponentsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/purge"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/purge`, nil)
 	if err != nil {
 		return
 	}
@@ -2195,16 +2441,20 @@ func (blockchain *BlockchainV3) DeleteAllComponents(deleteAllComponentsOptions *
 // Retrieve all public (non-sensitive) settings for the IBP console. Use this API for debugging purposes. It shows what
 // behavior to expect and confirms whether the desired settings are active.
 func (blockchain *BlockchainV3) GetSettings(getSettingsOptions *GetSettingsOptions) (result *GetPublicSettingsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.GetSettingsWithContext(context.Background(), getSettingsOptions)
+}
+
+// GetSettingsWithContext is an alternate form of the GetSettings method which supports a Context parameter
+func (blockchain *BlockchainV3) GetSettingsWithContext(ctx context.Context, getSettingsOptions *GetSettingsOptions) (result *GetPublicSettingsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getSettingsOptions, "getSettingsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/settings"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/settings`, nil)
 	if err != nil {
 		return
 	}
@@ -2242,6 +2492,11 @@ func (blockchain *BlockchainV3) GetSettings(getSettingsOptions *GetSettingsOptio
 // Edit a few IBP console settings (such as the rate limit and timeout settings). **Some edits will trigger an automatic
 // server restart.**.
 func (blockchain *BlockchainV3) EditSettings(editSettingsOptions *EditSettingsOptions) (result *GetPublicSettingsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.EditSettingsWithContext(context.Background(), editSettingsOptions)
+}
+
+// EditSettingsWithContext is an alternate form of the EditSettings method which supports a Context parameter
+func (blockchain *BlockchainV3) EditSettingsWithContext(ctx context.Context, editSettingsOptions *EditSettingsOptions) (result *GetPublicSettingsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(editSettingsOptions, "editSettingsOptions cannot be nil")
 	if err != nil {
 		return
@@ -2251,11 +2506,10 @@ func (blockchain *BlockchainV3) EditSettings(editSettingsOptions *EditSettingsOp
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/settings"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/settings`, nil)
 	if err != nil {
 		return
 	}
@@ -2333,16 +2587,20 @@ func (blockchain *BlockchainV3) EditSettings(editSettingsOptions *EditSettingsOp
 // Get list of supported Fabric versions by each component type. These are the Fabric versions your IBP console can use
 // when creating or upgrading components.
 func (blockchain *BlockchainV3) GetFabVersions(getFabVersionsOptions *GetFabVersionsOptions) (result *GetFabricVersionsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.GetFabVersionsWithContext(context.Background(), getFabVersionsOptions)
+}
+
+// GetFabVersionsWithContext is an alternate form of the GetFabVersions method which supports a Context parameter
+func (blockchain *BlockchainV3) GetFabVersionsWithContext(ctx context.Context, getFabVersionsOptions *GetFabVersionsOptions) (result *GetFabricVersionsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getFabVersionsOptions, "getFabVersionsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/fabric/versions"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/fabric/versions`, nil)
 	if err != nil {
 		return
 	}
@@ -2384,16 +2642,20 @@ func (blockchain *BlockchainV3) GetFabVersions(getFabVersionsOptions *GetFabVers
 // See statistics of the IBP console process such as memory usage, CPU usage, up time, cache, and operating system
 // stats.
 func (blockchain *BlockchainV3) GetHealth(getHealthOptions *GetHealthOptions) (result *GetAthenaHealthStatsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.GetHealthWithContext(context.Background(), getHealthOptions)
+}
+
+// GetHealthWithContext is an alternate form of the GetHealth method which supports a Context parameter
+func (blockchain *BlockchainV3) GetHealthWithContext(ctx context.Context, getHealthOptions *GetHealthOptions) (result *GetAthenaHealthStatsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getHealthOptions, "getHealthOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/health"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/health`, nil)
 	if err != nil {
 		return
 	}
@@ -2431,16 +2693,20 @@ func (blockchain *BlockchainV3) GetHealth(getHealthOptions *GetHealthOptions) (r
 // Retrieve all notifications. This API supports pagination through the query parameters. Notifications are generated
 // from actions such as creating a component, deleting a component, server restart, and so on.
 func (blockchain *BlockchainV3) ListNotifications(listNotificationsOptions *ListNotificationsOptions) (result *GetNotificationsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.ListNotificationsWithContext(context.Background(), listNotificationsOptions)
+}
+
+// ListNotificationsWithContext is an alternate form of the ListNotifications method which supports a Context parameter
+func (blockchain *BlockchainV3) ListNotificationsWithContext(ctx context.Context, listNotificationsOptions *ListNotificationsOptions) (result *GetNotificationsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listNotificationsOptions, "listNotificationsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/notifications"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/notifications`, nil)
 	if err != nil {
 		return
 	}
@@ -2489,6 +2755,11 @@ func (blockchain *BlockchainV3) ListNotifications(listNotificationsOptions *List
 // approvals. This request is not distributed to external IBP consoles, thus the signature collection transaction is
 // only deleted locally.
 func (blockchain *BlockchainV3) DeleteSigTx(deleteSigTxOptions *DeleteSigTxOptions) (result *DeleteSignatureCollectionResponse, response *core.DetailedResponse, err error) {
+	return blockchain.DeleteSigTxWithContext(context.Background(), deleteSigTxOptions)
+}
+
+// DeleteSigTxWithContext is an alternate form of the DeleteSigTx method which supports a Context parameter
+func (blockchain *BlockchainV3) DeleteSigTxWithContext(ctx context.Context, deleteSigTxOptions *DeleteSigTxOptions) (result *DeleteSignatureCollectionResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteSigTxOptions, "deleteSigTxOptions cannot be nil")
 	if err != nil {
 		return
@@ -2498,11 +2769,14 @@ func (blockchain *BlockchainV3) DeleteSigTx(deleteSigTxOptions *DeleteSigTxOptio
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/signature_collections"}
-	pathParameters := []string{*deleteSigTxOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *deleteSigTxOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/signature_collections/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2540,6 +2814,11 @@ func (blockchain *BlockchainV3) DeleteSigTx(deleteSigTxOptions *DeleteSigTxOptio
 // Archive 1 or more notifications. Archived notifications will no longer appear in the default [Get all
 // notifications](#list-notifications) API.
 func (blockchain *BlockchainV3) ArchiveNotifications(archiveNotificationsOptions *ArchiveNotificationsOptions) (result *ArchiveResponse, response *core.DetailedResponse, err error) {
+	return blockchain.ArchiveNotificationsWithContext(context.Background(), archiveNotificationsOptions)
+}
+
+// ArchiveNotificationsWithContext is an alternate form of the ArchiveNotifications method which supports a Context parameter
+func (blockchain *BlockchainV3) ArchiveNotificationsWithContext(ctx context.Context, archiveNotificationsOptions *ArchiveNotificationsOptions) (result *ArchiveResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(archiveNotificationsOptions, "archiveNotificationsOptions cannot be nil")
 	if err != nil {
 		return
@@ -2549,11 +2828,10 @@ func (blockchain *BlockchainV3) ArchiveNotifications(archiveNotificationsOptions
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/notifications/bulk"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/notifications/bulk`, nil)
 	if err != nil {
 		return
 	}
@@ -2601,16 +2879,20 @@ func (blockchain *BlockchainV3) ArchiveNotifications(archiveNotificationsOptions
 // Restart IBP console processes. This causes a small outage (10 - 30 seconds) which is possibly disruptive to active
 // user sessions.
 func (blockchain *BlockchainV3) Restart(restartOptions *RestartOptions) (result *RestartAthenaResponse, response *core.DetailedResponse, err error) {
+	return blockchain.RestartWithContext(context.Background(), restartOptions)
+}
+
+// RestartWithContext is an alternate form of the Restart method which supports a Context parameter
+func (blockchain *BlockchainV3) RestartWithContext(ctx context.Context, restartOptions *RestartOptions) (result *RestartAthenaResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(restartOptions, "restartOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/restart"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/restart`, nil)
 	if err != nil {
 		return
 	}
@@ -2650,16 +2932,20 @@ func (blockchain *BlockchainV3) Restart(restartOptions *RestartOptions) (result 
 // take effect immediately. Otherwise, permission or role changes will take effect during the user's next login or
 // session expiration.
 func (blockchain *BlockchainV3) DeleteAllSessions(deleteAllSessionsOptions *DeleteAllSessionsOptions) (result *DeleteAllSessionsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.DeleteAllSessionsWithContext(context.Background(), deleteAllSessionsOptions)
+}
+
+// DeleteAllSessionsWithContext is an alternate form of the DeleteAllSessions method which supports a Context parameter
+func (blockchain *BlockchainV3) DeleteAllSessionsWithContext(ctx context.Context, deleteAllSessionsOptions *DeleteAllSessionsOptions) (result *DeleteAllSessionsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(deleteAllSessionsOptions, "deleteAllSessionsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/sessions"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/sessions`, nil)
 	if err != nil {
 		return
 	}
@@ -2696,16 +2982,20 @@ func (blockchain *BlockchainV3) DeleteAllSessions(deleteAllSessionsOptions *Dele
 // DeleteAllNotifications : Delete all notifications
 // Delete all notifications. This API is intended for administration.
 func (blockchain *BlockchainV3) DeleteAllNotifications(deleteAllNotificationsOptions *DeleteAllNotificationsOptions) (result *DeleteAllNotificationsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.DeleteAllNotificationsWithContext(context.Background(), deleteAllNotificationsOptions)
+}
+
+// DeleteAllNotificationsWithContext is an alternate form of the DeleteAllNotifications method which supports a Context parameter
+func (blockchain *BlockchainV3) DeleteAllNotificationsWithContext(ctx context.Context, deleteAllNotificationsOptions *DeleteAllNotificationsOptions) (result *DeleteAllNotificationsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(deleteAllNotificationsOptions, "deleteAllNotificationsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/notifications/purge"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/notifications/purge`, nil)
 	if err != nil {
 		return
 	}
@@ -2742,16 +3032,20 @@ func (blockchain *BlockchainV3) DeleteAllNotifications(deleteAllNotificationsOpt
 // ClearCaches : Clear IBP console caches
 // Clear the in-memory caches across all IBP console server processes. No effect on caches that are currently disabled.
 func (blockchain *BlockchainV3) ClearCaches(clearCachesOptions *ClearCachesOptions) (result *CacheFlushResponse, response *core.DetailedResponse, err error) {
+	return blockchain.ClearCachesWithContext(context.Background(), clearCachesOptions)
+}
+
+// ClearCachesWithContext is an alternate form of the ClearCaches method which supports a Context parameter
+func (blockchain *BlockchainV3) ClearCachesWithContext(ctx context.Context, clearCachesOptions *ClearCachesOptions) (result *CacheFlushResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(clearCachesOptions, "clearCachesOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/cache"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/cache`, nil)
 	if err != nil {
 		return
 	}
@@ -2804,6 +3098,11 @@ func (blockchain *BlockchainV3) ClearCaches(clearCachesOptions *ClearCachesOptio
 // into the Postman collection examples. This is **not** available for an IBP SaaS instance on IBM Cloud. To use this
 // strategy set `auth_type` to `basic`.
 func (blockchain *BlockchainV3) GetPostman(getPostmanOptions *GetPostmanOptions) (response *core.DetailedResponse, err error) {
+	return blockchain.GetPostmanWithContext(context.Background(), getPostmanOptions)
+}
+
+// GetPostmanWithContext is an alternate form of the GetPostman method which supports a Context parameter
+func (blockchain *BlockchainV3) GetPostmanWithContext(ctx context.Context, getPostmanOptions *GetPostmanOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getPostmanOptions, "getPostmanOptions cannot be nil")
 	if err != nil {
 		return
@@ -2813,11 +3112,10 @@ func (blockchain *BlockchainV3) GetPostman(getPostmanOptions *GetPostmanOptions)
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/postman"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/postman`, nil)
 	if err != nil {
 		return
 	}
@@ -2861,16 +3159,20 @@ func (blockchain *BlockchainV3) GetPostman(getPostmanOptions *GetPostmanOptions)
 // console. This is the same file that was used to generate the APIs on this page. This file documents APIs offered by
 // the IBP console.
 func (blockchain *BlockchainV3) GetSwagger(getSwaggerOptions *GetSwaggerOptions) (result *string, response *core.DetailedResponse, err error) {
+	return blockchain.GetSwaggerWithContext(context.Background(), getSwaggerOptions)
+}
+
+// GetSwaggerWithContext is an alternate form of the GetSwagger method which supports a Context parameter
+func (blockchain *BlockchainV3) GetSwaggerWithContext(ctx context.Context, getSwaggerOptions *GetSwaggerOptions) (result *string, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getSwaggerOptions, "getSwaggerOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/openapi"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/openapi`, nil)
 	if err != nil {
 		return
 	}
@@ -2904,7 +3206,6 @@ type ActionsResponse struct {
 
 	Actions []string `json:"actions,omitempty"`
 }
-
 
 // UnmarshalActionsResponse unmarshals an instance of ActionsResponse from the specified map of raw messages.
 func UnmarshalActionsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -2962,7 +3263,6 @@ type ArchiveResponse struct {
 	Details *string `json:"details,omitempty"`
 }
 
-
 // UnmarshalArchiveResponse unmarshals an instance of ArchiveResponse from the specified map of raw messages.
 func UnmarshalArchiveResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ArchiveResponse)
@@ -2996,9 +3296,8 @@ type Bccsp struct {
 // `SW`.
 const (
 	Bccsp_Default_Pkcs11 = "PKCS11"
-	Bccsp_Default_Sw = "SW"
+	Bccsp_Default_Sw     = "SW"
 )
-
 
 // UnmarshalBccsp unmarshals an instance of Bccsp from the specified map of raw messages.
 func UnmarshalBccsp(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -3034,12 +3333,11 @@ type BccspPKCS11 struct {
 	Security *float64 `json:"Security,omitempty"`
 }
 
-
 // NewBccspPKCS11 : Instantiate BccspPKCS11 (Generic Model Constructor)
 func (*BlockchainV3) NewBccspPKCS11(label string, pin string) (model *BccspPKCS11, err error) {
 	model = &BccspPKCS11{
 		Label: core.StringPtr(label),
-		Pin: core.StringPtr(pin),
+		Pin:   core.StringPtr(pin),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -3077,11 +3375,10 @@ type BccspSW struct {
 	Security *float64 `json:"Security" validate:"required"`
 }
 
-
 // NewBccspSW : Instantiate BccspSW (Generic Model Constructor)
 func (*BlockchainV3) NewBccspSW(hash string, security float64) (model *BccspSW, err error) {
 	model = &BccspSW{
-		Hash: core.StringPtr(hash),
+		Hash:     core.StringPtr(hash),
 		Security: core.Float64Ptr(security),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -3200,7 +3497,6 @@ type CaResponse struct {
 	Zone *string `json:"zone,omitempty"`
 }
 
-
 // UnmarshalCaResponse unmarshals an instance of CaResponse from the specified map of raw messages.
 func UnmarshalCaResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(CaResponse)
@@ -3273,7 +3569,6 @@ type CaResponseResources struct {
 	Ca *GenericResources `json:"ca,omitempty"`
 }
 
-
 // UnmarshalCaResponseResources unmarshals an instance of CaResponseResources from the specified map of raw messages.
 func UnmarshalCaResponseResources(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(CaResponseResources)
@@ -3289,7 +3584,6 @@ func UnmarshalCaResponseResources(m map[string]json.RawMessage, result interface
 type CaResponseStorage struct {
 	Ca *StorageObject `json:"ca,omitempty"`
 }
-
 
 // UnmarshalCaResponseStorage unmarshals an instance of CaResponseStorage from the specified map of raw messages.
 func UnmarshalCaResponseStorage(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -3316,7 +3610,6 @@ type CacheData struct {
 	// Approximate size of the in memory cache.
 	CacheSize *string `json:"cache_size,omitempty"`
 }
-
 
 // UnmarshalCacheData unmarshals an instance of CacheData from the specified map of raw messages.
 func UnmarshalCacheData(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -3352,12 +3645,11 @@ type CacheFlushResponse struct {
 
 // Constants associated with the CacheFlushResponse.Flushed property.
 const (
-	CacheFlushResponse_Flushed_CouchCache = "couch_cache"
-	CacheFlushResponse_Flushed_IamCache = "iam_cache"
-	CacheFlushResponse_Flushed_ProxyCache = "proxy_cache"
+	CacheFlushResponse_Flushed_CouchCache   = "couch_cache"
+	CacheFlushResponse_Flushed_IamCache     = "iam_cache"
+	CacheFlushResponse_Flushed_ProxyCache   = "proxy_cache"
 	CacheFlushResponse_Flushed_SessionCache = "session_cache"
 )
-
 
 // UnmarshalCacheFlushResponse unmarshals an instance of CacheFlushResponse from the specified map of raw messages.
 func UnmarshalCacheFlushResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -3400,7 +3692,6 @@ type ConfigCACfgIdentities struct {
 	// Set to `true` to allow deletion of identities. Defaults `false`.
 	Allowremove *bool `json:"allowremove,omitempty"`
 }
-
 
 // NewConfigCACfgIdentities : Instantiate ConfigCACfgIdentities (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCACfgIdentities(passwordattempts float64) (model *ConfigCACfgIdentities, err error) {
@@ -3464,7 +3755,6 @@ type ConfigCACreate struct {
 
 	Signing *ConfigCASigning `json:"signing,omitempty"`
 }
-
 
 // NewConfigCACreate : Instantiate ConfigCACreate (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCACreate(registry *ConfigCARegistry) (model *ConfigCACreate, err error) {
@@ -3556,7 +3846,6 @@ type ConfigCACsrCa struct {
 	Pathlength *float64 `json:"pathlength,omitempty"`
 }
 
-
 // UnmarshalConfigCACsrCa unmarshals an instance of ConfigCACsrCa from the specified map of raw messages.
 func UnmarshalConfigCACsrCa(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigCACsrCa)
@@ -3580,7 +3869,6 @@ type ConfigCACsrKeyrequest struct {
 	// The size of the key for CSRs.
 	Size *float64 `json:"size" validate:"required"`
 }
-
 
 // NewConfigCACsrKeyrequest : Instantiate ConfigCACsrKeyrequest (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCACsrKeyrequest(algo string, size float64) (model *ConfigCACsrKeyrequest, err error) {
@@ -3620,13 +3908,12 @@ type ConfigCACsrNamesItem struct {
 	OU *string `json:"OU,omitempty"`
 }
 
-
 // NewConfigCACsrNamesItem : Instantiate ConfigCACsrNamesItem (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCACsrNamesItem(c string, sT string, o string) (model *ConfigCACsrNamesItem, err error) {
 	model = &ConfigCACsrNamesItem{
-		C: core.StringPtr(c),
+		C:  core.StringPtr(c),
 		ST: core.StringPtr(sT),
-		O: core.StringPtr(o),
+		O:  core.StringPtr(o),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -3669,7 +3956,6 @@ type ConfigCADbTls struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
-
 // UnmarshalConfigCADbTls unmarshals an instance of ConfigCADbTls from the specified map of raw messages.
 func UnmarshalConfigCADbTls(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigCADbTls)
@@ -3698,12 +3984,11 @@ type ConfigCADbTlsClient struct {
 	Keyfile *string `json:"keyfile" validate:"required"`
 }
 
-
 // NewConfigCADbTlsClient : Instantiate ConfigCADbTlsClient (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCADbTlsClient(certfile string, keyfile string) (model *ConfigCADbTlsClient, err error) {
 	model = &ConfigCADbTlsClient{
 		Certfile: core.StringPtr(certfile),
-		Keyfile: core.StringPtr(keyfile),
+		Keyfile:  core.StringPtr(keyfile),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -3736,13 +4021,12 @@ type ConfigCAIntermediateEnrollment struct {
 	Label *string `json:"label" validate:"required"`
 }
 
-
 // NewConfigCAIntermediateEnrollment : Instantiate ConfigCAIntermediateEnrollment (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCAIntermediateEnrollment(hosts string, profile string, label string) (model *ConfigCAIntermediateEnrollment, err error) {
 	model = &ConfigCAIntermediateEnrollment{
-		Hosts: core.StringPtr(hosts),
+		Hosts:   core.StringPtr(hosts),
 		Profile: core.StringPtr(profile),
-		Label: core.StringPtr(label),
+		Label:   core.StringPtr(label),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -3776,11 +4060,10 @@ type ConfigCAIntermediateParentserver struct {
 	Caname *string `json:"caname" validate:"required"`
 }
 
-
 // NewConfigCAIntermediateParentserver : Instantiate ConfigCAIntermediateParentserver (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCAIntermediateParentserver(url string, caname string) (model *ConfigCAIntermediateParentserver, err error) {
 	model = &ConfigCAIntermediateParentserver{
-		URL: core.StringPtr(url),
+		URL:    core.StringPtr(url),
 		Caname: core.StringPtr(caname),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -3808,7 +4091,6 @@ type ConfigCAIntermediateTls struct {
 
 	Client *ConfigCAIntermediateTlsClient `json:"client,omitempty"`
 }
-
 
 // NewConfigCAIntermediateTls : Instantiate ConfigCAIntermediateTls (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCAIntermediateTls(certfiles []string) (model *ConfigCAIntermediateTls, err error) {
@@ -3843,12 +4125,11 @@ type ConfigCAIntermediateTlsClient struct {
 	Keyfile *string `json:"keyfile" validate:"required"`
 }
 
-
 // NewConfigCAIntermediateTlsClient : Instantiate ConfigCAIntermediateTlsClient (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCAIntermediateTlsClient(certfile string, keyfile string) (model *ConfigCAIntermediateTlsClient, err error) {
 	model = &ConfigCAIntermediateTlsClient{
 		Certfile: core.StringPtr(certfile),
-		Keyfile: core.StringPtr(keyfile),
+		Keyfile:  core.StringPtr(keyfile),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -3892,13 +4173,12 @@ type ConfigCARegistryIdentitiesItem struct {
 // Constants associated with the ConfigCARegistryIdentitiesItem.Type property.
 // The type of identity.
 const (
-	ConfigCARegistryIdentitiesItem_Type_Admin = "admin"
-	ConfigCARegistryIdentitiesItem_Type_Client = "client"
+	ConfigCARegistryIdentitiesItem_Type_Admin   = "admin"
+	ConfigCARegistryIdentitiesItem_Type_Client  = "client"
 	ConfigCARegistryIdentitiesItem_Type_Orderer = "orderer"
-	ConfigCARegistryIdentitiesItem_Type_Peer = "peer"
-	ConfigCARegistryIdentitiesItem_Type_User = "user"
+	ConfigCARegistryIdentitiesItem_Type_Peer    = "peer"
+	ConfigCARegistryIdentitiesItem_Type_User    = "user"
 )
-
 
 // NewConfigCARegistryIdentitiesItem : Instantiate ConfigCARegistryIdentitiesItem (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCARegistryIdentitiesItem(name string, pass string, typeVar string) (model *ConfigCARegistryIdentitiesItem, err error) {
@@ -3950,7 +4230,6 @@ type ConfigCASigningDefault struct {
 	Expiry *string `json:"expiry,omitempty"`
 }
 
-
 // UnmarshalConfigCASigningDefault unmarshals an instance of ConfigCASigningDefault from the specified map of raw messages.
 func UnmarshalConfigCASigningDefault(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigCASigningDefault)
@@ -3974,7 +4253,6 @@ type ConfigCASigningProfiles struct {
 	// Controls attributes of intermediate tls CA certificates.
 	Tls *ConfigCASigningProfilesTls `json:"tls,omitempty"`
 }
-
 
 // UnmarshalConfigCASigningProfiles unmarshals an instance of ConfigCASigningProfiles from the specified map of raw messages.
 func UnmarshalConfigCASigningProfiles(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4000,7 +4278,6 @@ type ConfigCASigningProfilesCa struct {
 
 	Caconstraint *ConfigCASigningProfilesCaCaconstraint `json:"caconstraint,omitempty"`
 }
-
 
 // UnmarshalConfigCASigningProfilesCa unmarshals an instance of ConfigCASigningProfilesCa from the specified map of raw messages.
 func UnmarshalConfigCASigningProfilesCa(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4034,7 +4311,6 @@ type ConfigCASigningProfilesCaCaconstraint struct {
 	Maxpathlenzero *bool `json:"maxpathlenzero,omitempty"`
 }
 
-
 // UnmarshalConfigCASigningProfilesCaCaconstraint unmarshals an instance of ConfigCASigningProfilesCaCaconstraint from the specified map of raw messages.
 func UnmarshalConfigCASigningProfilesCaCaconstraint(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigCASigningProfilesCaCaconstraint)
@@ -4062,7 +4338,6 @@ type ConfigCASigningProfilesTls struct {
 	Expiry *string `json:"expiry,omitempty"`
 }
 
-
 // UnmarshalConfigCASigningProfilesTls unmarshals an instance of ConfigCASigningProfilesTls from the specified map of raw messages.
 func UnmarshalConfigCASigningProfilesTls(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigCASigningProfilesTls)
@@ -4085,11 +4360,10 @@ type ConfigCATlsClientauth struct {
 	Certfiles []string `json:"certfiles" validate:"required"`
 }
 
-
 // NewConfigCATlsClientauth : Instantiate ConfigCATlsClientauth (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCATlsClientauth(typeVar string, certfiles []string) (model *ConfigCATlsClientauth, err error) {
 	model = &ConfigCATlsClientauth{
-		Type: core.StringPtr(typeVar),
+		Type:      core.StringPtr(typeVar),
 		Certfiles: certfiles,
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -4147,7 +4421,6 @@ type ConfigCAUpdate struct {
 
 	Metrics *Metrics `json:"metrics,omitempty"`
 }
-
 
 // UnmarshalConfigCAUpdate unmarshals an instance of ConfigCAUpdate from the specified map of raw messages.
 func UnmarshalConfigCAUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4226,7 +4499,6 @@ type ConfigCAAffiliations struct {
 	additionalProperties map[string]interface{}
 }
 
-
 // SetProperty allows the user to set an arbitrary property on an instance of ConfigCAAffiliations
 func (o *ConfigCAAffiliations) SetProperty(key string, value interface{}) {
 	if o.additionalProperties == nil {
@@ -4301,7 +4573,6 @@ type ConfigCACa struct {
 	Chainfile *string `json:"chainfile,omitempty"`
 }
 
-
 // UnmarshalConfigCACa unmarshals an instance of ConfigCACa from the specified map of raw messages.
 func UnmarshalConfigCACa(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigCACa)
@@ -4325,7 +4596,6 @@ func UnmarshalConfigCACa(m map[string]json.RawMessage, result interface{}) (err 
 type ConfigCACfg struct {
 	Identities *ConfigCACfgIdentities `json:"identities" validate:"required"`
 }
-
 
 // NewConfigCACfg : Instantiate ConfigCACfg (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCACfg(identities *ConfigCACfgIdentities) (model *ConfigCACfg, err error) {
@@ -4353,7 +4623,6 @@ type ConfigCACors struct {
 
 	Origins []string `json:"origins" validate:"required"`
 }
-
 
 // NewConfigCACors : Instantiate ConfigCACors (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCACors(enabled bool, origins []string) (model *ConfigCACors, err error) {
@@ -4385,7 +4654,6 @@ type ConfigCACrl struct {
 	// Expiration of the CRL (Certificate Revocation List) generated by the 'gencrl' requests.
 	Expiry *string `json:"expiry" validate:"required"`
 }
-
 
 // NewConfigCACrl : Instantiate ConfigCACrl (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCACrl(expiry string) (model *ConfigCACrl, err error) {
@@ -4421,13 +4689,12 @@ type ConfigCACsr struct {
 	Ca *ConfigCACsrCa `json:"ca" validate:"required"`
 }
 
-
 // NewConfigCACsr : Instantiate ConfigCACsr (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCACsr(cn string, names []ConfigCACsrNamesItem, ca *ConfigCACsrCa) (model *ConfigCACsr, err error) {
 	model = &ConfigCACsr{
-		Cn: core.StringPtr(cn),
+		Cn:    core.StringPtr(cn),
 		Names: names,
-		Ca: ca,
+		Ca:    ca,
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -4475,16 +4742,15 @@ type ConfigCADb struct {
 // Constants associated with the ConfigCADb.Type property.
 // The type of database. Either 'sqlite3', 'postgres', 'mysql'. Defaults 'sqlite3'.
 const (
-	ConfigCADb_Type_Mysql = "mysql"
+	ConfigCADb_Type_Mysql    = "mysql"
 	ConfigCADb_Type_Postgres = "postgres"
-	ConfigCADb_Type_Sqlite3 = "sqlite3"
+	ConfigCADb_Type_Sqlite3  = "sqlite3"
 )
-
 
 // NewConfigCADb : Instantiate ConfigCADb (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCADb(typeVar string, datasource string) (model *ConfigCADb, err error) {
 	model = &ConfigCADb{
-		Type: core.StringPtr(typeVar),
+		Type:       core.StringPtr(typeVar),
 		Datasource: core.StringPtr(datasource),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -4522,12 +4788,11 @@ type ConfigCAIdemix struct {
 	Noncesweepinterval *string `json:"noncesweepinterval" validate:"required"`
 }
 
-
 // NewConfigCAIdemix : Instantiate ConfigCAIdemix (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCAIdemix(rhpoolsize float64, nonceexpiration string, noncesweepinterval string) (model *ConfigCAIdemix, err error) {
 	model = &ConfigCAIdemix{
-		Rhpoolsize: core.Float64Ptr(rhpoolsize),
-		Nonceexpiration: core.StringPtr(nonceexpiration),
+		Rhpoolsize:         core.Float64Ptr(rhpoolsize),
+		Nonceexpiration:    core.StringPtr(nonceexpiration),
 		Noncesweepinterval: core.StringPtr(noncesweepinterval),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -4561,7 +4826,6 @@ type ConfigCAIntermediate struct {
 
 	Tls *ConfigCAIntermediateTls `json:"tls,omitempty"`
 }
-
 
 // NewConfigCAIntermediate : Instantiate ConfigCAIntermediate (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCAIntermediate(parentserver *ConfigCAIntermediateParentserver) (model *ConfigCAIntermediate, err error) {
@@ -4599,12 +4863,11 @@ type ConfigCARegistry struct {
 	Identities []ConfigCARegistryIdentitiesItem `json:"identities" validate:"required"`
 }
 
-
 // NewConfigCARegistry : Instantiate ConfigCARegistry (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCARegistry(maxenrollments float64, identities []ConfigCARegistryIdentitiesItem) (model *ConfigCARegistry, err error) {
 	model = &ConfigCARegistry{
 		Maxenrollments: core.Float64Ptr(maxenrollments),
-		Identities: identities,
+		Identities:     identities,
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -4632,7 +4895,6 @@ type ConfigCASigning struct {
 	Profiles *ConfigCASigningProfiles `json:"profiles,omitempty"`
 }
 
-
 // UnmarshalConfigCASigning unmarshals an instance of ConfigCASigning from the specified map of raw messages.
 func UnmarshalConfigCASigning(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigCASigning)
@@ -4659,11 +4921,10 @@ type ConfigCATls struct {
 	Clientauth *ConfigCATlsClientauth `json:"clientauth,omitempty"`
 }
 
-
 // NewConfigCATls : Instantiate ConfigCATls (Generic Model Constructor)
 func (*BlockchainV3) NewConfigCATls(keyfile string, certfile string) (model *ConfigCATls, err error) {
 	model = &ConfigCATls{
-		Keyfile: core.StringPtr(keyfile),
+		Keyfile:  core.StringPtr(keyfile),
 		Certfile: core.StringPtr(certfile),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -4693,7 +4954,7 @@ func UnmarshalConfigCATls(m map[string]json.RawMessage, result interface{}) (err
 // file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/orderer.yaml) if you want use custom
 // attributes to configure the Orderer. Omit if not.
 //
-// *The field **names** below are not case-sensitive.*.
+// *The nested field **names** below are not case-sensitive.*.
 type ConfigOrdererCreate struct {
 	General *ConfigOrdererGeneral `json:"General,omitempty"`
 
@@ -4702,7 +4963,6 @@ type ConfigOrdererCreate struct {
 
 	Metrics *ConfigOrdererMetrics `json:"Metrics,omitempty"`
 }
-
 
 // UnmarshalConfigOrdererCreate unmarshals an instance of ConfigOrdererCreate from the specified map of raw messages.
 func UnmarshalConfigOrdererCreate(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4745,7 +5005,6 @@ const (
 	ConfigOrdererMetricsStatsd_Network_Udp = "udp"
 )
 
-
 // UnmarshalConfigOrdererMetricsStatsd unmarshals an instance of ConfigOrdererMetricsStatsd from the specified map of raw messages.
 func UnmarshalConfigOrdererMetricsStatsd(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigOrdererMetricsStatsd)
@@ -4773,7 +5032,8 @@ func UnmarshalConfigOrdererMetricsStatsd(m map[string]json.RawMessage, result in
 // file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/orderer.yaml) if you want use custom
 // attributes to configure the Orderer. Omit if not.
 //
-// *The field **names** below are not case-sensitive.*.
+// *The nested field **names** below are not case-sensitive.*
+// *The nested fields sent will be merged with the existing settings.*.
 type ConfigOrdererUpdate struct {
 	General *ConfigOrdererGeneralUpdate `json:"General,omitempty"`
 
@@ -4782,7 +5042,6 @@ type ConfigOrdererUpdate struct {
 
 	Metrics *ConfigOrdererMetrics `json:"Metrics,omitempty"`
 }
-
 
 // UnmarshalConfigOrdererUpdate unmarshals an instance of ConfigOrdererUpdate from the specified map of raw messages.
 func UnmarshalConfigOrdererUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4813,7 +5072,6 @@ type ConfigOrdererAuthentication struct {
 	NoExpirationChecks *bool `json:"NoExpirationChecks,omitempty"`
 }
 
-
 // UnmarshalConfigOrdererAuthentication unmarshals an instance of ConfigOrdererAuthentication from the specified map of raw messages.
 func UnmarshalConfigOrdererAuthentication(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigOrdererAuthentication)
@@ -4838,7 +5096,6 @@ type ConfigOrdererDebug struct {
 	// Path to directory. If set will cause each request to the Deliver service to be written to a file in this directory.
 	DeliverTraceDir *string `json:"DeliverTraceDir,omitempty"`
 }
-
 
 // UnmarshalConfigOrdererDebug unmarshals an instance of ConfigOrdererDebug from the specified map of raw messages.
 func UnmarshalConfigOrdererDebug(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4866,7 +5123,6 @@ type ConfigOrdererGeneral struct {
 	// Contains configuration parameters that are related to authenticating client messages.
 	Authentication *ConfigOrdererAuthentication `json:"Authentication,omitempty"`
 }
-
 
 // UnmarshalConfigOrdererGeneral unmarshals an instance of ConfigOrdererGeneral from the specified map of raw messages.
 func UnmarshalConfigOrdererGeneral(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4896,7 +5152,6 @@ type ConfigOrdererGeneralUpdate struct {
 	Authentication *ConfigOrdererAuthentication `json:"Authentication,omitempty"`
 }
 
-
 // UnmarshalConfigOrdererGeneralUpdate unmarshals an instance of ConfigOrdererGeneralUpdate from the specified map of raw messages.
 func UnmarshalConfigOrdererGeneralUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigOrdererGeneralUpdate)
@@ -4924,7 +5179,6 @@ type ConfigOrdererKeepalive struct {
 	// The duration the server will wait for a response from a client before closing the connection.
 	ServerTimeout *string `json:"ServerTimeout,omitempty"`
 }
-
 
 // UnmarshalConfigOrdererKeepalive unmarshals an instance of ConfigOrdererKeepalive from the specified map of raw messages.
 func UnmarshalConfigOrdererKeepalive(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4957,11 +5211,10 @@ type ConfigOrdererMetrics struct {
 // Constants associated with the ConfigOrdererMetrics.Provider property.
 // The metrics provider to use.
 const (
-	ConfigOrdererMetrics_Provider_Disabled = "disabled"
+	ConfigOrdererMetrics_Provider_Disabled   = "disabled"
 	ConfigOrdererMetrics_Provider_Prometheus = "prometheus"
-	ConfigOrdererMetrics_Provider_Statsd = "statsd"
+	ConfigOrdererMetrics_Provider_Statsd     = "statsd"
 )
-
 
 // UnmarshalConfigOrdererMetrics unmarshals an instance of ConfigOrdererMetrics from the specified map of raw messages.
 func UnmarshalConfigOrdererMetrics(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -4989,7 +5242,6 @@ type ConfigPeerChaincodeExternalBuildersItem struct {
 	EnvironmentWhitelist []string `json:"environmentWhitelist,omitempty"`
 }
 
-
 // UnmarshalConfigPeerChaincodeExternalBuildersItem unmarshals an instance of ConfigPeerChaincodeExternalBuildersItem from the specified map of raw messages.
 func UnmarshalConfigPeerChaincodeExternalBuildersItem(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerChaincodeExternalBuildersItem)
@@ -5014,7 +5266,6 @@ type ConfigPeerChaincodeGolang struct {
 	// Controls if golang chaincode should be built with dynamic linking or static linking. Defaults `false` (static).
 	DynamicLink *bool `json:"dynamicLink,omitempty"`
 }
-
 
 // UnmarshalConfigPeerChaincodeGolang unmarshals an instance of ConfigPeerChaincodeGolang from the specified map of raw messages.
 func UnmarshalConfigPeerChaincodeGolang(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5042,25 +5293,24 @@ type ConfigPeerChaincodeLogging struct {
 // Constants associated with the ConfigPeerChaincodeLogging.Level property.
 // Default logging level for loggers within chaincode containers.
 const (
-	ConfigPeerChaincodeLogging_Level_Debug = "debug"
-	ConfigPeerChaincodeLogging_Level_Error = "error"
-	ConfigPeerChaincodeLogging_Level_Fatal = "fatal"
-	ConfigPeerChaincodeLogging_Level_Info = "info"
-	ConfigPeerChaincodeLogging_Level_Panic = "panic"
+	ConfigPeerChaincodeLogging_Level_Debug   = "debug"
+	ConfigPeerChaincodeLogging_Level_Error   = "error"
+	ConfigPeerChaincodeLogging_Level_Fatal   = "fatal"
+	ConfigPeerChaincodeLogging_Level_Info    = "info"
+	ConfigPeerChaincodeLogging_Level_Panic   = "panic"
 	ConfigPeerChaincodeLogging_Level_Warning = "warning"
 )
 
 // Constants associated with the ConfigPeerChaincodeLogging.Shim property.
 // Override default level for the 'shim' logger.
 const (
-	ConfigPeerChaincodeLogging_Shim_Debug = "debug"
-	ConfigPeerChaincodeLogging_Shim_Error = "error"
-	ConfigPeerChaincodeLogging_Shim_Fatal = "fatal"
-	ConfigPeerChaincodeLogging_Shim_Info = "info"
-	ConfigPeerChaincodeLogging_Shim_Panic = "panic"
+	ConfigPeerChaincodeLogging_Shim_Debug   = "debug"
+	ConfigPeerChaincodeLogging_Shim_Error   = "error"
+	ConfigPeerChaincodeLogging_Shim_Fatal   = "fatal"
+	ConfigPeerChaincodeLogging_Shim_Info    = "info"
+	ConfigPeerChaincodeLogging_Shim_Panic   = "panic"
 	ConfigPeerChaincodeLogging_Shim_Warning = "warning"
 )
-
 
 // UnmarshalConfigPeerChaincodeLogging unmarshals an instance of ConfigPeerChaincodeLogging from the specified map of raw messages.
 func UnmarshalConfigPeerChaincodeLogging(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5099,7 +5349,6 @@ type ConfigPeerChaincodeSystem struct {
 	Qscc *bool `json:"qscc,omitempty"`
 }
 
-
 // UnmarshalConfigPeerChaincodeSystem unmarshals an instance of ConfigPeerChaincodeSystem from the specified map of raw messages.
 func UnmarshalConfigPeerChaincodeSystem(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerChaincodeSystem)
@@ -5131,7 +5380,7 @@ func UnmarshalConfigPeerChaincodeSystem(m map[string]json.RawMessage, result int
 // file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom
 // attributes to configure the Peer. Omit if not.
 //
-// *The field **names** below are not case-sensitive.*.
+// *The nested field **names** below are not case-sensitive.*.
 type ConfigPeerCreate struct {
 	Peer *ConfigPeerCreatePeer `json:"peer,omitempty"`
 
@@ -5139,7 +5388,6 @@ type ConfigPeerCreate struct {
 
 	Metrics *Metrics `json:"metrics,omitempty"`
 }
-
 
 // UnmarshalConfigPeerCreate unmarshals an instance of ConfigPeerCreate from the specified map of raw messages.
 func UnmarshalConfigPeerCreate(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5196,7 +5444,6 @@ type ConfigPeerCreatePeer struct {
 
 	Limits *ConfigPeerLimits `json:"limits,omitempty"`
 }
-
 
 // UnmarshalConfigPeerCreatePeer unmarshals an instance of ConfigPeerCreatePeer from the specified map of raw messages.
 func UnmarshalConfigPeerCreatePeer(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5265,7 +5512,6 @@ type ConfigPeerDeliveryclientAddressOverridesItem struct {
 	CaCertsFile *string `json:"caCertsFile,omitempty"`
 }
 
-
 // UnmarshalConfigPeerDeliveryclientAddressOverridesItem unmarshals an instance of ConfigPeerDeliveryclientAddressOverridesItem from the specified map of raw messages.
 func UnmarshalConfigPeerDeliveryclientAddressOverridesItem(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerDeliveryclientAddressOverridesItem)
@@ -5299,7 +5545,6 @@ type ConfigPeerGossipElection struct {
 	// Amount of time between the peer sending a propose message and it declaring itself as a leader.
 	LeaderElectionDuration *string `json:"leaderElectionDuration,omitempty"`
 }
-
 
 // UnmarshalConfigPeerGossipElection unmarshals an instance of ConfigPeerGossipElection from the specified map of raw messages.
 func UnmarshalConfigPeerGossipElection(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5361,7 +5606,6 @@ type ConfigPeerGossipPvtData struct {
 	ImplicitCollectionDisseminationPolicy *ConfigPeerGossipPvtDataImplicitCollectionDisseminationPolicy `json:"implicitCollectionDisseminationPolicy,omitempty"`
 }
 
-
 // UnmarshalConfigPeerGossipPvtData unmarshals an instance of ConfigPeerGossipPvtData from the specified map of raw messages.
 func UnmarshalConfigPeerGossipPvtData(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerGossipPvtData)
@@ -5414,7 +5658,6 @@ type ConfigPeerGossipPvtDataImplicitCollectionDisseminationPolicy struct {
 	MaxPeerCount *float64 `json:"maxPeerCount,omitempty"`
 }
 
-
 // UnmarshalConfigPeerGossipPvtDataImplicitCollectionDisseminationPolicy unmarshals an instance of ConfigPeerGossipPvtDataImplicitCollectionDisseminationPolicy from the specified map of raw messages.
 func UnmarshalConfigPeerGossipPvtDataImplicitCollectionDisseminationPolicy(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerGossipPvtDataImplicitCollectionDisseminationPolicy)
@@ -5453,7 +5696,6 @@ type ConfigPeerGossipState struct {
 	// Maximum number of retries of a single state transfer request.
 	MaxRetries *float64 `json:"maxRetries,omitempty"`
 }
-
 
 // UnmarshalConfigPeerGossipState unmarshals an instance of ConfigPeerGossipState from the specified map of raw messages.
 func UnmarshalConfigPeerGossipState(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5495,7 +5737,6 @@ type ConfigPeerKeepaliveClient struct {
 	Timeout *string `json:"timeout,omitempty"`
 }
 
-
 // UnmarshalConfigPeerKeepaliveClient unmarshals an instance of ConfigPeerKeepaliveClient from the specified map of raw messages.
 func UnmarshalConfigPeerKeepaliveClient(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerKeepaliveClient)
@@ -5519,7 +5760,6 @@ type ConfigPeerKeepaliveDeliveryClient struct {
 	// The duration a client waits for an orderer's response before it closes the connection.
 	Timeout *string `json:"timeout,omitempty"`
 }
-
 
 // UnmarshalConfigPeerKeepaliveDeliveryClient unmarshals an instance of ConfigPeerKeepaliveDeliveryClient from the specified map of raw messages.
 func UnmarshalConfigPeerKeepaliveDeliveryClient(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5547,7 +5787,6 @@ type ConfigPeerLimitsConcurrency struct {
 	DeliverService *float64 `json:"deliverService,omitempty"`
 }
 
-
 // UnmarshalConfigPeerLimitsConcurrency unmarshals an instance of ConfigPeerLimitsConcurrency from the specified map of raw messages.
 func UnmarshalConfigPeerLimitsConcurrency(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerLimitsConcurrency)
@@ -5567,7 +5806,8 @@ func UnmarshalConfigPeerLimitsConcurrency(m map[string]json.RawMessage, result i
 // file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom
 // attributes to configure the Peer. Omit if not.
 //
-// *The field **names** below are not case-sensitive.*.
+// *The nested field **names** below are not case-sensitive.*
+// *The nested fields sent will be merged with the existing settings.*.
 type ConfigPeerUpdate struct {
 	Peer *ConfigPeerUpdatePeer `json:"peer,omitempty"`
 
@@ -5575,7 +5815,6 @@ type ConfigPeerUpdate struct {
 
 	Metrics *Metrics `json:"metrics,omitempty"`
 }
-
 
 // UnmarshalConfigPeerUpdate unmarshals an instance of ConfigPeerUpdate from the specified map of raw messages.
 func UnmarshalConfigPeerUpdate(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5629,7 +5868,6 @@ type ConfigPeerUpdatePeer struct {
 
 	Limits *ConfigPeerLimits `json:"limits,omitempty"`
 }
-
 
 // UnmarshalConfigPeerUpdatePeer unmarshals an instance of ConfigPeerUpdatePeer from the specified map of raw messages.
 func UnmarshalConfigPeerUpdatePeer(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5689,7 +5927,6 @@ type ConfigPeerAdminService struct {
 	ListenAddress *string `json:"listenAddress" validate:"required"`
 }
 
-
 // NewConfigPeerAdminService : Instantiate ConfigPeerAdminService (Generic Model Constructor)
 func (*BlockchainV3) NewConfigPeerAdminService(listenAddress string) (model *ConfigPeerAdminService, err error) {
 	model = &ConfigPeerAdminService{
@@ -5715,7 +5952,6 @@ type ConfigPeerAuthentication struct {
 	// The maximum acceptable difference between the current server time and the client's time.
 	Timewindow *string `json:"timewindow" validate:"required"`
 }
-
 
 // NewConfigPeerAuthentication : Instantiate ConfigPeerAuthentication (Generic Model Constructor)
 func (*BlockchainV3) NewConfigPeerAuthentication(timewindow string) (model *ConfigPeerAuthentication, err error) {
@@ -5761,7 +5997,6 @@ type ConfigPeerChaincode struct {
 	Logging *ConfigPeerChaincodeLogging `json:"logging,omitempty"`
 }
 
-
 // UnmarshalConfigPeerChaincode unmarshals an instance of ConfigPeerChaincode from the specified map of raw messages.
 func UnmarshalConfigPeerChaincode(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerChaincode)
@@ -5803,7 +6038,6 @@ type ConfigPeerClient struct {
 	ConnTimeout *string `json:"connTimeout" validate:"required"`
 }
 
-
 // NewConfigPeerClient : Instantiate ConfigPeerClient (Generic Model Constructor)
 func (*BlockchainV3) NewConfigPeerClient(connTimeout string) (model *ConfigPeerClient, err error) {
 	model = &ConfigPeerClient{
@@ -5839,7 +6073,6 @@ type ConfigPeerDeliveryclient struct {
 	// original orderer addresses no longer exist.
 	AddressOverrides []ConfigPeerDeliveryclientAddressOverridesItem `json:"addressOverrides,omitempty"`
 }
-
 
 // UnmarshalConfigPeerDeliveryclient unmarshals an instance of ConfigPeerDeliveryclient from the specified map of raw messages.
 func UnmarshalConfigPeerDeliveryclient(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5884,7 +6117,6 @@ type ConfigPeerDiscovery struct {
 	// perform non-channel scoped queries.
 	OrgMembersAllowedAccess *bool `json:"orgMembersAllowedAccess,omitempty"`
 }
-
 
 // UnmarshalConfigPeerDiscovery unmarshals an instance of ConfigPeerDiscovery from the specified map of raw messages.
 func UnmarshalConfigPeerDiscovery(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -5998,7 +6230,6 @@ type ConfigPeerGossip struct {
 	// Gossip state transfer related configuration.
 	State *ConfigPeerGossipState `json:"state,omitempty"`
 }
-
 
 // UnmarshalConfigPeerGossip unmarshals an instance of ConfigPeerGossip from the specified map of raw messages.
 func UnmarshalConfigPeerGossip(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -6126,7 +6357,6 @@ type ConfigPeerKeepalive struct {
 	DeliveryClient *ConfigPeerKeepaliveDeliveryClient `json:"deliveryClient,omitempty"`
 }
 
-
 // UnmarshalConfigPeerKeepalive unmarshals an instance of ConfigPeerKeepalive from the specified map of raw messages.
 func UnmarshalConfigPeerKeepalive(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerKeepalive)
@@ -6151,7 +6381,6 @@ type ConfigPeerLimits struct {
 	Concurrency *ConfigPeerLimitsConcurrency `json:"concurrency,omitempty"`
 }
 
-
 // UnmarshalConfigPeerLimits unmarshals an instance of ConfigPeerLimits from the specified map of raw messages.
 func UnmarshalConfigPeerLimits(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ConfigPeerLimits)
@@ -6173,7 +6402,6 @@ type CpuHealthStats struct {
 
 	Times *CpuHealthStatsTimes `json:"times,omitempty"`
 }
-
 
 // UnmarshalCpuHealthStats unmarshals an instance of CpuHealthStats from the specified map of raw messages.
 func UnmarshalCpuHealthStats(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -6212,7 +6440,6 @@ type CpuHealthStatsTimes struct {
 	User *float64 `json:"user,omitempty"`
 }
 
-
 // UnmarshalCpuHealthStatsTimes unmarshals an instance of CpuHealthStatsTimes from the specified map of raw messages.
 func UnmarshalCpuHealthStatsTimes(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(CpuHealthStatsTimes)
@@ -6248,13 +6475,12 @@ func UnmarshalCpuHealthStatsTimes(m map[string]json.RawMessage, result interface
 // The field `tlsca` is optional. The IBP console will copy the value of `config_override.ca` into
 // `config_override.tlsca` if `config_override.tlsca` is omitted (which is recommended).
 //
-// *The field **names** below are not case-sensitive.*.
+// *The nested field **names** below are not case-sensitive.*.
 type CreateCaBodyConfigOverride struct {
 	Ca *ConfigCACreate `json:"ca" validate:"required"`
 
 	Tlsca *ConfigCACreate `json:"tlsca,omitempty"`
 }
-
 
 // NewCreateCaBodyConfigOverride : Instantiate CreateCaBodyConfigOverride (Generic Model Constructor)
 func (*BlockchainV3) NewCreateCaBodyConfigOverride(ca *ConfigCACreate) (model *CreateCaBodyConfigOverride, err error) {
@@ -6286,7 +6512,6 @@ type CreateCaBodyResources struct {
 	Ca *ResourceObject `json:"ca" validate:"required"`
 }
 
-
 // NewCreateCaBodyResources : Instantiate CreateCaBodyResources (Generic Model Constructor)
 func (*BlockchainV3) NewCreateCaBodyResources(ca *ResourceObject) (model *CreateCaBodyResources, err error) {
 	model = &CreateCaBodyResources{
@@ -6311,7 +6536,6 @@ func UnmarshalCreateCaBodyResources(m map[string]json.RawMessage, result interfa
 type CreateCaBodyStorage struct {
 	Ca *StorageObject `json:"ca" validate:"required"`
 }
-
 
 // NewCreateCaBodyStorage : Instantiate CreateCaBodyStorage (Generic Model Constructor)
 func (*BlockchainV3) NewCreateCaBodyStorage(ca *StorageObject) (model *CreateCaBodyStorage, err error) {
@@ -6346,7 +6570,7 @@ type CreateCaOptions struct {
 	// The field `tlsca` is optional. The IBP console will copy the value of `config_override.ca` into
 	// `config_override.tlsca` if `config_override.tlsca` is omitted (which is recommended).
 	//
-	// *The field **names** below are not case-sensitive.*.
+	// *The nested field **names** below are not case-sensitive.*.
 	ConfigOverride *CreateCaBodyConfigOverride `json:"config_override" validate:"required"`
 
 	// CPU and memory properties. This feature is not available if using a free Kubernetes cluster.
@@ -6383,7 +6607,7 @@ type CreateCaOptions struct {
 // NewCreateCaOptions : Instantiate CreateCaOptions
 func (*BlockchainV3) NewCreateCaOptions(displayName string, configOverride *CreateCaBodyConfigOverride) *CreateCaOptions {
 	return &CreateCaOptions{
-		DisplayName: core.StringPtr(displayName),
+		DisplayName:    core.StringPtr(displayName),
 		ConfigOverride: configOverride,
 	}
 }
@@ -6541,9 +6765,9 @@ const (
 func (*BlockchainV3) NewCreateOrdererOptions(ordererType string, mspID string, displayName string, crypto []CryptoObject) *CreateOrdererOptions {
 	return &CreateOrdererOptions{
 		OrdererType: core.StringPtr(ordererType),
-		MspID: core.StringPtr(mspID),
+		MspID:       core.StringPtr(mspID),
 		DisplayName: core.StringPtr(displayName),
-		Crypto: crypto,
+		Crypto:      crypto,
 	}
 }
 
@@ -6658,7 +6882,6 @@ type CreateOrdererRaftBodyResources struct {
 	Proxy *ResourceObject `json:"proxy,omitempty"`
 }
 
-
 // NewCreateOrdererRaftBodyResources : Instantiate CreateOrdererRaftBodyResources (Generic Model Constructor)
 func (*BlockchainV3) NewCreateOrdererRaftBodyResources(orderer *ResourceObject) (model *CreateOrdererRaftBodyResources, err error) {
 	model = &CreateOrdererRaftBodyResources{
@@ -6688,7 +6911,6 @@ type CreateOrdererRaftBodyStorage struct {
 	Orderer *StorageObject `json:"orderer" validate:"required"`
 }
 
-
 // NewCreateOrdererRaftBodyStorage : Instantiate CreateOrdererRaftBodyStorage (Generic Model Constructor)
 func (*BlockchainV3) NewCreateOrdererRaftBodyStorage(orderer *StorageObject) (model *CreateOrdererRaftBodyStorage, err error) {
 	model = &CreateOrdererRaftBodyStorage{
@@ -6709,13 +6931,29 @@ func UnmarshalCreateOrdererRaftBodyStorage(m map[string]json.RawMessage, result 
 	return
 }
 
+// CreateOrdererResponse : CreateOrdererResponse struct
+type CreateOrdererResponse struct {
+	// Contains array of ordering nodes.
+	Successes []OrdererResponse `json:"successes,omitempty"`
+}
+
+// UnmarshalCreateOrdererResponse unmarshals an instance of CreateOrdererResponse from the specified map of raw messages.
+func UnmarshalCreateOrdererResponse(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(CreateOrdererResponse)
+	err = core.UnmarshalModel(m, "successes", &obj.Successes, UnmarshalOrdererResponse)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // CreatePeerBodyStorage : Disk space properties. This feature is not available if using a free Kubernetes cluster.
 type CreatePeerBodyStorage struct {
 	Peer *StorageObject `json:"peer" validate:"required"`
 
 	Statedb *StorageObject `json:"statedb,omitempty"`
 }
-
 
 // NewCreatePeerBodyStorage : Instantiate CreatePeerBodyStorage (Generic Model Constructor)
 func (*BlockchainV3) NewCreatePeerBodyStorage(peer *StorageObject) (model *CreatePeerBodyStorage, err error) {
@@ -6757,7 +6995,7 @@ type CreatePeerOptions struct {
 	// file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom
 	// attributes to configure the Peer. Omit if not.
 	//
-	// *The field **names** below are not case-sensitive.*.
+	// *The nested field **names** below are not case-sensitive.*.
 	ConfigOverride *ConfigPeerCreate `json:"config_override,omitempty"`
 
 	// CPU and memory properties. This feature is not available if using a free Kubernetes cluster.
@@ -6801,9 +7039,9 @@ const (
 // NewCreatePeerOptions : Instantiate CreatePeerOptions
 func (*BlockchainV3) NewCreatePeerOptions(mspID string, displayName string, crypto *CryptoObject) *CreatePeerOptions {
 	return &CreatePeerOptions{
-		MspID: core.StringPtr(mspID),
+		MspID:       core.StringPtr(mspID),
 		DisplayName: core.StringPtr(displayName),
-		Crypto: crypto,
+		Crypto:      crypto,
 	}
 }
 
@@ -6892,7 +7130,6 @@ type CryptoEnrollmentComponent struct {
 	Admincerts []string `json:"admincerts,omitempty"`
 }
 
-
 // UnmarshalCryptoEnrollmentComponent unmarshals an instance of CryptoEnrollmentComponent from the specified map of raw messages.
 func UnmarshalCryptoEnrollmentComponent(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(CryptoEnrollmentComponent)
@@ -6915,7 +7152,6 @@ type CryptoObject struct {
 	// or `enrollment`, not both.
 	Msp *CryptoObjectMsp `json:"msp,omitempty"`
 }
-
 
 // UnmarshalCryptoObject unmarshals an instance of CryptoObject from the specified map of raw messages.
 func UnmarshalCryptoObject(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -6942,13 +7178,12 @@ type CryptoObjectEnrollment struct {
 	Tlsca *CryptoObjectEnrollmentTlsca `json:"tlsca" validate:"required"`
 }
 
-
 // NewCryptoObjectEnrollment : Instantiate CryptoObjectEnrollment (Generic Model Constructor)
 func (*BlockchainV3) NewCryptoObjectEnrollment(component *CryptoEnrollmentComponent, ca *CryptoObjectEnrollmentCa, tlsca *CryptoObjectEnrollmentTlsca) (model *CryptoObjectEnrollment, err error) {
 	model = &CryptoObjectEnrollment{
 		Component: component,
-		Ca: ca,
-		Tlsca: tlsca,
+		Ca:        ca,
+		Tlsca:     tlsca,
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -6995,15 +7230,14 @@ type CryptoObjectEnrollmentCa struct {
 	EnrollSecret *string `json:"enroll_secret" validate:"required"`
 }
 
-
 // NewCryptoObjectEnrollmentCa : Instantiate CryptoObjectEnrollmentCa (Generic Model Constructor)
 func (*BlockchainV3) NewCryptoObjectEnrollmentCa(host string, port float64, name string, tlsCert string, enrollID string, enrollSecret string) (model *CryptoObjectEnrollmentCa, err error) {
 	model = &CryptoObjectEnrollmentCa{
-		Host: core.StringPtr(host),
-		Port: core.Float64Ptr(port),
-		Name: core.StringPtr(name),
-		TlsCert: core.StringPtr(tlsCert),
-		EnrollID: core.StringPtr(enrollID),
+		Host:         core.StringPtr(host),
+		Port:         core.Float64Ptr(port),
+		Name:         core.StringPtr(name),
+		TlsCert:      core.StringPtr(tlsCert),
+		EnrollID:     core.StringPtr(enrollID),
 		EnrollSecret: core.StringPtr(enrollSecret),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -7065,15 +7299,14 @@ type CryptoObjectEnrollmentTlsca struct {
 	CsrHosts []string `json:"csr_hosts,omitempty"`
 }
 
-
 // NewCryptoObjectEnrollmentTlsca : Instantiate CryptoObjectEnrollmentTlsca (Generic Model Constructor)
 func (*BlockchainV3) NewCryptoObjectEnrollmentTlsca(host string, port float64, name string, tlsCert string, enrollID string, enrollSecret string) (model *CryptoObjectEnrollmentTlsca, err error) {
 	model = &CryptoObjectEnrollmentTlsca{
-		Host: core.StringPtr(host),
-		Port: core.Float64Ptr(port),
-		Name: core.StringPtr(name),
-		TlsCert: core.StringPtr(tlsCert),
-		EnrollID: core.StringPtr(enrollID),
+		Host:         core.StringPtr(host),
+		Port:         core.Float64Ptr(port),
+		Name:         core.StringPtr(name),
+		TlsCert:      core.StringPtr(tlsCert),
+		EnrollID:     core.StringPtr(enrollID),
 		EnrollSecret: core.StringPtr(enrollSecret),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -7125,13 +7358,12 @@ type CryptoObjectMsp struct {
 	Tlsca *MspCryptoCa `json:"tlsca" validate:"required"`
 }
 
-
 // NewCryptoObjectMsp : Instantiate CryptoObjectMsp (Generic Model Constructor)
 func (*BlockchainV3) NewCryptoObjectMsp(component *MspCryptoComp, ca *MspCryptoCa, tlsca *MspCryptoCa) (model *CryptoObjectMsp, err error) {
 	model = &CryptoObjectMsp{
 		Component: component,
-		Ca: ca,
-		Tlsca: tlsca,
+		Ca:        ca,
+		Tlsca:     tlsca,
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -7201,7 +7433,6 @@ type DeleteAllNotificationsResponse struct {
 	Details *string `json:"details,omitempty"`
 }
 
-
 // UnmarshalDeleteAllNotificationsResponse unmarshals an instance of DeleteAllNotificationsResponse from the specified map of raw messages.
 func UnmarshalDeleteAllNotificationsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteAllNotificationsResponse)
@@ -7240,7 +7471,6 @@ type DeleteAllSessionsResponse struct {
 	// Response message. Indicates the api completed successfully.
 	Message *string `json:"message,omitempty"`
 }
-
 
 // UnmarshalDeleteAllSessionsResponse unmarshals an instance of DeleteAllSessionsResponse from the specified map of raw messages.
 func UnmarshalDeleteAllSessionsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7295,7 +7525,6 @@ type DeleteComponentResponse struct {
 	// A descriptive name for this peer. The IBP console tile displays this name.
 	DisplayName *string `json:"display_name,omitempty"`
 }
-
 
 // UnmarshalDeleteComponentResponse unmarshals an instance of DeleteComponentResponse from the specified map of raw messages.
 func UnmarshalDeleteComponentResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7353,7 +7582,6 @@ type DeleteMultiComponentsResponse struct {
 	Deleted []DeleteComponentResponse `json:"deleted,omitempty"`
 }
 
-
 // UnmarshalDeleteMultiComponentsResponse unmarshals an instance of DeleteMultiComponentsResponse from the specified map of raw messages.
 func UnmarshalDeleteMultiComponentsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteMultiComponentsResponse)
@@ -7401,7 +7629,6 @@ type DeleteSignatureCollectionResponse struct {
 	// The unique transaction ID of this signature collection. Must start with a letter.
 	TxID *string `json:"tx_id,omitempty"`
 }
-
 
 // UnmarshalDeleteSignatureCollectionResponse unmarshals an instance of DeleteSignatureCollectionResponse from the specified map of raw messages.
 func UnmarshalDeleteSignatureCollectionResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7475,7 +7702,6 @@ type EditAdminCertsResponse struct {
 	SetAdminCerts []EditAdminCertsResponseSetAdminCertsItem `json:"set_admin_certs,omitempty"`
 }
 
-
 // UnmarshalEditAdminCertsResponse unmarshals an instance of EditAdminCertsResponse from the specified map of raw messages.
 func UnmarshalEditAdminCertsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(EditAdminCertsResponse)
@@ -7520,7 +7746,6 @@ type EditAdminCertsResponseSetAdminCertsItem struct {
 	// A friendly (human readable) duration until certificate expiration.
 	TimeLeft *string `json:"time_left,omitempty"`
 }
-
 
 // UnmarshalEditAdminCertsResponseSetAdminCertsItem unmarshals an instance of EditAdminCertsResponseSetAdminCertsItem from the specified map of raw messages.
 func UnmarshalEditAdminCertsResponseSetAdminCertsItem(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7657,7 +7882,6 @@ type EditLogSettingsBody struct {
 	// The server side logging settings. _Changes to this field will restart the IBP console server(s)_.
 	Server *LoggingSettingsServer `json:"server,omitempty"`
 }
-
 
 // UnmarshalEditLogSettingsBody unmarshals an instance of EditLogSettingsBody from the specified map of raw messages.
 func UnmarshalEditLogSettingsBody(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -7986,7 +8210,6 @@ type EditSettingsBodyInactivityTimeouts struct {
 	MaxIdleTime *float64 `json:"max_idle_time,omitempty"`
 }
 
-
 // UnmarshalEditSettingsBodyInactivityTimeouts unmarshals an instance of EditSettingsBodyInactivityTimeouts from the specified map of raw messages.
 func UnmarshalEditSettingsBodyInactivityTimeouts(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(EditSettingsBodyInactivityTimeouts)
@@ -8139,7 +8362,6 @@ type FabVersionObject struct {
 	Image interface{} `json:"image,omitempty"`
 }
 
-
 // UnmarshalFabVersionObject unmarshals an instance of FabVersionObject from the specified map of raw messages.
 func UnmarshalFabVersionObject(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(FabVersionObject)
@@ -8168,7 +8390,6 @@ type FabricVersionDictionary struct {
 	// Allows users to set arbitrary properties
 	additionalProperties map[string]interface{}
 }
-
 
 // SetProperty allows the user to set an arbitrary property on an instance of FabricVersionDictionary
 func (o *FabricVersionDictionary) SetProperty(key string, value interface{}) {
@@ -8297,11 +8518,10 @@ type GenericComponentResponse struct {
 // Constants associated with the GenericComponentResponse.Type property.
 // The type of this component [Available on all component types].
 const (
-	GenericComponentResponse_Type_FabricCa = "fabric-ca"
+	GenericComponentResponse_Type_FabricCa      = "fabric-ca"
 	GenericComponentResponse_Type_FabricOrderer = "fabric-orderer"
-	GenericComponentResponse_Type_FabricPeer = "fabric-peer"
+	GenericComponentResponse_Type_FabricPeer    = "fabric-peer"
 )
-
 
 // UnmarshalGenericComponentResponse unmarshals an instance of GenericComponentResponse from the specified map of raw messages.
 func UnmarshalGenericComponentResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -8391,7 +8611,6 @@ type GenericComponentResponseMsp struct {
 	Component *GenericComponentResponseMspComponent `json:"component,omitempty"`
 }
 
-
 // UnmarshalGenericComponentResponseMsp unmarshals an instance of GenericComponentResponseMsp from the specified map of raw messages.
 func UnmarshalGenericComponentResponseMsp(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GenericComponentResponseMsp)
@@ -8420,7 +8639,6 @@ type GenericComponentResponseMspCa struct {
 	// components].
 	RootCerts []string `json:"root_certs,omitempty"`
 }
-
 
 // UnmarshalGenericComponentResponseMspCa unmarshals an instance of GenericComponentResponseMspCa from the specified map of raw messages.
 func UnmarshalGenericComponentResponseMspCa(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -8453,7 +8671,6 @@ type GenericComponentResponseMspComponent struct {
 	AdminCerts []string `json:"admin_certs,omitempty"`
 }
 
-
 // UnmarshalGenericComponentResponseMspComponent unmarshals an instance of GenericComponentResponseMspComponent from the specified map of raw messages.
 func UnmarshalGenericComponentResponseMspComponent(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GenericComponentResponseMspComponent)
@@ -8483,7 +8700,6 @@ type GenericComponentResponseMspTlsca struct {
 	RootCerts []string `json:"root_certs,omitempty"`
 }
 
-
 // UnmarshalGenericComponentResponseMspTlsca unmarshals an instance of GenericComponentResponseMspTlsca from the specified map of raw messages.
 func UnmarshalGenericComponentResponseMspTlsca(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GenericComponentResponseMspTlsca)
@@ -8512,7 +8728,6 @@ type GenericComponentResponseResources struct {
 
 	Statedb *GenericResources `json:"statedb,omitempty"`
 }
-
 
 // UnmarshalGenericComponentResponseResources unmarshals an instance of GenericComponentResponseResources from the specified map of raw messages.
 func UnmarshalGenericComponentResponseResources(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -8553,7 +8768,6 @@ type GenericComponentResponseStorage struct {
 	Statedb *StorageObject `json:"statedb,omitempty"`
 }
 
-
 // UnmarshalGenericComponentResponseStorage unmarshals an instance of GenericComponentResponseStorage from the specified map of raw messages.
 func UnmarshalGenericComponentResponseStorage(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GenericComponentResponseStorage)
@@ -8584,7 +8798,6 @@ type GenericResourceLimits struct {
 	Memory *string `json:"memory,omitempty"`
 }
 
-
 // UnmarshalGenericResourceLimits unmarshals an instance of GenericResourceLimits from the specified map of raw messages.
 func UnmarshalGenericResourceLimits(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GenericResourceLimits)
@@ -8606,7 +8819,6 @@ type GenericResources struct {
 
 	Limits *GenericResourceLimits `json:"limits,omitempty"`
 }
-
 
 // UnmarshalGenericResources unmarshals an instance of GenericResources from the specified map of raw messages.
 func UnmarshalGenericResources(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -8630,7 +8842,6 @@ type GenericResourcesRequests struct {
 	Memory *string `json:"memory,omitempty"`
 }
 
-
 // UnmarshalGenericResourcesRequests unmarshals an instance of GenericResourcesRequests from the specified map of raw messages.
 func UnmarshalGenericResourcesRequests(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GenericResourcesRequests)
@@ -8652,7 +8863,6 @@ type GetAthenaHealthStatsResponse struct {
 
 	OS *GetAthenaHealthStatsResponseOS `json:"OS,omitempty"`
 }
-
 
 // UnmarshalGetAthenaHealthStatsResponse unmarshals an instance of GetAthenaHealthStatsResponse from the specified map of raw messages.
 func UnmarshalGetAthenaHealthStatsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -8693,7 +8903,6 @@ type GetAthenaHealthStatsResponseOPTOOLS struct {
 
 	ProxyCache *CacheData `json:"proxy_cache,omitempty"`
 }
-
 
 // UnmarshalGetAthenaHealthStatsResponseOPTOOLS unmarshals an instance of GetAthenaHealthStatsResponseOPTOOLS from the specified map of raw messages.
 func UnmarshalGetAthenaHealthStatsResponseOPTOOLS(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -8753,7 +8962,6 @@ type GetAthenaHealthStatsResponseOPTOOLSMemoryUsage struct {
 	External *string `json:"external,omitempty"`
 }
 
-
 // UnmarshalGetAthenaHealthStatsResponseOPTOOLSMemoryUsage unmarshals an instance of GetAthenaHealthStatsResponseOPTOOLSMemoryUsage from the specified map of raw messages.
 func UnmarshalGetAthenaHealthStatsResponseOPTOOLSMemoryUsage(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GetAthenaHealthStatsResponseOPTOOLSMemoryUsage)
@@ -8802,7 +9010,6 @@ type GetAthenaHealthStatsResponseOS struct {
 	// Time operating system has been running.
 	UpTime *string `json:"up_time,omitempty"`
 }
-
 
 // UnmarshalGetAthenaHealthStatsResponseOS unmarshals an instance of GetAthenaHealthStatsResponseOS from the specified map of raw messages.
 func UnmarshalGetAthenaHealthStatsResponseOS(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -8891,7 +9098,7 @@ type GetComponentOptions struct {
 // It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
 const (
 	GetComponentOptions_DeploymentAttrs_Included = "included"
-	GetComponentOptions_DeploymentAttrs_Omitted = "omitted"
+	GetComponentOptions_DeploymentAttrs_Omitted  = "omitted"
 )
 
 // Constants associated with the GetComponentOptions.ParsedCerts property.
@@ -8900,7 +9107,7 @@ const (
 // Default responses will not include these fields.
 const (
 	GetComponentOptions_ParsedCerts_Included = "included"
-	GetComponentOptions_ParsedCerts_Omitted = "omitted"
+	GetComponentOptions_ParsedCerts_Omitted  = "omitted"
 )
 
 // Constants associated with the GetComponentOptions.Cache property.
@@ -8908,7 +9115,7 @@ const (
 // times if the cache is skipped. Default responses will use the cache.
 const (
 	GetComponentOptions_Cache_Skip = "skip"
-	GetComponentOptions_Cache_Use = "use"
+	GetComponentOptions_Cache_Use  = "use"
 )
 
 // Constants associated with the GetComponentOptions.CaAttrs property.
@@ -8924,7 +9131,7 @@ const (
 // imported/created CAs are checked. Default responses will not include these fields.
 const (
 	GetComponentOptions_CaAttrs_Included = "included"
-	GetComponentOptions_CaAttrs_Omitted = "omitted"
+	GetComponentOptions_CaAttrs_Omitted  = "omitted"
 )
 
 // NewGetComponentOptions : Instantiate GetComponentOptions
@@ -9005,7 +9212,7 @@ type GetComponentsByTagOptions struct {
 // It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
 const (
 	GetComponentsByTagOptions_DeploymentAttrs_Included = "included"
-	GetComponentsByTagOptions_DeploymentAttrs_Omitted = "omitted"
+	GetComponentsByTagOptions_DeploymentAttrs_Omitted  = "omitted"
 )
 
 // Constants associated with the GetComponentsByTagOptions.ParsedCerts property.
@@ -9014,7 +9221,7 @@ const (
 // Default responses will not include these fields.
 const (
 	GetComponentsByTagOptions_ParsedCerts_Included = "included"
-	GetComponentsByTagOptions_ParsedCerts_Omitted = "omitted"
+	GetComponentsByTagOptions_ParsedCerts_Omitted  = "omitted"
 )
 
 // Constants associated with the GetComponentsByTagOptions.Cache property.
@@ -9022,7 +9229,7 @@ const (
 // times if the cache is skipped. Default responses will use the cache.
 const (
 	GetComponentsByTagOptions_Cache_Skip = "skip"
-	GetComponentsByTagOptions_Cache_Use = "use"
+	GetComponentsByTagOptions_Cache_Use  = "use"
 )
 
 // NewGetComponentsByTagOptions : Instantiate GetComponentsByTagOptions
@@ -9091,10 +9298,10 @@ type GetComponentsByTypeOptions struct {
 // Constants associated with the GetComponentsByTypeOptions.Type property.
 // The type of component to filter components on.
 const (
-	GetComponentsByTypeOptions_Type_FabricCa = "fabric-ca"
+	GetComponentsByTypeOptions_Type_FabricCa      = "fabric-ca"
 	GetComponentsByTypeOptions_Type_FabricOrderer = "fabric-orderer"
-	GetComponentsByTypeOptions_Type_FabricPeer = "fabric-peer"
-	GetComponentsByTypeOptions_Type_Msp = "msp"
+	GetComponentsByTypeOptions_Type_FabricPeer    = "fabric-peer"
+	GetComponentsByTypeOptions_Type_Msp           = "msp"
 )
 
 // Constants associated with the GetComponentsByTypeOptions.DeploymentAttrs property.
@@ -9106,7 +9313,7 @@ const (
 // It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
 const (
 	GetComponentsByTypeOptions_DeploymentAttrs_Included = "included"
-	GetComponentsByTypeOptions_DeploymentAttrs_Omitted = "omitted"
+	GetComponentsByTypeOptions_DeploymentAttrs_Omitted  = "omitted"
 )
 
 // Constants associated with the GetComponentsByTypeOptions.ParsedCerts property.
@@ -9115,7 +9322,7 @@ const (
 // Default responses will not include these fields.
 const (
 	GetComponentsByTypeOptions_ParsedCerts_Included = "included"
-	GetComponentsByTypeOptions_ParsedCerts_Omitted = "omitted"
+	GetComponentsByTypeOptions_ParsedCerts_Omitted  = "omitted"
 )
 
 // Constants associated with the GetComponentsByTypeOptions.Cache property.
@@ -9123,7 +9330,7 @@ const (
 // times if the cache is skipped. Default responses will use the cache.
 const (
 	GetComponentsByTypeOptions_Cache_Skip = "skip"
-	GetComponentsByTypeOptions_Cache_Use = "use"
+	GetComponentsByTypeOptions_Cache_Use  = "use"
 )
 
 // NewGetComponentsByTypeOptions : Instantiate GetComponentsByTypeOptions
@@ -9178,7 +9385,7 @@ type GetFabVersionsOptions struct {
 // times if the cache is skipped. Default responses will use the cache.
 const (
 	GetFabVersionsOptions_Cache_Skip = "skip"
-	GetFabVersionsOptions_Cache_Use = "use"
+	GetFabVersionsOptions_Cache_Use  = "use"
 )
 
 // NewGetFabVersionsOptions : Instantiate GetFabVersionsOptions
@@ -9203,7 +9410,6 @@ type GetFabricVersionsResponse struct {
 	Versions *GetFabricVersionsResponseVersions `json:"versions,omitempty"`
 }
 
-
 // UnmarshalGetFabricVersionsResponse unmarshals an instance of GetFabricVersionsResponse from the specified map of raw messages.
 func UnmarshalGetFabricVersionsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GetFabricVersionsResponse)
@@ -9226,7 +9432,6 @@ type GetFabricVersionsResponseVersions struct {
 	// A supported release of Fabric for this component type.
 	Orderer *FabricVersionDictionary `json:"orderer,omitempty"`
 }
-
 
 // UnmarshalGetFabricVersionsResponseVersions unmarshals an instance of GetFabricVersionsResponseVersions from the specified map of raw messages.
 func UnmarshalGetFabricVersionsResponseVersions(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -9270,7 +9475,6 @@ type GetMSPCertificateResponse struct {
 	Msps []MspPublicData `json:"msps,omitempty"`
 }
 
-
 // UnmarshalGetMSPCertificateResponse unmarshals an instance of GetMSPCertificateResponse from the specified map of raw messages.
 func UnmarshalGetMSPCertificateResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GetMSPCertificateResponse)
@@ -9300,7 +9504,7 @@ type GetMspCertificateOptions struct {
 // times if the cache is skipped. Default responses will use the cache.
 const (
 	GetMspCertificateOptions_Cache_Skip = "skip"
-	GetMspCertificateOptions_Cache_Use = "use"
+	GetMspCertificateOptions_Cache_Use  = "use"
 )
 
 // NewGetMspCertificateOptions : Instantiate GetMspCertificateOptions
@@ -9334,7 +9538,6 @@ type GetMultiComponentsResponse struct {
 	Components []GenericComponentResponse `json:"components,omitempty"`
 }
 
-
 // UnmarshalGetMultiComponentsResponse unmarshals an instance of GetMultiComponentsResponse from the specified map of raw messages.
 func UnmarshalGetMultiComponentsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GetMultiComponentsResponse)
@@ -9357,7 +9560,6 @@ type GetNotificationsResponse struct {
 	// This array is ordered by creation date.
 	Notifications []NotificationData `json:"notifications,omitempty"`
 }
-
 
 // UnmarshalGetNotificationsResponse unmarshals an instance of GetNotificationsResponse from the specified map of raw messages.
 func UnmarshalGetNotificationsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -9417,7 +9619,7 @@ type GetPostmanOptions struct {
 // your IBP api key credentials. The IBP api key is the username and the api secret is the password.
 const (
 	GetPostmanOptions_AuthType_ApiKey = "api_key"
-	GetPostmanOptions_AuthType_Basic = "basic"
+	GetPostmanOptions_AuthType_Basic  = "basic"
 	GetPostmanOptions_AuthType_Bearer = "bearer"
 )
 
@@ -9553,7 +9755,7 @@ type GetPublicSettingsResponse struct {
 	MEMORYCACHEENABLED *bool `json:"MEMORY_CACHE_ENABLED,omitempty"`
 
 	// Internal port that IBP console is running on.
-	PORT *string `json:"PORT,omitempty"`
+	PORT *float64 `json:"PORT,omitempty"`
 
 	// If true an in memory cache will be used for internal proxy requests.
 	PROXYCACHEENABLED *bool `json:"PROXY_CACHE_ENABLED,omitempty"`
@@ -9568,7 +9770,7 @@ type GetPublicSettingsResponse struct {
 	PROXYTLSHTTPURL *string `json:"PROXY_TLS_HTTP_URL,omitempty"`
 
 	// The URL to use to proxy WebSocket request to a Fabric component.
-	PROXYTLSWSURL interface{} `json:"PROXY_TLS_WS_URL,omitempty"`
+	PROXYTLSWSURL *string `json:"PROXY_TLS_WS_URL,omitempty"`
 
 	// If it's "local", things like https are disabled.
 	REGION *string `json:"REGION,omitempty"`
@@ -9593,7 +9795,6 @@ type GetPublicSettingsResponse struct {
 	// The various commit hashes of components powering this IBP console.
 	VERSIONS *GetPublicSettingsResponseVERSIONS `json:"VERSIONS,omitempty"`
 }
-
 
 // UnmarshalGetPublicSettingsResponse unmarshals an instance of GetPublicSettingsResponse from the specified map of raw messages.
 func UnmarshalGetPublicSettingsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -9776,7 +9977,6 @@ type GetPublicSettingsResponseCLUSTERDATA struct {
 	Type *string `json:"type,omitempty"`
 }
 
-
 // UnmarshalGetPublicSettingsResponseCLUSTERDATA unmarshals an instance of GetPublicSettingsResponseCLUSTERDATA from the specified map of raw messages.
 func UnmarshalGetPublicSettingsResponseCLUSTERDATA(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GetPublicSettingsResponseCLUSTERDATA)
@@ -9808,7 +10008,6 @@ type GetPublicSettingsResponseCRN struct {
 
 	Version *string `json:"version,omitempty"`
 }
-
 
 // UnmarshalGetPublicSettingsResponseCRN unmarshals an instance of GetPublicSettingsResponseCRN from the specified map of raw messages.
 func UnmarshalGetPublicSettingsResponseCRN(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -9862,7 +10061,6 @@ type GetPublicSettingsResponseFABRICCAPABILITIES struct {
 	Orderer []string `json:"orderer,omitempty"`
 }
 
-
 // UnmarshalGetPublicSettingsResponseFABRICCAPABILITIES unmarshals an instance of GetPublicSettingsResponseFABRICCAPABILITIES from the specified map of raw messages.
 func UnmarshalGetPublicSettingsResponseFABRICCAPABILITIES(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GetPublicSettingsResponseFABRICCAPABILITIES)
@@ -9891,7 +10089,6 @@ type GetPublicSettingsResponseFILELOGGING struct {
 	Client *LogSettingsResponse `json:"client,omitempty"`
 }
 
-
 // UnmarshalGetPublicSettingsResponseFILELOGGING unmarshals an instance of GetPublicSettingsResponseFILELOGGING from the specified map of raw messages.
 func UnmarshalGetPublicSettingsResponseFILELOGGING(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(GetPublicSettingsResponseFILELOGGING)
@@ -9914,7 +10111,6 @@ type GetPublicSettingsResponseINACTIVITYTIMEOUTS struct {
 	// How long to wait before auto-logging out a user. In milliseconds.
 	MaxIdleTime *float64 `json:"max_idle_time,omitempty"`
 }
-
 
 // UnmarshalGetPublicSettingsResponseINACTIVITYTIMEOUTS unmarshals an instance of GetPublicSettingsResponseINACTIVITYTIMEOUTS from the specified map of raw messages.
 func UnmarshalGetPublicSettingsResponseINACTIVITYTIMEOUTS(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -9945,7 +10141,6 @@ type GetPublicSettingsResponseVERSIONS struct {
 	// The tag of the build powering this IBP console.
 	Tag *string `json:"tag,omitempty"`
 }
-
 
 // UnmarshalGetPublicSettingsResponseVERSIONS unmarshals an instance of GetPublicSettingsResponseVERSIONS from the specified map of raw messages.
 func UnmarshalGetPublicSettingsResponseVERSIONS(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -10015,12 +10210,11 @@ type ImportCaBodyMsp struct {
 	Component *ImportCaBodyMspComponent `json:"component" validate:"required"`
 }
 
-
 // NewImportCaBodyMsp : Instantiate ImportCaBodyMsp (Generic Model Constructor)
 func (*BlockchainV3) NewImportCaBodyMsp(ca *ImportCaBodyMspCa, tlsca *ImportCaBodyMspTlsca, component *ImportCaBodyMspComponent) (model *ImportCaBodyMsp, err error) {
 	model = &ImportCaBodyMsp{
-		Ca: ca,
-		Tlsca: tlsca,
+		Ca:        ca,
+		Tlsca:     tlsca,
 		Component: component,
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -10055,7 +10249,6 @@ type ImportCaBodyMspCa struct {
 	RootCerts []string `json:"root_certs,omitempty"`
 }
 
-
 // NewImportCaBodyMspCa : Instantiate ImportCaBodyMspCa (Generic Model Constructor)
 func (*BlockchainV3) NewImportCaBodyMspCa(name string) (model *ImportCaBodyMspCa, err error) {
 	model = &ImportCaBodyMspCa{
@@ -10087,7 +10280,6 @@ type ImportCaBodyMspComponent struct {
 	TlsCert *string `json:"tls_cert" validate:"required"`
 }
 
-
 // NewImportCaBodyMspComponent : Instantiate ImportCaBodyMspComponent (Generic Model Constructor)
 func (*BlockchainV3) NewImportCaBodyMspComponent(tlsCert string) (model *ImportCaBodyMspComponent, err error) {
 	model = &ImportCaBodyMspComponent{
@@ -10116,7 +10308,6 @@ type ImportCaBodyMspTlsca struct {
 	// An array that contains one or more base 64 encoded PEM root certificates for the TLS CA.
 	RootCerts []string `json:"root_certs,omitempty"`
 }
-
 
 // NewImportCaBodyMspTlsca : Instantiate ImportCaBodyMspTlsca (Generic Model Constructor)
 func (*BlockchainV3) NewImportCaBodyMspTlsca(name string) (model *ImportCaBodyMspTlsca, err error) {
@@ -10173,8 +10364,8 @@ type ImportCaOptions struct {
 func (*BlockchainV3) NewImportCaOptions(displayName string, apiURL string, msp *ImportCaBodyMsp) *ImportCaOptions {
 	return &ImportCaOptions{
 		DisplayName: core.StringPtr(displayName),
-		ApiURL: core.StringPtr(apiURL),
-		Msp: msp,
+		ApiURL:      core.StringPtr(apiURL),
+		Msp:         msp,
 	}
 }
 
@@ -10254,9 +10445,9 @@ type ImportMspOptions struct {
 // NewImportMspOptions : Instantiate ImportMspOptions
 func (*BlockchainV3) NewImportMspOptions(mspID string, displayName string, rootCerts []string) *ImportMspOptions {
 	return &ImportMspOptions{
-		MspID: core.StringPtr(mspID),
+		MspID:       core.StringPtr(mspID),
 		DisplayName: core.StringPtr(displayName),
-		RootCerts: rootCerts,
+		RootCerts:   rootCerts,
 	}
 }
 
@@ -10348,9 +10539,9 @@ func (*BlockchainV3) NewImportOrdererOptions(clusterName string, displayName str
 	return &ImportOrdererOptions{
 		ClusterName: core.StringPtr(clusterName),
 		DisplayName: core.StringPtr(displayName),
-		GrpcwpURL: core.StringPtr(grpcwpURL),
-		Msp: msp,
-		MspID: core.StringPtr(mspID),
+		GrpcwpURL:   core.StringPtr(grpcwpURL),
+		Msp:         msp,
+		MspID:       core.StringPtr(mspID),
 	}
 }
 
@@ -10462,9 +10653,9 @@ type ImportPeerOptions struct {
 func (*BlockchainV3) NewImportPeerOptions(displayName string, grpcwpURL string, msp *MspCryptoField, mspID string) *ImportPeerOptions {
 	return &ImportPeerOptions{
 		DisplayName: core.StringPtr(displayName),
-		GrpcwpURL: core.StringPtr(grpcwpURL),
-		Msp: msp,
-		MspID: core.StringPtr(mspID),
+		GrpcwpURL:   core.StringPtr(grpcwpURL),
+		Msp:         msp,
+		MspID:       core.StringPtr(mspID),
 	}
 }
 
@@ -10566,7 +10757,7 @@ type ListComponentsOptions struct {
 // It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
 const (
 	ListComponentsOptions_DeploymentAttrs_Included = "included"
-	ListComponentsOptions_DeploymentAttrs_Omitted = "omitted"
+	ListComponentsOptions_DeploymentAttrs_Omitted  = "omitted"
 )
 
 // Constants associated with the ListComponentsOptions.ParsedCerts property.
@@ -10575,7 +10766,7 @@ const (
 // Default responses will not include these fields.
 const (
 	ListComponentsOptions_ParsedCerts_Included = "included"
-	ListComponentsOptions_ParsedCerts_Omitted = "omitted"
+	ListComponentsOptions_ParsedCerts_Omitted  = "omitted"
 )
 
 // Constants associated with the ListComponentsOptions.Cache property.
@@ -10583,7 +10774,7 @@ const (
 // times if the cache is skipped. Default responses will use the cache.
 const (
 	ListComponentsOptions_Cache_Skip = "skip"
-	ListComponentsOptions_Cache_Use = "use"
+	ListComponentsOptions_Cache_Use  = "use"
 )
 
 // Constants associated with the ListComponentsOptions.CaAttrs property.
@@ -10599,7 +10790,7 @@ const (
 // imported/created CAs are checked. Default responses will not include these fields.
 const (
 	ListComponentsOptions_CaAttrs_Included = "included"
-	ListComponentsOptions_CaAttrs_Omitted = "omitted"
+	ListComponentsOptions_CaAttrs_Omitted  = "omitted"
 )
 
 // NewListComponentsOptions : Instantiate ListComponentsOptions
@@ -10693,7 +10884,6 @@ type LogSettingsResponse struct {
 	Server *LoggingSettingsServer `json:"server,omitempty"`
 }
 
-
 // UnmarshalLogSettingsResponse unmarshals an instance of LogSettingsResponse from the specified map of raw messages.
 func UnmarshalLogSettingsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(LogSettingsResponse)
@@ -10724,14 +10914,13 @@ type LoggingSettingsClient struct {
 // Constants associated with the LoggingSettingsClient.Level property.
 // Valid log levels: "error", "warn", "info", "verbose", "debug", or "silly".
 const (
-	LoggingSettingsClient_Level_Debug = "debug"
-	LoggingSettingsClient_Level_Error = "error"
-	LoggingSettingsClient_Level_Info = "info"
-	LoggingSettingsClient_Level_Silly = "silly"
+	LoggingSettingsClient_Level_Debug   = "debug"
+	LoggingSettingsClient_Level_Error   = "error"
+	LoggingSettingsClient_Level_Info    = "info"
+	LoggingSettingsClient_Level_Silly   = "silly"
 	LoggingSettingsClient_Level_Verbose = "verbose"
-	LoggingSettingsClient_Level_Warn = "warn"
+	LoggingSettingsClient_Level_Warn    = "warn"
 )
-
 
 // UnmarshalLoggingSettingsClient unmarshals an instance of LoggingSettingsClient from the specified map of raw messages.
 func UnmarshalLoggingSettingsClient(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -10767,14 +10956,13 @@ type LoggingSettingsServer struct {
 // Constants associated with the LoggingSettingsServer.Level property.
 // Valid log levels: "error", "warn", "info", "verbose", "debug", or "silly".
 const (
-	LoggingSettingsServer_Level_Debug = "debug"
-	LoggingSettingsServer_Level_Error = "error"
-	LoggingSettingsServer_Level_Info = "info"
-	LoggingSettingsServer_Level_Silly = "silly"
+	LoggingSettingsServer_Level_Debug   = "debug"
+	LoggingSettingsServer_Level_Error   = "error"
+	LoggingSettingsServer_Level_Info    = "info"
+	LoggingSettingsServer_Level_Silly   = "silly"
 	LoggingSettingsServer_Level_Verbose = "verbose"
-	LoggingSettingsServer_Level_Warn = "warn"
+	LoggingSettingsServer_Level_Warn    = "warn"
 )
-
 
 // UnmarshalLoggingSettingsServer unmarshals an instance of LoggingSettingsServer from the specified map of raw messages.
 func UnmarshalLoggingSettingsServer(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -10806,11 +10994,10 @@ type Metrics struct {
 // Constants associated with the Metrics.Provider property.
 // Metrics provider to use. Can be either 'statsd', 'prometheus', or 'disabled'.
 const (
-	Metrics_Provider_Disabled = "disabled"
+	Metrics_Provider_Disabled   = "disabled"
 	Metrics_Provider_Prometheus = "prometheus"
-	Metrics_Provider_Statsd = "statsd"
+	Metrics_Provider_Statsd     = "statsd"
 )
-
 
 // NewMetrics : Instantiate Metrics (Generic Model Constructor)
 func (*BlockchainV3) NewMetrics(provider string) (model *Metrics, err error) {
@@ -10858,14 +11045,13 @@ const (
 	MetricsStatsd_Network_Udp = "udp"
 )
 
-
 // NewMetricsStatsd : Instantiate MetricsStatsd (Generic Model Constructor)
 func (*BlockchainV3) NewMetricsStatsd(network string, address string, writeInterval string, prefix string) (model *MetricsStatsd, err error) {
 	model = &MetricsStatsd{
-		Network: core.StringPtr(network),
-		Address: core.StringPtr(address),
+		Network:       core.StringPtr(network),
+		Address:       core.StringPtr(address),
 		WriteInterval: core.StringPtr(writeInterval),
-		Prefix: core.StringPtr(prefix),
+		Prefix:        core.StringPtr(prefix),
 	}
 	err = core.ValidateStruct(model, "required parameters")
 	return
@@ -10902,7 +11088,6 @@ type MspCryptoCa struct {
 	// An array that contains base 64 encoded PEM intermediate CA certificates.
 	CaIntermediateCerts []string `json:"ca_intermediate_certs,omitempty"`
 }
-
 
 // NewMspCryptoCa : Instantiate MspCryptoCa (Generic Model Constructor)
 func (*BlockchainV3) NewMspCryptoCa(rootCerts []string) (model *MspCryptoCa, err error) {
@@ -10951,13 +11136,12 @@ type MspCryptoComp struct {
 	ClientAuth *ClientAuth `json:"client_auth,omitempty"`
 }
 
-
 // NewMspCryptoComp : Instantiate MspCryptoComp (Generic Model Constructor)
 func (*BlockchainV3) NewMspCryptoComp(ekey string, ecert string, tlsKey string, tlsCert string) (model *MspCryptoComp, err error) {
 	model = &MspCryptoComp{
-		Ekey: core.StringPtr(ekey),
-		Ecert: core.StringPtr(ecert),
-		TlsKey: core.StringPtr(tlsKey),
+		Ekey:    core.StringPtr(ekey),
+		Ecert:   core.StringPtr(ecert),
+		TlsKey:  core.StringPtr(tlsKey),
 		TlsCert: core.StringPtr(tlsCert),
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -11004,7 +11188,6 @@ type MspCryptoFieldCa struct {
 	RootCerts []string `json:"root_certs,omitempty"`
 }
 
-
 // UnmarshalMspCryptoFieldCa unmarshals an instance of MspCryptoFieldCa from the specified map of raw messages.
 func UnmarshalMspCryptoFieldCa(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(MspCryptoFieldCa)
@@ -11034,7 +11217,6 @@ type MspCryptoFieldComponent struct {
 	// certificates of an organization administrator.
 	AdminCerts []string `json:"admin_certs,omitempty"`
 }
-
 
 // NewMspCryptoFieldComponent : Instantiate MspCryptoFieldComponent (Generic Model Constructor)
 func (*BlockchainV3) NewMspCryptoFieldComponent(tlsCert string) (model *MspCryptoFieldComponent, err error) {
@@ -11072,7 +11254,6 @@ type MspCryptoFieldTlsca struct {
 	// An array that contains one or more base 64 encoded PEM root certificates for the TLS CA.
 	RootCerts []string `json:"root_certs" validate:"required"`
 }
-
 
 // NewMspCryptoFieldTlsca : Instantiate MspCryptoFieldTlsca (Generic Model Constructor)
 func (*BlockchainV3) NewMspCryptoFieldTlsca(rootCerts []string) (model *MspCryptoFieldTlsca, err error) {
@@ -11113,7 +11294,6 @@ type MspPublicData struct {
 	// An array that contains one or more base 64 encoded PEM TLS root certificates.
 	TlsRootCerts []string `json:"tls_root_certs,omitempty"`
 }
-
 
 // UnmarshalMspPublicData unmarshals an instance of MspPublicData from the specified map of raw messages.
 func UnmarshalMspPublicData(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -11173,7 +11353,6 @@ type MspResponse struct {
 	// An array that contains one or more base 64 encoded PEM TLS root certificates.
 	TlsRootCerts []string `json:"tls_root_certs,omitempty"`
 }
-
 
 // UnmarshalMspResponse unmarshals an instance of MspResponse from the specified map of raw messages.
 func UnmarshalMspResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -11246,7 +11425,6 @@ type NotificationData struct {
 	// UTC UNIX timestamp of the notification's creation. In milliseconds.
 	TsDisplay *float64 `json:"ts_display,omitempty"`
 }
-
 
 // UnmarshalNotificationData unmarshals an instance of NotificationData from the specified map of raw messages.
 func UnmarshalNotificationData(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -11417,7 +11595,6 @@ const (
 	OrdererResponse_OrdererType_Raft = "raft"
 )
 
-
 // UnmarshalOrdererResponse unmarshals an instance of OrdererResponse from the specified map of raw messages.
 func UnmarshalOrdererResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(OrdererResponse)
@@ -11520,7 +11697,6 @@ type OrdererResponseResources struct {
 	Proxy *GenericResources `json:"proxy,omitempty"`
 }
 
-
 // UnmarshalOrdererResponseResources unmarshals an instance of OrdererResponseResources from the specified map of raw messages.
 func UnmarshalOrdererResponseResources(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(OrdererResponseResources)
@@ -11540,7 +11716,6 @@ func UnmarshalOrdererResponseResources(m map[string]json.RawMessage, result inte
 type OrdererResponseStorage struct {
 	Orderer *StorageObject `json:"orderer,omitempty"`
 }
-
 
 // UnmarshalOrdererResponseStorage unmarshals an instance of OrdererResponseStorage from the specified map of raw messages.
 func UnmarshalOrdererResponseStorage(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -11639,7 +11814,6 @@ type PeerResources struct {
 	// This field requires the use of Fabric v1.4.* and higher.
 	Proxy *ResourceObject `json:"proxy,omitempty"`
 }
-
 
 // UnmarshalPeerResources unmarshals an instance of PeerResources from the specified map of raw messages.
 func UnmarshalPeerResources(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -11750,7 +11924,6 @@ const (
 	PeerResponse_StateDb_Leveldb = "leveldb"
 )
 
-
 // UnmarshalPeerResponse unmarshals an instance of PeerResponse from the specified map of raw messages.
 func UnmarshalPeerResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(PeerResponse)
@@ -11847,7 +12020,6 @@ type PeerResponseResources struct {
 	Statedb *GenericResources `json:"statedb,omitempty"`
 }
 
-
 // UnmarshalPeerResponseResources unmarshals an instance of PeerResponseResources from the specified map of raw messages.
 func UnmarshalPeerResponseResources(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(PeerResponseResources)
@@ -11873,7 +12045,6 @@ type PeerResponseStorage struct {
 
 	Statedb *StorageObject `json:"statedb,omitempty"`
 }
-
 
 // UnmarshalPeerResponseStorage unmarshals an instance of PeerResponseStorage from the specified map of raw messages.
 func UnmarshalPeerResponseStorage(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -11952,7 +12123,6 @@ type RemoveMultiComponentsResponse struct {
 	Removed []DeleteComponentResponse `json:"removed,omitempty"`
 }
 
-
 // UnmarshalRemoveMultiComponentsResponse unmarshals an instance of RemoveMultiComponentsResponse from the specified map of raw messages.
 func UnmarshalRemoveMultiComponentsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(RemoveMultiComponentsResponse)
@@ -11976,7 +12146,6 @@ type ResourceLimits struct {
 	Memory *string `json:"memory,omitempty"`
 }
 
-
 // UnmarshalResourceLimits unmarshals an instance of ResourceLimits from the specified map of raw messages.
 func UnmarshalResourceLimits(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ResourceLimits)
@@ -11998,7 +12167,6 @@ type ResourceObject struct {
 
 	Limits *ResourceLimits `json:"limits,omitempty"`
 }
-
 
 // NewResourceObject : Instantiate ResourceObject (Generic Model Constructor)
 func (*BlockchainV3) NewResourceObject(requests *ResourceRequests) (model *ResourceObject, err error) {
@@ -12031,7 +12199,6 @@ type ResourceObjectCouchDb struct {
 	Limits *ResourceLimits `json:"limits,omitempty"`
 }
 
-
 // NewResourceObjectCouchDb : Instantiate ResourceObjectCouchDb (Generic Model Constructor)
 func (*BlockchainV3) NewResourceObjectCouchDb(requests *ResourceRequests) (model *ResourceObjectCouchDb, err error) {
 	model = &ResourceObjectCouchDb{
@@ -12063,7 +12230,6 @@ type ResourceObjectFabV1 struct {
 	Limits *ResourceLimits `json:"limits,omitempty"`
 }
 
-
 // NewResourceObjectFabV1 : Instantiate ResourceObjectFabV1 (Generic Model Constructor)
 func (*BlockchainV3) NewResourceObjectFabV1(requests *ResourceRequests) (model *ResourceObjectFabV1, err error) {
 	model = &ResourceObjectFabV1{
@@ -12094,7 +12260,6 @@ type ResourceObjectFabV2 struct {
 
 	Limits *ResourceLimits `json:"limits,omitempty"`
 }
-
 
 // NewResourceObjectFabV2 : Instantiate ResourceObjectFabV2 (Generic Model Constructor)
 func (*BlockchainV3) NewResourceObjectFabV2(requests *ResourceRequests) (model *ResourceObjectFabV2, err error) {
@@ -12131,7 +12296,6 @@ type ResourceRequests struct {
 	Memory *string `json:"memory,omitempty"`
 }
 
-
 // UnmarshalResourceRequests unmarshals an instance of ResourceRequests from the specified map of raw messages.
 func UnmarshalResourceRequests(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ResourceRequests)
@@ -12152,7 +12316,6 @@ type RestartAthenaResponse struct {
 	// Text describing the outcome of the api.
 	Message *string `json:"message,omitempty"`
 }
-
 
 // UnmarshalRestartAthenaResponse unmarshals an instance of RestartAthenaResponse from the specified map of raw messages.
 func UnmarshalRestartAthenaResponse(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -12198,7 +12361,6 @@ type SettingsTimestampData struct {
 	UpTime *string `json:"up_time,omitempty"`
 }
 
-
 // UnmarshalSettingsTimestampData unmarshals an instance of SettingsTimestampData from the specified map of raw messages.
 func UnmarshalSettingsTimestampData(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(SettingsTimestampData)
@@ -12231,7 +12393,6 @@ type StorageObject struct {
 	// Kubernetes storage class for subcomponent's disk space.
 	Class *string `json:"class,omitempty"`
 }
-
 
 // UnmarshalStorageObject unmarshals an instance of StorageObject from the specified map of raw messages.
 func UnmarshalStorageObject(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -12291,11 +12452,11 @@ func (options *SubmitBlockOptions) SetHeaders(param map[string]string) *SubmitBl
 // file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) if you want use custom
 // attributes to configure advanced CA features. Omit if not.
 //
-// *The field **names** below are not case-sensitive.*.
+// *The nested field **names** below are not case-sensitive.*
+// *The nested fields sent will be merged with the existing settings.*.
 type UpdateCaBodyConfigOverride struct {
 	Ca *ConfigCAUpdate `json:"ca" validate:"required"`
 }
-
 
 // NewUpdateCaBodyConfigOverride : Instantiate UpdateCaBodyConfigOverride (Generic Model Constructor)
 func (*BlockchainV3) NewUpdateCaBodyConfigOverride(ca *ConfigCAUpdate) (model *UpdateCaBodyConfigOverride, err error) {
@@ -12322,7 +12483,6 @@ type UpdateCaBodyResources struct {
 	// This field requires the use of Fabric v1.4.* and higher.
 	Ca *ResourceObject `json:"ca" validate:"required"`
 }
-
 
 // NewUpdateCaBodyResources : Instantiate UpdateCaBodyResources (Generic Model Constructor)
 func (*BlockchainV3) NewUpdateCaBodyResources(ca *ResourceObject) (model *UpdateCaBodyResources, err error) {
@@ -12354,7 +12514,8 @@ type UpdateCaOptions struct {
 	// file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) if you want use custom
 	// attributes to configure advanced CA features. Omit if not.
 	//
-	// *The field **names** below are not case-sensitive.*.
+	// *The nested field **names** below are not case-sensitive.*
+	// *The nested fields sent will be merged with the existing settings.*.
 	ConfigOverride *UpdateCaBodyConfigOverride `json:"config_override,omitempty"`
 
 	// The number of replica pods running at any given time.
@@ -12434,7 +12595,6 @@ type UpdateEnrollmentCryptoField struct {
 	Tlsca *UpdateEnrollmentCryptoFieldTlsca `json:"tlsca,omitempty"`
 }
 
-
 // UnmarshalUpdateEnrollmentCryptoField unmarshals an instance of UpdateEnrollmentCryptoField from the specified map of raw messages.
 func UnmarshalUpdateEnrollmentCryptoField(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(UpdateEnrollmentCryptoField)
@@ -12475,7 +12635,6 @@ type UpdateEnrollmentCryptoFieldCa struct {
 	// The password of the enroll id.
 	EnrollSecret *string `json:"enroll_secret,omitempty"`
 }
-
 
 // UnmarshalUpdateEnrollmentCryptoFieldCa unmarshals an instance of UpdateEnrollmentCryptoFieldCa from the specified map of raw messages.
 func UnmarshalUpdateEnrollmentCryptoFieldCa(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -12532,7 +12691,6 @@ type UpdateEnrollmentCryptoFieldTlsca struct {
 	CsrHosts []string `json:"csr_hosts,omitempty"`
 }
 
-
 // UnmarshalUpdateEnrollmentCryptoFieldTlsca unmarshals an instance of UpdateEnrollmentCryptoFieldTlsca from the specified map of raw messages.
 func UnmarshalUpdateEnrollmentCryptoFieldTlsca(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(UpdateEnrollmentCryptoFieldTlsca)
@@ -12578,7 +12736,6 @@ type UpdateMspCryptoField struct {
 	Component *UpdateMspCryptoFieldComponent `json:"component,omitempty"`
 }
 
-
 // UnmarshalUpdateMspCryptoField unmarshals an instance of UpdateMspCryptoField from the specified map of raw messages.
 func UnmarshalUpdateMspCryptoField(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(UpdateMspCryptoField)
@@ -12606,7 +12763,6 @@ type UpdateMspCryptoFieldCa struct {
 	// An array that contains base 64 encoded PEM intermediate CA certificates.
 	CaIntermediateCerts []string `json:"ca_intermediate_certs,omitempty"`
 }
-
 
 // UnmarshalUpdateMspCryptoFieldCa unmarshals an instance of UpdateMspCryptoFieldCa from the specified map of raw messages.
 func UnmarshalUpdateMspCryptoFieldCa(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -12645,7 +12801,6 @@ type UpdateMspCryptoFieldComponent struct {
 
 	ClientAuth *ClientAuth `json:"client_auth,omitempty"`
 }
-
 
 // UnmarshalUpdateMspCryptoFieldComponent unmarshals an instance of UpdateMspCryptoFieldComponent from the specified map of raw messages.
 func UnmarshalUpdateMspCryptoFieldComponent(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -12687,7 +12842,6 @@ type UpdateMspCryptoFieldTlsca struct {
 	CaIntermediateCerts []string `json:"ca_intermediate_certs,omitempty"`
 }
 
-
 // UnmarshalUpdateMspCryptoFieldTlsca unmarshals an instance of UpdateMspCryptoFieldTlsca from the specified map of raw messages.
 func UnmarshalUpdateMspCryptoFieldTlsca(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(UpdateMspCryptoFieldTlsca)
@@ -12714,7 +12868,6 @@ type UpdateOrdererBodyCrypto struct {
 	Msp *UpdateMspCryptoField `json:"msp,omitempty"`
 }
 
-
 // UnmarshalUpdateOrdererBodyCrypto unmarshals an instance of UpdateOrdererBodyCrypto from the specified map of raw messages.
 func UnmarshalUpdateOrdererBodyCrypto(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(UpdateOrdererBodyCrypto)
@@ -12738,7 +12891,6 @@ type UpdateOrdererBodyResources struct {
 	// This field requires the use of Fabric v1.4.* and higher.
 	Proxy *ResourceObject `json:"proxy,omitempty"`
 }
-
 
 // UnmarshalUpdateOrdererBodyResources unmarshals an instance of UpdateOrdererBodyResources from the specified map of raw messages.
 func UnmarshalUpdateOrdererBodyResources(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -12769,7 +12921,8 @@ type UpdateOrdererOptions struct {
 	// file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/orderer.yaml) if you want use custom
 	// attributes to configure the Orderer. Omit if not.
 	//
-	// *The field **names** below are not case-sensitive.*.
+	// *The nested field **names** below are not case-sensitive.*
+	// *The nested fields sent will be merged with the existing settings.*.
 	ConfigOverride *ConfigOrdererUpdate `json:"config_override,omitempty"`
 
 	Crypto *UpdateOrdererBodyCrypto `json:"crypto,omitempty"`
@@ -12872,7 +13025,6 @@ type UpdatePeerBodyCrypto struct {
 	Msp *UpdateMspCryptoField `json:"msp,omitempty"`
 }
 
-
 // UnmarshalUpdatePeerBodyCrypto unmarshals an instance of UpdatePeerBodyCrypto from the specified map of raw messages.
 func UnmarshalUpdatePeerBodyCrypto(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(UpdatePeerBodyCrypto)
@@ -12902,7 +13054,8 @@ type UpdatePeerOptions struct {
 	// file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom
 	// attributes to configure the Peer. Omit if not.
 	//
-	// *The field **names** below are not case-sensitive.*.
+	// *The nested field **names** below are not case-sensitive.*
+	// *The nested fields sent will be merged with the existing settings.*.
 	ConfigOverride *ConfigPeerUpdate `json:"config_override,omitempty"`
 
 	Crypto *UpdatePeerBodyCrypto `json:"crypto,omitempty"`
@@ -13003,7 +13156,6 @@ type ActionEnroll struct {
 	Ecert *bool `json:"ecert,omitempty"`
 }
 
-
 // UnmarshalActionEnroll unmarshals an instance of ActionEnroll from the specified map of raw messages.
 func UnmarshalActionEnroll(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ActionEnroll)
@@ -13028,7 +13180,6 @@ type ActionReenroll struct {
 	Ecert *bool `json:"ecert,omitempty"`
 }
 
-
 // UnmarshalActionReenroll unmarshals an instance of ActionReenroll from the specified map of raw messages.
 func UnmarshalActionReenroll(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ActionReenroll)
@@ -13050,7 +13201,6 @@ type ActionRenew struct {
 	TlsCert *bool `json:"tls_cert,omitempty"`
 }
 
-
 // UnmarshalActionRenew unmarshals an instance of ActionRenew from the specified map of raw messages.
 func UnmarshalActionRenew(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ActionRenew)
@@ -13068,7 +13218,6 @@ type ClientAuth struct {
 
 	TlsCerts []string `json:"tls_certs,omitempty"`
 }
-
 
 // UnmarshalClientAuth unmarshals an instance of ClientAuth from the specified map of raw messages.
 func UnmarshalClientAuth(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -13090,7 +13239,6 @@ type Hsm struct {
 	// The url to the HSM. Include the protocol, hostname, and port.
 	Pkcs11endpoint *string `json:"pkcs11endpoint" validate:"required"`
 }
-
 
 // NewHsm : Instantiate Hsm (Generic Model Constructor)
 func (*BlockchainV3) NewHsm(pkcs11endpoint string) (model *Hsm, err error) {
@@ -13128,7 +13276,6 @@ type IdentityAttrs struct {
 
 	HfAffiliationMgr *bool `json:"hf.AffiliationMgr,omitempty"`
 }
-
 
 // UnmarshalIdentityAttrs unmarshals an instance of IdentityAttrs from the specified map of raw messages.
 func UnmarshalIdentityAttrs(m map[string]json.RawMessage, result interface{}) (err error) {
@@ -13174,11 +13321,10 @@ type MspCryptoField struct {
 	Component *MspCryptoFieldComponent `json:"component" validate:"required"`
 }
 
-
 // NewMspCryptoField : Instantiate MspCryptoField (Generic Model Constructor)
 func (*BlockchainV3) NewMspCryptoField(tlsca *MspCryptoFieldTlsca, component *MspCryptoFieldComponent) (model *MspCryptoField, err error) {
 	model = &MspCryptoField{
-		Tlsca: tlsca,
+		Tlsca:     tlsca,
 		Component: component,
 	}
 	err = core.ValidateStruct(model, "required parameters")
@@ -13210,7 +13356,6 @@ type NodeOu struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
-
 // UnmarshalNodeOu unmarshals an instance of NodeOu from the specified map of raw messages.
 func UnmarshalNodeOu(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(NodeOu)
@@ -13228,7 +13373,6 @@ type NodeOuGeneral struct {
 	// 'deployment_attrs'].
 	Enabled *bool `json:"enabled,omitempty"`
 }
-
 
 // UnmarshalNodeOuGeneral unmarshals an instance of NodeOuGeneral from the specified map of raw messages.
 func UnmarshalNodeOuGeneral(m map[string]json.RawMessage, result interface{}) (err error) {
