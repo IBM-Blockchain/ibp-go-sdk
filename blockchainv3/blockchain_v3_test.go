@@ -20,18 +20,17 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"
+	"github.com/IBM/go-sdk-core/v4/core"
+	"github.com/go-openapi/strfmt"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"time"
-
-	"github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"
-	"github.com/IBM/go-sdk-core/v4/core"
-	"github.com/go-openapi/strfmt"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 )
 
 var _ = Describe(`BlockchainV3`, func() {
@@ -67,13 +66,14 @@ var _ = Describe(`BlockchainV3`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"BLOCKCHAIN_URL":       "https://blockchainv3/api",
+				"BLOCKCHAIN_URL": "https://blockchainv3/api",
 				"BLOCKCHAIN_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{})
+				blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{
+				})
 				Expect(blockchainService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -102,7 +102,8 @@ var _ = Describe(`BlockchainV3`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{})
+				blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{
+				})
 				err := blockchainService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(blockchainService).ToNot(BeNil())
@@ -120,12 +121,13 @@ var _ = Describe(`BlockchainV3`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"BLOCKCHAIN_URL":       "https://blockchainv3/api",
+				"BLOCKCHAIN_URL": "https://blockchainv3/api",
 				"BLOCKCHAIN_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{})
+			blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{
+			})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(blockchainService).To(BeNil())
@@ -136,7 +138,7 @@ var _ = Describe(`BlockchainV3`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"BLOCKCHAIN_AUTH_TYPE": "NOAuth",
+				"BLOCKCHAIN_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -6189,7 +6191,7 @@ var _ = Describe(`BlockchainV3`, func() {
 					// Set mock response
 					res.Header().Set("Content-type", "application/json")
 					res.WriteHeader(200)
-					fmt.Fprintf(res, "%s", `{"successes": [{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "location": "ibmcloud", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "orderer_type": "raft", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "ca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "tlsca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"orderer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["fabric-ca"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "-"}]}`)
+					fmt.Fprintf(res, "%s", `{"created": [{"id": "component-1", "dep_component_id": "admin", "api_url": "grpcs://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:7050", "display_name": "orderer", "grpcwp_url": "https://n3a3ec3-myorderer-proxy.ibp.us-south.containers.appdomain.cloud:443", "location": "ibmcloud", "operations_url": "https://n3a3ec3-myorderer.ibp.us-south.containers.appdomain.cloud:8443", "orderer_type": "raft", "config_override": {"anyKey": "anyValue"}, "consenter_proposal_fin": true, "node_ou": {"enabled": true}, "msp": {"ca": {"name": "ca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "tlsca": {"name": "tlsca", "root_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}, "component": {"tls_cert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "ecert": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=", "admin_certs": ["LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCkNlcnQgZGF0YSB3b3VsZCBiZSBoZXJlIGlmIHRoaXMgd2FzIHJlYWwKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="]}}, "msp_id": "Org1", "resources": {"orderer": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}, "proxy": {"requests": {"cpu": "100m", "memory": "256M"}, "limits": {"cpu": "8000m", "memory": "16384M"}}}, "scheme_version": "v1", "storage": {"orderer": {"size": "4GiB", "class": "default"}}, "system_channel_id": "testchainid", "tags": ["fabric-ca"], "timestamp": 1537262855753, "type": "fabric-peer", "version": "1.4.6-1", "zone": "-"}]}`)
 				}))
 			})
 			It(`Invoke CreateOrderer successfully`, func() {
@@ -8752,13 +8754,14 @@ var _ = Describe(`BlockchainV3`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"BLOCKCHAIN_URL":       "https://blockchainv3/api",
+				"BLOCKCHAIN_URL": "https://blockchainv3/api",
 				"BLOCKCHAIN_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{})
+				blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{
+				})
 				Expect(blockchainService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -8787,7 +8790,8 @@ var _ = Describe(`BlockchainV3`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{})
+				blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{
+				})
 				err := blockchainService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(blockchainService).ToNot(BeNil())
@@ -8805,12 +8809,13 @@ var _ = Describe(`BlockchainV3`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"BLOCKCHAIN_URL":       "https://blockchainv3/api",
+				"BLOCKCHAIN_URL": "https://blockchainv3/api",
 				"BLOCKCHAIN_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{})
+			blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{
+			})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(blockchainService).To(BeNil())
@@ -8821,7 +8826,7 @@ var _ = Describe(`BlockchainV3`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"BLOCKCHAIN_AUTH_TYPE": "NOAuth",
+				"BLOCKCHAIN_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -9839,13 +9844,14 @@ var _ = Describe(`BlockchainV3`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"BLOCKCHAIN_URL":       "https://blockchainv3/api",
+				"BLOCKCHAIN_URL": "https://blockchainv3/api",
 				"BLOCKCHAIN_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{})
+				blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{
+				})
 				Expect(blockchainService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -9874,7 +9880,8 @@ var _ = Describe(`BlockchainV3`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{})
+				blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{
+				})
 				err := blockchainService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(blockchainService).ToNot(BeNil())
@@ -9892,12 +9899,13 @@ var _ = Describe(`BlockchainV3`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"BLOCKCHAIN_URL":       "https://blockchainv3/api",
+				"BLOCKCHAIN_URL": "https://blockchainv3/api",
 				"BLOCKCHAIN_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{})
+			blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{
+			})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(blockchainService).To(BeNil())
@@ -9908,7 +9916,7 @@ var _ = Describe(`BlockchainV3`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"BLOCKCHAIN_AUTH_TYPE": "NOAuth",
+				"BLOCKCHAIN_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
@@ -10636,6 +10644,7 @@ var _ = Describe(`BlockchainV3`, func() {
 
 					// TODO: Add check for limit query parameter
 
+
 					// TODO: Add check for skip query parameter
 
 					Expect(req.URL.Query()["component_id"]).To(Equal([]string{"MyPeer"}))
@@ -10691,7 +10700,9 @@ var _ = Describe(`BlockchainV3`, func() {
 					Expect(req.URL.EscapedPath()).To(Equal(listNotificationsPath))
 					Expect(req.Method).To(Equal("GET"))
 
+
 					// TODO: Add check for limit query parameter
+
 
 					// TODO: Add check for skip query parameter
 
@@ -11706,13 +11717,14 @@ var _ = Describe(`BlockchainV3`, func() {
 		Context(`Using external config, construct service client instances`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"BLOCKCHAIN_URL":       "https://blockchainv3/api",
+				"BLOCKCHAIN_URL": "https://blockchainv3/api",
 				"BLOCKCHAIN_AUTH_TYPE": "noauth",
 			}
 
 			It(`Create service client using external config successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{})
+				blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{
+				})
 				Expect(blockchainService).ToNot(BeNil())
 				Expect(serviceErr).To(BeNil())
 				ClearTestEnvironment(testEnvironment)
@@ -11741,7 +11753,8 @@ var _ = Describe(`BlockchainV3`, func() {
 			})
 			It(`Create service client using external config and set url programatically successfully`, func() {
 				SetTestEnvironment(testEnvironment)
-				blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{})
+				blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{
+				})
 				err := blockchainService.SetServiceURL("https://testService/api")
 				Expect(err).To(BeNil())
 				Expect(blockchainService).ToNot(BeNil())
@@ -11759,12 +11772,13 @@ var _ = Describe(`BlockchainV3`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid Auth`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"BLOCKCHAIN_URL":       "https://blockchainv3/api",
+				"BLOCKCHAIN_URL": "https://blockchainv3/api",
 				"BLOCKCHAIN_AUTH_TYPE": "someOtherAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
-			blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{})
+			blockchainService, serviceErr := blockchainv3.NewBlockchainV3UsingExternalConfig(&blockchainv3.BlockchainV3Options{
+			})
 
 			It(`Instantiate service client with error`, func() {
 				Expect(blockchainService).To(BeNil())
@@ -11775,7 +11789,7 @@ var _ = Describe(`BlockchainV3`, func() {
 		Context(`Using external config, construct service client instances with error: Invalid URL`, func() {
 			// Map containing environment variables used in testing.
 			var testEnvironment = map[string]string{
-				"BLOCKCHAIN_AUTH_TYPE": "NOAuth",
+				"BLOCKCHAIN_AUTH_TYPE":   "NOAuth",
 			}
 
 			SetTestEnvironment(testEnvironment)
