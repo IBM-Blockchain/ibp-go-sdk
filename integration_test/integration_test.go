@@ -7,12 +7,11 @@ import (
 	it "github.com/IBM-Blockchain/ibp-go-sdk/integration_test"
 	"github.com/IBM/go-sdk-core/v4/core"
 	"github.com/hyperledger/fabric-ca/lib"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 	"io/ioutil"
 	"log"
 	"os"
-
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 
 	"time"
 )
@@ -30,6 +29,7 @@ const (
 	org1MSPDisplayName     = "Org1 MSP"
 	org1MSPID              = "org1msp"
 	osCAName               = "Ordering Service CA"
+	osCAImportedName       = "orderingserviceca_0"
 	osAdminName            = "OSadmin"
 	osAdminPassword        = "OSadminpw"
 	ordererType            = "orderer"
@@ -227,6 +227,12 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 	Describe("Import a CA", func() {
 		It("should successfully import the Ordering Service CA", func() {
 			err := it.ImportCA(service, osCAName, caApiUrl, tlsCert)
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+	Describe("Remove Imported Component", func() {
+		It("should successfully remove the imported Ordering Service CA", func() {
+			err := it.RemoveImportedComponent(service, osCAImportedName)
 			Expect(err).NotTo(HaveOccurred())
 		})
 	})

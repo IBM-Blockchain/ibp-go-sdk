@@ -298,6 +298,20 @@ func ImportCA(service *blockchainv3.BlockchainV3, displayName, apiUrl string, tl
 	result, detailedResponse, err := service.ImportCa(opts)
 	if err != nil {
 		Logger.Println(LogPrefix + "**ERROR**")
+		return err
+	}
+	Logger.Println("result:", result)
+	Logger.Println("response:", detailedResponse)
+	return nil
+}
+
+func RemoveImportedComponent(service *blockchainv3.BlockchainV3, id string) error {
+	// Remove imported component
+	opts := service.NewRemoveComponentOptions(id)
+	result, detailedResponse, err := service.RemoveComponent(opts)
+	if err != nil {
+		Logger.Println(LogPrefix + "**ERROR**")
+		return err
 	}
 	Logger.Println("result:", result)
 	Logger.Println("response:", detailedResponse)
