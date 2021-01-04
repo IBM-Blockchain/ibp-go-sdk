@@ -224,6 +224,12 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 		//	Expect(err).NotTo(HaveOccurred())
 		//})
 	})
+	Describe("Import a CA", func() {
+		It("should successfully import the Ordering Service CA", func() {
+			err := it.ImportCA(service, osCAName, caApiUrl, tlsCert)
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
 })
 
 //----------------------------------------------------------------------------------------------

@@ -269,11 +269,35 @@ func CreateOrderer(service *blockchainv3.BlockchainV3, cryptoObjectSlice []block
 	return nil
 }
 
-func ImportCA(service *blockchainv3.BlockchainV3, displayName, apiUrl string, msp *blockchainv3.ImportCaBodyMsp) error {
-	opts := service.NewImportCaOptions(displayName, apiUrl, msp)
+func ImportCA(service *blockchainv3.BlockchainV3, displayName, apiUrl string, tlsCert []byte) error {
+	caName := "ca"
+	tlsName := "tlsca"
+	caTlsCertString := base64.StdEncoding.EncodeToString(tlsCert)
+	caTlsCert := []string{caTlsCertString}
+
+	ca := &blockchainv3.ImportCaBodyMspCa{
+		Name:      &caName,
+		RootCerts: caTlsCert,
+	}
+
+	tlsca := &blockchainv3.ImportCaBodyMspTlsca{
+		Name:      &tlsName,
+		RootCerts: caTlsCert,
+	}
+
+	component := &blockchainv3.ImportCaBodyMspComponent{
+		TlsCert: &caTlsCertString,
+	}
+
+	importCaBodyMsp := &blockchainv3.ImportCaBodyMsp{
+		Ca:        ca,
+		Tlsca:     tlsca,
+		Component: component,
+	}
+	opts := service.NewImportCaOptions(displayName, apiUrl, importCaBodyMsp)
 	result, detailedResponse, err := service.ImportCa(opts)
 	if err != nil {
-		Logger.Println("**ERROR**")
+		Logger.Println(LogPrefix + "**ERROR**")
 	}
 	Logger.Println("result:", result)
 	Logger.Println("response:", detailedResponse)
