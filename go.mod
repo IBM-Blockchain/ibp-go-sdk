@@ -3,11 +3,11 @@ module github.com/IBM-Blockchain/ibp-go-sdk
 go 1.14
 
 require (
-	github.com/IBM/go-sdk-core/v4 v4.0.5
+	github.com/IBM/go-sdk-core/v4 v4.9.0
 	github.com/Knetic/govaluate v3.0.0+incompatible // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cloudflare/cfssl v1.5.0 // indirect
-	github.com/go-openapi/strfmt v0.19.5
+	github.com/go-openapi/strfmt v0.19.10
 	github.com/go-sql-driver/mysql v1.5.0 // indirect
 	github.com/google/certificate-transparency-go v1.1.1 // indirect
 	github.com/gorilla/handlers v1.5.1 // indirect
@@ -23,8 +23,8 @@ require (
 	github.com/lib/pq v1.9.0 // indirect
 	github.com/mattn/go-sqlite3 v1.14.5 // indirect
 	github.com/miekg/pkcs11 v1.0.3 // indirect
-	github.com/onsi/ginkgo v1.14.0
-	github.com/onsi/gomega v1.10.1
+	github.com/onsi/ginkgo v1.14.2
+	github.com/onsi/gomega v1.10.3
 	github.com/op/go-logging v0.0.0-20160315200505-970db520ece7 // indirect
 	github.com/prometheus/client_golang v1.8.0 // indirect
 	github.com/prometheus/common v0.15.0 // indirect

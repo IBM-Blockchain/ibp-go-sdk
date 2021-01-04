@@ -26,7 +26,7 @@ manual.go
 blockchainv3/coverage.out
 
 # test secrets
-integration_test/tmpCert.pem
+integration_test/tlsca.pem
 
 # lcs
 integration_test/env/
