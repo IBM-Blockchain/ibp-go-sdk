@@ -337,6 +337,42 @@ func DeleteComponent(service *blockchainv3.BlockchainV3, id string) (int, error)
 	return detailedResponse.StatusCode, err
 }
 
+func UpdateCA(service *blockchainv3.BlockchainV3, id string, tlsCert []byte) (int, error) {
+	origins := []string{"us-south"}
+	cors, err := service.NewConfigCACors(true, origins)
+	if err != nil {
+		Logger.Println("**ERROR** - problem creating new configCACors", err)
+		return 0, err
+	}
+	isTrue := true
+	crlSizeLimit := 1025.0
+
+	CATls, err := service.NewConfigCATls(string(tlsCert), string(tlsCert))
+	if err != nil {
+		Logger.Println("**ERROR** - problem creating new configCATls", err)
+		return 0, nil
+	}
+	caConfigUpdate := blockchainv3.ConfigCAUpdate{
+		Cors:         cors,
+		Debug:        &isTrue,
+		Crlsizelimit: &crlSizeLimit,
+		Tls:          CATls,
+	}
+	configOverride, err := service.NewUpdateCaBodyConfigOverride(&caConfigUpdate)
+	if err != nil {
+		Logger.Println("**ERROR** - problem creating new updateCABodyConfigOverride", err)
+		return 0, nil
+	}
+	opts := service.NewUpdateCaOptions(id)
+	opts.SetConfigOverride(configOverride)
+	//opts.SetResources(caBodyResources)
+	_, detailedResponse, err := service.UpdateCa(opts)
+	if err != nil {
+		return 0, err
+	}
+	return detailedResponse.StatusCode, err
+}
+
 func ConstructImportCABodyMsp() {
 	// Construct an instance of the ImportCaBodyMspCa model
 	importCaBodyMspCaModel := new(blockchainv3.ImportCaBodyMspCa)

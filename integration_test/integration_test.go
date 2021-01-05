@@ -30,6 +30,7 @@ const (
 	org1MSPDisplayName     = "Org1 MSP"
 	org1MSPID              = "org1msp"
 	osCAName               = "Ordering Service CA"
+	osCAId                 = "orderingserviceca"
 	osCAImportedName       = "orderingserviceca_0"
 	osAdminName            = "OSadmin"
 	osAdminPassword        = "OSadminpw"
@@ -249,6 +250,13 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 	Describe("Delete Component", func() {
 		It("should successfully delete the Org1 CA", func() {
 			statusCode, err := it.DeleteComponent(service, org1CAId)
+			Expect(statusCode).To(Equal(200))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+	Describe("Update a CA", func() {
+		It("should successfully update the Ordering Service CA", func() {
+			statusCode, err := it.UpdateCA(service, osCAId, tlsCert)
 			Expect(statusCode).To(Equal(200))
 			Expect(err).NotTo(HaveOccurred())
 		})
