@@ -20,6 +20,7 @@ const (
 	adminName              = "admin"
 	adminPassword          = "adminpw"
 	org1CAName             = "Org1 CA"
+	org1CAId               = "org1ca"
 	org1AdminName          = "org1admin"
 	org1AdminPassword      = "org1adminpw"
 	peerType               = "peer"
@@ -224,15 +225,24 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 		//	Expect(err).NotTo(HaveOccurred())
 		//})
 	})
+	Describe("Get component data", func() {
+		It("should successfully get component data for the Org1 CA", func() {
+			statusCode, err := it.GetComponentData(service, org1CAId)
+			Expect(statusCode).To(Equal(200))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
 	Describe("Import a CA", func() {
 		It("should successfully import the Ordering Service CA", func() {
-			err := it.ImportCA(service, osCAName, caApiUrl, tlsCert)
+			statusCode, err := it.ImportCA(service, osCAName, caApiUrl, tlsCert)
+			Expect(statusCode).To(Equal(200))
 			Expect(err).NotTo(HaveOccurred())
 		})
 	})
 	Describe("Remove Imported Component", func() {
 		It("should successfully remove the imported Ordering Service CA", func() {
-			err := it.RemoveImportedComponent(service, osCAImportedName)
+			statusCode, err := it.RemoveImportedComponent(service, osCAImportedName)
+			Expect(statusCode).To(Equal(200))
 			Expect(err).NotTo(HaveOccurred())
 		})
 	})

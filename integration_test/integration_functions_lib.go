@@ -269,7 +269,18 @@ func CreateOrderer(service *blockchainv3.BlockchainV3, cryptoObjectSlice []block
 	return nil
 }
 
-func ImportCA(service *blockchainv3.BlockchainV3, displayName, apiUrl string, tlsCert []byte) error {
+func GetComponentData(service *blockchainv3.BlockchainV3, id string) (int, error) {
+	opts := service.NewGetComponentOptions(id)
+	_, detailedResponse, err := service.GetComponent(opts)
+	if err != nil {
+		Logger.Println("**ERROR** - problem getting component data", err)
+		return 0, err
+	}
+	Logger.Println("Retrieved component data's detailed response status code: ", detailedResponse.StatusCode)
+	return detailedResponse.StatusCode, err
+}
+
+func ImportCA(service *blockchainv3.BlockchainV3, displayName, apiUrl string, tlsCert []byte) (int, error) {
 	caName := "ca"
 	tlsName := "tlsca"
 	caTlsCertString := base64.StdEncoding.EncodeToString(tlsCert)
@@ -295,27 +306,25 @@ func ImportCA(service *blockchainv3.BlockchainV3, displayName, apiUrl string, tl
 		Component: component,
 	}
 	opts := service.NewImportCaOptions(displayName, apiUrl, importCaBodyMsp)
-	result, detailedResponse, err := service.ImportCa(opts)
+	_, detailedResponse, err := service.ImportCa(opts)
 	if err != nil {
 		Logger.Println(LogPrefix + "**ERROR**")
-		return err
+		return 0, err
 	}
-	Logger.Println("result:", result)
-	Logger.Println("response:", detailedResponse)
-	return nil
+	Logger.Println("response statusCode:", detailedResponse.StatusCode)
+	return detailedResponse.StatusCode, err
 }
 
-func RemoveImportedComponent(service *blockchainv3.BlockchainV3, id string) error {
+func RemoveImportedComponent(service *blockchainv3.BlockchainV3, id string) (int, error) {
 	// Remove imported component
 	opts := service.NewRemoveComponentOptions(id)
-	result, detailedResponse, err := service.RemoveComponent(opts)
+	_, detailedResponse, err := service.RemoveComponent(opts)
 	if err != nil {
 		Logger.Println(LogPrefix + "**ERROR**")
-		return err
+		return 0, err
 	}
-	Logger.Println("result:", result)
-	Logger.Println("response:", detailedResponse)
-	return nil
+	Logger.Println("response statusCode:", detailedResponse.StatusCode)
+	return detailedResponse.StatusCode, nil
 }
 
 func ConstructImportCABodyMsp() {
