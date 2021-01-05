@@ -308,7 +308,7 @@ func ImportCA(service *blockchainv3.BlockchainV3, displayName, apiUrl string, tl
 	opts := service.NewImportCaOptions(displayName, apiUrl, importCaBodyMsp)
 	_, detailedResponse, err := service.ImportCa(opts)
 	if err != nil {
-		Logger.Println(LogPrefix + "**ERROR**")
+		Logger.Println("**ERROR**")
 		return 0, err
 	}
 	Logger.Println("response statusCode:", detailedResponse.StatusCode)
@@ -320,11 +320,21 @@ func RemoveImportedComponent(service *blockchainv3.BlockchainV3, id string) (int
 	opts := service.NewRemoveComponentOptions(id)
 	_, detailedResponse, err := service.RemoveComponent(opts)
 	if err != nil {
-		Logger.Println(LogPrefix + "**ERROR**")
+		Logger.Println("**ERROR**")
 		return 0, err
 	}
 	Logger.Println("response statusCode:", detailedResponse.StatusCode)
 	return detailedResponse.StatusCode, nil
+}
+
+func DeleteComponent(service *blockchainv3.BlockchainV3, id string) (int, error) {
+	opts := service.NewDeleteComponentOptions(id)
+	_, detailedResponse, err := service.DeleteComponent(opts)
+	if err != nil {
+		Logger.Println("**ERROR** - problem deleteing ", id)
+		return 0, err
+	}
+	return detailedResponse.StatusCode, err
 }
 
 func ConstructImportCABodyMsp() {

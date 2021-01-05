@@ -246,6 +246,13 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			Expect(err).NotTo(HaveOccurred())
 		})
 	})
+	Describe("Delete Component", func() {
+		It("should successfully delete the Org1 CA", func() {
+			statusCode, err := it.DeleteComponent(service, org1CAId)
+			Expect(statusCode).To(Equal(200))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
 })
 
 //----------------------------------------------------------------------------------------------
