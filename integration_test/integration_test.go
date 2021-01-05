@@ -261,6 +261,13 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			Expect(err).NotTo(HaveOccurred())
 		})
 	})
+	Describe("Edit Data about a CA", func() {
+		It("should successfully edit data about the Ordering Service CA", func() {
+			statusCode, err := it.EditDataAboutCA(service, osCAId)
+			Expect(statusCode).To(Equal(200))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
 })
 
 //----------------------------------------------------------------------------------------------

@@ -373,6 +373,20 @@ func UpdateCA(service *blockchainv3.BlockchainV3, id string, tlsCert []byte) (in
 	return detailedResponse.StatusCode, err
 }
 
+func EditDataAboutCA(service *blockchainv3.BlockchainV3, id string) (int, error) {
+	tags := [4]string{"fabric-ca", "ibm_sass", "blue_team", "dev"}
+	opts := service.NewEditCaOptions(id)
+	opts.SetCaName("My Ca Edited")
+	opts.SetTags(tags[:])
+	_, detailedResponse, err := service.EditCa(opts)
+	if err != nil {
+		Logger.Println("**ERROR** - problem editating data about CA", err)
+		return 0, err
+	}
+	Logger.Println("**SUCCESS** - edited data about a CA")
+	return detailedResponse.StatusCode, err
+}
+
 func ConstructImportCABodyMsp() {
 	// Construct an instance of the ImportCaBodyMspCa model
 	importCaBodyMspCaModel := new(blockchainv3.ImportCaBodyMspCa)
