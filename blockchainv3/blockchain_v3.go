@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 
+/*
+ * IBM OpenAPI SDK Code Generator Version: 3.22.0-937b9a1c-20201211-223043
+ */
+ 
+
 // Package blockchainv3 : Operations and models for the BlockchainV3 service
-package blockchainv3 
+package blockchainv3
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
-	"reflect"
-
 	common "github.com/IBM-Blockchain/ibp-go-sdk/common"
-	"github.com/IBM/go-sdk-core/v4/core"  
+	"github.com/IBM/go-sdk-core/v4/core"
+	"net/http"
+	"reflect"
+	"time"
 )
 
 // BlockchainV3 : This doc lists APIs that you can use to interact with your IBM Blockchain Platform console (IBP
@@ -99,14 +106,65 @@ func NewBlockchainV3(options *BlockchainV3Options) (service *BlockchainV3, err e
 	return
 }
 
+// GetServiceURLForRegion returns the service URL to be used for the specified region
+func GetServiceURLForRegion(region string) (string, error) {
+	return "", fmt.Errorf("service does not support regional URLs")
+}
+
+// Clone makes a copy of "blockchain" suitable for processing requests.
+func (blockchain *BlockchainV3) Clone() *BlockchainV3 {
+	if core.IsNil(blockchain) {
+		return nil
+	}
+	clone := *blockchain
+	clone.Service = blockchain.Service.Clone()
+	return &clone
+}
+
 // SetServiceURL sets the service URL
 func (blockchain *BlockchainV3) SetServiceURL(url string) error {
 	return blockchain.Service.SetServiceURL(url)
 }
 
+// GetServiceURL returns the service URL
+func (blockchain *BlockchainV3) GetServiceURL() string {
+	return blockchain.Service.GetServiceURL()
+}
+
+// SetDefaultHeaders sets HTTP headers to be sent in every request
+func (blockchain *BlockchainV3) SetDefaultHeaders(headers http.Header) {
+	blockchain.Service.SetDefaultHeaders(headers)
+}
+
+// SetEnableGzipCompression sets the service's EnableGzipCompression field
+func (blockchain *BlockchainV3) SetEnableGzipCompression(enableGzip bool) {
+	blockchain.Service.SetEnableGzipCompression(enableGzip)
+}
+
+// GetEnableGzipCompression returns the service's EnableGzipCompression field
+func (blockchain *BlockchainV3) GetEnableGzipCompression() bool {
+	return blockchain.Service.GetEnableGzipCompression()
+}
+
+// EnableRetries enables automatic retries for requests invoked for this service instance.
+// If either parameter is specified as 0, then a default value is used instead.
+func (blockchain *BlockchainV3) EnableRetries(maxRetries int, maxRetryInterval time.Duration) {
+	blockchain.Service.EnableRetries(maxRetries, maxRetryInterval)
+}
+
+// DisableRetries disables automatic retries for requests invoked for this service instance.
+func (blockchain *BlockchainV3) DisableRetries() {
+	blockchain.Service.DisableRetries()
+}
+
 // GetComponent : Get component data
 // Get the IBP console's data on a component (peer, CA, orderer, or MSP). The component might be imported or created.
 func (blockchain *BlockchainV3) GetComponent(getComponentOptions *GetComponentOptions) (result *GenericComponentResponse, response *core.DetailedResponse, err error) {
+	return blockchain.GetComponentWithContext(context.Background(), getComponentOptions)
+}
+
+// GetComponentWithContext is an alternate form of the GetComponent method which supports a Context parameter
+func (blockchain *BlockchainV3) GetComponentWithContext(ctx context.Context, getComponentOptions *GetComponentOptions) (result *GenericComponentResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getComponentOptions, "getComponentOptions cannot be nil")
 	if err != nil {
 		return
@@ -116,11 +174,14 @@ func (blockchain *BlockchainV3) GetComponent(getComponentOptions *GetComponentOp
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components"}
-	pathParameters := []string{*getComponentOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *getComponentOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -175,6 +236,11 @@ func (blockchain *BlockchainV3) GetComponent(getComponentOptions *GetComponentOp
 // Instead use the [Delete component](#delete-component) API to delete the Kubernetes deployment and the IBP console
 // data at once.
 func (blockchain *BlockchainV3) RemoveComponent(removeComponentOptions *RemoveComponentOptions) (result *DeleteComponentResponse, response *core.DetailedResponse, err error) {
+	return blockchain.RemoveComponentWithContext(context.Background(), removeComponentOptions)
+}
+
+// RemoveComponentWithContext is an alternate form of the RemoveComponent method which supports a Context parameter
+func (blockchain *BlockchainV3) RemoveComponentWithContext(ctx context.Context, removeComponentOptions *RemoveComponentOptions) (result *DeleteComponentResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(removeComponentOptions, "removeComponentOptions cannot be nil")
 	if err != nil {
 		return
@@ -184,11 +250,14 @@ func (blockchain *BlockchainV3) RemoveComponent(removeComponentOptions *RemoveCo
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components"}
-	pathParameters := []string{*removeComponentOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *removeComponentOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -230,6 +299,11 @@ func (blockchain *BlockchainV3) RemoveComponent(removeComponentOptions *RemoveCo
 // the Kubernetes cluster where it resides. The Kubernetes delete must succeed before the component will be removed from
 // the IBP console.
 func (blockchain *BlockchainV3) DeleteComponent(deleteComponentOptions *DeleteComponentOptions) (result *DeleteComponentResponse, response *core.DetailedResponse, err error) {
+	return blockchain.DeleteComponentWithContext(context.Background(), deleteComponentOptions)
+}
+
+// DeleteComponentWithContext is an alternate form of the DeleteComponent method which supports a Context parameter
+func (blockchain *BlockchainV3) DeleteComponentWithContext(ctx context.Context, deleteComponentOptions *DeleteComponentOptions) (result *DeleteComponentResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteComponentOptions, "deleteComponentOptions cannot be nil")
 	if err != nil {
 		return
@@ -239,11 +313,14 @@ func (blockchain *BlockchainV3) DeleteComponent(deleteComponentOptions *DeleteCo
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components"}
-	pathParameters := []string{*deleteComponentOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *deleteComponentOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -280,6 +357,11 @@ func (blockchain *BlockchainV3) DeleteComponent(deleteComponentOptions *DeleteCo
 // CreateCa : Create a CA
 // Create a Hyperledger Fabric Certificate Authority (CA) in your Kubernetes cluster.
 func (blockchain *BlockchainV3) CreateCa(createCaOptions *CreateCaOptions) (result *CaResponse, response *core.DetailedResponse, err error) {
+	return blockchain.CreateCaWithContext(context.Background(), createCaOptions)
+}
+
+// CreateCaWithContext is an alternate form of the CreateCa method which supports a Context parameter
+func (blockchain *BlockchainV3) CreateCaWithContext(ctx context.Context, createCaOptions *CreateCaOptions) (result *CaResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createCaOptions, "createCaOptions cannot be nil")
 	if err != nil {
 		return
@@ -289,11 +371,10 @@ func (blockchain *BlockchainV3) CreateCa(createCaOptions *CreateCaOptions) (resu
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-ca"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-ca`, nil)
 	if err != nil {
 		return
 	}
@@ -368,6 +449,11 @@ func (blockchain *BlockchainV3) CreateCa(createCaOptions *CreateCaOptions) (resu
 // Import an existing Certificate Authority (CA) to your IBP console. It is recommended to only import components that
 // were created by this or another IBP console.
 func (blockchain *BlockchainV3) ImportCa(importCaOptions *ImportCaOptions) (result *CaResponse, response *core.DetailedResponse, err error) {
+	return blockchain.ImportCaWithContext(context.Background(), importCaOptions)
+}
+
+// ImportCaWithContext is an alternate form of the ImportCa method which supports a Context parameter
+func (blockchain *BlockchainV3) ImportCaWithContext(ctx context.Context, importCaOptions *ImportCaOptions) (result *CaResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(importCaOptions, "importCaOptions cannot be nil")
 	if err != nil {
 		return
@@ -377,11 +463,10 @@ func (blockchain *BlockchainV3) ImportCa(importCaOptions *ImportCaOptions) (resu
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/fabric-ca"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/fabric-ca`, nil)
 	if err != nil {
 		return
 	}
@@ -446,6 +531,11 @@ func (blockchain *BlockchainV3) ImportCa(importCaOptions *ImportCaOptions) (resu
 // UpdateCa : Update a CA
 // Update Kubernetes deployment attributes of a Hyperledger Fabric Certificate Authority (CA) in your cluster.
 func (blockchain *BlockchainV3) UpdateCa(updateCaOptions *UpdateCaOptions) (result *CaResponse, response *core.DetailedResponse, err error) {
+	return blockchain.UpdateCaWithContext(context.Background(), updateCaOptions)
+}
+
+// UpdateCaWithContext is an alternate form of the UpdateCa method which supports a Context parameter
+func (blockchain *BlockchainV3) UpdateCaWithContext(ctx context.Context, updateCaOptions *UpdateCaOptions) (result *CaResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateCaOptions, "updateCaOptions cannot be nil")
 	if err != nil {
 		return
@@ -455,11 +545,14 @@ func (blockchain *BlockchainV3) UpdateCa(updateCaOptions *UpdateCaOptions) (resu
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-ca"}
-	pathParameters := []string{*updateCaOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *updateCaOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-ca/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -519,6 +612,11 @@ func (blockchain *BlockchainV3) UpdateCa(updateCaOptions *UpdateCaOptions) (resu
 // Modify local metadata fields of a Certificate Authority (CA). For example, the "display_name" field. This API will
 // **not** change any Kubernetes deployment attributes for the CA.
 func (blockchain *BlockchainV3) EditCa(editCaOptions *EditCaOptions) (result *CaResponse, response *core.DetailedResponse, err error) {
+	return blockchain.EditCaWithContext(context.Background(), editCaOptions)
+}
+
+// EditCaWithContext is an alternate form of the EditCa method which supports a Context parameter
+func (blockchain *BlockchainV3) EditCaWithContext(ctx context.Context, editCaOptions *EditCaOptions) (result *CaResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(editCaOptions, "editCaOptions cannot be nil")
 	if err != nil {
 		return
@@ -528,11 +626,14 @@ func (blockchain *BlockchainV3) EditCa(editCaOptions *EditCaOptions) (result *Ca
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/fabric-ca"}
-	pathParameters := []string{*editCaOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *editCaOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/fabric-ca/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -594,6 +695,11 @@ func (blockchain *BlockchainV3) EditCa(editCaOptions *EditCaOptions) (result *Ca
 // CaAction : Submit action to a CA
 // Submit an action to a Fabric CA component. Actions such as restarting the component or certificate operations.
 func (blockchain *BlockchainV3) CaAction(caActionOptions *CaActionOptions) (result *ActionsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.CaActionWithContext(context.Background(), caActionOptions)
+}
+
+// CaActionWithContext is an alternate form of the CaAction method which supports a Context parameter
+func (blockchain *BlockchainV3) CaActionWithContext(ctx context.Context, caActionOptions *CaActionOptions) (result *ActionsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(caActionOptions, "caActionOptions cannot be nil")
 	if err != nil {
 		return
@@ -603,11 +709,14 @@ func (blockchain *BlockchainV3) CaAction(caActionOptions *CaActionOptions) (resu
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-ca", "actions"}
-	pathParameters := []string{*caActionOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *caActionOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-ca/{id}/actions`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -620,7 +729,7 @@ func (blockchain *BlockchainV3) CaAction(caActionOptions *CaActionOptions) (resu
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "text/plain")
+	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
 
 	body := make(map[string]interface{})
@@ -657,6 +766,11 @@ func (blockchain *BlockchainV3) CaAction(caActionOptions *CaActionOptions) (resu
 // CreatePeer : Create a peer
 // Create a Hyperledger Fabric peer in your Kubernetes cluster.
 func (blockchain *BlockchainV3) CreatePeer(createPeerOptions *CreatePeerOptions) (result *PeerResponse, response *core.DetailedResponse, err error) {
+	return blockchain.CreatePeerWithContext(context.Background(), createPeerOptions)
+}
+
+// CreatePeerWithContext is an alternate form of the CreatePeer method which supports a Context parameter
+func (blockchain *BlockchainV3) CreatePeerWithContext(ctx context.Context, createPeerOptions *CreatePeerOptions) (result *PeerResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createPeerOptions, "createPeerOptions cannot be nil")
 	if err != nil {
 		return
@@ -666,11 +780,10 @@ func (blockchain *BlockchainV3) CreatePeer(createPeerOptions *CreatePeerOptions)
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-peer"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-peer`, nil)
 	if err != nil {
 		return
 	}
@@ -751,6 +864,11 @@ func (blockchain *BlockchainV3) CreatePeer(createPeerOptions *CreatePeerOptions)
 // Import an existing peer into your IBP console. It is recommended to only import components that were created by this
 // or another IBP console.
 func (blockchain *BlockchainV3) ImportPeer(importPeerOptions *ImportPeerOptions) (result *PeerResponse, response *core.DetailedResponse, err error) {
+	return blockchain.ImportPeerWithContext(context.Background(), importPeerOptions)
+}
+
+// ImportPeerWithContext is an alternate form of the ImportPeer method which supports a Context parameter
+func (blockchain *BlockchainV3) ImportPeerWithContext(ctx context.Context, importPeerOptions *ImportPeerOptions) (result *PeerResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(importPeerOptions, "importPeerOptions cannot be nil")
 	if err != nil {
 		return
@@ -760,11 +878,10 @@ func (blockchain *BlockchainV3) ImportPeer(importPeerOptions *ImportPeerOptions)
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/fabric-peer"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/fabric-peer`, nil)
 	if err != nil {
 		return
 	}
@@ -833,6 +950,11 @@ func (blockchain *BlockchainV3) ImportPeer(importPeerOptions *ImportPeerOptions)
 // Modify local metadata fields of a peer. For example, the "display_name" field. This API will **not** change any
 // Kubernetes deployment attributes for the peer.
 func (blockchain *BlockchainV3) EditPeer(editPeerOptions *EditPeerOptions) (result *PeerResponse, response *core.DetailedResponse, err error) {
+	return blockchain.EditPeerWithContext(context.Background(), editPeerOptions)
+}
+
+// EditPeerWithContext is an alternate form of the EditPeer method which supports a Context parameter
+func (blockchain *BlockchainV3) EditPeerWithContext(ctx context.Context, editPeerOptions *EditPeerOptions) (result *PeerResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(editPeerOptions, "editPeerOptions cannot be nil")
 	if err != nil {
 		return
@@ -842,11 +964,14 @@ func (blockchain *BlockchainV3) EditPeer(editPeerOptions *EditPeerOptions) (resu
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/fabric-peer"}
-	pathParameters := []string{*editPeerOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *editPeerOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/fabric-peer/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -911,6 +1036,11 @@ func (blockchain *BlockchainV3) EditPeer(editPeerOptions *EditPeerOptions) (resu
 // PeerAction : Submit action to a peer
 // Submit an action to a Fabric Peer component. Actions such as restarting the component or certificate operations.
 func (blockchain *BlockchainV3) PeerAction(peerActionOptions *PeerActionOptions) (result *ActionsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.PeerActionWithContext(context.Background(), peerActionOptions)
+}
+
+// PeerActionWithContext is an alternate form of the PeerAction method which supports a Context parameter
+func (blockchain *BlockchainV3) PeerActionWithContext(ctx context.Context, peerActionOptions *PeerActionOptions) (result *ActionsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(peerActionOptions, "peerActionOptions cannot be nil")
 	if err != nil {
 		return
@@ -920,11 +1050,14 @@ func (blockchain *BlockchainV3) PeerAction(peerActionOptions *PeerActionOptions)
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-peer", "actions"}
-	pathParameters := []string{*peerActionOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *peerActionOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-peer/{id}/actions`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -937,7 +1070,7 @@ func (blockchain *BlockchainV3) PeerAction(peerActionOptions *PeerActionOptions)
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "text/plain")
+	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
 
 	body := make(map[string]interface{})
@@ -980,6 +1113,11 @@ func (blockchain *BlockchainV3) PeerAction(peerActionOptions *PeerActionOptions)
 // UpdatePeer : Update a peer
 // Update Kubernetes deployment attributes of a Hyperledger Fabric Peer node.
 func (blockchain *BlockchainV3) UpdatePeer(updatePeerOptions *UpdatePeerOptions) (result *PeerResponse, response *core.DetailedResponse, err error) {
+	return blockchain.UpdatePeerWithContext(context.Background(), updatePeerOptions)
+}
+
+// UpdatePeerWithContext is an alternate form of the UpdatePeer method which supports a Context parameter
+func (blockchain *BlockchainV3) UpdatePeerWithContext(ctx context.Context, updatePeerOptions *UpdatePeerOptions) (result *PeerResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updatePeerOptions, "updatePeerOptions cannot be nil")
 	if err != nil {
 		return
@@ -989,11 +1127,14 @@ func (blockchain *BlockchainV3) UpdatePeer(updatePeerOptions *UpdatePeerOptions)
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-peer"}
-	pathParameters := []string{*updatePeerOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *updatePeerOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-peer/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1061,7 +1202,12 @@ func (blockchain *BlockchainV3) UpdatePeer(updatePeerOptions *UpdatePeerOptions)
 // CreateOrderer : Create an ordering service
 // Create a Hyperledger Ordering Service (OS) in your Kubernetes cluster. Currently, only raft ordering nodes are
 // supported.
-func (blockchain *BlockchainV3) CreateOrderer(createOrdererOptions *CreateOrdererOptions) (result *OrdererResponse, response *core.DetailedResponse, err error) {
+func (blockchain *BlockchainV3) CreateOrderer(createOrdererOptions *CreateOrdererOptions) (result *CreateOrdererResponse, response *core.DetailedResponse, err error) {
+	return blockchain.CreateOrdererWithContext(context.Background(), createOrdererOptions)
+}
+
+// CreateOrdererWithContext is an alternate form of the CreateOrderer method which supports a Context parameter
+func (blockchain *BlockchainV3) CreateOrdererWithContext(ctx context.Context, createOrdererOptions *CreateOrdererOptions) (result *CreateOrdererResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(createOrdererOptions, "createOrdererOptions cannot be nil")
 	if err != nil {
 		return
@@ -1071,11 +1217,10 @@ func (blockchain *BlockchainV3) CreateOrderer(createOrdererOptions *CreateOrdere
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-orderer"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-orderer`, nil)
 	if err != nil {
 		return
 	}
@@ -1155,7 +1300,7 @@ func (blockchain *BlockchainV3) CreateOrderer(createOrdererOptions *CreateOrdere
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalOrdererResponse)
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCreateOrdererResponse)
 	if err != nil {
 		return
 	}
@@ -1168,6 +1313,11 @@ func (blockchain *BlockchainV3) CreateOrderer(createOrdererOptions *CreateOrdere
 // Import an existing Ordering Service (OS) to your IBP console. It is recommended to only import components that were
 // created by this or another IBP console.
 func (blockchain *BlockchainV3) ImportOrderer(importOrdererOptions *ImportOrdererOptions) (result *OrdererResponse, response *core.DetailedResponse, err error) {
+	return blockchain.ImportOrdererWithContext(context.Background(), importOrdererOptions)
+}
+
+// ImportOrdererWithContext is an alternate form of the ImportOrderer method which supports a Context parameter
+func (blockchain *BlockchainV3) ImportOrdererWithContext(ctx context.Context, importOrdererOptions *ImportOrdererOptions) (result *OrdererResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(importOrdererOptions, "importOrdererOptions cannot be nil")
 	if err != nil {
 		return
@@ -1177,11 +1327,10 @@ func (blockchain *BlockchainV3) ImportOrderer(importOrdererOptions *ImportOrdere
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/fabric-orderer"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/fabric-orderer`, nil)
 	if err != nil {
 		return
 	}
@@ -1259,6 +1408,11 @@ func (blockchain *BlockchainV3) ImportOrderer(importOrdererOptions *ImportOrdere
 // Modify local metadata fields of a single node in an Ordering Service (OS). For example, the "display_name" field.
 // This API will **not** change any Kubernetes deployment attributes for the node.
 func (blockchain *BlockchainV3) EditOrderer(editOrdererOptions *EditOrdererOptions) (result *OrdererResponse, response *core.DetailedResponse, err error) {
+	return blockchain.EditOrdererWithContext(context.Background(), editOrdererOptions)
+}
+
+// EditOrdererWithContext is an alternate form of the EditOrderer method which supports a Context parameter
+func (blockchain *BlockchainV3) EditOrdererWithContext(ctx context.Context, editOrdererOptions *EditOrdererOptions) (result *OrdererResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(editOrdererOptions, "editOrdererOptions cannot be nil")
 	if err != nil {
 		return
@@ -1268,11 +1422,14 @@ func (blockchain *BlockchainV3) EditOrderer(editOrdererOptions *EditOrdererOptio
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/fabric-orderer"}
-	pathParameters := []string{*editOrdererOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *editOrdererOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/fabric-orderer/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1346,6 +1503,11 @@ func (blockchain *BlockchainV3) EditOrderer(editOrdererOptions *EditOrdererOptio
 // OrdererAction : Submit action to an orderer
 // Submit an action to a Fabric Orderer component. Actions such as restarting the component or certificate operations.
 func (blockchain *BlockchainV3) OrdererAction(ordererActionOptions *OrdererActionOptions) (result *ActionsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.OrdererActionWithContext(context.Background(), ordererActionOptions)
+}
+
+// OrdererActionWithContext is an alternate form of the OrdererAction method which supports a Context parameter
+func (blockchain *BlockchainV3) OrdererActionWithContext(ctx context.Context, ordererActionOptions *OrdererActionOptions) (result *ActionsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(ordererActionOptions, "ordererActionOptions cannot be nil")
 	if err != nil {
 		return
@@ -1355,11 +1517,14 @@ func (blockchain *BlockchainV3) OrdererAction(ordererActionOptions *OrdererActio
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-orderer", "actions"}
-	pathParameters := []string{*ordererActionOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *ordererActionOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-orderer/{id}/actions`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1372,7 +1537,7 @@ func (blockchain *BlockchainV3) OrdererAction(ordererActionOptions *OrdererActio
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "text/plain")
+	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
 
 	body := make(map[string]interface{})
@@ -1412,6 +1577,11 @@ func (blockchain *BlockchainV3) OrdererAction(ordererActionOptions *OrdererActio
 // UpdateOrderer : Update an orderer node
 // Update Kubernetes deployment attributes of a Hyperledger Fabric Ordering node.
 func (blockchain *BlockchainV3) UpdateOrderer(updateOrdererOptions *UpdateOrdererOptions) (result *OrdererResponse, response *core.DetailedResponse, err error) {
+	return blockchain.UpdateOrdererWithContext(context.Background(), updateOrdererOptions)
+}
+
+// UpdateOrdererWithContext is an alternate form of the UpdateOrderer method which supports a Context parameter
+func (blockchain *BlockchainV3) UpdateOrdererWithContext(ctx context.Context, updateOrdererOptions *UpdateOrdererOptions) (result *OrdererResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(updateOrdererOptions, "updateOrdererOptions cannot be nil")
 	if err != nil {
 		return
@@ -1421,11 +1591,14 @@ func (blockchain *BlockchainV3) UpdateOrderer(updateOrdererOptions *UpdateOrdere
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/fabric-orderer"}
-	pathParameters := []string{*updateOrdererOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *updateOrdererOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/fabric-orderer/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1521,6 +1694,11 @@ func (blockchain *BlockchainV3) UpdateOrderer(updateOrdererOptions *UpdateOrdere
 //   10. Use the [Edit data about an orderer](#edit-orderer) API to change the pre-created node's field
 // `consenter_proposal_fin` to `true`. This changes the status icon on the IBP console.
 func (blockchain *BlockchainV3) SubmitBlock(submitBlockOptions *SubmitBlockOptions) (result *GenericComponentResponse, response *core.DetailedResponse, err error) {
+	return blockchain.SubmitBlockWithContext(context.Background(), submitBlockOptions)
+}
+
+// SubmitBlockWithContext is an alternate form of the SubmitBlock method which supports a Context parameter
+func (blockchain *BlockchainV3) SubmitBlockWithContext(ctx context.Context, submitBlockOptions *SubmitBlockOptions) (result *GenericComponentResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(submitBlockOptions, "submitBlockOptions cannot be nil")
 	if err != nil {
 		return
@@ -1530,11 +1708,14 @@ func (blockchain *BlockchainV3) SubmitBlock(submitBlockOptions *SubmitBlockOptio
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components", "config"}
-	pathParameters := []string{*submitBlockOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *submitBlockOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/{id}/config`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1547,7 +1728,7 @@ func (blockchain *BlockchainV3) SubmitBlock(submitBlockOptions *SubmitBlockOptio
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
-	builder.AddHeader("Accept", "text/plain")
+	builder.AddHeader("Accept", "application/json")
 	builder.AddHeader("Content-Type", "application/json")
 
 	body := make(map[string]interface{})
@@ -1582,6 +1763,11 @@ func (blockchain *BlockchainV3) SubmitBlock(submitBlockOptions *SubmitBlockOptio
 // Create or import a Membership Service Provider (MSP) definition into your IBP console. This definition represents an
 // organization that controls a peer or OS (Ordering Service).
 func (blockchain *BlockchainV3) ImportMsp(importMspOptions *ImportMspOptions) (result *MspResponse, response *core.DetailedResponse, err error) {
+	return blockchain.ImportMspWithContext(context.Background(), importMspOptions)
+}
+
+// ImportMspWithContext is an alternate form of the ImportMsp method which supports a Context parameter
+func (blockchain *BlockchainV3) ImportMspWithContext(ctx context.Context, importMspOptions *ImportMspOptions) (result *MspResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(importMspOptions, "importMspOptions cannot be nil")
 	if err != nil {
 		return
@@ -1591,11 +1777,10 @@ func (blockchain *BlockchainV3) ImportMsp(importMspOptions *ImportMspOptions) (r
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/msp"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/msp`, nil)
 	if err != nil {
 		return
 	}
@@ -1658,6 +1843,11 @@ func (blockchain *BlockchainV3) ImportMsp(importMspOptions *ImportMspOptions) (r
 // Modify local metadata fields of a Membership Service Provider (MSP) definition. For example, the "display_name"
 // property.
 func (blockchain *BlockchainV3) EditMsp(editMspOptions *EditMspOptions) (result *MspResponse, response *core.DetailedResponse, err error) {
+	return blockchain.EditMspWithContext(context.Background(), editMspOptions)
+}
+
+// EditMspWithContext is an alternate form of the EditMsp method which supports a Context parameter
+func (blockchain *BlockchainV3) EditMspWithContext(ctx context.Context, editMspOptions *EditMspOptions) (result *MspResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(editMspOptions, "editMspOptions cannot be nil")
 	if err != nil {
 		return
@@ -1667,11 +1857,14 @@ func (blockchain *BlockchainV3) EditMsp(editMspOptions *EditMspOptions) (result 
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/msp"}
-	pathParameters := []string{*editMspOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *editMspOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/msp/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1733,6 +1926,11 @@ func (blockchain *BlockchainV3) EditMsp(editMspOptions *EditMspOptions) (result 
 // GetMspCertificate : Get MSP's public certificates
 // External IBP consoles can use this API to get the public certificate for your given MSP id.
 func (blockchain *BlockchainV3) GetMspCertificate(getMspCertificateOptions *GetMspCertificateOptions) (result *GetMSPCertificateResponse, response *core.DetailedResponse, err error) {
+	return blockchain.GetMspCertificateWithContext(context.Background(), getMspCertificateOptions)
+}
+
+// GetMspCertificateWithContext is an alternate form of the GetMspCertificate method which supports a Context parameter
+func (blockchain *BlockchainV3) GetMspCertificateWithContext(ctx context.Context, getMspCertificateOptions *GetMspCertificateOptions) (result *GetMSPCertificateResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getMspCertificateOptions, "getMspCertificateOptions cannot be nil")
 	if err != nil {
 		return
@@ -1742,11 +1940,14 @@ func (blockchain *BlockchainV3) GetMspCertificate(getMspCertificateOptions *GetM
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/msps"}
-	pathParameters := []string{*getMspCertificateOptions.MspID}
+	pathParamsMap := map[string]string{
+		"msp_id": *getMspCertificateOptions.MspID,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/msps/{msp_id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1791,6 +1992,11 @@ func (blockchain *BlockchainV3) GetMspCertificate(getMspCertificateOptions *GetM
 //
 // **This API will not work on *imported* components.**.
 func (blockchain *BlockchainV3) EditAdminCerts(editAdminCertsOptions *EditAdminCertsOptions) (result *EditAdminCertsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.EditAdminCertsWithContext(context.Background(), editAdminCertsOptions)
+}
+
+// EditAdminCertsWithContext is an alternate form of the EditAdminCerts method which supports a Context parameter
+func (blockchain *BlockchainV3) EditAdminCertsWithContext(ctx context.Context, editAdminCertsOptions *EditAdminCertsOptions) (result *EditAdminCertsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(editAdminCertsOptions, "editAdminCertsOptions cannot be nil")
 	if err != nil {
 		return
@@ -1800,11 +2006,14 @@ func (blockchain *BlockchainV3) EditAdminCerts(editAdminCertsOptions *EditAdminC
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components", "certs"}
-	pathParameters := []string{*editAdminCertsOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *editAdminCertsOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/{id}/certs`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1855,16 +2064,20 @@ func (blockchain *BlockchainV3) EditAdminCerts(editAdminCertsOptions *EditAdminC
 // Get the IBP console's data on all components (peers, CAs, orderers, and MSPs). The component might be imported or
 // created.
 func (blockchain *BlockchainV3) ListComponents(listComponentsOptions *ListComponentsOptions) (result *GetMultiComponentsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.ListComponentsWithContext(context.Background(), listComponentsOptions)
+}
+
+// ListComponentsWithContext is an alternate form of the ListComponents method which supports a Context parameter
+func (blockchain *BlockchainV3) ListComponentsWithContext(ctx context.Context, listComponentsOptions *ListComponentsOptions) (result *GetMultiComponentsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listComponentsOptions, "listComponentsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components`, nil)
 	if err != nil {
 		return
 	}
@@ -1914,6 +2127,11 @@ func (blockchain *BlockchainV3) ListComponents(listComponentsOptions *ListCompon
 // GetComponentsByType : Get components of a type
 // Get the IBP console's data on components that are a specific type. The component might be imported or created.
 func (blockchain *BlockchainV3) GetComponentsByType(getComponentsByTypeOptions *GetComponentsByTypeOptions) (result *GetMultiComponentsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.GetComponentsByTypeWithContext(context.Background(), getComponentsByTypeOptions)
+}
+
+// GetComponentsByTypeWithContext is an alternate form of the GetComponentsByType method which supports a Context parameter
+func (blockchain *BlockchainV3) GetComponentsByTypeWithContext(ctx context.Context, getComponentsByTypeOptions *GetComponentsByTypeOptions) (result *GetMultiComponentsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getComponentsByTypeOptions, "getComponentsByTypeOptions cannot be nil")
 	if err != nil {
 		return
@@ -1923,11 +2141,14 @@ func (blockchain *BlockchainV3) GetComponentsByType(getComponentsByTypeOptions *
 		return
 	}
 
-	pathSegments := []string{}
-	pathParameters := []string{*getComponentsByTypeOptions.ComponentType}
+	pathParamsMap := map[string]string{
+		"type": *getComponentsByTypeOptions.Type,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/types/{type}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -1971,46 +2192,54 @@ func (blockchain *BlockchainV3) GetComponentsByType(getComponentsByTypeOptions *
 	return
 }
 
-// GetComponentByTag : Get components with tag
+// GetComponentsByTag : Get components with tag
 // Get the IBP console's data on components that have a specific tag. The component might be imported or created. Tags
 // are not case-sensitive.
-func (blockchain *BlockchainV3) GetComponentByTag(getComponentByTagOptions *GetComponentByTagOptions) (result *GetMultiComponentsResponse, response *core.DetailedResponse, err error) {
-	err = core.ValidateNotNil(getComponentByTagOptions, "getComponentByTagOptions cannot be nil")
+func (blockchain *BlockchainV3) GetComponentsByTag(getComponentsByTagOptions *GetComponentsByTagOptions) (result *GetMultiComponentsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.GetComponentsByTagWithContext(context.Background(), getComponentsByTagOptions)
+}
+
+// GetComponentsByTagWithContext is an alternate form of the GetComponentsByTag method which supports a Context parameter
+func (blockchain *BlockchainV3) GetComponentsByTagWithContext(ctx context.Context, getComponentsByTagOptions *GetComponentsByTagOptions) (result *GetMultiComponentsResponse, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(getComponentsByTagOptions, "getComponentsByTagOptions cannot be nil")
 	if err != nil {
 		return
 	}
-	err = core.ValidateStruct(getComponentByTagOptions, "getComponentByTagOptions")
+	err = core.ValidateStruct(getComponentsByTagOptions, "getComponentsByTagOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/tags"}
-	pathParameters := []string{*getComponentByTagOptions.Tag}
+	pathParamsMap := map[string]string{
+		"tag": *getComponentsByTagOptions.Tag,
+	}
 
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/tags/{tag}`, pathParamsMap)
 	if err != nil {
 		return
 	}
 
-	for headerName, headerValue := range getComponentByTagOptions.Headers {
+	for headerName, headerValue := range getComponentsByTagOptions.Headers {
 		builder.AddHeader(headerName, headerValue)
 	}
 
-	sdkHeaders := common.GetSdkHeaders("blockchain", "V3", "GetComponentByTag")
+	sdkHeaders := common.GetSdkHeaders("blockchain", "V3", "GetComponentsByTag")
 	for headerName, headerValue := range sdkHeaders {
 		builder.AddHeader(headerName, headerValue)
 	}
 	builder.AddHeader("Accept", "application/json")
 
-	if getComponentByTagOptions.DeploymentAttrs != nil {
-		builder.AddQuery("deployment_attrs", fmt.Sprint(*getComponentByTagOptions.DeploymentAttrs))
+	if getComponentsByTagOptions.DeploymentAttrs != nil {
+		builder.AddQuery("deployment_attrs", fmt.Sprint(*getComponentsByTagOptions.DeploymentAttrs))
 	}
-	if getComponentByTagOptions.ParsedCerts != nil {
-		builder.AddQuery("parsed_certs", fmt.Sprint(*getComponentByTagOptions.ParsedCerts))
+	if getComponentsByTagOptions.ParsedCerts != nil {
+		builder.AddQuery("parsed_certs", fmt.Sprint(*getComponentsByTagOptions.ParsedCerts))
 	}
-	if getComponentByTagOptions.Cache != nil {
-		builder.AddQuery("cache", fmt.Sprint(*getComponentByTagOptions.Cache))
+	if getComponentsByTagOptions.Cache != nil {
+		builder.AddQuery("cache", fmt.Sprint(*getComponentsByTagOptions.Cache))
 	}
 
 	request, err := builder.Build()
@@ -2040,6 +2269,11 @@ func (blockchain *BlockchainV3) GetComponentByTag(getComponentByTagOptions *GetC
 // Instead use the [Delete components with tag](#delete_components_by_tag) API to delete the Kubernetes deployment and
 // the IBP console data at once.
 func (blockchain *BlockchainV3) RemoveComponentsByTag(removeComponentsByTagOptions *RemoveComponentsByTagOptions) (result *RemoveMultiComponentsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.RemoveComponentsByTagWithContext(context.Background(), removeComponentsByTagOptions)
+}
+
+// RemoveComponentsByTagWithContext is an alternate form of the RemoveComponentsByTag method which supports a Context parameter
+func (blockchain *BlockchainV3) RemoveComponentsByTagWithContext(ctx context.Context, removeComponentsByTagOptions *RemoveComponentsByTagOptions) (result *RemoveMultiComponentsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(removeComponentsByTagOptions, "removeComponentsByTagOptions cannot be nil")
 	if err != nil {
 		return
@@ -2049,11 +2283,14 @@ func (blockchain *BlockchainV3) RemoveComponentsByTag(removeComponentsByTagOptio
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/components/tags"}
-	pathParameters := []string{*removeComponentsByTagOptions.Tag}
+	pathParamsMap := map[string]string{
+		"tag": *removeComponentsByTagOptions.Tag,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/components/tags/{tag}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2097,6 +2334,11 @@ func (blockchain *BlockchainV3) RemoveComponentsByTag(removeComponentsByTagOptio
 // from the Kubernetes cluster where they reside. The Kubernetes delete must succeed before the component will be
 // removed from the IBP console.
 func (blockchain *BlockchainV3) DeleteComponentsByTag(deleteComponentsByTagOptions *DeleteComponentsByTagOptions) (result *DeleteMultiComponentsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.DeleteComponentsByTagWithContext(context.Background(), deleteComponentsByTagOptions)
+}
+
+// DeleteComponentsByTagWithContext is an alternate form of the DeleteComponentsByTag method which supports a Context parameter
+func (blockchain *BlockchainV3) DeleteComponentsByTagWithContext(ctx context.Context, deleteComponentsByTagOptions *DeleteComponentsByTagOptions) (result *DeleteMultiComponentsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteComponentsByTagOptions, "deleteComponentsByTagOptions cannot be nil")
 	if err != nil {
 		return
@@ -2106,11 +2348,14 @@ func (blockchain *BlockchainV3) DeleteComponentsByTag(deleteComponentsByTagOptio
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/tags"}
-	pathParameters := []string{*deleteComponentsByTagOptions.Tag}
+	pathParamsMap := map[string]string{
+		"tag": *deleteComponentsByTagOptions.Tag,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/tags/{tag}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2149,16 +2394,20 @@ func (blockchain *BlockchainV3) DeleteComponentsByTag(deleteComponentsByTagOptio
 // and created components (peers, CAs, orderers, MSPs, and signature collection transactions). This api attempts to
 // effectively reset the IBP console to its initial (empty) state (except for logs & notifications, those will remain).
 func (blockchain *BlockchainV3) DeleteAllComponents(deleteAllComponentsOptions *DeleteAllComponentsOptions) (result *DeleteMultiComponentsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.DeleteAllComponentsWithContext(context.Background(), deleteAllComponentsOptions)
+}
+
+// DeleteAllComponentsWithContext is an alternate form of the DeleteAllComponents method which supports a Context parameter
+func (blockchain *BlockchainV3) DeleteAllComponentsWithContext(ctx context.Context, deleteAllComponentsOptions *DeleteAllComponentsOptions) (result *DeleteMultiComponentsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(deleteAllComponentsOptions, "deleteAllComponentsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/components/purge"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/components/purge`, nil)
 	if err != nil {
 		return
 	}
@@ -2196,16 +2445,20 @@ func (blockchain *BlockchainV3) DeleteAllComponents(deleteAllComponentsOptions *
 // Retrieve all public (non-sensitive) settings for the IBP console. Use this API for debugging purposes. It shows what
 // behavior to expect and confirms whether the desired settings are active.
 func (blockchain *BlockchainV3) GetSettings(getSettingsOptions *GetSettingsOptions) (result *GetPublicSettingsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.GetSettingsWithContext(context.Background(), getSettingsOptions)
+}
+
+// GetSettingsWithContext is an alternate form of the GetSettings method which supports a Context parameter
+func (blockchain *BlockchainV3) GetSettingsWithContext(ctx context.Context, getSettingsOptions *GetSettingsOptions) (result *GetPublicSettingsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getSettingsOptions, "getSettingsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/settings"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/settings`, nil)
 	if err != nil {
 		return
 	}
@@ -2243,6 +2496,11 @@ func (blockchain *BlockchainV3) GetSettings(getSettingsOptions *GetSettingsOptio
 // Edit a few IBP console settings (such as the rate limit and timeout settings). **Some edits will trigger an automatic
 // server restart.**.
 func (blockchain *BlockchainV3) EditSettings(editSettingsOptions *EditSettingsOptions) (result *GetPublicSettingsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.EditSettingsWithContext(context.Background(), editSettingsOptions)
+}
+
+// EditSettingsWithContext is an alternate form of the EditSettings method which supports a Context parameter
+func (blockchain *BlockchainV3) EditSettingsWithContext(ctx context.Context, editSettingsOptions *EditSettingsOptions) (result *GetPublicSettingsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(editSettingsOptions, "editSettingsOptions cannot be nil")
 	if err != nil {
 		return
@@ -2252,11 +2510,10 @@ func (blockchain *BlockchainV3) EditSettings(editSettingsOptions *EditSettingsOp
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/settings"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.PUT)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/settings`, nil)
 	if err != nil {
 		return
 	}
@@ -2334,16 +2591,20 @@ func (blockchain *BlockchainV3) EditSettings(editSettingsOptions *EditSettingsOp
 // Get list of supported Fabric versions by each component type. These are the Fabric versions your IBP console can use
 // when creating or upgrading components.
 func (blockchain *BlockchainV3) GetFabVersions(getFabVersionsOptions *GetFabVersionsOptions) (result *GetFabricVersionsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.GetFabVersionsWithContext(context.Background(), getFabVersionsOptions)
+}
+
+// GetFabVersionsWithContext is an alternate form of the GetFabVersions method which supports a Context parameter
+func (blockchain *BlockchainV3) GetFabVersionsWithContext(ctx context.Context, getFabVersionsOptions *GetFabVersionsOptions) (result *GetFabricVersionsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getFabVersionsOptions, "getFabVersionsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/kubernetes/fabric/versions"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/kubernetes/fabric/versions`, nil)
 	if err != nil {
 		return
 	}
@@ -2385,16 +2646,20 @@ func (blockchain *BlockchainV3) GetFabVersions(getFabVersionsOptions *GetFabVers
 // See statistics of the IBP console process such as memory usage, CPU usage, up time, cache, and operating system
 // stats.
 func (blockchain *BlockchainV3) GetHealth(getHealthOptions *GetHealthOptions) (result *GetAthenaHealthStatsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.GetHealthWithContext(context.Background(), getHealthOptions)
+}
+
+// GetHealthWithContext is an alternate form of the GetHealth method which supports a Context parameter
+func (blockchain *BlockchainV3) GetHealthWithContext(ctx context.Context, getHealthOptions *GetHealthOptions) (result *GetAthenaHealthStatsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getHealthOptions, "getHealthOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/health"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/health`, nil)
 	if err != nil {
 		return
 	}
@@ -2432,16 +2697,20 @@ func (blockchain *BlockchainV3) GetHealth(getHealthOptions *GetHealthOptions) (r
 // Retrieve all notifications. This API supports pagination through the query parameters. Notifications are generated
 // from actions such as creating a component, deleting a component, server restart, and so on.
 func (blockchain *BlockchainV3) ListNotifications(listNotificationsOptions *ListNotificationsOptions) (result *GetNotificationsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.ListNotificationsWithContext(context.Background(), listNotificationsOptions)
+}
+
+// ListNotificationsWithContext is an alternate form of the ListNotifications method which supports a Context parameter
+func (blockchain *BlockchainV3) ListNotificationsWithContext(ctx context.Context, listNotificationsOptions *ListNotificationsOptions) (result *GetNotificationsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(listNotificationsOptions, "listNotificationsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/notifications"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/notifications`, nil)
 	if err != nil {
 		return
 	}
@@ -2490,6 +2759,11 @@ func (blockchain *BlockchainV3) ListNotifications(listNotificationsOptions *List
 // approvals. This request is not distributed to external IBP consoles, thus the signature collection transaction is
 // only deleted locally.
 func (blockchain *BlockchainV3) DeleteSigTx(deleteSigTxOptions *DeleteSigTxOptions) (result *DeleteSignatureCollectionResponse, response *core.DetailedResponse, err error) {
+	return blockchain.DeleteSigTxWithContext(context.Background(), deleteSigTxOptions)
+}
+
+// DeleteSigTxWithContext is an alternate form of the DeleteSigTx method which supports a Context parameter
+func (blockchain *BlockchainV3) DeleteSigTxWithContext(ctx context.Context, deleteSigTxOptions *DeleteSigTxOptions) (result *DeleteSignatureCollectionResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(deleteSigTxOptions, "deleteSigTxOptions cannot be nil")
 	if err != nil {
 		return
@@ -2499,11 +2773,14 @@ func (blockchain *BlockchainV3) DeleteSigTx(deleteSigTxOptions *DeleteSigTxOptio
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/signature_collections"}
-	pathParameters := []string{*deleteSigTxOptions.ID}
+	pathParamsMap := map[string]string{
+		"id": *deleteSigTxOptions.ID,
+	}
 
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/signature_collections/{id}`, pathParamsMap)
 	if err != nil {
 		return
 	}
@@ -2541,6 +2818,11 @@ func (blockchain *BlockchainV3) DeleteSigTx(deleteSigTxOptions *DeleteSigTxOptio
 // Archive 1 or more notifications. Archived notifications will no longer appear in the default [Get all
 // notifications](#list-notifications) API.
 func (blockchain *BlockchainV3) ArchiveNotifications(archiveNotificationsOptions *ArchiveNotificationsOptions) (result *ArchiveResponse, response *core.DetailedResponse, err error) {
+	return blockchain.ArchiveNotificationsWithContext(context.Background(), archiveNotificationsOptions)
+}
+
+// ArchiveNotificationsWithContext is an alternate form of the ArchiveNotifications method which supports a Context parameter
+func (blockchain *BlockchainV3) ArchiveNotificationsWithContext(ctx context.Context, archiveNotificationsOptions *ArchiveNotificationsOptions) (result *ArchiveResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(archiveNotificationsOptions, "archiveNotificationsOptions cannot be nil")
 	if err != nil {
 		return
@@ -2550,11 +2832,10 @@ func (blockchain *BlockchainV3) ArchiveNotifications(archiveNotificationsOptions
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/notifications/bulk"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/notifications/bulk`, nil)
 	if err != nil {
 		return
 	}
@@ -2602,16 +2883,20 @@ func (blockchain *BlockchainV3) ArchiveNotifications(archiveNotificationsOptions
 // Restart IBP console processes. This causes a small outage (10 - 30 seconds) which is possibly disruptive to active
 // user sessions.
 func (blockchain *BlockchainV3) Restart(restartOptions *RestartOptions) (result *RestartAthenaResponse, response *core.DetailedResponse, err error) {
+	return blockchain.RestartWithContext(context.Background(), restartOptions)
+}
+
+// RestartWithContext is an alternate form of the Restart method which supports a Context parameter
+func (blockchain *BlockchainV3) RestartWithContext(ctx context.Context, restartOptions *RestartOptions) (result *RestartAthenaResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(restartOptions, "restartOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/restart"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.POST)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/restart`, nil)
 	if err != nil {
 		return
 	}
@@ -2651,16 +2936,20 @@ func (blockchain *BlockchainV3) Restart(restartOptions *RestartOptions) (result 
 // take effect immediately. Otherwise, permission or role changes will take effect during the user's next login or
 // session expiration.
 func (blockchain *BlockchainV3) DeleteAllSessions(deleteAllSessionsOptions *DeleteAllSessionsOptions) (result *DeleteAllSessionsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.DeleteAllSessionsWithContext(context.Background(), deleteAllSessionsOptions)
+}
+
+// DeleteAllSessionsWithContext is an alternate form of the DeleteAllSessions method which supports a Context parameter
+func (blockchain *BlockchainV3) DeleteAllSessionsWithContext(ctx context.Context, deleteAllSessionsOptions *DeleteAllSessionsOptions) (result *DeleteAllSessionsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(deleteAllSessionsOptions, "deleteAllSessionsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/sessions"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/sessions`, nil)
 	if err != nil {
 		return
 	}
@@ -2697,16 +2986,20 @@ func (blockchain *BlockchainV3) DeleteAllSessions(deleteAllSessionsOptions *Dele
 // DeleteAllNotifications : Delete all notifications
 // Delete all notifications. This API is intended for administration.
 func (blockchain *BlockchainV3) DeleteAllNotifications(deleteAllNotificationsOptions *DeleteAllNotificationsOptions) (result *DeleteAllNotificationsResponse, response *core.DetailedResponse, err error) {
+	return blockchain.DeleteAllNotificationsWithContext(context.Background(), deleteAllNotificationsOptions)
+}
+
+// DeleteAllNotificationsWithContext is an alternate form of the DeleteAllNotifications method which supports a Context parameter
+func (blockchain *BlockchainV3) DeleteAllNotificationsWithContext(ctx context.Context, deleteAllNotificationsOptions *DeleteAllNotificationsOptions) (result *DeleteAllNotificationsResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(deleteAllNotificationsOptions, "deleteAllNotificationsOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/notifications/purge"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/notifications/purge`, nil)
 	if err != nil {
 		return
 	}
@@ -2743,16 +3036,20 @@ func (blockchain *BlockchainV3) DeleteAllNotifications(deleteAllNotificationsOpt
 // ClearCaches : Clear IBP console caches
 // Clear the in-memory caches across all IBP console server processes. No effect on caches that are currently disabled.
 func (blockchain *BlockchainV3) ClearCaches(clearCachesOptions *ClearCachesOptions) (result *CacheFlushResponse, response *core.DetailedResponse, err error) {
+	return blockchain.ClearCachesWithContext(context.Background(), clearCachesOptions)
+}
+
+// ClearCachesWithContext is an alternate form of the ClearCaches method which supports a Context parameter
+func (blockchain *BlockchainV3) ClearCachesWithContext(ctx context.Context, clearCachesOptions *ClearCachesOptions) (result *CacheFlushResponse, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(clearCachesOptions, "clearCachesOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/cache"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.DELETE)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/cache`, nil)
 	if err != nil {
 		return
 	}
@@ -2805,6 +3102,11 @@ func (blockchain *BlockchainV3) ClearCaches(clearCachesOptions *ClearCachesOptio
 // into the Postman collection examples. This is **not** available for an IBP SaaS instance on IBM Cloud. To use this
 // strategy set `auth_type` to `basic`.
 func (blockchain *BlockchainV3) GetPostman(getPostmanOptions *GetPostmanOptions) (response *core.DetailedResponse, err error) {
+	return blockchain.GetPostmanWithContext(context.Background(), getPostmanOptions)
+}
+
+// GetPostmanWithContext is an alternate form of the GetPostman method which supports a Context parameter
+func (blockchain *BlockchainV3) GetPostmanWithContext(ctx context.Context, getPostmanOptions *GetPostmanOptions) (response *core.DetailedResponse, err error) {
 	err = core.ValidateNotNil(getPostmanOptions, "getPostmanOptions cannot be nil")
 	if err != nil {
 		return
@@ -2814,11 +3116,10 @@ func (blockchain *BlockchainV3) GetPostman(getPostmanOptions *GetPostmanOptions)
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/postman"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/postman`, nil)
 	if err != nil {
 		return
 	}
@@ -2862,16 +3163,20 @@ func (blockchain *BlockchainV3) GetPostman(getPostmanOptions *GetPostmanOptions)
 // console. This is the same file that was used to generate the APIs on this page. This file documents APIs offered by
 // the IBP console.
 func (blockchain *BlockchainV3) GetSwagger(getSwaggerOptions *GetSwaggerOptions) (result *string, response *core.DetailedResponse, err error) {
+	return blockchain.GetSwaggerWithContext(context.Background(), getSwaggerOptions)
+}
+
+// GetSwaggerWithContext is an alternate form of the GetSwagger method which supports a Context parameter
+func (blockchain *BlockchainV3) GetSwaggerWithContext(ctx context.Context, getSwaggerOptions *GetSwaggerOptions) (result *string, response *core.DetailedResponse, err error) {
 	err = core.ValidateStruct(getSwaggerOptions, "getSwaggerOptions")
 	if err != nil {
 		return
 	}
 
-	pathSegments := []string{"ak/api/v3/openapi"}
-	pathParameters := []string{}
-
 	builder := core.NewRequestBuilder(core.GET)
-	_, err = builder.ConstructHTTPURL(blockchain.Service.Options.URL, pathSegments, pathParameters)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/openapi`, nil)
 	if err != nil {
 		return
 	}
@@ -3108,7 +3413,7 @@ func UnmarshalBccspSW(m map[string]json.RawMessage, result interface{}) (err err
 type CaActionOptions struct {
 	// The `id` of the component to modify. Use the [Get all components](#list_components) API to determine the component
 	// id.
-	ID *string `json:"id" validate:"required"`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// Set to `true` to restart the component.
 	Restart *bool `json:"restart,omitempty"`
@@ -4694,7 +4999,7 @@ func UnmarshalConfigCATls(m map[string]json.RawMessage, result interface{}) (err
 // file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/orderer.yaml) if you want use custom
 // attributes to configure the Orderer. Omit if not.
 //
-// *The field **names** below are not case-sensitive.*.
+// *The nested field **names** below are not case-sensitive.*.
 type ConfigOrdererCreate struct {
 	General *ConfigOrdererGeneral `json:"General,omitempty"`
 
@@ -4774,7 +5079,8 @@ func UnmarshalConfigOrdererMetricsStatsd(m map[string]json.RawMessage, result in
 // file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/orderer.yaml) if you want use custom
 // attributes to configure the Orderer. Omit if not.
 //
-// *The field **names** below are not case-sensitive.*.
+// *The nested field **names** below are not case-sensitive.*
+// *The nested fields sent will be merged with the existing settings.*.
 type ConfigOrdererUpdate struct {
 	General *ConfigOrdererGeneralUpdate `json:"General,omitempty"`
 
@@ -5132,7 +5438,7 @@ func UnmarshalConfigPeerChaincodeSystem(m map[string]json.RawMessage, result int
 // file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom
 // attributes to configure the Peer. Omit if not.
 //
-// *The field **names** below are not case-sensitive.*.
+// *The nested field **names** below are not case-sensitive.*.
 type ConfigPeerCreate struct {
 	Peer *ConfigPeerCreatePeer `json:"peer,omitempty"`
 
@@ -5541,11 +5847,11 @@ func UnmarshalConfigPeerKeepaliveDeliveryClient(m map[string]json.RawMessage, re
 type ConfigPeerLimitsConcurrency struct {
 	// Limits the number of concurrent requests to the endorser service. The endorser service handles application and
 	// system chaincode deployment and invocations (including queries).
-	EndorserService interface{} `json:"endorserService,omitempty"`
+	EndorserService *float64 `json:"endorserService,omitempty"`
 
 	// Limits the number of concurrent requests to the deliver service. The deliver service handles block and transaction
 	// events.
-	DeliverService interface{} `json:"deliverService,omitempty"`
+	DeliverService *float64 `json:"deliverService,omitempty"`
 }
 
 
@@ -5568,7 +5874,8 @@ func UnmarshalConfigPeerLimitsConcurrency(m map[string]json.RawMessage, result i
 // file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom
 // attributes to configure the Peer. Omit if not.
 //
-// *The field **names** below are not case-sensitive.*.
+// *The nested field **names** below are not case-sensitive.*
+// *The nested fields sent will be merged with the existing settings.*.
 type ConfigPeerUpdate struct {
 	Peer *ConfigPeerUpdatePeer `json:"peer,omitempty"`
 
@@ -6170,7 +6477,7 @@ type CpuHealthStats struct {
 	Model *string `json:"model,omitempty"`
 
 	// Speed of core in MHz.
-	Speed *string `json:"speed,omitempty"`
+	Speed *float64 `json:"speed,omitempty"`
 
 	Times *CpuHealthStatsTimes `json:"times,omitempty"`
 }
@@ -6243,12 +6550,13 @@ func UnmarshalCpuHealthStatsTimes(m map[string]json.RawMessage, result interface
 
 // CreateCaBodyConfigOverride : Set `config_override` to create the root/initial enroll id and enroll secret as well as enabling custom CA
 // configurations (such as using postgres). See the [Fabric CA configuration
-// file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) for available options.
+// file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) for more information about each
+// parameter.
 //
 // The field `tlsca` is optional. The IBP console will copy the value of `config_override.ca` into
 // `config_override.tlsca` if `config_override.tlsca` is omitted (which is recommended).
 //
-// *The field **names** below are not case-sensitive.*.
+// *The nested field **names** below are not case-sensitive.*.
 type CreateCaBodyConfigOverride struct {
 	Ca *ConfigCACreate `json:"ca" validate:"required"`
 
@@ -6340,12 +6648,13 @@ type CreateCaOptions struct {
 
 	// Set `config_override` to create the root/initial enroll id and enroll secret as well as enabling custom CA
 	// configurations (such as using postgres). See the [Fabric CA configuration
-	// file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) for available options.
+	// file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) for more information about each
+	// parameter.
 	//
 	// The field `tlsca` is optional. The IBP console will copy the value of `config_override.ca` into
 	// `config_override.tlsca` if `config_override.tlsca` is omitted (which is recommended).
 	//
-	// *The field **names** below are not case-sensitive.*.
+	// *The nested field **names** below are not case-sensitive.*.
 	ConfigOverride *CreateCaBodyConfigOverride `json:"config_override" validate:"required"`
 
 	// CPU and memory properties. This feature is not available if using a free Kubernetes cluster.
@@ -6708,6 +7017,24 @@ func UnmarshalCreateOrdererRaftBodyStorage(m map[string]json.RawMessage, result 
 	return
 }
 
+// CreateOrdererResponse : CreateOrdererResponse struct
+type CreateOrdererResponse struct {
+	// Contains array of ordering nodes.
+	Created []OrdererResponse `json:"created,omitempty"`
+}
+
+
+// UnmarshalCreateOrdererResponse unmarshals an instance of CreateOrdererResponse from the specified map of raw messages.
+func UnmarshalCreateOrdererResponse(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(CreateOrdererResponse)
+	err = core.UnmarshalModel(m, "created", &obj.Created, UnmarshalOrdererResponse)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // CreatePeerBodyStorage : Disk space properties. This feature is not available if using a free Kubernetes cluster.
 type CreatePeerBodyStorage struct {
 	Peer *StorageObject `json:"peer" validate:"required"`
@@ -6748,13 +7075,15 @@ type CreatePeerOptions struct {
 	// A descriptive name for this peer. The IBP console tile displays this name.
 	DisplayName *string `json:"display_name" validate:"required"`
 
+	// See this [topic](/docs/blockchain?topic=blockchain-ibp-v2-apis#ibp-v2-apis-config) for instructions on how to build
+	// a crypto object.
 	Crypto *CryptoObject `json:"crypto" validate:"required"`
 
 	// Override the [Fabric Peer configuration
 	// file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom
 	// attributes to configure the Peer. Omit if not.
 	//
-	// *The field **names** below are not case-sensitive.*.
+	// *The nested field **names** below are not case-sensitive.*.
 	ConfigOverride *ConfigPeerCreate `json:"config_override,omitempty"`
 
 	// CPU and memory properties. This feature is not available if using a free Kubernetes cluster.
@@ -6882,7 +7211,27 @@ func (options *CreatePeerOptions) SetHeaders(param map[string]string) *CreatePee
 	return options
 }
 
-// CryptoObject : CryptoObject struct
+// CryptoEnrollmentComponent : CryptoEnrollmentComponent struct
+type CryptoEnrollmentComponent struct {
+	// An array that contains base 64 encoded PEM identity certificates for administrators. Also known as signing
+	// certificates of an organization administrator.
+	Admincerts []string `json:"admincerts,omitempty"`
+}
+
+
+// UnmarshalCryptoEnrollmentComponent unmarshals an instance of CryptoEnrollmentComponent from the specified map of raw messages.
+func UnmarshalCryptoEnrollmentComponent(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(CryptoEnrollmentComponent)
+	err = core.UnmarshalPrimitive(m, "admincerts", &obj.Admincerts)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// CryptoObject : See this [topic](/docs/blockchain?topic=blockchain-ibp-v2-apis#ibp-v2-apis-config) for instructions on how to build a
+// crypto object.
 type CryptoObject struct {
 	// This `enrollment` field contains data that allows a component to enroll an identity for itself. Use `enrollment` or
 	// `msp`, not both.
@@ -6912,7 +7261,7 @@ func UnmarshalCryptoObject(m map[string]json.RawMessage, result interface{}) (er
 // CryptoObjectEnrollment : This `enrollment` field contains data that allows a component to enroll an identity for itself. Use `enrollment` or
 // `msp`, not both.
 type CryptoObjectEnrollment struct {
-	Component *CryptoObjectEnrollmentComponent `json:"component" validate:"required"`
+	Component *CryptoEnrollmentComponent `json:"component" validate:"required"`
 
 	Ca *CryptoObjectEnrollmentCa `json:"ca" validate:"required"`
 
@@ -6921,7 +7270,7 @@ type CryptoObjectEnrollment struct {
 
 
 // NewCryptoObjectEnrollment : Instantiate CryptoObjectEnrollment (Generic Model Constructor)
-func (*BlockchainV3) NewCryptoObjectEnrollment(component *CryptoObjectEnrollmentComponent, ca *CryptoObjectEnrollmentCa, tlsca *CryptoObjectEnrollmentTlsca) (model *CryptoObjectEnrollment, err error) {
+func (*BlockchainV3) NewCryptoObjectEnrollment(component *CryptoEnrollmentComponent, ca *CryptoObjectEnrollmentCa, tlsca *CryptoObjectEnrollmentTlsca) (model *CryptoObjectEnrollment, err error) {
 	model = &CryptoObjectEnrollment{
 		Component: component,
 		Ca: ca,
@@ -6934,7 +7283,7 @@ func (*BlockchainV3) NewCryptoObjectEnrollment(component *CryptoObjectEnrollment
 // UnmarshalCryptoObjectEnrollment unmarshals an instance of CryptoObjectEnrollment from the specified map of raw messages.
 func UnmarshalCryptoObjectEnrollment(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(CryptoObjectEnrollment)
-	err = core.UnmarshalModel(m, "component", &obj.Component, UnmarshalCryptoObjectEnrollmentComponent)
+	err = core.UnmarshalModel(m, "component", &obj.Component, UnmarshalCryptoEnrollmentComponent)
 	if err != nil {
 		return
 	}
@@ -6958,10 +7307,11 @@ type CryptoObjectEnrollmentCa struct {
 	// The CA's port.
 	Port *float64 `json:"port" validate:"required"`
 
-	// The CA's "CAName" attribute.
+	// The CA's "CAName" attribute. This name is used to distinguish this CA from the TLS CA.
 	Name *string `json:"name" validate:"required"`
 
-	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection.
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
 	TlsCert *string `json:"tls_cert" validate:"required"`
 
 	// The username of the enroll id.
@@ -7017,23 +7367,6 @@ func UnmarshalCryptoObjectEnrollmentCa(m map[string]json.RawMessage, result inte
 	return
 }
 
-// CryptoObjectEnrollmentComponent : CryptoObjectEnrollmentComponent struct
-type CryptoObjectEnrollmentComponent struct {
-	Admincerts []string `json:"admincerts,omitempty"`
-}
-
-
-// UnmarshalCryptoObjectEnrollmentComponent unmarshals an instance of CryptoObjectEnrollmentComponent from the specified map of raw messages.
-func UnmarshalCryptoObjectEnrollmentComponent(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(CryptoObjectEnrollmentComponent)
-	err = core.UnmarshalPrimitive(m, "admincerts", &obj.Admincerts)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
 // CryptoObjectEnrollmentTlsca : CryptoObjectEnrollmentTlsca struct
 type CryptoObjectEnrollmentTlsca struct {
 	// The CA's hostname. Do not include protocol or port.
@@ -7042,10 +7375,11 @@ type CryptoObjectEnrollmentTlsca struct {
 	// The CA's port.
 	Port *float64 `json:"port" validate:"required"`
 
-	// The TLS CA's "CAName" attribute.
+	// The TLS CA's "CAName" attribute. This name is used to distinguish this TLS CA from the other CA.
 	Name *string `json:"name" validate:"required"`
 
-	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection.
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
 	TlsCert *string `json:"tls_cert" validate:"required"`
 
 	// The username of the enroll id.
@@ -7227,13 +7561,10 @@ func (options *DeleteAllSessionsOptions) SetHeaders(param map[string]string) *De
 	return options
 }
 
-// DeleteAllSessionsResponse : Describes the outcome of the api.
+// DeleteAllSessionsResponse : DeleteAllSessionsResponse struct
 type DeleteAllSessionsResponse struct {
-	// Response message. "ok" indicates the api completed successfully.
+	// Response message. Indicates the api completed successfully.
 	Message *string `json:"message,omitempty"`
-
-	// How many session entries that were deleted.
-	Deleted *float64 `json:"deleted,omitempty"`
 }
 
 
@@ -7241,10 +7572,6 @@ type DeleteAllSessionsResponse struct {
 func UnmarshalDeleteAllSessionsResponse(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(DeleteAllSessionsResponse)
 	err = core.UnmarshalPrimitive(m, "message", &obj.Message)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "deleted", &obj.Deleted)
 	if err != nil {
 		return
 	}
@@ -7256,7 +7583,7 @@ func UnmarshalDeleteAllSessionsResponse(m map[string]json.RawMessage, result int
 type DeleteComponentOptions struct {
 	// The `id` of the component to delete. Use the [Get all components](#list_components) API to determine the id of the
 	// component to be deleted.
-	ID *string `json:"id" validate:"required"`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -7322,7 +7649,7 @@ func UnmarshalDeleteComponentResponse(m map[string]json.RawMessage, result inter
 // DeleteComponentsByTagOptions : The DeleteComponentsByTag options.
 type DeleteComponentsByTagOptions struct {
 	// The tag to filter components on. Not case-sensitive.
-	Tag *string `json:"tag" validate:"required"`
+	Tag *string `json:"tag" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -7367,7 +7694,7 @@ func UnmarshalDeleteMultiComponentsResponse(m map[string]json.RawMessage, result
 // DeleteSigTxOptions : The DeleteSigTx options.
 type DeleteSigTxOptions struct {
 	// The unique transaction ID of this signature collection.
-	ID *string `json:"id" validate:"required"`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -7421,7 +7748,7 @@ func UnmarshalDeleteSignatureCollectionResponse(m map[string]json.RawMessage, re
 type EditAdminCertsOptions struct {
 	// The `id` of the component to edit. Use the [Get all components](#list_components) API to determine the id of the
 	// component.
-	ID *string `json:"id" validate:"required"`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// The admin certificates to add to the file system.
 	AppendAdminCerts []string `json:"append_admin_certs,omitempty"`
@@ -7568,7 +7895,7 @@ func UnmarshalEditAdminCertsResponseSetAdminCertsItem(m map[string]json.RawMessa
 type EditCaOptions struct {
 	// The `id` of the component to modify. Use the [Get all components](#list_components) API to determine the component
 	// id.
-	ID *string `json:"id" validate:"required"`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// A descriptive name for this CA. The IBP console tile displays this name.
 	DisplayName *string `json:"display_name,omitempty"`
@@ -7580,7 +7907,7 @@ type EditCaOptions struct {
 	// The operations URL for the CA. Include the protocol, hostname/ip and port.
 	OperationsURL *string `json:"operations_url,omitempty"`
 
-	// The CA's "CAName" attribute.
+	// The CA's "CAName" attribute. This name is used to distinguish this CA from the TLS CA.
 	CaName *string `json:"ca_name,omitempty"`
 
 	// Indicates where the component is running.
@@ -7677,7 +8004,7 @@ func UnmarshalEditLogSettingsBody(m map[string]json.RawMessage, result interface
 type EditMspOptions struct {
 	// The `id` of the component to modify. Use the [Get all components](#list_components) API to determine the component
 	// id.
-	ID *string `json:"id" validate:"required"`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// The MSP id that is related to this component.
 	MspID *string `json:"msp_id,omitempty"`
@@ -7761,7 +8088,7 @@ func (options *EditMspOptions) SetHeaders(param map[string]string) *EditMspOptio
 type EditOrdererOptions struct {
 	// The `id` of the component to modify. Use the [Get all components](#list_components) API to determine the component
 	// id.
-	ID *string `json:"id" validate:"required"`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// A descriptive name for an ordering service. The parent IBP console tile displays this name.
 	ClusterName *string `json:"cluster_name,omitempty"`
@@ -7773,7 +8100,7 @@ type EditOrdererOptions struct {
 	// hostname/ip and port.
 	ApiURL *string `json:"api_url,omitempty"`
 
-	// Used by Fabric health checker to monitor health status of the node. For more information, see [Fabric
+	// Used by Fabric health checker to monitor the health status of this orderer node. For more information, see [Fabric
 	// documentation](https://hyperledger-fabric.readthedocs.io/en/release-1.4/operations_service.html). Include the
 	// protocol, hostname/ip and port.
 	OperationsURL *string `json:"operations_url,omitempty"`
@@ -7885,7 +8212,7 @@ func (options *EditOrdererOptions) SetHeaders(param map[string]string) *EditOrde
 type EditPeerOptions struct {
 	// The `id` of the component to modify. Use the [Get all components](#list_components) API to determine the component
 	// id.
-	ID *string `json:"id" validate:"required"`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// A descriptive name for this peer. The IBP console tile displays this name.
 	DisplayName *string `json:"display_name,omitempty"`
@@ -7894,7 +8221,7 @@ type EditPeerOptions struct {
 	// hostname/ip and port.
 	ApiURL *string `json:"api_url,omitempty"`
 
-	// Used by Fabric health checker to monitor health status of the node. For more information, see [Fabric
+	// Used by Fabric health checker to monitor the health status of this peer. For more information, see [Fabric
 	// documentation](https://hyperledger-fabric.readthedocs.io/en/release-1.4/operations_service.html). Include the
 	// protocol, hostname/ip and port.
 	OperationsURL *string `json:"operations_url,omitempty"`
@@ -8438,7 +8765,8 @@ func UnmarshalGenericComponentResponseMspCa(m map[string]json.RawMessage, result
 
 // GenericComponentResponseMspComponent : GenericComponentResponseMspComponent struct
 type GenericComponentResponseMspComponent struct {
-	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection.
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
 	TlsCert *string `json:"tls_cert,omitempty"`
 
 	// An identity certificate (base 64 encoded PEM) for this component that was signed by the CA (aka enrollment
@@ -8787,7 +9115,7 @@ type GetAthenaHealthStatsResponseOS struct {
 	Endian *string `json:"endian,omitempty"`
 
 	// CPU load in 1, 5, & 15 minute averages. n/a on windows.
-	Loadavg *string `json:"loadavg,omitempty"`
+	Loadavg []float64 `json:"loadavg,omitempty"`
 
 	Cpus []CpuHealthStats `json:"cpus,omitempty"`
 
@@ -8841,103 +9169,11 @@ func UnmarshalGetAthenaHealthStatsResponseOS(m map[string]json.RawMessage, resul
 	return
 }
 
-// GetComponentByTagOptions : The GetComponentByTag options.
-type GetComponentByTagOptions struct {
-	// The tag to filter components on. Not case-sensitive.
-	Tag *string `json:"tag" validate:"required"`
-
-	// Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources', 'storage',
-	// 'zone', 'region', 'admin_certs', etc. Default responses will not include these fields.
-	//
-	// **This parameter will not work on *imported* components.**
-	//
-	// It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
-	DeploymentAttrs *string `json:"deployment_attrs,omitempty"`
-
-	// Set to 'included' if the response should include parsed PEM data along with base 64 encoded PEM string. Parsed
-	// certificate data will include fields such as the serial number, issuer, expiration, subject, subject alt names, etc.
-	// Default responses will not include these fields.
-	ParsedCerts *string `json:"parsed_certs,omitempty"`
-
-	// Set to 'skip' if the response should skip local data and fetch live data wherever possible. Expect longer response
-	// times if the cache is skipped. Default responses will use the cache.
-	Cache *string `json:"cache,omitempty"`
-
-	// Allows users to set headers on API requests
-	Headers map[string]string
-}
-
-// Constants associated with the GetComponentByTagOptions.DeploymentAttrs property.
-// Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources', 'storage',
-// 'zone', 'region', 'admin_certs', etc. Default responses will not include these fields.
-//
-// **This parameter will not work on *imported* components.**
-//
-// It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
-const (
-	GetComponentByTagOptions_DeploymentAttrs_Included = "included"
-	GetComponentByTagOptions_DeploymentAttrs_Omitted = "omitted"
-)
-
-// Constants associated with the GetComponentByTagOptions.ParsedCerts property.
-// Set to 'included' if the response should include parsed PEM data along with base 64 encoded PEM string. Parsed
-// certificate data will include fields such as the serial number, issuer, expiration, subject, subject alt names, etc.
-// Default responses will not include these fields.
-const (
-	GetComponentByTagOptions_ParsedCerts_Included = "included"
-	GetComponentByTagOptions_ParsedCerts_Omitted = "omitted"
-)
-
-// Constants associated with the GetComponentByTagOptions.Cache property.
-// Set to 'skip' if the response should skip local data and fetch live data wherever possible. Expect longer response
-// times if the cache is skipped. Default responses will use the cache.
-const (
-	GetComponentByTagOptions_Cache_Skip = "skip"
-	GetComponentByTagOptions_Cache_Use = "use"
-)
-
-// NewGetComponentByTagOptions : Instantiate GetComponentByTagOptions
-func (*BlockchainV3) NewGetComponentByTagOptions(tag string) *GetComponentByTagOptions {
-	return &GetComponentByTagOptions{
-		Tag: core.StringPtr(tag),
-	}
-}
-
-// SetTag : Allow user to set Tag
-func (options *GetComponentByTagOptions) SetTag(tag string) *GetComponentByTagOptions {
-	options.Tag = core.StringPtr(tag)
-	return options
-}
-
-// SetDeploymentAttrs : Allow user to set DeploymentAttrs
-func (options *GetComponentByTagOptions) SetDeploymentAttrs(deploymentAttrs string) *GetComponentByTagOptions {
-	options.DeploymentAttrs = core.StringPtr(deploymentAttrs)
-	return options
-}
-
-// SetParsedCerts : Allow user to set ParsedCerts
-func (options *GetComponentByTagOptions) SetParsedCerts(parsedCerts string) *GetComponentByTagOptions {
-	options.ParsedCerts = core.StringPtr(parsedCerts)
-	return options
-}
-
-// SetCache : Allow user to set Cache
-func (options *GetComponentByTagOptions) SetCache(cache string) *GetComponentByTagOptions {
-	options.Cache = core.StringPtr(cache)
-	return options
-}
-
-// SetHeaders : Allow user to set Headers
-func (options *GetComponentByTagOptions) SetHeaders(param map[string]string) *GetComponentByTagOptions {
-	options.Headers = param
-	return options
-}
-
 // GetComponentOptions : The GetComponent options.
 type GetComponentOptions struct {
 	// The `id` of the component to retrieve. Use the [Get all components](#list_components) API to determine the component
 	// id.
-	ID *string `json:"id" validate:"required"`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources', 'storage',
 	// 'zone', 'region', 'admin_certs', etc. Default responses will not include these fields.
@@ -9060,10 +9296,10 @@ func (options *GetComponentOptions) SetHeaders(param map[string]string) *GetComp
 	return options
 }
 
-// GetComponentsByTypeOptions : The GetComponentsByType options.
-type GetComponentsByTypeOptions struct {
-	// The type to filter components on.
-	ComponentType *string `json:"component-type" validate:"required"`
+// GetComponentsByTagOptions : The GetComponentsByTag options.
+type GetComponentsByTagOptions struct {
+	// The tag to filter components on. Not case-sensitive.
+	Tag *string `json:"tag" validate:"required,ne="`
 
 	// Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources', 'storage',
 	// 'zone', 'region', 'admin_certs', etc. Default responses will not include these fields.
@@ -9086,13 +9322,105 @@ type GetComponentsByTypeOptions struct {
 	Headers map[string]string
 }
 
-// Constants associated with the GetComponentsByTypeOptions.ComponentType property.
-// The type to filter components on.
+// Constants associated with the GetComponentsByTagOptions.DeploymentAttrs property.
+// Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources', 'storage',
+// 'zone', 'region', 'admin_certs', etc. Default responses will not include these fields.
+//
+// **This parameter will not work on *imported* components.**
+//
+// It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
 const (
-	GetComponentsByTypeOptions_ComponentType_FabricCa = "fabric-ca"
-	GetComponentsByTypeOptions_ComponentType_FabricOrderer = "fabric-orderer"
-	GetComponentsByTypeOptions_ComponentType_FabricPeer = "fabric-peer"
-	GetComponentsByTypeOptions_ComponentType_Msp = "msp"
+	GetComponentsByTagOptions_DeploymentAttrs_Included = "included"
+	GetComponentsByTagOptions_DeploymentAttrs_Omitted = "omitted"
+)
+
+// Constants associated with the GetComponentsByTagOptions.ParsedCerts property.
+// Set to 'included' if the response should include parsed PEM data along with base 64 encoded PEM string. Parsed
+// certificate data will include fields such as the serial number, issuer, expiration, subject, subject alt names, etc.
+// Default responses will not include these fields.
+const (
+	GetComponentsByTagOptions_ParsedCerts_Included = "included"
+	GetComponentsByTagOptions_ParsedCerts_Omitted = "omitted"
+)
+
+// Constants associated with the GetComponentsByTagOptions.Cache property.
+// Set to 'skip' if the response should skip local data and fetch live data wherever possible. Expect longer response
+// times if the cache is skipped. Default responses will use the cache.
+const (
+	GetComponentsByTagOptions_Cache_Skip = "skip"
+	GetComponentsByTagOptions_Cache_Use = "use"
+)
+
+// NewGetComponentsByTagOptions : Instantiate GetComponentsByTagOptions
+func (*BlockchainV3) NewGetComponentsByTagOptions(tag string) *GetComponentsByTagOptions {
+	return &GetComponentsByTagOptions{
+		Tag: core.StringPtr(tag),
+	}
+}
+
+// SetTag : Allow user to set Tag
+func (options *GetComponentsByTagOptions) SetTag(tag string) *GetComponentsByTagOptions {
+	options.Tag = core.StringPtr(tag)
+	return options
+}
+
+// SetDeploymentAttrs : Allow user to set DeploymentAttrs
+func (options *GetComponentsByTagOptions) SetDeploymentAttrs(deploymentAttrs string) *GetComponentsByTagOptions {
+	options.DeploymentAttrs = core.StringPtr(deploymentAttrs)
+	return options
+}
+
+// SetParsedCerts : Allow user to set ParsedCerts
+func (options *GetComponentsByTagOptions) SetParsedCerts(parsedCerts string) *GetComponentsByTagOptions {
+	options.ParsedCerts = core.StringPtr(parsedCerts)
+	return options
+}
+
+// SetCache : Allow user to set Cache
+func (options *GetComponentsByTagOptions) SetCache(cache string) *GetComponentsByTagOptions {
+	options.Cache = core.StringPtr(cache)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *GetComponentsByTagOptions) SetHeaders(param map[string]string) *GetComponentsByTagOptions {
+	options.Headers = param
+	return options
+}
+
+// GetComponentsByTypeOptions : The GetComponentsByType options.
+type GetComponentsByTypeOptions struct {
+	// The type of component to filter components on.
+	Type *string `json:"type" validate:"required,ne="`
+
+	// Set to 'included' if the response should include Kubernetes deployment attributes such as 'resources', 'storage',
+	// 'zone', 'region', 'admin_certs', etc. Default responses will not include these fields.
+	//
+	// **This parameter will not work on *imported* components.**
+	//
+	// It's recommended to use `cache=skip` as well if up-to-date deployment data is needed.
+	DeploymentAttrs *string `json:"deployment_attrs,omitempty"`
+
+	// Set to 'included' if the response should include parsed PEM data along with base 64 encoded PEM string. Parsed
+	// certificate data will include fields such as the serial number, issuer, expiration, subject, subject alt names, etc.
+	// Default responses will not include these fields.
+	ParsedCerts *string `json:"parsed_certs,omitempty"`
+
+	// Set to 'skip' if the response should skip local data and fetch live data wherever possible. Expect longer response
+	// times if the cache is skipped. Default responses will use the cache.
+	Cache *string `json:"cache,omitempty"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// Constants associated with the GetComponentsByTypeOptions.Type property.
+// The type of component to filter components on.
+const (
+	GetComponentsByTypeOptions_Type_FabricCa = "fabric-ca"
+	GetComponentsByTypeOptions_Type_FabricOrderer = "fabric-orderer"
+	GetComponentsByTypeOptions_Type_FabricPeer = "fabric-peer"
+	GetComponentsByTypeOptions_Type_Msp = "msp"
 )
 
 // Constants associated with the GetComponentsByTypeOptions.DeploymentAttrs property.
@@ -9125,15 +9453,15 @@ const (
 )
 
 // NewGetComponentsByTypeOptions : Instantiate GetComponentsByTypeOptions
-func (*BlockchainV3) NewGetComponentsByTypeOptions(componentType string) *GetComponentsByTypeOptions {
+func (*BlockchainV3) NewGetComponentsByTypeOptions(typeVar string) *GetComponentsByTypeOptions {
 	return &GetComponentsByTypeOptions{
-		ComponentType: core.StringPtr(componentType),
+		Type: core.StringPtr(typeVar),
 	}
 }
 
-// SetComponentType : Allow user to set ComponentType
-func (options *GetComponentsByTypeOptions) SetComponentType(componentType string) *GetComponentsByTypeOptions {
-	options.ComponentType = core.StringPtr(componentType)
+// SetType : Allow user to set Type
+func (options *GetComponentsByTypeOptions) SetType(typeVar string) *GetComponentsByTypeOptions {
+	options.Type = core.StringPtr(typeVar)
 	return options
 }
 
@@ -9283,7 +9611,7 @@ func UnmarshalGetMSPCertificateResponse(m map[string]json.RawMessage, result int
 // GetMspCertificateOptions : The GetMspCertificate options.
 type GetMspCertificateOptions struct {
 	// The `msp_id` to fetch.
-	MspID *string `json:"msp_id" validate:"required"`
+	MspID *string `json:"msp_id" validate:"required,ne="`
 
 	// Set to 'skip' if the response should skip local data and fetch live data wherever possible. Expect longer response
 	// times if the cache is skipped. Default responses will use the cache.
@@ -9551,7 +9879,7 @@ type GetPublicSettingsResponse struct {
 	MEMORYCACHEENABLED *bool `json:"MEMORY_CACHE_ENABLED,omitempty"`
 
 	// Internal port that IBP console is running on.
-	PORT *string `json:"PORT,omitempty"`
+	PORT *float64 `json:"PORT,omitempty"`
 
 	// If true an in memory cache will be used for internal proxy requests.
 	PROXYCACHEENABLED *bool `json:"PROXY_CACHE_ENABLED,omitempty"`
@@ -9566,7 +9894,7 @@ type GetPublicSettingsResponse struct {
 	PROXYTLSHTTPURL *string `json:"PROXY_TLS_HTTP_URL,omitempty"`
 
 	// The URL to use to proxy WebSocket request to a Fabric component.
-	PROXYTLSWSURL interface{} `json:"PROXY_TLS_WS_URL,omitempty"`
+	PROXYTLSWSURL *string `json:"PROXY_TLS_WS_URL,omitempty"`
 
 	// If it's "local", things like https are disabled.
 	REGION *string `json:"REGION,omitempty"`
@@ -10080,7 +10408,8 @@ func UnmarshalImportCaBodyMspCa(m map[string]json.RawMessage, result interface{}
 
 // ImportCaBodyMspComponent : ImportCaBodyMspComponent struct
 type ImportCaBodyMspComponent struct {
-	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection.
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
 	TlsCert *string `json:"tls_cert" validate:"required"`
 }
 
@@ -10158,7 +10487,8 @@ type ImportCaOptions struct {
 
 	Tags []string `json:"tags,omitempty"`
 
-	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection.
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
 	TlsCert *string `json:"tls_cert,omitempty"`
 
 	// Allows users to set headers on API requests
@@ -10325,7 +10655,7 @@ type ImportOrdererOptions struct {
 	// Indicates where the component is running.
 	Location *string `json:"location,omitempty"`
 
-	// Used by Fabric health checker to monitor health status of the node. For more information, see [Fabric
+	// Used by Fabric health checker to monitor the health status of this orderer node. For more information, see [Fabric
 	// documentation](https://hyperledger-fabric.readthedocs.io/en/release-1.4/operations_service.html). Include the
 	// protocol, hostname/ip and port.
 	OperationsURL *string `json:"operations_url,omitempty"`
@@ -10443,7 +10773,7 @@ type ImportPeerOptions struct {
 	// Indicates where the component is running.
 	Location *string `json:"location,omitempty"`
 
-	// Used by Fabric health checker to monitor health status of the node. For more information, see [Fabric
+	// Used by Fabric health checker to monitor the health status of this peer. For more information, see [Fabric
 	// documentation](https://hyperledger-fabric.readthedocs.io/en/release-1.4/operations_service.html). Include the
 	// protocol, hostname/ip and port.
 	OperationsURL *string `json:"operations_url,omitempty"`
@@ -10896,7 +11226,7 @@ type MspCryptoCa struct {
 	RootCerts []string `json:"root_certs" validate:"required"`
 
 	// An array that contains base 64 encoded PEM intermediate CA certificates.
-	Intermediatecerts []string `json:"intermediatecerts,omitempty"`
+	CaIntermediateCerts []string `json:"ca_intermediate_certs,omitempty"`
 }
 
 
@@ -10916,7 +11246,7 @@ func UnmarshalMspCryptoCa(m map[string]json.RawMessage, result interface{}) (err
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "intermediatecerts", &obj.Intermediatecerts)
+	err = core.UnmarshalPrimitive(m, "ca_intermediate_certs", &obj.CaIntermediateCerts)
 	if err != nil {
 		return
 	}
@@ -10935,15 +11265,16 @@ type MspCryptoComp struct {
 
 	// An array that contains base 64 encoded PEM identity certificates for administrators. Also known as signing
 	// certificates of an organization administrator.
-	Admincerts []string `json:"admincerts,omitempty"`
+	AdminCerts []string `json:"admin_certs,omitempty"`
 
 	// A private key (base 64 encoded PEM) for this component's TLS.
 	TlsKey *string `json:"tls_key" validate:"required"`
 
-	// A certificate (base 64 encoded PEM) for this component's TLS.
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
 	TlsCert *string `json:"tls_cert" validate:"required"`
 
-	ClientAuth *MspCryptoCompClientAuth `json:"client_auth,omitempty"`
+	ClientAuth *ClientAuth `json:"client_auth,omitempty"`
 }
 
 
@@ -10970,7 +11301,7 @@ func UnmarshalMspCryptoComp(m map[string]json.RawMessage, result interface{}) (e
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalPrimitive(m, "admincerts", &obj.Admincerts)
+	err = core.UnmarshalPrimitive(m, "admin_certs", &obj.AdminCerts)
 	if err != nil {
 		return
 	}
@@ -10982,30 +11313,7 @@ func UnmarshalMspCryptoComp(m map[string]json.RawMessage, result interface{}) (e
 	if err != nil {
 		return
 	}
-	err = core.UnmarshalModel(m, "client_auth", &obj.ClientAuth, UnmarshalMspCryptoCompClientAuth)
-	if err != nil {
-		return
-	}
-	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
-	return
-}
-
-// MspCryptoCompClientAuth : MspCryptoCompClientAuth struct
-type MspCryptoCompClientAuth struct {
-	Type *string `json:"type,omitempty"`
-
-	TlsCerts []string `json:"tls_certs,omitempty"`
-}
-
-
-// UnmarshalMspCryptoCompClientAuth unmarshals an instance of MspCryptoCompClientAuth from the specified map of raw messages.
-func UnmarshalMspCryptoCompClientAuth(m map[string]json.RawMessage, result interface{}) (err error) {
-	obj := new(MspCryptoCompClientAuth)
-	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
-	if err != nil {
-		return
-	}
-	err = core.UnmarshalPrimitive(m, "tls_certs", &obj.TlsCerts)
+	err = core.UnmarshalModel(m, "client_auth", &obj.ClientAuth, UnmarshalClientAuth)
 	if err != nil {
 		return
 	}
@@ -11015,10 +11323,10 @@ func UnmarshalMspCryptoCompClientAuth(m map[string]json.RawMessage, result inter
 
 // MspCryptoFieldCa : MspCryptoFieldCa struct
 type MspCryptoFieldCa struct {
-	// The "name" to distinguish this CA from the TLS CA.
+	// The CA's "CAName" attribute. This name is used to distinguish this CA from the TLS CA.
 	Name *string `json:"name,omitempty"`
 
-	// An array that contains one or more base 64 encoded PEM root certificates for the CA.
+	// An array that contains one or more base 64 encoded PEM CA root certificates.
 	RootCerts []string `json:"root_certs,omitempty"`
 }
 
@@ -11040,7 +11348,8 @@ func UnmarshalMspCryptoFieldCa(m map[string]json.RawMessage, result interface{})
 
 // MspCryptoFieldComponent : MspCryptoFieldComponent struct
 type MspCryptoFieldComponent struct {
-	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection.
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
 	TlsCert *string `json:"tls_cert" validate:"required"`
 
 	// An identity certificate (base 64 encoded PEM) for this component that was signed by the CA (aka enrollment
@@ -11083,7 +11392,7 @@ func UnmarshalMspCryptoFieldComponent(m map[string]json.RawMessage, result inter
 
 // MspCryptoFieldTlsca : MspCryptoFieldTlsca struct
 type MspCryptoFieldTlsca struct {
-	// The "name" to distinguish the TLS CA from the other CA.
+	// The TLS CA's "CAName" attribute. This name is used to distinguish this TLS CA from the other CA.
 	Name *string `json:"name,omitempty"`
 
 	// An array that contains one or more base 64 encoded PEM root certificates for the TLS CA.
@@ -11300,7 +11609,7 @@ func UnmarshalNotificationData(m map[string]json.RawMessage, result interface{})
 type OrdererActionOptions struct {
 	// The `id` of the component to modify. Use the [Get all components](#list_components) API to determine the component
 	// id.
-	ID *string `json:"id" validate:"required"`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// Set to `true` to restart the component.
 	Restart *bool `json:"restart,omitempty"`
@@ -11371,7 +11680,7 @@ type OrdererResponse struct {
 	// Indicates where the component is running.
 	Location *string `json:"location,omitempty"`
 
-	// Used by Fabric health checker to monitor health status of the node. For more information, see [Fabric
+	// Used by Fabric health checker to monitor the health status of this orderer node. For more information, see [Fabric
 	// documentation](https://hyperledger-fabric.readthedocs.io/en/release-1.4/operations_service.html). Include the
 	// protocol, hostname/ip and port.
 	OperationsURL *string `json:"operations_url,omitempty"`
@@ -11574,7 +11883,7 @@ func UnmarshalOrdererResponseStorage(m map[string]json.RawMessage, result interf
 type PeerActionOptions struct {
 	// The `id` of the component to modify. Use the [Get all components](#list_components) API to determine the component
 	// id.
-	ID *string `json:"id" validate:"required"`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// Set to `true` to restart the component.
 	Restart *bool `json:"restart,omitempty"`
@@ -11714,7 +12023,7 @@ type PeerResponse struct {
 	// Indicates where the component is running.
 	Location *string `json:"location,omitempty"`
 
-	// Used by Fabric health checker to monitor health status of the node. For more information, see [Fabric
+	// Used by Fabric health checker to monitor the health status of this peer. For more information, see [Fabric
 	// documentation](https://hyperledger-fabric.readthedocs.io/en/release-1.4/operations_service.html). Include the
 	// protocol, hostname/ip and port.
 	OperationsURL *string `json:"operations_url,omitempty"`
@@ -11911,7 +12220,7 @@ func UnmarshalPeerResponseStorage(m map[string]json.RawMessage, result interface
 type RemoveComponentOptions struct {
 	// The `id` of the imported component to remove. Use the [Get all components](#list-components) API to determine the
 	// component id.
-	ID *string `json:"id" validate:"required"`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -11939,7 +12248,7 @@ func (options *RemoveComponentOptions) SetHeaders(param map[string]string) *Remo
 // RemoveComponentsByTagOptions : The RemoveComponentsByTag options.
 type RemoveComponentsByTagOptions struct {
 	// The tag to filter components on. Not case-sensitive.
-	Tag *string `json:"tag" validate:"required"`
+	Tag *string `json:"tag" validate:"required,ne="`
 
 	// Allows users to set headers on API requests
 	Headers map[string]string
@@ -12164,7 +12473,7 @@ func UnmarshalResourceRequests(m map[string]json.RawMessage, result interface{})
 	return
 }
 
-// RestartAthenaResponse : Describes the outcome of the api.
+// RestartAthenaResponse : RestartAthenaResponse struct
 type RestartAthenaResponse struct {
 	// Text describing the outcome of the api.
 	Message *string `json:"message,omitempty"`
@@ -12269,7 +12578,7 @@ func UnmarshalStorageObject(m map[string]json.RawMessage, result interface{}) (e
 type SubmitBlockOptions struct {
 	// The `id` of the component to modify. Use the [Get all components](#list_components) API to determine the component
 	// id.
-	ID *string `json:"id" validate:"required"`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// The latest config block of the system channel. Base 64 encoded. To obtain this block, you must use a **Fabric API**.
 	// This config block should list this ordering node as a valid consenter on the system-channel.
@@ -12308,7 +12617,8 @@ func (options *SubmitBlockOptions) SetHeaders(param map[string]string) *SubmitBl
 // file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) if you want use custom
 // attributes to configure advanced CA features. Omit if not.
 //
-// *The field **names** below are not case-sensitive.*.
+// *The nested field **names** below are not case-sensitive.*
+// *The nested fields sent will be merged with the existing settings.*.
 type UpdateCaBodyConfigOverride struct {
 	Ca *ConfigCAUpdate `json:"ca" validate:"required"`
 }
@@ -12365,13 +12675,14 @@ func UnmarshalUpdateCaBodyResources(m map[string]json.RawMessage, result interfa
 type UpdateCaOptions struct {
 	// The `id` of the component to modify. Use the [Get all components](#list_components) API to determine the component
 	// id.
-	ID *string `json:"id" validate:"required"`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// Update the [Fabric CA configuration
 	// file](https://hyperledger-fabric-ca.readthedocs.io/en/release-1.4/serverconfig.html) if you want use custom
 	// attributes to configure advanced CA features. Omit if not.
 	//
-	// *The field **names** below are not case-sensitive.*.
+	// *The nested field **names** below are not case-sensitive.*
+	// *The nested fields sent will be merged with the existing settings.*.
 	ConfigOverride *UpdateCaBodyConfigOverride `json:"config_override,omitempty"`
 
 	// The number of replica pods running at any given time.
@@ -12380,7 +12691,7 @@ type UpdateCaOptions struct {
 	// CPU and memory properties. This feature is not available if using a free Kubernetes cluster.
 	Resources *UpdateCaBodyResources `json:"resources,omitempty"`
 
-	// The Hyperledger Fabric release version to use.
+	// The Hyperledger Fabric release version to update to.
 	Version *string `json:"version,omitempty"`
 
 	// Specify the Kubernetes zone for the deployment. The deployment will use a k8s node in this zone. Find the list of
@@ -12441,6 +12752,312 @@ func (options *UpdateCaOptions) SetHeaders(param map[string]string) *UpdateCaOpt
 	return options
 }
 
+// UpdateEnrollmentCryptoField : Edit the `enrollment` crypto data of this component. Editing the `enrollment` field is only possible if this
+// component was created using the `crypto.enrollment` field, else see the `crypto.msp` field.
+type UpdateEnrollmentCryptoField struct {
+	Component *CryptoEnrollmentComponent `json:"component,omitempty"`
+
+	Ca *UpdateEnrollmentCryptoFieldCa `json:"ca,omitempty"`
+
+	Tlsca *UpdateEnrollmentCryptoFieldTlsca `json:"tlsca,omitempty"`
+}
+
+
+// UnmarshalUpdateEnrollmentCryptoField unmarshals an instance of UpdateEnrollmentCryptoField from the specified map of raw messages.
+func UnmarshalUpdateEnrollmentCryptoField(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateEnrollmentCryptoField)
+	err = core.UnmarshalModel(m, "component", &obj.Component, UnmarshalCryptoEnrollmentComponent)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "ca", &obj.Ca, UnmarshalUpdateEnrollmentCryptoFieldCa)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "tlsca", &obj.Tlsca, UnmarshalUpdateEnrollmentCryptoFieldTlsca)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// UpdateEnrollmentCryptoFieldCa : UpdateEnrollmentCryptoFieldCa struct
+type UpdateEnrollmentCryptoFieldCa struct {
+	// The CA's hostname. Do not include protocol or port.
+	Host *string `json:"host,omitempty"`
+
+	// The CA's port.
+	Port *float64 `json:"port,omitempty"`
+
+	// The CA's "CAName" attribute. This name is used to distinguish this CA from the TLS CA.
+	Name *string `json:"name,omitempty"`
+
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
+	TlsCert *string `json:"tls_cert,omitempty"`
+
+	// The username of the enroll id.
+	EnrollID *string `json:"enroll_id,omitempty"`
+
+	// The password of the enroll id.
+	EnrollSecret *string `json:"enroll_secret,omitempty"`
+}
+
+
+// UnmarshalUpdateEnrollmentCryptoFieldCa unmarshals an instance of UpdateEnrollmentCryptoFieldCa from the specified map of raw messages.
+func UnmarshalUpdateEnrollmentCryptoFieldCa(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateEnrollmentCryptoFieldCa)
+	err = core.UnmarshalPrimitive(m, "host", &obj.Host)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "port", &obj.Port)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_cert", &obj.TlsCert)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enroll_id", &obj.EnrollID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enroll_secret", &obj.EnrollSecret)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// UpdateEnrollmentCryptoFieldTlsca : UpdateEnrollmentCryptoFieldTlsca struct
+type UpdateEnrollmentCryptoFieldTlsca struct {
+	// The CA's hostname. Do not include protocol or port.
+	Host *string `json:"host,omitempty"`
+
+	// The CA's port.
+	Port *float64 `json:"port,omitempty"`
+
+	// The TLS CA's "CAName" attribute. This name is used to distinguish this TLS CA from the other CA.
+	Name *string `json:"name,omitempty"`
+
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
+	TlsCert *string `json:"tls_cert,omitempty"`
+
+	// The username of the enroll id.
+	EnrollID *string `json:"enroll_id,omitempty"`
+
+	// The password of the enroll id.
+	EnrollSecret *string `json:"enroll_secret,omitempty"`
+
+	CsrHosts []string `json:"csr_hosts,omitempty"`
+}
+
+
+// UnmarshalUpdateEnrollmentCryptoFieldTlsca unmarshals an instance of UpdateEnrollmentCryptoFieldTlsca from the specified map of raw messages.
+func UnmarshalUpdateEnrollmentCryptoFieldTlsca(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateEnrollmentCryptoFieldTlsca)
+	err = core.UnmarshalPrimitive(m, "host", &obj.Host)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "port", &obj.Port)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "name", &obj.Name)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_cert", &obj.TlsCert)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enroll_id", &obj.EnrollID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "enroll_secret", &obj.EnrollSecret)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "csr_hosts", &obj.CsrHosts)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// UpdateMspCryptoField : Edit the `msp` crypto data of this component. Editing the `msp` field is only possible if this component was created
+// using the `crypto.msp` field, else see the `crypto.enrollment` field.
+type UpdateMspCryptoField struct {
+	Ca *UpdateMspCryptoFieldCa `json:"ca,omitempty"`
+
+	Tlsca *UpdateMspCryptoFieldTlsca `json:"tlsca,omitempty"`
+
+	Component *UpdateMspCryptoFieldComponent `json:"component,omitempty"`
+}
+
+
+// UnmarshalUpdateMspCryptoField unmarshals an instance of UpdateMspCryptoField from the specified map of raw messages.
+func UnmarshalUpdateMspCryptoField(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateMspCryptoField)
+	err = core.UnmarshalModel(m, "ca", &obj.Ca, UnmarshalUpdateMspCryptoFieldCa)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "tlsca", &obj.Tlsca, UnmarshalUpdateMspCryptoFieldTlsca)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "component", &obj.Component, UnmarshalUpdateMspCryptoFieldComponent)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// UpdateMspCryptoFieldCa : UpdateMspCryptoFieldCa struct
+type UpdateMspCryptoFieldCa struct {
+	// An array that contains one or more base 64 encoded PEM CA root certificates.
+	RootCerts []string `json:"root_certs,omitempty"`
+
+	// An array that contains base 64 encoded PEM intermediate CA certificates.
+	CaIntermediateCerts []string `json:"ca_intermediate_certs,omitempty"`
+}
+
+
+// UnmarshalUpdateMspCryptoFieldCa unmarshals an instance of UpdateMspCryptoFieldCa from the specified map of raw messages.
+func UnmarshalUpdateMspCryptoFieldCa(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateMspCryptoFieldCa)
+	err = core.UnmarshalPrimitive(m, "root_certs", &obj.RootCerts)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ca_intermediate_certs", &obj.CaIntermediateCerts)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// UpdateMspCryptoFieldComponent : UpdateMspCryptoFieldComponent struct
+type UpdateMspCryptoFieldComponent struct {
+	// An identity private key (base 64 encoded PEM) for this component (aka enrollment private key).
+	Ekey *string `json:"ekey,omitempty"`
+
+	// An identity certificate (base 64 encoded PEM) for this component that was signed by the CA (aka enrollment
+	// certificate).
+	Ecert *string `json:"ecert,omitempty"`
+
+	// An array that contains base 64 encoded PEM identity certificates for administrators. Also known as signing
+	// certificates of an organization administrator.
+	AdminCerts []string `json:"admin_certs,omitempty"`
+
+	// A private key (base 64 encoded PEM) for this component's TLS.
+	TlsKey *string `json:"tls_key,omitempty"`
+
+	// The TLS certificate as base 64 encoded PEM. Certificate is used to secure/validate a TLS connection with this
+	// component.
+	TlsCert *string `json:"tls_cert,omitempty"`
+
+	ClientAuth *ClientAuth `json:"client_auth,omitempty"`
+}
+
+
+// UnmarshalUpdateMspCryptoFieldComponent unmarshals an instance of UpdateMspCryptoFieldComponent from the specified map of raw messages.
+func UnmarshalUpdateMspCryptoFieldComponent(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateMspCryptoFieldComponent)
+	err = core.UnmarshalPrimitive(m, "ekey", &obj.Ekey)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ecert", &obj.Ecert)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "admin_certs", &obj.AdminCerts)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_key", &obj.TlsKey)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_cert", &obj.TlsCert)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "client_auth", &obj.ClientAuth, UnmarshalClientAuth)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// UpdateMspCryptoFieldTlsca : UpdateMspCryptoFieldTlsca struct
+type UpdateMspCryptoFieldTlsca struct {
+	// An array that contains one or more base 64 encoded PEM CA root certificates.
+	RootCerts []string `json:"root_certs,omitempty"`
+
+	// An array that contains base 64 encoded PEM intermediate CA certificates.
+	CaIntermediateCerts []string `json:"ca_intermediate_certs,omitempty"`
+}
+
+
+// UnmarshalUpdateMspCryptoFieldTlsca unmarshals an instance of UpdateMspCryptoFieldTlsca from the specified map of raw messages.
+func UnmarshalUpdateMspCryptoFieldTlsca(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateMspCryptoFieldTlsca)
+	err = core.UnmarshalPrimitive(m, "root_certs", &obj.RootCerts)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "ca_intermediate_certs", &obj.CaIntermediateCerts)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// UpdateOrdererBodyCrypto : UpdateOrdererBodyCrypto struct
+type UpdateOrdererBodyCrypto struct {
+	// Edit the `enrollment` crypto data of this component. Editing the `enrollment` field is only possible if this
+	// component was created using the `crypto.enrollment` field, else see the `crypto.msp` field.
+	Enrollment *UpdateEnrollmentCryptoField `json:"enrollment,omitempty"`
+
+	// Edit the `msp` crypto data of this component. Editing the `msp` field is only possible if this component was created
+	// using the `crypto.msp` field, else see the `crypto.enrollment` field.
+	Msp *UpdateMspCryptoField `json:"msp,omitempty"`
+}
+
+
+// UnmarshalUpdateOrdererBodyCrypto unmarshals an instance of UpdateOrdererBodyCrypto from the specified map of raw messages.
+func UnmarshalUpdateOrdererBodyCrypto(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdateOrdererBodyCrypto)
+	err = core.UnmarshalModel(m, "enrollment", &obj.Enrollment, UnmarshalUpdateEnrollmentCryptoField)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "msp", &obj.Msp, UnmarshalUpdateMspCryptoField)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // UpdateOrdererBodyResources : CPU and memory properties. This feature is not available if using a free Kubernetes cluster.
 type UpdateOrdererBodyResources struct {
 	// This field requires the use of Fabric v1.4.* and higher.
@@ -12470,7 +13087,7 @@ func UnmarshalUpdateOrdererBodyResources(m map[string]json.RawMessage, result in
 type UpdateOrdererOptions struct {
 	// The `id` of the component to modify. Use the [Get all components](#list_components) API to determine the component
 	// id.
-	ID *string `json:"id" validate:"required"`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// An array that contains *all* the base 64 encoded PEM identity certificates for administrators of this component.
 	// Also known as signing certificates of an organization administrator.
@@ -12480,11 +13097,11 @@ type UpdateOrdererOptions struct {
 	// file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/orderer.yaml) if you want use custom
 	// attributes to configure the Orderer. Omit if not.
 	//
-	// *The field **names** below are not case-sensitive.*.
+	// *The nested field **names** below are not case-sensitive.*
+	// *The nested fields sent will be merged with the existing settings.*.
 	ConfigOverride *ConfigOrdererUpdate `json:"config_override,omitempty"`
 
-	// The msp crypto data.
-	Crypto *MspCryptoField `json:"crypto,omitempty"`
+	Crypto *UpdateOrdererBodyCrypto `json:"crypto,omitempty"`
 
 	NodeOu *NodeOu `json:"node_ou,omitempty"`
 
@@ -12494,7 +13111,7 @@ type UpdateOrdererOptions struct {
 	// CPU and memory properties. This feature is not available if using a free Kubernetes cluster.
 	Resources *UpdateOrdererBodyResources `json:"resources,omitempty"`
 
-	// The Hyperledger Fabric release version to use.
+	// The Hyperledger Fabric release version to update to.
 	Version *string `json:"version,omitempty"`
 
 	// Specify the Kubernetes zone for the deployment. The deployment will use a k8s node in this zone. Find the list of
@@ -12532,7 +13149,7 @@ func (options *UpdateOrdererOptions) SetConfigOverride(configOverride *ConfigOrd
 }
 
 // SetCrypto : Allow user to set Crypto
-func (options *UpdateOrdererOptions) SetCrypto(crypto *MspCryptoField) *UpdateOrdererOptions {
+func (options *UpdateOrdererOptions) SetCrypto(crypto *UpdateOrdererBodyCrypto) *UpdateOrdererOptions {
 	options.Crypto = crypto
 	return options
 }
@@ -12573,11 +13190,38 @@ func (options *UpdateOrdererOptions) SetHeaders(param map[string]string) *Update
 	return options
 }
 
+// UpdatePeerBodyCrypto : UpdatePeerBodyCrypto struct
+type UpdatePeerBodyCrypto struct {
+	// Edit the `enrollment` crypto data of this component. Editing the `enrollment` field is only possible if this
+	// component was created using the `crypto.enrollment` field, else see the `crypto.msp` field.
+	Enrollment *UpdateEnrollmentCryptoField `json:"enrollment,omitempty"`
+
+	// Edit the `msp` crypto data of this component. Editing the `msp` field is only possible if this component was created
+	// using the `crypto.msp` field, else see the `crypto.enrollment` field.
+	Msp *UpdateMspCryptoField `json:"msp,omitempty"`
+}
+
+
+// UnmarshalUpdatePeerBodyCrypto unmarshals an instance of UpdatePeerBodyCrypto from the specified map of raw messages.
+func UnmarshalUpdatePeerBodyCrypto(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(UpdatePeerBodyCrypto)
+	err = core.UnmarshalModel(m, "enrollment", &obj.Enrollment, UnmarshalUpdateEnrollmentCryptoField)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "msp", &obj.Msp, UnmarshalUpdateMspCryptoField)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
 // UpdatePeerOptions : The UpdatePeer options.
 type UpdatePeerOptions struct {
 	// The `id` of the component to modify. Use the [Get all components](#list_components) API to determine the component
 	// id.
-	ID *string `json:"id" validate:"required"`
+	ID *string `json:"id" validate:"required,ne="`
 
 	// An array that contains *all* the base 64 encoded PEM identity certificates for administrators of this component.
 	// Also known as signing certificates of an organization administrator.
@@ -12587,11 +13231,11 @@ type UpdatePeerOptions struct {
 	// file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom
 	// attributes to configure the Peer. Omit if not.
 	//
-	// *The field **names** below are not case-sensitive.*.
+	// *The nested field **names** below are not case-sensitive.*
+	// *The nested fields sent will be merged with the existing settings.*.
 	ConfigOverride *ConfigPeerUpdate `json:"config_override,omitempty"`
 
-	// The msp crypto data.
-	Crypto *MspCryptoField `json:"crypto,omitempty"`
+	Crypto *UpdatePeerBodyCrypto `json:"crypto,omitempty"`
 
 	NodeOu *NodeOu `json:"node_ou,omitempty"`
 
@@ -12601,7 +13245,7 @@ type UpdatePeerOptions struct {
 	// CPU and memory properties. This feature is not available if using a free Kubernetes cluster.
 	Resources *PeerResources `json:"resources,omitempty"`
 
-	// The Hyperledger Fabric release version to use.
+	// The Hyperledger Fabric release version to update to.
 	Version *string `json:"version,omitempty"`
 
 	// Specify the Kubernetes zone for the deployment. The deployment will use a k8s node in this zone. Find the list of
@@ -12639,7 +13283,7 @@ func (options *UpdatePeerOptions) SetConfigOverride(configOverride *ConfigPeerUp
 }
 
 // SetCrypto : Allow user to set Crypto
-func (options *UpdatePeerOptions) SetCrypto(crypto *MspCryptoField) *UpdatePeerOptions {
+func (options *UpdatePeerOptions) SetCrypto(crypto *UpdatePeerBodyCrypto) *UpdatePeerOptions {
 	options.Crypto = crypto
 	return options
 }
@@ -12741,6 +13385,29 @@ type ActionRenew struct {
 func UnmarshalActionRenew(m map[string]json.RawMessage, result interface{}) (err error) {
 	obj := new(ActionRenew)
 	err = core.UnmarshalPrimitive(m, "tls_cert", &obj.TlsCert)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ClientAuth : ClientAuth struct
+type ClientAuth struct {
+	Type *string `json:"type,omitempty"`
+
+	TlsCerts []string `json:"tls_certs,omitempty"`
+}
+
+
+// UnmarshalClientAuth unmarshals an instance of ClientAuth from the specified map of raw messages.
+func UnmarshalClientAuth(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ClientAuth)
+	err = core.UnmarshalPrimitive(m, "type", &obj.Type)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "tls_certs", &obj.TlsCerts)
 	if err != nil {
 		return
 	}

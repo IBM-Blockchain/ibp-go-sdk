@@ -11,6 +11,7 @@ GoLang client library to use the IBM Cloud Blockchain **Service**.
 * [Explore the SDK](#explore-the-sdk)
 * [Versions](#versions)
 * [Prerequisites](#prerequisites)
+* [Explore the SDK](#explore-the-sdk)
 * [Installation](#installation)
 * [Using the SDK](#using-the-sdk)
   * [Constructing service clients](#constructing-service-clients)
@@ -20,7 +21,6 @@ GoLang client library to use the IBM Cloud Blockchain **Service**.
   * [Error Handling](#error-handling)
   * [Default headers](#default-headers)
   * [Sending request headers](#sending-request-headers)
-* [Explore the SDK](#explore-the-sdk)
 * [Generation](#generation)
 * [License](#license)
 
