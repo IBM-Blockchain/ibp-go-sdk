@@ -387,6 +387,65 @@ func EditDataAboutCA(service *blockchainv3.BlockchainV3, id string) (int, error)
 	return detailedResponse.StatusCode, err
 }
 
+func SubmitActionToCa(service *blockchainv3.BlockchainV3, id string) (int, error) {
+	restart := true
+	opts := &blockchainv3.CaActionOptions{
+		ID: &id,
+		Restart: &restart,
+	}
+
+	// Restart CA
+	_, detailedResponse, err := service.CaAction(opts)
+	if err != nil {
+		Logger.Println("**ERROR** problem restarting CA (SubmitActionToCA API)", err)
+		return 0, err
+	}
+	Logger.Println("**SUCCESS** - restarted CA (SubmitActionToCA)")
+	return detailedResponse.StatusCode, err
+}
+
+func ImportAPeer(service *blockchainv3.BlockchainV3, displayName, grpcwpUrl, mspID string, tlsCert []byte) (int, error) {
+	caName := "ca"
+	rootCerts := []string{string(tlsCert)}
+	ca := &blockchainv3.MspCryptoFieldCa{
+		Name:      &caName,
+		RootCerts: rootCerts,
+	}
+
+	tlsca := &blockchainv3.MspCryptoFieldTlsca{
+		Name:      &caName,
+		RootCerts: rootCerts,
+	}
+
+	component := &blockchainv3.MspCryptoFieldComponent{
+		TlsCert:    &rootCerts[0],
+		Ecert:      &rootCerts[0],
+		AdminCerts: rootCerts,
+	}
+
+	// Create msp field
+	msp := &blockchainv3.MspCryptoField{
+		Ca: ca,                  // MspCryptoFieldCa
+		Tlsca: tlsca,            // MspCryptoFieldTlsca
+		Component: component,     // MspCryptoFieldComponent
+	}
+
+	// Import Peer
+	opts := service.NewImportPeerOptions(
+		displayName,
+		grpcwpUrl,
+		msp,
+		mspID,
+	)
+	_, detailedResponse, err := service.ImportPeer(opts)
+	if err != nil {
+		Logger.Println("**ERROR** - problem importing a peer", err)
+		return 0, err
+	}
+	Logger.Println("**SUCCESS** - imported a peer")
+	return detailedResponse.StatusCode, err
+}
+
 func ConstructImportCABodyMsp() {
 	// Construct an instance of the ImportCaBodyMspCa model
 	importCaBodyMspCaModel := new(blockchainv3.ImportCaBodyMspCa)

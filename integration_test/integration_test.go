@@ -39,9 +39,9 @@ const (
 	orderer1Password       = "OS1pw"
 	orderer1MSPDisplayName = "Ordering Service MSP"
 	orderer1MSPID          = "osmsp"
-	ItTest                 = "[IT_TEST] "
 	pemCertFilePath        = ".tlsca.pem"
 	mspDirectory           = "./msp/"
+	genericGrpcwpUrl       = "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084"
 )
 
 var (
@@ -157,10 +157,10 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(cryptoObject).NotTo(BeNil()) // todo make better assertions - lcs
 		})
-		//It("should create Peer Org1", func() {
-		//	err := it.CreatePeer(service, cryptoObject, org1MSPID, peerOrg1DisplayName)
-		//	Expect(err).NotTo(HaveOccurred())
-		//})
+		It("should create Peer Org1", func() {
+			err := it.CreatePeer(service, cryptoObject, org1MSPID, peerOrg1DisplayName)
+			Expect(err).NotTo(HaveOccurred())
+		})
 	})
 	Describe("Creating Ordering Org Components", func() {
 		// we'll create our first certificate authority
@@ -221,10 +221,10 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			}
 			Expect(err).NotTo(HaveOccurred())
 		})
-		//It("should create Orderer 1", func() {	// todo - uncomment this test when the unmarshalling issue is resolved lcs - 12/16/2020
-		//	err := it.CreateOrderer(service, cryptoObjectSlice, orderer1MSPID, orderer1MSPDisplayName)
-		//	Expect(err).NotTo(HaveOccurred())
-		//})
+		It("should create Orderer 1", func() {	// todo - uncomment this test when the unmarshalling issue is resolved lcs - 12/16/2020
+			err := it.CreateOrderer(service, cryptoObjectSlice, orderer1MSPID, orderer1MSPDisplayName)
+			Expect(err).NotTo(HaveOccurred())
+		})
 	})
 	Describe("Get component data", func() {
 		It("should successfully get component data for the Org1 CA", func() {
@@ -264,6 +264,20 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 	Describe("Edit Data about a CA", func() {
 		It("should successfully edit data about the Ordering Service CA", func() {
 			statusCode, err := it.EditDataAboutCA(service, osCAId)
+			Expect(statusCode).To(Equal(200))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+	Describe("Submit Action to a CA", func() {
+		It("should successfully restart the Ordering Service CA", func() {
+			statusCode, err := it.SubmitActionToCa(service, osCAId)
+			Expect(statusCode).To(Equal(202))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+	Describe("Import a Peer", func() {
+		It("should successfully import PeerOrg 1", func() {
+			statusCode, err := it.ImportAPeer(service, peerOrg1DisplayName, genericGrpcwpUrl, org1MSPID, tlsCert)
 			Expect(statusCode).To(Equal(200))
 			Expect(err).NotTo(HaveOccurred())
 		})
@@ -308,13 +322,13 @@ func getSetupInfoFromFile(setupInfo *setupInformation) error {
 	it.Logger.Println("reading in the setup information from dev.json")
 	file, err := ioutil.ReadFile("./env/dev.json")
 	if err != nil {
-		it.Logger.Println(ItTest+"**ERROR** - problem reading setup variables file: ", err)
+		it.Logger.Println("**ERROR** - problem reading setup variables file: ", err)
 		return err
 	}
 
 	err = json.Unmarshal(file, setupInfo)
 	if err != nil {
-		it.Logger.Println(ItTest+"**ERROR** - problem unmarshalling the setup variables obtained from the file: ", err)
+		it.Logger.Println("**ERROR** - problem unmarshalling the setup variables obtained from the file: ", err)
 		return err
 	}
 	it.Logger.Println("**Success** - setup information transferred to the test")
@@ -350,7 +364,7 @@ func deleteAllComponents(service *blockchainv3.BlockchainV3) error {
 	opts := service.NewDeleteAllComponentsOptions()
 	_, _, err := service.DeleteAllComponents(opts)
 	if err != nil {
-		it.Logger.Println(ItTest+"**ERROR** - problem deleting all components: ", err)
+		it.Logger.Println("**ERROR** - problem deleting all components: ", err)
 		return err
 	}
 	it.Logger.Println("**SUCCESS** - all components were deleted")
@@ -361,11 +375,11 @@ func deleteLocallyCreatedFiles() error {
 	it.Logger.Println("deleting locally created files (cert stores, etc)")
 	err := os.Remove(pemCertFilePath)
 	if err != nil {
-		it.Logger.Println(ItTest+"**ERROR** - problem removing the pemCert created during the test", err)
+		it.Logger.Println("**ERROR** - problem removing the pemCert created during the test", err)
 	}
 	err = os.RemoveAll(mspDirectory)
 	if err != nil {
-		it.Logger.Println(ItTest+"**ERROR** - problem removing the '/msp/' directory created during the test", err)
+		it.Logger.Println("**ERROR** - problem removing the '/msp/' directory created during the test", err)
 	}
 	return nil
 }
