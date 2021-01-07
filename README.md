@@ -8,11 +8,10 @@ GoLang client library to use the IBM Cloud Blockchain **Service**.
 ## Table of Contents
 
 * [Overview](#overview)
-* [Explore the SDK](#explore-the-sdk)
 * [Versions](#versions)
 * [Prerequisites](#prerequisites)
-* [Explore the SDK](#explore-the-sdk)
 * [Installation](#installation)
+* [Explore the SDK](#explore-the-sdk)
 * [Using the SDK](#using-the-sdk)
   * [Constructing service clients](#constructing-service-clients)
   * [Authentication](#authentication)
@@ -34,24 +33,13 @@ This repository is generated from an OpenAPI file that describes all available A
 It is recommended to read through the [IBP API docs](https://cloud.ibm.com/apidocs/blockchain#sdk) to see the list of capabilities.
 Any issues with this SDK can be opened here or against the IBM Blockchain Platform service through IBM Cloud support.
 
-## Explore the SDK
-This module is generated from an OpenAPI (swagger) file. 
-The same file populated our [IBP APIs documentation](https://cloud.ibm.com/apidocs/blockchain#sdk).
-To find desired functionality start by browsing the [IBP APIs documentation](https://cloud.ibm.com/apidocs/blockchain#introduction).
-Then find the corresponding go example to the right of the api documentation.
-
-Alternatively you could manually browse the SDK's main file:
-
-- version 2 - [blockchain_v2.go](./blockchainv2/blockchain_v2.go).
-- version 3 - [blockchain_v3.go](./blockchainv3/blockchain_v3.go).
-
-## SDK Versions
+## Versions
 As of 10/01/2020 IBP has API versions 1, 2 & 3 under the routes `/v1/`, `/v2`/ and `/v3/` respectfully. 
 However only v2 & v3 have a GoLang SDK. 
 It is recommended to use the latest version by importing the latest module with syntax such as `"github.com/IBM-Blockchain/ibp-go-sdk/blockchainv3"`. 
 Version differences can be seen in our [IBP API docs - updates](https://cloud.ibm.com/apidocs/blockchain#updates) section.
 
-## SDK Prerequisites
+## Prerequisites
 
 [ibm-cloud-onboarding]: https://cloud.ibm.com/registration?target=%2Fdeveloper%2Fwatson&
 
@@ -60,7 +48,7 @@ Version differences can be seen in our [IBP API docs - updates](https://cloud.ib
 * An IAM API key to allow the SDK to access your service instance. Create an account level api key [here](https://cloud.ibm.com/iam/apikeys) (alternatively you can create a service instance level api key from the IBM cloud UI).
 * An installation of Go (version 1.12 or above) on your local machine.
 
-## SDK Installation
+## Installation
 There are a few different ways to download and install the Blockchain Go SDK project for use by your
 Go application:
 ##### 1. `go get` command
@@ -89,6 +77,17 @@ to your `Gopkg.toml` file.  Here is an example:
 
 ```
 then run `dep ensure`.
+
+## Explore the SDK
+This module is generated from an OpenAPI (swagger) file. 
+The same file populated our [IBP APIs documentation](https://cloud.ibm.com/apidocs/blockchain#sdk).
+To find desired functionality start by browsing the [IBP APIs documentation](https://cloud.ibm.com/apidocs/blockchain#introduction).
+Then find the corresponding go example to the right of the api documentation.
+
+Alternatively you could manually browse the SDK's main file:
+
+- version 2 - [blockchain_v2.go](./blockchainv2/blockchain_v2.go).
+- version 3 - [blockchain_v3.go](./blockchainv3/blockchain_v3.go).
 
 ## Using the SDK
 This section provides general information on how to use the services contained in this SDK.
