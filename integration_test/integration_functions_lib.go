@@ -446,6 +446,112 @@ func ImportAPeer(service *blockchainv3.BlockchainV3, displayName, grpcwpUrl, msp
 	return detailedResponse.StatusCode, err
 }
 
+func EditDataAboutPeer(service *blockchainv3.BlockchainV3, id string) (int, error) {
+	// Edit Peer Data
+	tags := [4]string{"fabric-peer", "ibm_sass", "red_team", "dev"}
+	opts := service.NewEditPeerOptions(id)
+	opts.SetDisplayName("My Other Peer")
+	opts.SetMspID("peermsp")
+	opts.SetTags(tags[:])
+	_, detailedResponse, err := service.EditPeer(opts)
+	if err != nil {
+		Logger.Println("**ERROR** - problem editating data about CA", err)
+		return 0, err
+	}
+	Logger.Println("**SUCCESS** - edited data about a CA")
+	return detailedResponse.StatusCode, err
+}
+
+
+func SubmitActionToPeer(service *blockchainv3.BlockchainV3, id string) (int, error) {
+	restart := true
+	opts := &blockchainv3.PeerActionOptions{
+		ID: &id,
+		Restart: &restart,
+	}
+
+	// Restart peer
+	_, detailedResponse, err := service.PeerAction(opts)
+	if err != nil {
+		Logger.Println("**ERROR** problem restarting CA (SubmitActionToCA API)", err)
+		return 0, err
+	}
+	Logger.Println("**SUCCESS** - restarted CA (SubmitActionToCA)")
+	return detailedResponse.StatusCode, err
+}
+
+func UpdatePeer(service *blockchainv3.BlockchainV3, id string) (int, error) {
+	// Update Peer
+	cpu := "400m"
+	memory := "1024Mi"
+	resourceRequests := blockchainv3.ResourceRequests{Cpu: &cpu, Memory: &memory}
+	resourceObject, err := service.NewResourceObject(&resourceRequests)
+	if err != nil {
+		Logger.Println("**ERROR** - problem creating the resource object to update " + id + " .", err)
+		return 0, err
+	}
+
+	peerBodyResources := &blockchainv3.PeerResources{Peer: resourceObject}
+
+	opts := service.NewUpdatePeerOptions(id)
+	opts.SetResources(peerBodyResources)
+	_, detailedResponse, err := service.UpdatePeer(opts)
+	if err != nil {
+		Logger.Println("**ERROR** - problem updating peer", err)
+		return 0, err
+	}
+	return detailedResponse.StatusCode, err
+}
+
+func ImportAnOrderer(service *blockchainv3.BlockchainV3, displayName, grpcwpUrl, mspID, clusterName string, tlsCert []byte) (int, error) {
+	// pre-req fields for the msp field ("ca", "tlsca", "component")
+	caName := "ca"
+	rootCerts := []string{string(tlsCert)}
+	ca := &blockchainv3.MspCryptoFieldCa{
+		Name: &caName,
+		RootCerts: rootCerts,
+	}
+
+	tlsCaName := "ca"
+	tlsCaRootCerts := []string{string(tlsCert)}
+	tlsca := &blockchainv3.MspCryptoFieldTlsca{
+		Name: &tlsCaName,
+		RootCerts: tlsCaRootCerts,
+	}
+
+	tlscert := string(tlsCert)
+	ecert := string(tlsCert)
+	adminCerts := []string{string(tlsCert)}
+	component := &blockchainv3.MspCryptoFieldComponent{
+		TlsCert: &tlscert,
+		Ecert: &ecert,
+		AdminCerts: adminCerts,
+	}
+
+	// Create msp field
+	msp := &blockchainv3.MspCryptoField{
+		Ca: ca,                  // MspCryptoFieldCa
+		Tlsca: tlsca,            // MspCryptoFieldTlsca
+		Component: component,     // MspCryptoFieldComponent
+	}
+
+	// Import OS
+	opts := service.NewImportOrdererOptions(
+		clusterName,
+		displayName,
+		grpcwpUrl,
+		msp,
+		mspID,
+	)
+	_, detailedResponse, err := service.ImportOrderer(opts)
+	if err != nil {
+		Logger.Println("**ERROR** - problem importing an orderer", err)
+		return 0, err
+	}
+	Logger.Println("**SUCCESS** - imported an orderer")
+	return detailedResponse.StatusCode, err
+}
+
 func ConstructImportCABodyMsp() {
 	// Construct an instance of the ImportCaBodyMspCa model
 	importCaBodyMspCaModel := new(blockchainv3.ImportCaBodyMspCa)

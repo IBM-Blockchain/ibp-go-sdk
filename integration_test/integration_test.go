@@ -26,6 +26,7 @@ const (
 	peerType               = "peer"
 	peer1AdminName         = "peer1"
 	peer1AdminPassword     = "peer1pw"
+	peerOrg1Id             = "peerorg1"
 	peerOrg1DisplayName    = "Peer Org1"
 	org1MSPDisplayName     = "Org1 MSP"
 	org1MSPID              = "org1msp"
@@ -36,12 +37,14 @@ const (
 	osAdminPassword        = "OSadminpw"
 	ordererType            = "orderer"
 	orderer1Name           = "OS1"
+	orderer1Id             = "os1"
 	orderer1Password       = "OS1pw"
 	orderer1MSPDisplayName = "Ordering Service MSP"
 	orderer1MSPID          = "osmsp"
 	pemCertFilePath        = ".tlsca.pem"
 	mspDirectory           = "./msp/"
 	genericGrpcwpUrl       = "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084"
+	clusterName            = "paidcluster"
 )
 
 var (
@@ -221,7 +224,7 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			}
 			Expect(err).NotTo(HaveOccurred())
 		})
-		It("should create Orderer 1", func() {	// todo - uncomment this test when the unmarshalling issue is resolved lcs - 12/16/2020
+		It("should create Orderer 1", func() { // todo - uncomment this test when the unmarshalling issue is resolved lcs - 12/16/2020
 			err := it.CreateOrderer(service, cryptoObjectSlice, orderer1MSPID, orderer1MSPDisplayName)
 			Expect(err).NotTo(HaveOccurred())
 		})
@@ -278,6 +281,34 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 	Describe("Import a Peer", func() {
 		It("should successfully import PeerOrg 1", func() {
 			statusCode, err := it.ImportAPeer(service, peerOrg1DisplayName, genericGrpcwpUrl, org1MSPID, tlsCert)
+			Expect(statusCode).To(Equal(200))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+	Describe("Edit Data about a Peer", func() {
+		It("should successfully edit data about the Org 1 Peer", func() {
+			statusCode, err := it.EditDataAboutPeer(service, peerOrg1Id)
+			Expect(statusCode).To(Equal(200))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+	Describe("Submit Action to a Peer", func() {
+		It("should successfully restart the Org 1 Peer", func() {
+			statusCode, err := it.SubmitActionToPeer(service, peerOrg1Id)
+			Expect(statusCode).To(Equal(202))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+	Describe("Update a Peer", func() {
+		It("should successfully update the Org 1 Peer", func() {
+			statusCode, err := it.UpdatePeer(service, peerOrg1Id)
+			Expect(statusCode).To(Equal(200))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+	Describe("Import an Orderer", func() {
+		It("should successfully import OS1", func() {
+			statusCode, err := it.ImportAnOrderer(service, orderer1Name, genericGrpcwpUrl, orderer1Id, clusterName, tlsCert)
 			Expect(statusCode).To(Equal(200))
 			Expect(err).NotTo(HaveOccurred())
 		})
