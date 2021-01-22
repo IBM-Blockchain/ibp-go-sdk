@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /*
- * IBM OpenAPI SDK Code Generator Version: 3.22.0-937b9a1c-20201211-223043
+ * IBM OpenAPI SDK Code Generator Version: 3.20.0-debb9f29-20201203-202043
  */
  
 
@@ -3075,6 +3075,91 @@ func (blockchain *BlockchainV3) ClearCachesWithContext(ctx context.Context, clea
 		return
 	}
 	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalCacheFlushResponse)
+	if err != nil {
+		return
+	}
+	response.Result = result
+
+	return
+}
+
+// LinkCluster : Link a IBP resource to a cluster
+// This api will create a link to a cluster. Once the link is made an IBP console will be deployed into the cluster.
+//
+// **This API requires unique authorization headers.**  In addition to the normal `Authorization` header the
+// `x-refresh-token` must be set. Header details:
+//
+// - **Authorization** - This header must be a **user's** bearer IAM token in the form `Bearer access-token-here`. The
+// access token can be found in the `access_token` field of your IAM response during the apikey exchange. More details
+// below.
+// - **x-refresh-token** - This header must be a refresh IAM token. The refresh token can be found in the
+// `refresh_token` field of your IAM response during the apikey exchange. More details below.
+//
+// **User Apikey Exchange**
+//
+// Unlike the other APIs this API requires a **user** level apikey.  Follow these
+// [directions](https://cloud.ibm.com/docs/account?topic=account-userapikey#create_user_key) to create the user level
+// key.
+// (dsh todo check if this works for the refresh_token...) Once a user level apikey is created exchange it for the IAM
+// token via these [directions](https://cloud.ibm.com/docs/account?topic=account-iamtoken_from_apikey).
+func (blockchain *BlockchainV3) LinkCluster(linkClusterOptions *LinkClusterOptions) (result *LinkClusterResponse, response *core.DetailedResponse, err error) {
+	return blockchain.LinkClusterWithContext(context.Background(), linkClusterOptions)
+}
+
+// LinkClusterWithContext is an alternate form of the LinkCluster method which supports a Context parameter
+func (blockchain *BlockchainV3) LinkClusterWithContext(ctx context.Context, linkClusterOptions *LinkClusterOptions) (result *LinkClusterResponse, response *core.DetailedResponse, err error) {
+	err = core.ValidateNotNil(linkClusterOptions, "linkClusterOptions cannot be nil")
+	if err != nil {
+		return
+	}
+	err = core.ValidateStruct(linkClusterOptions, "linkClusterOptions")
+	if err != nil {
+		return
+	}
+
+	pathParamsMap := map[string]string{
+		"encoded_crn": *linkClusterOptions.EncodedCrn,
+	}
+
+	builder := core.NewRequestBuilder(core.POST)
+	builder = builder.WithContext(ctx)
+	builder.EnableGzipCompression = blockchain.GetEnableGzipCompression()
+	_, err = builder.ResolveRequestURL(blockchain.Service.Options.URL, `/ak/api/v3/link/resources/{encoded_crn}`, pathParamsMap)
+	if err != nil {
+		return
+	}
+
+	for headerName, headerValue := range linkClusterOptions.Headers {
+		builder.AddHeader(headerName, headerValue)
+	}
+
+	sdkHeaders := common.GetSdkHeaders("blockchain", "V3", "LinkCluster")
+	for headerName, headerValue := range sdkHeaders {
+		builder.AddHeader(headerName, headerValue)
+	}
+	builder.AddHeader("Accept", "application/json")
+	builder.AddHeader("Content-Type", "application/json")
+
+	body := make(map[string]interface{})
+	if linkClusterOptions.Cluster != nil {
+		body["cluster"] = linkClusterOptions.Cluster
+	}
+	_, err = builder.SetBodyContentJSON(body)
+	if err != nil {
+		return
+	}
+
+	request, err := builder.Build()
+	if err != nil {
+		return
+	}
+
+	var rawResponse map[string]json.RawMessage
+	response, err = blockchain.Service.Request(request, &rawResponse)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(rawResponse, "", &result, UnmarshalLinkClusterResponse)
 	if err != nil {
 		return
 	}
@@ -6805,7 +6890,7 @@ type CreateOrdererOptions struct {
 
 	// Set to `true` only if you are appending to an unknown (external) OS cluster. Else set it to `false` or omit the
 	// field. An unknown/external cluster is one that this IBP console has not imported or created.
-	ExternalAppend *string `json:"external_append,omitempty"`
+	ExternalAppend *bool `json:"external_append,omitempty"`
 
 	// An array of configuration override objects. 1 object per component. Must be the same size as the `config` array.
 	ConfigOverride []ConfigOrdererCreate `json:"config_override,omitempty"`
@@ -6892,8 +6977,8 @@ func (options *CreateOrdererOptions) SetClusterID(clusterID string) *CreateOrder
 }
 
 // SetExternalAppend : Allow user to set ExternalAppend
-func (options *CreateOrdererOptions) SetExternalAppend(externalAppend string) *CreateOrdererOptions {
-	options.ExternalAppend = core.StringPtr(externalAppend)
+func (options *CreateOrdererOptions) SetExternalAppend(externalAppend bool) *CreateOrdererOptions {
+	options.ExternalAppend = core.BoolPtr(externalAppend)
 	return options
 }
 
@@ -8090,7 +8175,7 @@ type EditOrdererOptions struct {
 	// id.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// A descriptive name for an ordering service. The parent IBP console tile displays this name.
+	// A descriptive name for the ordering service. The parent IBP console orderer tile displays this name.
 	ClusterName *string `json:"cluster_name,omitempty"`
 
 	// A descriptive base name for each ordering node. One or more child IBP console tiles display this name.
@@ -8570,6 +8655,13 @@ type GenericComponentResponse struct {
 	// The displayed name of this component. [Available on all component types].
 	DisplayName *string `json:"display_name,omitempty"`
 
+	// A unique id to identify this ordering service cluster. [Available on orderer components].
+	ClusterID *string `json:"cluster_id,omitempty"`
+
+	// A descriptive name for the ordering service. The parent IBP console orderer tile displays this name. [Available on
+	// orderer components].
+	ClusterName *string `json:"cluster_name,omitempty"`
+
 	// The URL for the grpc web proxy for this component. [Available on peer/orderer components].
 	GrpcwpURL *string `json:"grpcwp_url,omitempty"`
 
@@ -8641,6 +8733,14 @@ func UnmarshalGenericComponentResponse(m map[string]json.RawMessage, result inte
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "display_name", &obj.DisplayName)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cluster_id", &obj.ClusterID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cluster_name", &obj.ClusterName)
 	if err != nil {
 		return
 	}
@@ -10630,7 +10730,7 @@ func (options *ImportMspOptions) SetHeaders(param map[string]string) *ImportMspO
 
 // ImportOrdererOptions : The ImportOrderer options.
 type ImportOrdererOptions struct {
-	// A descriptive name for an ordering service. The parent IBP console tile displays this name.
+	// A descriptive name for the ordering service. The parent IBP console orderer tile displays this name.
 	ClusterName *string `json:"cluster_name" validate:"required"`
 
 	// A descriptive base name for each ordering node. One or more child IBP console tiles display this name.
@@ -10649,7 +10749,7 @@ type ImportOrdererOptions struct {
 	// hostname/ip and port.
 	ApiURL *string `json:"api_url,omitempty"`
 
-	// A unique id to identify this rafter cluster. Generated if not provided.
+	// A unique id to identify this ordering service cluster.
 	ClusterID *string `json:"cluster_id,omitempty"`
 
 	// Indicates where the component is running.
@@ -10846,6 +10946,70 @@ func (options *ImportPeerOptions) SetTags(tags []string) *ImportPeerOptions {
 func (options *ImportPeerOptions) SetHeaders(param map[string]string) *ImportPeerOptions {
 	options.Headers = param
 	return options
+}
+
+// LinkClusterOptions : The LinkCluster options.
+type LinkClusterOptions struct {
+	// The CRN (Cloud Resource Name) string for you IBP service instance. It should be encoded with JavasScripts'
+	// `encodeURIComponent()` or something equivalent.
+	EncodedCrn *string `json:"encoded_crn" validate:"required,ne="`
+
+	// The name of your cluster.
+	Cluster *string `json:"cluster" validate:"required"`
+
+	// Allows users to set headers on API requests
+	Headers map[string]string
+}
+
+// NewLinkClusterOptions : Instantiate LinkClusterOptions
+func (*BlockchainV3) NewLinkClusterOptions(encodedCrn string, cluster string) *LinkClusterOptions {
+	return &LinkClusterOptions{
+		EncodedCrn: core.StringPtr(encodedCrn),
+		Cluster: core.StringPtr(cluster),
+	}
+}
+
+// SetEncodedCrn : Allow user to set EncodedCrn
+func (options *LinkClusterOptions) SetEncodedCrn(encodedCrn string) *LinkClusterOptions {
+	options.EncodedCrn = core.StringPtr(encodedCrn)
+	return options
+}
+
+// SetCluster : Allow user to set Cluster
+func (options *LinkClusterOptions) SetCluster(cluster string) *LinkClusterOptions {
+	options.Cluster = core.StringPtr(cluster)
+	return options
+}
+
+// SetHeaders : Allow user to set Headers
+func (options *LinkClusterOptions) SetHeaders(param map[string]string) *LinkClusterOptions {
+	options.Headers = param
+	return options
+}
+
+// LinkClusterResponse : LinkClusterResponse struct
+type LinkClusterResponse struct {
+	// Description of the API's outcome.
+	Message *string `json:"message,omitempty"`
+
+	// The IBP console endpoint that was created.
+	Endpoint *string `json:"endpoint,omitempty"`
+}
+
+
+// UnmarshalLinkClusterResponse unmarshals an instance of LinkClusterResponse from the specified map of raw messages.
+func UnmarshalLinkClusterResponse(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(LinkClusterResponse)
+	err = core.UnmarshalPrimitive(m, "message", &obj.Message)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "endpoint", &obj.Endpoint)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
 }
 
 // ListComponentsOptions : The ListComponents options.
@@ -11674,6 +11838,12 @@ type OrdererResponse struct {
 	// A descriptive base name for each ordering node. One or more child IBP console tiles display this name.
 	DisplayName *string `json:"display_name,omitempty"`
 
+	// A unique id to identify this ordering service cluster.
+	ClusterID *string `json:"cluster_id,omitempty"`
+
+	// A descriptive name for the ordering service. The parent IBP console orderer tile displays this name.
+	ClusterName *string `json:"cluster_name,omitempty"`
+
 	// The gRPC web proxy URL in front of the orderer. Include the protocol, hostname/ip and port.
 	GrpcwpURL *string `json:"grpcwp_url,omitempty"`
 
@@ -11760,6 +11930,14 @@ func UnmarshalOrdererResponse(m map[string]json.RawMessage, result interface{}) 
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "display_name", &obj.DisplayName)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cluster_id", &obj.ClusterID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cluster_name", &obj.ClusterName)
 	if err != nil {
 		return
 	}
