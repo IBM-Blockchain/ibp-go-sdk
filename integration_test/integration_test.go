@@ -306,6 +306,7 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			Expect(err).NotTo(HaveOccurred())
 		})
 	})
+	/* not available on free clusters
 	Describe("Update a Peer", func() {
 		It("should successfully update the Org 1 Peer", func() {
 			statusCode, err := it.UpdatePeer(service, org1PeerId)
@@ -313,6 +314,7 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			Expect(err).NotTo(HaveOccurred())
 		})
 	})
+	*/
 	Describe("Import an Orderer", func() {
 		It("should successfully import OS1", func() {
 			statusCode, err := it.ImportAnOrderer(service, orderer1Name, genericGrpcwpUrl, orderer1MSPID, clusterName, tlsCert)
@@ -334,6 +336,7 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			Expect(err).NotTo(HaveOccurred())
 		})
 	})
+	/* not available on free clusters
 	Describe("Update an Orderer", func() {
 		It("should successfully update the Ordering Service MSP", func() {
 			statusCode, err := it.UpdateOrderer(service, orderer1Id)
@@ -341,6 +344,7 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			Expect(err).NotTo(HaveOccurred())
 		})
 	})
+	*/
 })
 
 //----------------------------------------------------------------------------------------------
