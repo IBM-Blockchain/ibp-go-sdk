@@ -17,15 +17,16 @@ import (
 )
 
 const (
-	adminName              = "admin"
-	adminPassword          = "adminpw"
-	org1CAName             = "Org1 CA"
-	org1CAId               = "org1ca"
-	org1AdminName          = "org1admin"
-	org1AdminPassword      = "org1adminpw"
-	peerType               = "peer"
-	peer1AdminName         = "peer1"
-	peer1AdminPassword     = "peer1pw"
+	adminName     = "admin"
+	adminPassword = "adminpw"
+	org1CAName    = "Org1 CA"
+	//org1CAId               = "org1ca"
+	org1AdminName      = "org1admin"
+	org1AdminPassword  = "org1adminpw"
+	peerType           = "peer"
+	peer1AdminName     = "peer1"
+	peer1AdminPassword = "peer1pw"
+	//peerOrg1Id             = "peerorg1"
 	peerOrg1DisplayName    = "Peer Org1"
 	org1MSPDisplayName     = "Org1 MSP"
 	org1MSPID              = "org1msp"
@@ -39,9 +40,11 @@ const (
 	orderer1Password       = "OS1pw"
 	orderer1MSPDisplayName = "Ordering Service MSP"
 	orderer1MSPID          = "osmsp"
+	OsId                   = "orderingservicemsp"
 	pemCertFilePath        = ".tlsca.pem"
 	mspDirectory           = "./msp/"
 	genericGrpcwpUrl       = "https://n3a3ec3-mypeer-proxy.ibp.us-south.containers.appdomain.cloud:8084"
+	clusterName            = "paidcluster"
 )
 
 var (
@@ -55,6 +58,9 @@ var (
 	cryptoObject             *blockchainv3.CryptoObject
 	cryptoObjectSlice        []blockchainv3.CryptoObject
 	setupInfo                setupInformation
+	orderer1Id               string
+	org1CAId                 string
+	org1PeerId               string
 )
 
 type setupInformation struct {
@@ -107,7 +113,8 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 	Describe("Creating Org1 CA Components", func() {
 		// we'll create our first certificate authority
 		It("should successfully create Org1 CA and return the api url and the tls cert", func() {
-			cert, url, err := it.CreateCA(service, org1CAName, adminName, adminPassword)
+			id, cert, url, err := it.CreateCA(service, org1CAName, adminName, adminPassword)
+			org1CAId = id
 			encodedTlsCert = cert // initialize global variables
 			caApiUrl = url
 			Expect(err).NotTo(HaveOccurred())
@@ -158,14 +165,15 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			Expect(cryptoObject).NotTo(BeNil()) // todo make better assertions - lcs
 		})
 		It("should create Peer Org1", func() {
-			err := it.CreatePeer(service, cryptoObject, org1MSPID, peerOrg1DisplayName)
+			id, err := it.CreatePeer(service, cryptoObject, org1MSPID, peerOrg1DisplayName)
+			org1PeerId = id
 			Expect(err).NotTo(HaveOccurred())
 		})
 	})
 	Describe("Creating Ordering Org Components", func() {
 		// we'll create our first certificate authority
 		It("should successfully create the Ordering Org CA and return the api url and the tls cert", func() {
-			cert, url, err := it.CreateCA(service, osCAName, adminName, adminPassword)
+			_, cert, url, err := it.CreateCA(service, osCAName, adminName, adminPassword)
 			encodedTlsCert = cert // initialize global variables
 			caApiUrl = url
 			Expect(err).NotTo(HaveOccurred())
@@ -221,9 +229,11 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			}
 			Expect(err).NotTo(HaveOccurred())
 		})
-		It("should create Orderer 1", func() {	// todo - uncomment this test when the unmarshalling issue is resolved lcs - 12/16/2020
-			err := it.CreateOrderer(service, cryptoObjectSlice, orderer1MSPID, orderer1MSPDisplayName)
+		It("should create Orderer 1", func() { // todo - uncomment this test when the unmarshalling issue is resolved lcs - 12/16/2020
+			id, err := it.CreateOrderer(service, cryptoObjectSlice, orderer1MSPID, orderer1MSPDisplayName)
+			Expect(id).NotTo(Equal(""))
 			Expect(err).NotTo(HaveOccurred())
+			orderer1Id = id
 		})
 	})
 	Describe("Get component data", func() {
@@ -282,6 +292,59 @@ var _ = Describe("GOLANG SDK Integration Test", func() {
 			Expect(err).NotTo(HaveOccurred())
 		})
 	})
+	Describe("Edit Data about a Peer", func() {
+		It("should successfully edit data about the Org 1 Peer", func() {
+			statusCode, err := it.EditDataAboutPeer(service, org1PeerId)
+			Expect(statusCode).To(Equal(200))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+	Describe("Submit Action to a Peer", func() {
+		It("should successfully restart the Org 1 Peer", func() {
+			statusCode, err := it.SubmitActionToPeer(service, org1PeerId)
+			Expect(statusCode).To(Equal(202))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+	/* not available on free clusters
+	Describe("Update a Peer", func() {
+		It("should successfully update the Org 1 Peer", func() {
+			statusCode, err := it.UpdatePeer(service, org1PeerId)
+			Expect(statusCode).To(Equal(200))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+	*/
+	Describe("Import an Orderer", func() {
+		It("should successfully import OS1", func() {
+			statusCode, err := it.ImportAnOrderer(service, orderer1Name, genericGrpcwpUrl, orderer1MSPID, clusterName, tlsCert)
+			Expect(statusCode).To(Equal(200))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+	Describe("Edit Data about an Orderer", func() {
+		It("should successfully edit data about the OS1", func() {
+			statusCode, err := it.EditDataAboutOrderer(service, orderer1Id)
+			Expect(statusCode).To(Equal(200))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+	Describe("Submit Action to an Orderer", func() {
+		It("should successfully restart Ordering Service MSP", func() {
+			statusCode, err := it.SubmitActionToOrderer(service, orderer1Id)
+			Expect(statusCode).To(Equal(202))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+	/* not available on free clusters
+	Describe("Update an Orderer", func() {
+		It("should successfully update the Ordering Service MSP", func() {
+			statusCode, err := it.UpdateOrderer(service, orderer1Id)
+			Expect(statusCode).To(Equal(200))
+			Expect(err).NotTo(HaveOccurred())
+		})
+	})
+	*/
 })
 
 //----------------------------------------------------------------------------------------------

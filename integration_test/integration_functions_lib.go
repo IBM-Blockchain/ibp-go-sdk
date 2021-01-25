@@ -30,13 +30,13 @@ func init() {
 	Logger.SetPrefix(time.Now().Format("2006-01-02 15:04:05.000 MST " + LogPrefix))
 }
 
-func CreateCA(service *blockchainv3.BlockchainV3, displayName, username, password string) (string, string, error) {
+func CreateCA(service *blockchainv3.BlockchainV3, displayName, username, password string) (string, string, string, error) {
 	Logger.Println("creating a CA")
 	var identities []blockchainv3.ConfigCARegistryIdentitiesItem
 	svc, err := service.NewConfigCARegistryIdentitiesItem(username, password, "client")
 	if err != nil {
 		Logger.Println("**ERROR** - problem with NewConfigCARegistryIdentitiesItem: ", err)
-		return "", "", err
+		return "", "", "", err
 	}
 	roles := "*"
 	svc.Attrs = &blockchainv3.IdentityAttrs{
@@ -48,29 +48,29 @@ func CreateCA(service *blockchainv3.BlockchainV3, displayName, username, passwor
 	registry, err := service.NewConfigCARegistry(-1, identities)
 	if err != nil {
 		Logger.Println("**ERROR** - problem with NewConfigCARegistry: ", err)
-		return "", "", err
+		return "", "", "", err
 	}
 	caConfigCreate, err := service.NewConfigCACreate(registry)
 	if err != nil {
 		Logger.Println("**ERROR** - problem with NewConfigCACreate: ", err)
-		return "", "", err
+		return "", "", "", err
 	}
 	configOverride, err := service.NewCreateCaBodyConfigOverride(caConfigCreate)
 	if err != nil {
 		Logger.Println("**ERROR** - problem with NewCreateCaBodyConfigOverride: ", err)
-		return "", "", err
+		return "", "", "", err
 	}
 	opts := service.NewCreateCaOptions(displayName, configOverride)
 	result, _, err := service.CreateCa(opts)
 	if err != nil {
 		Logger.Println("**ERROR** - problem creating CA: ", err)
-		return "", "", err
+		return "", "", "", err
 	}
 	Logger.Println("**SUCCESS** - CA created")
 
 	// as a last step, we'll wait on the CA to come up before allowing anything else to happen
 	err = waitForCaToComeUp(*result.ApiURL)
-	return *result.Msp.Component.TlsCert, *result.ApiURL, err
+	return *result.ID, *result.Msp.Component.TlsCert, *result.ApiURL, err
 }
 
 // decode the base64 string in the CA's MSP
@@ -247,26 +247,30 @@ func CreateCryptoObject(apiUrl, enrollID, enrollSecret string, tlsCert []byte, i
 	return cryptoObject, nil
 }
 
-func CreatePeer(service *blockchainv3.BlockchainV3, cryptoObject *blockchainv3.CryptoObject, mspID, displayName string) error {
+func CreatePeer(service *blockchainv3.BlockchainV3, cryptoObject *blockchainv3.CryptoObject, mspID, displayName string) (string, error) {
 	opts := service.NewCreatePeerOptions(mspID, displayName, cryptoObject)
-	_, _, err := service.CreatePeer(opts)
+	result, _, err := service.CreatePeer(opts)
 	if err != nil {
 		Logger.Println("**ERROR** - problem creating the peer: ", err)
-		return err
+		return "", err
 	}
 	Logger.Println("**SUCCESS** - " + displayName + " created")
-	return nil
+	return *result.ID, nil
 }
 
-func CreateOrderer(service *blockchainv3.BlockchainV3, cryptoObjectSlice []blockchainv3.CryptoObject, mspID, displayName string) error {
+func CreateOrderer(service *blockchainv3.BlockchainV3, cryptoObjectSlice []blockchainv3.CryptoObject, mspID, displayName string) (string, error) {
 	opts := service.NewCreateOrdererOptions("raft", mspID, displayName, cryptoObjectSlice)
-	_, _, err := service.CreateOrderer(opts)
-	if err != nil {
+	result, _, err := service.CreateOrderer(opts)
+	if err != nil || result == nil {
 		Logger.Println("**ERROR** - problem creating the orderer", err)
-		return err
+		return "", err
 	}
+
+	id := *result.Created[0].ID
+	Logger.Println("**DEGUB** - the component's id is: ", id)
+
 	Logger.Println("**SUCCESS** - " + displayName + " created")
-	return nil
+	return id, nil
 }
 
 func GetComponentData(service *blockchainv3.BlockchainV3, id string) (int, error) {
@@ -443,6 +447,169 @@ func ImportAPeer(service *blockchainv3.BlockchainV3, displayName, grpcwpUrl, msp
 		return 0, err
 	}
 	Logger.Println("**SUCCESS** - imported a peer")
+	return detailedResponse.StatusCode, err
+}
+
+func EditDataAboutPeer(service *blockchainv3.BlockchainV3, id string) (int, error) {
+	// Edit Peer Data
+	tags := [4]string{"fabric-peer", "ibm_sass", "red_team", "dev"}
+	opts := service.NewEditPeerOptions(id)
+	opts.SetDisplayName("My Other Peer")
+	opts.SetMspID("peermsp")
+	opts.SetTags(tags[:])
+	_, detailedResponse, err := service.EditPeer(opts)
+	if err != nil {
+		Logger.Println("**ERROR** - problem editating data about CA", err)
+		return 0, err
+	}
+	Logger.Println("**SUCCESS** - edited data about a CA")
+	return detailedResponse.StatusCode, err
+}
+
+
+func SubmitActionToPeer(service *blockchainv3.BlockchainV3, id string) (int, error) {
+	restart := true
+	opts := &blockchainv3.PeerActionOptions{
+		ID: &id,
+		Restart: &restart,
+	}
+
+	// Restart peer
+	_, detailedResponse, err := service.PeerAction(opts)
+	if err != nil {
+		Logger.Println("**ERROR** problem restarting CA (SubmitActionToCA API)", err)
+		return 0, err
+	}
+	Logger.Println("**SUCCESS** - restarted CA (SubmitActionToCA)")
+	return detailedResponse.StatusCode, err
+}
+
+func UpdatePeer(service *blockchainv3.BlockchainV3, id string) (int, error) {
+	// Update Peer
+	cpu := "400m"
+	memory := "1024Mi"
+	resourceRequests := blockchainv3.ResourceRequests{Cpu: &cpu, Memory: &memory}
+	resourceObject, err := service.NewResourceObject(&resourceRequests)
+	if err != nil {
+		Logger.Println("**ERROR** - problem creating the resource object to update " + id + " .", err)
+		return 0, err
+	}
+
+	peerBodyResources := &blockchainv3.PeerResources{Peer: resourceObject}
+
+	opts := service.NewUpdatePeerOptions(id)
+	opts.SetResources(peerBodyResources)
+	_, detailedResponse, err := service.UpdatePeer(opts)
+	if err != nil {
+		Logger.Println("**ERROR** - problem updating peer", err)
+		return 0, err
+	}
+	return detailedResponse.StatusCode, err
+}
+
+func ImportAnOrderer(service *blockchainv3.BlockchainV3, displayName, grpcwpUrl, mspID, clusterName string, tlsCert []byte) (int, error) {
+	// pre-req fields for the msp field ("ca", "tlsca", "component")
+	caName := "ca"
+	rootCerts := []string{string(tlsCert)}
+	ca := &blockchainv3.MspCryptoFieldCa{
+		Name: &caName,
+		RootCerts: rootCerts,
+	}
+
+	tlsCaName := "ca"
+	tlsCaRootCerts := []string{string(tlsCert)}
+	tlsca := &blockchainv3.MspCryptoFieldTlsca{
+		Name: &tlsCaName,
+		RootCerts: tlsCaRootCerts,
+	}
+
+	tlscert := string(tlsCert)
+	ecert := string(tlsCert)
+	adminCerts := []string{string(tlsCert)}
+	component := &blockchainv3.MspCryptoFieldComponent{
+		TlsCert: &tlscert,
+		Ecert: &ecert,
+		AdminCerts: adminCerts,
+	}
+
+	// Create msp field
+	msp := &blockchainv3.MspCryptoField{
+		Ca: ca,                  // MspCryptoFieldCa
+		Tlsca: tlsca,            // MspCryptoFieldTlsca
+		Component: component,     // MspCryptoFieldComponent
+	}
+
+	// Import OS
+	opts := service.NewImportOrdererOptions(
+		clusterName,
+		displayName,
+		grpcwpUrl,
+		msp,
+		mspID,
+	)
+	_, detailedResponse, err := service.ImportOrderer(opts)
+	if err != nil {
+		Logger.Println("**ERROR** - problem importing an orderer", err)
+		return 0, err
+	}
+	Logger.Println("**SUCCESS** - imported an orderer")
+	return detailedResponse.StatusCode, err
+}
+
+func EditDataAboutOrderer(service *blockchainv3.BlockchainV3, id string) (int, error) {
+	// Edit Orderer Data
+	opts := service.NewEditOrdererOptions(id)
+	opts.SetClusterName("My Other OS")
+	opts.SetDisplayName("ordering node")
+	opts.SetMspID("orderermsp")
+	_, detailedResponse, err := service.EditOrderer(opts)
+	if err != nil {
+		Logger.Println("**ERROR** - problem editating data about an orderer", err)
+		return 0, err
+	}
+	Logger.Println("**SUCCESS** - edited data about an orderer")
+	return detailedResponse.StatusCode, err
+}
+
+
+func SubmitActionToOrderer(service *blockchainv3.BlockchainV3, id string) (int, error) {
+	restart := true
+	opts := &blockchainv3.OrdererActionOptions{
+		ID: &id,
+		Restart: &restart,
+	}
+
+	// Restart Ordering Node
+	_, detailedResponse, err := service.OrdererAction(opts)
+
+	if err != nil {
+		Logger.Println("**ERROR** problem restarting orderer (SubmitActionToOrderer API)", err)
+		return 0, err
+	}
+	Logger.Println("**SUCCESS** - restarted orderer (SubmitActionToOrderer)")
+	return detailedResponse.StatusCode, err
+}
+
+func UpdateOrderer(service *blockchainv3.BlockchainV3, id string) (int, error) {
+	// Update Orderer
+	cpu := "500m"
+	memory := "1024Mi"
+	requests := &blockchainv3.ResourceRequests{Cpu: &cpu, Memory: &memory}
+
+	resourceObject, err := service.NewResourceObject(requests)
+	if err != nil {
+		Logger.Println("**ERROR** - problem creating the resource object to update " + id + " .", err)
+		return 0, err
+	}
+
+	ordererResources := &blockchainv3.UpdateOrdererBodyResources{Orderer: resourceObject}
+	opts := service.NewUpdateOrdererOptions(id)
+	opts.SetResources(ordererResources)
+	_, detailedResponse, err := service.UpdateOrderer(opts)
+	if err != nil {
+		Logger.Println("**ERROR** - problem updating orderer", err)
+		return 0, err
+	}
 	return detailedResponse.StatusCode, err
 }
 
