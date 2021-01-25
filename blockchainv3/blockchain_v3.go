@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020.
+ * (C) Copyright IBM Corp. 2021.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -6805,7 +6805,7 @@ type CreateOrdererOptions struct {
 
 	// Set to `true` only if you are appending to an unknown (external) OS cluster. Else set it to `false` or omit the
 	// field. An unknown/external cluster is one that this IBP console has not imported or created.
-	ExternalAppend *string `json:"external_append,omitempty"`
+	ExternalAppend *bool `json:"external_append,omitempty"`
 
 	// An array of configuration override objects. 1 object per component. Must be the same size as the `config` array.
 	ConfigOverride []ConfigOrdererCreate `json:"config_override,omitempty"`
@@ -6892,8 +6892,8 @@ func (options *CreateOrdererOptions) SetClusterID(clusterID string) *CreateOrder
 }
 
 // SetExternalAppend : Allow user to set ExternalAppend
-func (options *CreateOrdererOptions) SetExternalAppend(externalAppend string) *CreateOrdererOptions {
-	options.ExternalAppend = core.StringPtr(externalAppend)
+func (options *CreateOrdererOptions) SetExternalAppend(externalAppend bool) *CreateOrdererOptions {
+	options.ExternalAppend = core.BoolPtr(externalAppend)
 	return options
 }
 
@@ -8090,7 +8090,7 @@ type EditOrdererOptions struct {
 	// id.
 	ID *string `json:"id" validate:"required,ne="`
 
-	// A descriptive name for an ordering service. The parent IBP console tile displays this name.
+	// A descriptive name for the ordering service. The parent IBP console orderer tile displays this name.
 	ClusterName *string `json:"cluster_name,omitempty"`
 
 	// A descriptive base name for each ordering node. One or more child IBP console tiles display this name.
@@ -8570,6 +8570,13 @@ type GenericComponentResponse struct {
 	// The displayed name of this component. [Available on all component types].
 	DisplayName *string `json:"display_name,omitempty"`
 
+	// A unique id to identify this ordering service cluster. [Available on orderer components].
+	ClusterID *string `json:"cluster_id,omitempty"`
+
+	// A descriptive name for the ordering service. The parent IBP console orderer tile displays this name. [Available on
+	// orderer components].
+	ClusterName *string `json:"cluster_name,omitempty"`
+
 	// The URL for the grpc web proxy for this component. [Available on peer/orderer components].
 	GrpcwpURL *string `json:"grpcwp_url,omitempty"`
 
@@ -8641,6 +8648,14 @@ func UnmarshalGenericComponentResponse(m map[string]json.RawMessage, result inte
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "display_name", &obj.DisplayName)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cluster_id", &obj.ClusterID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cluster_name", &obj.ClusterName)
 	if err != nil {
 		return
 	}
@@ -10630,7 +10645,7 @@ func (options *ImportMspOptions) SetHeaders(param map[string]string) *ImportMspO
 
 // ImportOrdererOptions : The ImportOrderer options.
 type ImportOrdererOptions struct {
-	// A descriptive name for an ordering service. The parent IBP console tile displays this name.
+	// A descriptive name for the ordering service. The parent IBP console orderer tile displays this name.
 	ClusterName *string `json:"cluster_name" validate:"required"`
 
 	// A descriptive base name for each ordering node. One or more child IBP console tiles display this name.
@@ -10649,7 +10664,7 @@ type ImportOrdererOptions struct {
 	// hostname/ip and port.
 	ApiURL *string `json:"api_url,omitempty"`
 
-	// A unique id to identify this rafter cluster. Generated if not provided.
+	// A unique id to identify this ordering service cluster.
 	ClusterID *string `json:"cluster_id,omitempty"`
 
 	// Indicates where the component is running.
@@ -11674,6 +11689,12 @@ type OrdererResponse struct {
 	// A descriptive base name for each ordering node. One or more child IBP console tiles display this name.
 	DisplayName *string `json:"display_name,omitempty"`
 
+	// A unique id to identify this ordering service cluster.
+	ClusterID *string `json:"cluster_id,omitempty"`
+
+	// A descriptive name for the ordering service. The parent IBP console orderer tile displays this name.
+	ClusterName *string `json:"cluster_name,omitempty"`
+
 	// The gRPC web proxy URL in front of the orderer. Include the protocol, hostname/ip and port.
 	GrpcwpURL *string `json:"grpcwp_url,omitempty"`
 
@@ -11760,6 +11781,14 @@ func UnmarshalOrdererResponse(m map[string]json.RawMessage, result interface{}) 
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "display_name", &obj.DisplayName)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cluster_id", &obj.ClusterID)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalPrimitive(m, "cluster_name", &obj.ClusterName)
 	if err != nil {
 		return
 	}
