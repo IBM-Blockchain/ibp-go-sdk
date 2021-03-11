@@ -397,6 +397,9 @@ func (blockchain *BlockchainV3) CreateCaWithContext(ctx context.Context, createC
 	if createCaOptions.ConfigOverride != nil {
 		body["config_override"] = createCaOptions.ConfigOverride
 	}
+	if createCaOptions.ID != nil {
+		body["id"] = createCaOptions.ID
+	}
 	if createCaOptions.Resources != nil {
 		body["resources"] = createCaOptions.Resources
 	}
@@ -491,6 +494,9 @@ func (blockchain *BlockchainV3) ImportCaWithContext(ctx context.Context, importC
 	}
 	if importCaOptions.Msp != nil {
 		body["msp"] = importCaOptions.Msp
+	}
+	if importCaOptions.ID != nil {
+		body["id"] = importCaOptions.ID
 	}
 	if importCaOptions.Location != nil {
 		body["location"] = importCaOptions.Location
@@ -809,6 +815,9 @@ func (blockchain *BlockchainV3) CreatePeerWithContext(ctx context.Context, creat
 	if createPeerOptions.Crypto != nil {
 		body["crypto"] = createPeerOptions.Crypto
 	}
+	if createPeerOptions.ID != nil {
+		body["id"] = createPeerOptions.ID
+	}
 	if createPeerOptions.ConfigOverride != nil {
 		body["config_override"] = createPeerOptions.ConfigOverride
 	}
@@ -909,6 +918,9 @@ func (blockchain *BlockchainV3) ImportPeerWithContext(ctx context.Context, impor
 	}
 	if importPeerOptions.MspID != nil {
 		body["msp_id"] = importPeerOptions.MspID
+	}
+	if importPeerOptions.ID != nil {
+		body["id"] = importPeerOptions.ID
 	}
 	if importPeerOptions.ApiURL != nil {
 		body["api_url"] = importPeerOptions.ApiURL
@@ -1252,6 +1264,9 @@ func (blockchain *BlockchainV3) CreateOrdererWithContext(ctx context.Context, cr
 	if createOrdererOptions.ClusterName != nil {
 		body["cluster_name"] = createOrdererOptions.ClusterName
 	}
+	if createOrdererOptions.ID != nil {
+		body["id"] = createOrdererOptions.ID
+	}
 	if createOrdererOptions.ClusterID != nil {
 		body["cluster_id"] = createOrdererOptions.ClusterID
 	}
@@ -1367,6 +1382,9 @@ func (blockchain *BlockchainV3) ImportOrdererWithContext(ctx context.Context, im
 	}
 	if importOrdererOptions.ClusterID != nil {
 		body["cluster_id"] = importOrdererOptions.ClusterID
+	}
+	if importOrdererOptions.ID != nil {
+		body["id"] = importOrdererOptions.ID
 	}
 	if importOrdererOptions.Location != nil {
 		body["location"] = importOrdererOptions.Location
@@ -3457,7 +3475,8 @@ func (options *CaActionOptions) SetHeaders(param map[string]string) *CaActionOpt
 
 // CaResponse : Contains the details of a CA.
 type CaResponse struct {
-	// The unique identifier of this component.
+	// The unique identifier of this component. Must start with a letter, be lowercase and only contain letters and
+	// numbers. If `id` is not provide a component id will be generated using the field `display_name` as the base.
 	ID *string `json:"id,omitempty"`
 
 	// The unique id for the component in Kubernetes. Not available if component was imported.
@@ -5502,6 +5521,8 @@ type ConfigPeerCreatePeer struct {
 	Discovery *ConfigPeerDiscovery `json:"discovery,omitempty"`
 
 	Limits *ConfigPeerLimits `json:"limits,omitempty"`
+
+	Gateway *ConfigPeerGateway `json:"gateway,omitempty"`
 }
 
 
@@ -5553,6 +5574,10 @@ func UnmarshalConfigPeerCreatePeer(m map[string]json.RawMessage, result interfac
 		return
 	}
 	err = core.UnmarshalModel(m, "limits", &obj.Limits, UnmarshalConfigPeerLimits)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "gateway", &obj.Gateway, UnmarshalConfigPeerGateway)
 	if err != nil {
 		return
 	}
@@ -5936,6 +5961,8 @@ type ConfigPeerUpdatePeer struct {
 	Discovery *ConfigPeerDiscovery `json:"discovery,omitempty"`
 
 	Limits *ConfigPeerLimits `json:"limits,omitempty"`
+
+	Gateway *ConfigPeerGateway `json:"gateway,omitempty"`
 }
 
 
@@ -5983,6 +6010,10 @@ func UnmarshalConfigPeerUpdatePeer(m map[string]json.RawMessage, result interfac
 		return
 	}
 	err = core.UnmarshalModel(m, "limits", &obj.Limits, UnmarshalConfigPeerLimits)
+	if err != nil {
+		return
+	}
+	err = core.UnmarshalModel(m, "gateway", &obj.Gateway, UnmarshalConfigPeerGateway)
 	if err != nil {
 		return
 	}
@@ -6214,6 +6245,24 @@ func UnmarshalConfigPeerDiscovery(m map[string]json.RawMessage, result interface
 		return
 	}
 	err = core.UnmarshalPrimitive(m, "orgMembersAllowedAccess", &obj.OrgMembersAllowedAccess)
+	if err != nil {
+		return
+	}
+	reflect.ValueOf(result).Elem().Set(reflect.ValueOf(obj))
+	return
+}
+
+// ConfigPeerGateway : ConfigPeerGateway struct
+type ConfigPeerGateway struct {
+	// Enable or disable the 'Fabric Gateway' on the peer.
+	Enabled *bool `json:"enabled,omitempty"`
+}
+
+
+// UnmarshalConfigPeerGateway unmarshals an instance of ConfigPeerGateway from the specified map of raw messages.
+func UnmarshalConfigPeerGateway(m map[string]json.RawMessage, result interface{}) (err error) {
+	obj := new(ConfigPeerGateway)
+	err = core.UnmarshalPrimitive(m, "enabled", &obj.Enabled)
 	if err != nil {
 		return
 	}
@@ -6657,6 +6706,10 @@ type CreateCaOptions struct {
 	// *The nested field **names** below are not case-sensitive.*.
 	ConfigOverride *CreateCaBodyConfigOverride `json:"config_override" validate:"required"`
 
+	// The unique identifier of this component. Must start with a letter, be lowercase and only contain letters and
+	// numbers. If `id` is not provide a component id will be generated using the field `display_name` as the base.
+	ID *string `json:"id,omitempty"`
+
 	// CPU and memory properties. This feature is not available if using a free Kubernetes cluster.
 	Resources *CreateCaBodyResources `json:"resources,omitempty"`
 
@@ -6705,6 +6758,12 @@ func (options *CreateCaOptions) SetDisplayName(displayName string) *CreateCaOpti
 // SetConfigOverride : Allow user to set ConfigOverride
 func (options *CreateCaOptions) SetConfigOverride(configOverride *CreateCaBodyConfigOverride) *CreateCaOptions {
 	options.ConfigOverride = configOverride
+	return options
+}
+
+// SetID : Allow user to set ID
+func (options *CreateCaOptions) SetID(id string) *CreateCaOptions {
+	options.ID = core.StringPtr(id)
 	return options
 }
 
@@ -6788,6 +6847,10 @@ type CreateOrdererOptions struct {
 	// This field should only be set if you are creating a new OS cluster or when appending to an unknown (external) OS
 	// cluster. An unknown/external cluster is one that this IBP console has not imported or created.
 	ClusterName *string `json:"cluster_name,omitempty"`
+
+	// The unique identifier of this component. Must start with a letter, be lowercase and only contain letters and
+	// numbers. If `id` is not provide a component id will be generated using the field `display_name` as the base.
+	ID *string `json:"id,omitempty"`
 
 	// This field should only be set if you are appending a new raft node to an **existing** raft cluster. When appending
 	// to a known (internal) OS cluster set `cluster_id` to the same value used by the OS cluster. When appending to an
@@ -6882,6 +6945,12 @@ func (options *CreateOrdererOptions) SetCrypto(crypto []CryptoObject) *CreateOrd
 // SetClusterName : Allow user to set ClusterName
 func (options *CreateOrdererOptions) SetClusterName(clusterName string) *CreateOrdererOptions {
 	options.ClusterName = core.StringPtr(clusterName)
+	return options
+}
+
+// SetID : Allow user to set ID
+func (options *CreateOrdererOptions) SetID(id string) *CreateOrdererOptions {
+	options.ID = core.StringPtr(id)
 	return options
 }
 
@@ -7079,6 +7148,10 @@ type CreatePeerOptions struct {
 	// a crypto object.
 	Crypto *CryptoObject `json:"crypto" validate:"required"`
 
+	// The unique identifier of this component. Must start with a letter, be lowercase and only contain letters and
+	// numbers. If `id` is not provide a component id will be generated using the field `display_name` as the base.
+	ID *string `json:"id,omitempty"`
+
 	// Override the [Fabric Peer configuration
 	// file](https://github.com/hyperledger/fabric/blob/release-1.4/sampleconfig/core.yaml) if you want use custom
 	// attributes to configure the Peer. Omit if not.
@@ -7148,6 +7221,12 @@ func (options *CreatePeerOptions) SetDisplayName(displayName string) *CreatePeer
 // SetCrypto : Allow user to set Crypto
 func (options *CreatePeerOptions) SetCrypto(crypto *CryptoObject) *CreatePeerOptions {
 	options.Crypto = crypto
+	return options
+}
+
+// SetID : Allow user to set ID
+func (options *CreatePeerOptions) SetID(id string) *CreatePeerOptions {
+	options.ID = core.StringPtr(id)
 	return options
 }
 
@@ -7615,7 +7694,8 @@ type DeleteComponentResponse struct {
 	// The type of this component. Such as: "fabric-peer", "fabric-ca", "fabric-orderer", etc.
 	Type *string `json:"type,omitempty"`
 
-	// The unique identifier of this component.
+	// The unique identifier of this component. Must start with a letter, be lowercase and only contain letters and
+	// numbers. If `id` is not provide a component id will be generated using the field `display_name` as the base.
 	ID *string `json:"id,omitempty"`
 
 	// A descriptive name for this peer. The IBP console tile displays this name.
@@ -10494,6 +10574,10 @@ type ImportCaOptions struct {
 
 	Msp *ImportCaBodyMsp `json:"msp" validate:"required"`
 
+	// The unique identifier of this component. Must start with a letter, be lowercase and only contain letters and
+	// numbers. If `id` is not provide a component id will be generated using the field `display_name` as the base.
+	ID *string `json:"id,omitempty"`
+
 	// Indicates where the component is running.
 	Location *string `json:"location,omitempty"`
 
@@ -10534,6 +10618,12 @@ func (options *ImportCaOptions) SetApiURL(apiURL string) *ImportCaOptions {
 // SetMsp : Allow user to set Msp
 func (options *ImportCaOptions) SetMsp(msp *ImportCaBodyMsp) *ImportCaOptions {
 	options.Msp = msp
+	return options
+}
+
+// SetID : Allow user to set ID
+func (options *ImportCaOptions) SetID(id string) *ImportCaOptions {
+	options.ID = core.StringPtr(id)
 	return options
 }
 
@@ -10667,6 +10757,10 @@ type ImportOrdererOptions struct {
 	// A unique id to identify this ordering service cluster.
 	ClusterID *string `json:"cluster_id,omitempty"`
 
+	// The unique identifier of this component. Must start with a letter, be lowercase and only contain letters and
+	// numbers. If `id` is not provide a component id will be generated using the field `display_name` as the base.
+	ID *string `json:"id,omitempty"`
+
 	// Indicates where the component is running.
 	Location *string `json:"location,omitempty"`
 
@@ -10737,6 +10831,12 @@ func (options *ImportOrdererOptions) SetClusterID(clusterID string) *ImportOrder
 	return options
 }
 
+// SetID : Allow user to set ID
+func (options *ImportOrdererOptions) SetID(id string) *ImportOrdererOptions {
+	options.ID = core.StringPtr(id)
+	return options
+}
+
 // SetLocation : Allow user to set Location
 func (options *ImportOrdererOptions) SetLocation(location string) *ImportOrdererOptions {
 	options.Location = core.StringPtr(location)
@@ -10780,6 +10880,10 @@ type ImportPeerOptions struct {
 
 	// The MSP id that is related to this component.
 	MspID *string `json:"msp_id" validate:"required"`
+
+	// The unique identifier of this component. Must start with a letter, be lowercase and only contain letters and
+	// numbers. If `id` is not provide a component id will be generated using the field `display_name` as the base.
+	ID *string `json:"id,omitempty"`
 
 	// The gRPC URL for the peer. Typically, client applications would send requests to this URL. Include the protocol,
 	// hostname/ip and port.
@@ -10830,6 +10934,12 @@ func (options *ImportPeerOptions) SetMsp(msp *MspCryptoField) *ImportPeerOptions
 // SetMspID : Allow user to set MspID
 func (options *ImportPeerOptions) SetMspID(mspID string) *ImportPeerOptions {
 	options.MspID = core.StringPtr(mspID)
+	return options
+}
+
+// SetID : Allow user to set ID
+func (options *ImportPeerOptions) SetID(id string) *ImportPeerOptions {
+	options.ID = core.StringPtr(id)
 	return options
 }
 
@@ -11481,7 +11591,8 @@ func UnmarshalMspPublicData(m map[string]json.RawMessage, result interface{}) (e
 
 // MspResponse : Contains the details of an MSP (Membership Service Provider).
 type MspResponse struct {
-	// The unique identifier of this component.
+	// The unique identifier of this component. Must start with a letter, be lowercase and only contain letters and
+	// numbers. If `id` is not provide a component id will be generated using the field `display_name` as the base.
 	ID *string `json:"id,omitempty"`
 
 	// The type of this component. Such as: "fabric-peer", "fabric-ca", "fabric-orderer", etc.
@@ -11676,7 +11787,8 @@ func (options *OrdererActionOptions) SetHeaders(param map[string]string) *Ordere
 
 // OrdererResponse : Contains the details of an ordering node.
 type OrdererResponse struct {
-	// The unique identifier of this component.
+	// The unique identifier of this component. Must start with a letter, be lowercase and only contain letters and
+	// numbers. If `id` is not provide a component id will be generated using the field `display_name` as the base.
 	ID *string `json:"id,omitempty"`
 
 	// The unique id for the component in Kubernetes. Not available if component was imported.
@@ -12033,7 +12145,8 @@ func UnmarshalPeerResources(m map[string]json.RawMessage, result interface{}) (e
 
 // PeerResponse : Contains the details of a peer.
 type PeerResponse struct {
-	// The unique identifier of this component.
+	// The unique identifier of this component. Must start with a letter, be lowercase and only contain letters and
+	// numbers. If `id` is not provide a component id will be generated using the field `display_name` as the base.
 	ID *string `json:"id,omitempty"`
 
 	// The unique id for the component in Kubernetes. Not available if component was imported.
@@ -13479,6 +13592,7 @@ type IdentityAttrs struct {
 
 	HfRevoker *bool `json:"hf.Revoker,omitempty"`
 
+	// If `true` the CA **can** be an intermediate CA.
 	HfIntermediateCA *bool `json:"hf.IntermediateCA,omitempty"`
 
 	HfGenCRL *bool `json:"hf.GenCRL,omitempty"`
